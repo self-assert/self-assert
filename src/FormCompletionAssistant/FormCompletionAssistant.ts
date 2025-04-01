@@ -1,3 +1,5 @@
+import type { Assertion, AssertionId } from "../Assertion/Assertion";
+
 /**** FormCompletionAssistant model ****
  * Este código es provisto as-is. No ha sido probado en producción y
  * fue desarrollado con el propósito de ejemplificar lo mostrado en el webinar
@@ -16,13 +18,19 @@ export abstract class FormCompletionAssistant<T = unknown> {
   // manera poder correr todas las validaciones en objetos compuestos
   static INVALID_MODEL = new Object();
 
-  protected failedAssertions!: any[];
+  protected failedAssertions!: Assertion[];
 
   static isInvalidModel(potentialModel: unknown) {
     return potentialModel === FormCompletionAssistant.INVALID_MODEL;
   }
 
-  constructor(protected assertionIds, protected fromContainerModelGetter) {
+  /**
+   * @todo type this
+   */
+  constructor(
+    protected assertionIds: AssertionId[],
+    protected fromContainerModelGetter: (containerModel: unknown) => T
+  ) {
     this.removeFailedAssertions();
   }
 
@@ -34,11 +42,15 @@ export abstract class FormCompletionAssistant<T = unknown> {
 
   abstract resetModel(): void;
 
-  withCreatedModelDo(validModelClosure, invalidModelClosure) {
+  withCreatedModelDo<S>(
+    validModelClosure: (model: T) => S,
+    invalidModelClosure: () => S
+  ) {
     const createdModel = this.createModel();
     if (this.constructor.isInvalidModel(createdModel))
       return invalidModelClosure();
-    else return validModelClosure(createdModel);
+
+    return validModelClosure(createdModel);
   }
 
   setModelFrom(containerModel) {
@@ -49,20 +61,20 @@ export abstract class FormCompletionAssistant<T = unknown> {
     this.failedAssertions = [];
   }
 
-  handles(assertion) {
+  handles(assertion: Assertion) {
     return this.assertionIds.some((assertionId) =>
       assertion.isIdentifiedAs(assertionId)
     );
   }
 
-  hasOnlyOneAssertionFailedIdentifiedAs(assertionId) {
+  hasOnlyOneAssertionFailedIdentifiedAs(assertionId: AssertionId) {
     return (
       this.failedAssertions.length === 1 &&
       this.failedAssertions[0].isIdentifiedAs(assertionId)
     );
   }
 
-  addFailedAssertion(assertionFailed) {
+  addFailedAssertion(assertionFailed: Assertion) {
     this.failedAssertions.push(assertionFailed);
   }
 
@@ -71,7 +83,7 @@ export abstract class FormCompletionAssistant<T = unknown> {
   }
 
   hasFailedAssertions() {
-    return !(this.failedAssertions.length === 0);
+    return this.failedAssertions.length > 0;
   }
 
   failedAssertionsDescriptions() {
@@ -80,7 +92,7 @@ export abstract class FormCompletionAssistant<T = unknown> {
       .filter((description) => description !== "");
   }
 
-  addAssertionId(anAssertionId) {
+  addAssertionId(anAssertionId: AssertionId) {
     this.assertionIds.push(anAssertionId);
   }
 }

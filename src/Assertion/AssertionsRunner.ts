@@ -1,28 +1,28 @@
+import { Assertion } from "./Assertion";
 import { AssertionsFailed } from "./AssertionsFailed";
 
 export class AssertionsRunner {
-  assertions;
-
-  static assert(assertion) {
+  static assert(assertion: Assertion) {
     this.assertAll([assertion]);
   }
 
-  static assertAll(assertions) {
+  static assertAll(assertions: Assertion[]) {
     new this(assertions).run();
   }
 
-  constructor(assertions) {
-    this.assertions = assertions;
-  }
+  constructor(protected assertions: Assertion[]) {}
 
-  run() {
+  /**
+   * @throws {AssertionsFailed} if any assertion has failed
+   */
+  run(): void {
     const failedAssertions = this.failedAssertions();
 
     if (failedAssertions.length !== 0)
       throw new AssertionsFailed(failedAssertions);
   }
 
-  failedAssertions() {
+  protected failedAssertions() {
     return this.assertions.filter((assertion) => assertion.hasFailed());
   }
 }

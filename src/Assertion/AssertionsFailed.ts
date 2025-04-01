@@ -1,10 +1,7 @@
-import { Assertion } from "./Assertion";
+import { Assertion, AssertionId } from "./Assertion";
 
 export class AssertionsFailed extends Error {
-  failedAssertions;
-
   static fromJson(assertionsFailedAsJson) {
-    console.log(assertionsFailedAsJson);
     const failedAssertions = assertionsFailedAsJson.failedAssertions.map(
       (assertionAsJson) => Assertion.fromJson(assertionAsJson)
     );
@@ -12,12 +9,14 @@ export class AssertionsFailed extends Error {
     return new this(failedAssertions);
   }
 
-  constructor(failedAssertions) {
+  constructor(protected failedAssertions: Assertion[]) {
     super();
-    this.failedAssertions = failedAssertions;
   }
 
-  hasOnlyOneAssertionFailedWith(assertionId, assertionDescription) {
+  hasOnlyOneAssertionFailedWith(
+    assertionId: AssertionId,
+    assertionDescription: string
+  ) {
     return (
       this.failedAssertions.length === 1 &&
       this.failedAssertions[0].isIdentifiedAsWith(
