@@ -1,43 +1,35 @@
-import { FormCompletionAssistant } from "./FormCompletionAssistant";
+import { FormCompletionAssistant, ModelFromContainer } from "./FormCompletionAssistant";
 import { AssertionsFailed } from "../Assertion/AssertionsFailed";
+import type { AssertionId, Assertion } from "../Assertion/Assertion";
 
-export class FormSectionCompletionAssistant extends FormCompletionAssistant {
-  assistants;
-  creationClosure;
-  model;
+export class FormSectionCompletionAssistant<T = unknown> extends FormCompletionAssistant<T> {
+  protected model!: T; //| typeof FormCompletionAssistant.INVALID_MODEL;
 
   static with(
-    assistants,
+    assistants: FormCompletionAssistant[],
     creationClosure,
     fromContainerModelGetter,
-    assertionsId
+    assertionIds: AssertionId[]
   ) {
-    return new this(
-      assistants,
-      creationClosure,
-      fromContainerModelGetter,
-      assertionsId
-    );
+    return new this(assistants, creationClosure, fromContainerModelGetter, assertionIds);
   }
 
   constructor(
-    assistants,
-    creationClosure,
-    fromContainerModelGetter,
-    assertionsId
+    protected assistants: FormCompletionAssistant[],
+    protected creationClosure,
+    fromContainerModelGetter: ModelFromContainer<T>,
+    assertionIds: AssertionId[]
   ) {
-    super(assertionsId, fromContainerModelGetter);
-    this.assistants = assistants;
-    this.creationClosure = creationClosure;
+    super(assertionIds, fromContainerModelGetter);
   }
 
-  setModel(newModel) {
+  setModel(newModel: T) {
     this.model = newModel;
     this.assistants.forEach((assistant) => assistant.setModelFrom(newModel));
   }
 
   resetModel() {
-    this.model = FormCompletionAssistant.INVALID_MODEL;
+    this.invalidateModel();
     this.assistants.forEach((assistant) => assistant.resetModel());
   }
 
@@ -51,7 +43,7 @@ export class FormSectionCompletionAssistant extends FormCompletionAssistant {
     try {
       this.model = this.creationClosure(...models);
     } catch (error) {
-      this.model = FormCompletionAssistant.INVALID_MODEL;
+      this.invalidateModel();
       this.handleCreateModelError(error);
     }
 
@@ -67,28 +59,22 @@ export class FormSectionCompletionAssistant extends FormCompletionAssistant {
     return this.assistants.map((assistant) => assistant.createModel());
   }
 
-  routeFailedAssertionsOf(creationError) {
+  routeFailedAssertionsOf(creationError: AssertionsFailed) {
     creationError.forEachAssertionFailed((failedAssertion) =>
       this.routeFailedAssertion(failedAssertion)
     );
   }
 
-  routeFailedAssertion(failedAssertion) {
+  routeFailedAssertion(failedAssertion: Assertion) {
     if (this.handles(failedAssertion)) this.addFailedAssertion(failedAssertion);
     else this.routeNotHandledByThisFailedAssertion(failedAssertion);
   }
 
   routeNotHandledByThisFailedAssertion(failedAssertion) {
-    const assistantsHandlingAssertion =
-      this.assistantsHandling(failedAssertion);
+    const assistantsHandlingAssertion = this.assistantsHandling(failedAssertion);
 
-    if (assistantsHandlingAssertion.length === 0)
-      this.addFailedAssertion(failedAssertion);
-    else
-      this.addFailedAssertionToAll(
-        assistantsHandlingAssertion,
-        failedAssertion
-      );
+    if (assistantsHandlingAssertion.length === 0) this.addFailedAssertion(failedAssertion);
+    else this.addFailedAssertionToAll(assistantsHandlingAssertion, failedAssertion);
   }
 
   addFailedAssertionToAll(assistantsHandlingAssertion, failedAssertion) {
@@ -97,7 +83,12 @@ export class FormSectionCompletionAssistant extends FormCompletionAssistant {
     );
   }
 
-  assistantsHandling(assertion) {
+  assistantsHandling(assertion: Assertion) {
     return this.assistants.filter((assistant) => assistant.handles(assertion));
+  }
+
+  protected invalidateModel() {
+    // @ts-expect-error MUST FIX
+    this.model = this.constructor.INVALID_MODEL;
   }
 }

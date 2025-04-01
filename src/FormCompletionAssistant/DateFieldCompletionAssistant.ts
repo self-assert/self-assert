@@ -1,43 +1,36 @@
 import { FormFieldCompletionAssistant } from "./FormFieldCompletionAssistant";
 import { FormSectionCompletionAssistant } from "./FormSectionCompletionAssistant";
-import { Assertion } from "../Assertion/Assertion";
+import { Assertion, AssertionId } from "../Assertion/Assertion";
 import { AssertionsRunner } from "../Assertion/AssertionsRunner";
 
-//Esto no está terminado. Lo deje de ejemplo pero no está funcionando
-export class DateFieldCompletionAssistant extends FormSectionCompletionAssistant {
-  static for(assertionId, fromContainerModelGetter) {
-    let assertionsId;
-
-    if (assertionId === "") assertionsId = [];
-    else assertionsId = [assertionId];
+/**
+ * @todo complete and refactor
+ */
+export class DateFieldCompletionAssistant extends FormSectionCompletionAssistant<Date> {
+  static for(assertionId: AssertionId, fromContainerModelGetter) {
+    const assertionIds = assertionId === "" ? [] : [assertionId];
 
     return this.with(
       [this.createDateAssistant()],
       (dateAsString) => this.createDate(assertionId, dateAsString),
       fromContainerModelGetter,
-      assertionsId
+      assertionIds
     );
   }
 
-  static createDate(assertionId, dateAsString) {
+  static createDate(assertionId: AssertionId, dateAsString: string) {
     AssertionsRunner.assert(this.createAssertionFor(assertionId, dateAsString));
 
     return new Date(dateAsString);
   }
 
   static createDateAssistant() {
-    return FormFieldCompletionAssistant.handling("", (date) =>
-      date.toLocaleDateString()
-    );
+    // @ts-expect-error MUST FIX
+    return FormFieldCompletionAssistant.handling("", (date) => date.toLocaleDateString());
   }
 
-  static createAssertionFor(assertionId, dateAsString) {
-    return Assertion.for(
-      dateAsString,
-      assertionId,
-      () => dateAsString !== "",
-      "Invalid date"
-    );
+  static createAssertionFor(assertionId: AssertionId, dateAsString: string) {
+    return Assertion.for(dateAsString, assertionId, () => dateAsString !== "", "Invalid date");
   }
 
   innerAssistant() {
