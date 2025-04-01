@@ -22,7 +22,7 @@ export class DateFieldCompletionAssistant extends FormSectionCompletionAssistant
   static createDate(assertionId, dateAsString) {
     AssertionsRunner.assert(this.createAssertionFor(assertionId, dateAsString));
 
-    return Date(dateAsString);
+    return new Date(dateAsString);
   }
 
   static createDateAssistant() {

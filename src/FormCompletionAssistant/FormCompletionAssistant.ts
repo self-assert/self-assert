@@ -7,6 +7,11 @@
  * la metáfora de un assistente que ayuda a completar un formulario
  */
 export class FormCompletionAssistant {
+  /**
+   * @link https://github.com/microsoft/TypeScript/issues/3841
+   */
+  declare ["constructor"]: typeof FormCompletionAssistant;
+
   // Este objeto es usado como token de modelo inválido y de esta
   // manera poder correr todas las validaciones en objetos compuestos
   static INVALID_MODEL = new Object();

@@ -1,0 +1,32 @@
+{
+  "name": "form-completion-assistant",
+  "version": "1.0.0",
+  "description": "Provides a structured approach to model creation and validation, based on the 'Form Completion Assistant' concept presented in the Diseño a la Gorra webinar.",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomasossa/form-completion-assistant.git"
+  },
+  "keywords": [
+    "validation",
+    "form"
+  ],
+  "contributors": [
+    {
+      "name": "Hernán Wilkinson",
+      "url": "https://github.com/hernanwilkinson"
+    }
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tomasossa/form-completion-assistant/issues"
+  },
+  "homepage": "https://github.com/tomasossa/form-completion-assistant#readme",
+  "devDependencies": {
+    "typescript": "^5.8.2"
+  }
+}
