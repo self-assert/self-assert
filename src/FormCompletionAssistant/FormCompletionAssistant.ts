@@ -1,5 +1,10 @@
 import type { Assertion, AssertionId } from "../Assertion/Assertion";
 
+/**
+ * @todo better name
+ */
+export type ModelFromContainer<T> = (containerModel: unknown) => T;
+
 /**** FormCompletionAssistant model ****
  * Este código es provisto as-is. No ha sido probado en producción y
  * fue desarrollado con el propósito de ejemplificar lo mostrado en el webinar
@@ -29,7 +34,7 @@ export abstract class FormCompletionAssistant<T = unknown> {
    */
   constructor(
     protected assertionIds: AssertionId[],
-    protected fromContainerModelGetter: (containerModel: unknown) => T
+    protected fromContainerModelGetter: ModelFromContainer<T>
   ) {
     this.removeFailedAssertions();
   }
@@ -42,13 +47,9 @@ export abstract class FormCompletionAssistant<T = unknown> {
 
   abstract resetModel(): void;
 
-  withCreatedModelDo<S>(
-    validModelClosure: (model: T) => S,
-    invalidModelClosure: () => S
-  ) {
+  withCreatedModelDo<S>(validModelClosure: (model: T) => S, invalidModelClosure: () => S) {
     const createdModel = this.createModel();
-    if (this.constructor.isInvalidModel(createdModel))
-      return invalidModelClosure();
+    if (this.constructor.isInvalidModel(createdModel)) return invalidModelClosure();
 
     return validModelClosure(createdModel);
   }
@@ -61,16 +62,13 @@ export abstract class FormCompletionAssistant<T = unknown> {
     this.failedAssertions = [];
   }
 
-  handles(assertion: Assertion) {
-    return this.assertionIds.some((assertionId) =>
-      assertion.isIdentifiedAs(assertionId)
-    );
+  handles(anAssertion: Assertion) {
+    return this.assertionIds.some((assertionId) => anAssertion.isIdentifiedAs(assertionId));
   }
 
   hasOnlyOneAssertionFailedIdentifiedAs(assertionId: AssertionId) {
     return (
-      this.failedAssertions.length === 1 &&
-      this.failedAssertions[0].isIdentifiedAs(assertionId)
+      this.failedAssertions.length === 1 && this.failedAssertions[0].isIdentifiedAs(assertionId)
     );
   }
 
