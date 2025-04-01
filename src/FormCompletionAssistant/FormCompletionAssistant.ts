@@ -6,7 +6,7 @@
  * relacionados al dominio de negocio y tanto a la implementación. Para ello utilicé
  * la metáfora de un assistente que ayuda a completar un formulario
  */
-export class FormCompletionAssistant {
+export abstract class FormCompletionAssistant<T = unknown> {
   /**
    * @link https://github.com/microsoft/TypeScript/issues/3841
    */
@@ -16,27 +16,23 @@ export class FormCompletionAssistant {
   // manera poder correr todas las validaciones en objetos compuestos
   static INVALID_MODEL = new Object();
 
-  assertionIds;
-  fromContainerModelGetter;
-  failedAssertions;
+  protected failedAssertions!: any[];
 
-  static isInvalidModel(potentialModel) {
+  static isInvalidModel(potentialModel: unknown) {
     return potentialModel === FormCompletionAssistant.INVALID_MODEL;
   }
 
-  constructor(assertionsId, fromContainerModelGetter) {
-    this.assertionIds = assertionsId;
-    this.fromContainerModelGetter = fromContainerModelGetter;
+  constructor(protected assertionIds, protected fromContainerModelGetter) {
     this.removeFailedAssertions();
   }
 
-  shouldBeImplementedBySubclass() {
-    throw new Error("Should be implemented by subclass");
-  }
+  abstract createModel(): T;
 
-  createModel() {
-    this.shouldBeImplementedBySubclass();
-  }
+  abstract getModel(): T;
+
+  abstract setModel(newModel: T): void;
+
+  abstract resetModel(): void;
 
   withCreatedModelDo(validModelClosure, invalidModelClosure) {
     const createdModel = this.createModel();
@@ -45,20 +41,8 @@ export class FormCompletionAssistant {
     else return validModelClosure(createdModel);
   }
 
-  getModel() {
-    this.shouldBeImplementedBySubclass();
-  }
-
-  setModel(newModel) {
-    this.shouldBeImplementedBySubclass();
-  }
-
   setModelFrom(containerModel) {
     return this.setModel(this.fromContainerModelGetter(containerModel));
-  }
-
-  resetModel() {
-    this.shouldBeImplementedBySubclass();
   }
 
   removeFailedAssertions() {
