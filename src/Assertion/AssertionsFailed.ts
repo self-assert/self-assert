@@ -1,5 +1,10 @@
 import { Assertion, AssertionId } from "./Assertion";
 
+/**
+ * Provides a way to handle multiple failed assertions.
+ * 
+ * @see {@link Assertion}
+ */
 export class AssertionsFailed extends Error {
   static fromJson(assertionsFailedAsJson) {
     const failedAssertions = assertionsFailedAsJson.failedAssertions.map((assertionAsJson) =>
