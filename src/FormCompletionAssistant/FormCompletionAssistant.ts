@@ -6,8 +6,7 @@ import type { Assertion, AssertionId } from "../Assertion/Assertion";
 export type ModelFromContainer<T> = (containerModel: unknown) => T;
 
 /**
- * Para ello utilicé
- * la metáfora de un assistente que ayuda a completar un formulario
+ * The name was chosen employing the metaphor of an assistant guiding form completion.
  */
 export abstract class FormCompletionAssistant<T = unknown> {
   /**
@@ -26,10 +25,7 @@ export abstract class FormCompletionAssistant<T = unknown> {
     return potentialModel === FormCompletionAssistant.INVALID_MODEL;
   }
 
-  constructor(
-    protected assertionIds: AssertionId[],
-    protected fromContainerModelGetter: ModelFromContainer<T>
-  ) {
+  constructor(protected assertionIds: AssertionId[], protected fromContainerModelGetter: ModelFromContainer<T>) {
     this.removeFailedAssertions();
   }
 
@@ -39,6 +35,9 @@ export abstract class FormCompletionAssistant<T = unknown> {
 
   abstract setModel(newModel: T): void;
 
+  /**
+   * @todo Check if it's being used
+   */
   abstract resetModel(): void;
 
   withCreatedModelDo<S>(validModelClosure: (model: T) => S, invalidModelClosure: () => S) {
@@ -48,7 +47,7 @@ export abstract class FormCompletionAssistant<T = unknown> {
     return validModelClosure(createdModel);
   }
 
-  setModelFrom(containerModel) {
+  setModelFrom(containerModel: unknown) {
     return this.setModel(this.fromContainerModelGetter(containerModel));
   }
 
@@ -61,9 +60,7 @@ export abstract class FormCompletionAssistant<T = unknown> {
   }
 
   hasOnlyOneAssertionFailedIdentifiedAs(assertionId: AssertionId) {
-    return (
-      this.failedAssertions.length === 1 && this.failedAssertions[0].isIdentifiedAs(assertionId)
-    );
+    return this.failedAssertions.length === 1 && this.failedAssertions[0].isIdentifiedAs(assertionId);
   }
 
   addFailedAssertion(assertionFailed: Assertion) {

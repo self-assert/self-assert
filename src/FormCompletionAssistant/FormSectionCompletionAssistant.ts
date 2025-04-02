@@ -2,13 +2,15 @@ import { FormCompletionAssistant, ModelFromContainer } from "./FormCompletionAss
 import { AssertionsFailed } from "../Assertion/AssertionsFailed";
 import type { AssertionId, Assertion } from "../Assertion/Assertion";
 
-export class FormSectionCompletionAssistant<T = unknown> extends FormCompletionAssistant<T> {
+type CreationClosure<T, S extends any[] = unknown[]> = (...models: S) => T;
+
+export class FormSectionCompletionAssistant<T = unknown, S extends any[] = any[]> extends FormCompletionAssistant<T> {
   protected model!: T; //| typeof FormCompletionAssistant.INVALID_MODEL;
 
-  static with(
+  static with<T = unknown, S extends any[] = any[]>(
     assistants: FormCompletionAssistant[],
-    creationClosure,
-    fromContainerModelGetter,
+    creationClosure: CreationClosure<T, S>,
+    fromContainerModelGetter: ModelFromContainer<T>,
     assertionIds: AssertionId[]
   ) {
     return new this(assistants, creationClosure, fromContainerModelGetter, assertionIds);
@@ -16,25 +18,11 @@ export class FormSectionCompletionAssistant<T = unknown> extends FormCompletionA
 
   constructor(
     protected assistants: FormCompletionAssistant[],
-    protected creationClosure,
+    protected creationClosure: CreationClosure<T, any[]>,
     fromContainerModelGetter: ModelFromContainer<T>,
     assertionIds: AssertionId[]
   ) {
     super(assertionIds, fromContainerModelGetter);
-  }
-
-  setModel(newModel: T) {
-    this.model = newModel;
-    this.assistants.forEach((assistant) => assistant.setModelFrom(newModel));
-  }
-
-  resetModel() {
-    this.invalidateModel();
-    this.assistants.forEach((assistant) => assistant.resetModel());
-  }
-
-  getModel() {
-    return this.model;
   }
 
   createModel() {
@@ -50,19 +38,22 @@ export class FormSectionCompletionAssistant<T = unknown> extends FormCompletionA
     return this.model;
   }
 
-  handleCreateModelError(error) {
-    if (error instanceof AssertionsFailed) this.routeFailedAssertionsOf(error);
-    else throw error;
+  getModel() {
+    return this.model;
   }
 
-  createComposedModels() {
-    return this.assistants.map((assistant) => assistant.createModel());
+  setModel(newModel: T) {
+    this.model = newModel;
+    this.assistants.forEach((assistant) => assistant.setModelFrom(newModel));
+  }
+
+  resetModel() {
+    this.invalidateModel();
+    this.assistants.forEach((assistant) => assistant.resetModel());
   }
 
   routeFailedAssertionsOf(creationError: AssertionsFailed) {
-    creationError.forEachAssertionFailed((failedAssertion) =>
-      this.routeFailedAssertion(failedAssertion)
-    );
+    creationError.forEachAssertionFailed((failedAssertion) => this.routeFailedAssertion(failedAssertion));
   }
 
   routeFailedAssertion(failedAssertion: Assertion) {
@@ -70,25 +61,33 @@ export class FormSectionCompletionAssistant<T = unknown> extends FormCompletionA
     else this.routeNotHandledByThisFailedAssertion(failedAssertion);
   }
 
-  routeNotHandledByThisFailedAssertion(failedAssertion) {
+  routeNotHandledByThisFailedAssertion(failedAssertion: Assertion) {
     const assistantsHandlingAssertion = this.assistantsHandling(failedAssertion);
 
     if (assistantsHandlingAssertion.length === 0) this.addFailedAssertion(failedAssertion);
     else this.addFailedAssertionToAll(assistantsHandlingAssertion, failedAssertion);
   }
 
-  addFailedAssertionToAll(assistantsHandlingAssertion, failedAssertion) {
-    assistantsHandlingAssertion.forEach((assistant) =>
-      assistant.addFailedAssertion(failedAssertion)
-    );
+  addFailedAssertionToAll(assistantsHandlingAssertion: FormCompletionAssistant[], failedAssertion: Assertion<unknown>) {
+    assistantsHandlingAssertion.forEach((assistant) => assistant.addFailedAssertion(failedAssertion));
   }
 
-  assistantsHandling(assertion: Assertion) {
+  protected assistantsHandling(assertion: Assertion) {
     return this.assistants.filter((assistant) => assistant.handles(assertion));
   }
 
   protected invalidateModel() {
     // @ts-expect-error MUST FIX
     this.model = this.constructor.INVALID_MODEL;
+  }
+
+  protected createComposedModels() {
+    return this.assistants.map((assistant) => assistant.createModel());
+  }
+
+  protected handleCreateModelError(error: unknown) {
+    if (error instanceof AssertionsFailed) return this.routeFailedAssertionsOf(error);
+
+    throw error;
   }
 }

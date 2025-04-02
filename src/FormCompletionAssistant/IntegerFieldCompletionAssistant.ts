@@ -10,7 +10,7 @@ export class IntegerFieldCompletionAssistant extends FormSectionCompletionAssist
 
     return this.with(
       [this.createNumberAssistant()],
-      (numberAsString) => this.createInteger(assertionId, numberAsString),
+      (numberAsString: string) => this.createInteger(assertionId, numberAsString),
       fromContainerModelGetter,
       assertionIds
     );
@@ -28,12 +28,7 @@ export class IntegerFieldCompletionAssistant extends FormSectionCompletionAssist
   }
 
   static createAssertionFor(assertionId: AssertionId, numberAsString: string) {
-    return Assertion.for(
-      numberAsString,
-      assertionId,
-      () => /^[-+]?(\d+)$/.test(numberAsString),
-      "Invalid integer"
-    );
+    return Assertion.for(numberAsString, assertionId, () => /^[-+]?(\d+)$/.test(numberAsString), "Invalid integer");
   }
 
   innerAssistant() {
