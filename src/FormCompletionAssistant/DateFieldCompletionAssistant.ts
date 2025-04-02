@@ -2,12 +2,20 @@ import { FormFieldCompletionAssistant } from "./FormFieldCompletionAssistant";
 import { FormSectionCompletionAssistant } from "./FormSectionCompletionAssistant";
 import { Assertion, AssertionId } from "../Assertion/Assertion";
 import { AssertionsRunner } from "../Assertion/AssertionsRunner";
+import { ModelFromContainer } from "./FormCompletionAssistant";
 
 /**
- * @todo complete and refactor
+ * @todo complete
  */
-export class DateFieldCompletionAssistant extends FormSectionCompletionAssistant<Date, [string]> {
-  static for(assertionId: AssertionId, fromContainerModelGetter) {
+export class DateFieldCompletionAssistant<ContainerModel> extends FormSectionCompletionAssistant<
+  Date,
+  ContainerModel,
+  [string]
+> {
+  static for<ContainerModel>(
+    assertionId: AssertionId,
+    fromContainerModelGetter: ModelFromContainer<Date, ContainerModel>
+  ) {
     const assertionIds = assertionId === "" ? [] : [assertionId];
 
     return this.with(
@@ -25,8 +33,7 @@ export class DateFieldCompletionAssistant extends FormSectionCompletionAssistant
   }
 
   static createDateAssistant() {
-    // @ts-expect-error MUST FIX
-    return FormFieldCompletionAssistant.handling("", (date) => date.toLocaleDateString());
+    return FormFieldCompletionAssistant.handling<string, Date>("", (date) => date.toLocaleDateString());
   }
 
   static createAssertionFor(assertionId: AssertionId, dateAsString: string) {

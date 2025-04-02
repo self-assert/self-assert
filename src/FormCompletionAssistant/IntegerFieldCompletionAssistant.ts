@@ -1,11 +1,19 @@
 import { Assertion, AssertionId } from "../Assertion/Assertion";
 import { AssertionsRunner } from "../Assertion/AssertionsRunner";
+import { ModelFromContainer } from "./FormCompletionAssistant";
 
 import { FormFieldCompletionAssistant } from "./FormFieldCompletionAssistant";
 import { FormSectionCompletionAssistant } from "./FormSectionCompletionAssistant";
 
-export class IntegerFieldCompletionAssistant extends FormSectionCompletionAssistant<number, [string]> {
-  static for(assertionId: AssertionId, fromContainerModelGetter) {
+export class IntegerFieldCompletionAssistant<ContainerModel = never> extends FormSectionCompletionAssistant<
+  number,
+  ContainerModel,
+  [string]
+> {
+  static for<ContainerModel>(
+    assertionId: AssertionId,
+    fromContainerModelGetter: ModelFromContainer<number, ContainerModel>
+  ) {
     const assertionIds = assertionId === "" ? [] : [assertionId];
 
     return this.with(
@@ -23,8 +31,7 @@ export class IntegerFieldCompletionAssistant extends FormSectionCompletionAssist
   }
 
   static createNumberAssistant() {
-    // @ts-expect-error MUST FIX
-    return FormFieldCompletionAssistant.handling("", (number) => number.toString());
+    return FormFieldCompletionAssistant.handling<string, number>("", (number) => number.toString());
   }
 
   static createAssertionFor(assertionId: AssertionId, numberAsString: string) {

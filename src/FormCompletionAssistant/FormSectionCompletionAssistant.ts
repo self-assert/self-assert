@@ -4,29 +4,30 @@ import type { AssertionId, Assertion } from "../Assertion/Assertion";
 
 type CreationClosure<Model, ComposedModels extends any[]> = (...models: ComposedModels) => Model;
 
-type AssistantsFor<Models extends any[]> = {
-  [Index in keyof Models]: FormCompletionAssistant<Models[Index]>;
+type AssistantsFor<Models extends any[], ContainerModel> = {
+  [Index in keyof Models]: FormCompletionAssistant<Models[Index], ContainerModel>;
 };
 
 export class FormSectionCompletionAssistant<
   Model,
+  ContainerModel,
   ComposedModels extends any[]
-> extends FormCompletionAssistant<Model> {
+> extends FormCompletionAssistant<Model, ContainerModel> {
   protected model!: Model; //| typeof FormCompletionAssistant.INVALID_MODEL;
 
-  static with<Model = unknown, ComposedModels extends any[] = any[]>(
-    assistants: AssistantsFor<ComposedModels>,
+  static with<Model, ContainerModel, ComposedModels extends any[]>(
+    assistants: AssistantsFor<ComposedModels, Model>,
     creationClosure: CreationClosure<Model, ComposedModels>,
-    fromContainerModelGetter: ModelFromContainer<Model>,
+    fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
     assertionIds: AssertionId[]
   ) {
     return new this(assistants, creationClosure, fromContainerModelGetter, assertionIds);
   }
 
   constructor(
-    protected assistants: AssistantsFor<ComposedModels>,
+    protected assistants: AssistantsFor<ComposedModels, Model>,
     protected creationClosure: CreationClosure<Model, ComposedModels>,
-    fromContainerModelGetter: ModelFromContainer<Model>,
+    fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
     assertionIds: AssertionId[]
   ) {
     super(assertionIds, fromContainerModelGetter);
@@ -75,7 +76,13 @@ export class FormSectionCompletionAssistant<
     else this.addFailedAssertionToAll(assistantsHandlingAssertion, failedAssertion);
   }
 
-  addFailedAssertionToAll(assistantsHandlingAssertion: FormCompletionAssistant[], failedAssertion: Assertion<unknown>) {
+  /**
+   * @todo Better type check
+   */
+  addFailedAssertionToAll(
+    assistantsHandlingAssertion: FormCompletionAssistant<any, any>[],
+    failedAssertion: Assertion<unknown>
+  ) {
     assistantsHandlingAssertion.forEach((assistant) => assistant.addFailedAssertion(failedAssertion));
   }
 

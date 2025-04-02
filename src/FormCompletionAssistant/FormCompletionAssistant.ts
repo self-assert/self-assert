@@ -3,12 +3,12 @@ import type { Assertion, AssertionId } from "../Assertion/Assertion";
 /**
  * @todo better name
  */
-export type ModelFromContainer<Model> = (containerModel: unknown) => Model;
+export type ModelFromContainer<Model, ContainerModel> = (containerModel: ContainerModel) => Model;
 
 /**
  * The name was chosen employing the metaphor of an assistant guiding form completion.
  */
-export abstract class FormCompletionAssistant<Model = unknown> {
+export abstract class FormCompletionAssistant<Model, ContainerModel> {
   /**
    * See {@link https://github.com/microsoft/TypeScript/issues/3841 #3841} for
    * more information.
@@ -25,7 +25,10 @@ export abstract class FormCompletionAssistant<Model = unknown> {
     return potentialModel === FormCompletionAssistant.INVALID_MODEL;
   }
 
-  constructor(protected assertionIds: AssertionId[], protected fromContainerModelGetter: ModelFromContainer<Model>) {
+  constructor(
+    protected assertionIds: AssertionId[],
+    protected fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>
+  ) {
     this.removeFailedAssertions();
   }
 
@@ -50,7 +53,7 @@ export abstract class FormCompletionAssistant<Model = unknown> {
     return validModelClosure(createdModel);
   }
 
-  setModelFrom(containerModel: unknown) {
+  setModelFrom(containerModel: ContainerModel) {
     return this.setModel(this.fromContainerModelGetter(containerModel));
   }
 
