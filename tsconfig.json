@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "NodeNext",
+    "isolatedModules": true,
 
     /* Emit */
     "declaration": true,
@@ -39,5 +40,6 @@
     /* Completeness */
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
   },
-  "include": ["./src"]
+  "include": ["./src"],
+  "exclude": ["**/__tests__/**/*"]
 }
