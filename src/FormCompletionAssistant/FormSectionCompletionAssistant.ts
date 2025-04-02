@@ -1,12 +1,7 @@
-import { FormCompletionAssistant, ModelFromContainer } from "./FormCompletionAssistant";
+import { FormCompletionAssistant } from "./FormCompletionAssistant";
 import { AssertionsFailed } from "../Assertion/AssertionsFailed";
 import type { AssertionId, Assertion } from "../Assertion/Assertion";
-
-type CreationClosure<Model, ComposedModels extends any[]> = (...models: ComposedModels) => Model;
-
-type AssistantsFor<Models extends any[], ContainerModel> = {
-  [Index in keyof Models]: FormCompletionAssistant<Models[Index], ContainerModel>;
-};
+import type { ModelFromContainer, CreationClosure, AssistantsFor } from "./types";
 
 export class FormSectionCompletionAssistant<
   Model,

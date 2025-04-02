@@ -2,7 +2,7 @@ import { FormFieldCompletionAssistant } from "./FormFieldCompletionAssistant";
 import { FormSectionCompletionAssistant } from "./FormSectionCompletionAssistant";
 import { Assertion, AssertionId } from "../Assertion/Assertion";
 import { AssertionsRunner } from "../Assertion/AssertionsRunner";
-import { ModelFromContainer } from "./FormCompletionAssistant";
+import type { ModelFromContainer } from "./types";
 
 /**
  * @todo complete

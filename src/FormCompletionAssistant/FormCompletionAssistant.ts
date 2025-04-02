@@ -1,12 +1,11 @@
 import type { Assertion, AssertionId } from "../Assertion/Assertion";
-
-/**
- * @todo better name
- */
-export type ModelFromContainer<Model, ContainerModel> = (containerModel: ContainerModel) => Model;
+import type { ModelFromContainer } from "./types";
 
 /**
  * The name was chosen employing the metaphor of an assistant guiding form completion.
+ *
+ * @template Model - The type of the model the assistant helps to create.
+ * @template ContainerModel - The type of the container model the assistant works on.
  */
 export abstract class FormCompletionAssistant<Model, ContainerModel> {
   /**
@@ -15,15 +14,17 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
    */
   declare ["constructor"]: typeof FormCompletionAssistant;
 
-  // Este objeto es usado como token de modelo inválido y de esta
-  // manera poder correr todas las validaciones en objetos compuestos
+  /**
+   * This object is used as a token for an invalid model.
+   * This allows running all validations on a composed model.
+   */
   static INVALID_MODEL = new Object();
-
-  protected failedAssertions!: Assertion[];
 
   static isInvalidModel(potentialModel: unknown) {
     return potentialModel === FormCompletionAssistant.INVALID_MODEL;
   }
+
+  protected failedAssertions!: Assertion[];
 
   constructor(
     protected assertionIds: AssertionId[],
@@ -43,6 +44,13 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
    */
   abstract resetModel(): void;
 
+  /**
+   * @template ReturnType - The type of the value returned by the closures.
+   * @param validModelClosure - A closure that will be called with the created model
+   * if it's valid.
+   * @param invalidModelClosure - A closure that will be called if the model is invalid.
+   * @returns The return value of the closure that was called.
+   */
   withCreatedModelDo<ReturnType>(
     validModelClosure: (model: Model) => ReturnType,
     invalidModelClosure: () => ReturnType
@@ -55,14 +63,6 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
 
   setModelFrom(containerModel: ContainerModel) {
     return this.setModel(this.fromContainerModelGetter(containerModel));
-  }
-
-  removeFailedAssertions() {
-    this.failedAssertions = [];
-  }
-
-  handles(anAssertion: Assertion) {
-    return this.assertionIds.some((assertionId) => anAssertion.isIdentifiedAs(assertionId));
   }
 
   hasOnlyOneAssertionFailedIdentifiedAs(assertionId: AssertionId) {
@@ -89,5 +89,13 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
 
   addAssertionId(anAssertionId: AssertionId) {
     this.assertionIds.push(anAssertionId);
+  }
+
+  handles(anAssertion: Assertion) {
+    return this.assertionIds.some((assertionId) => anAssertion.isIdentifiedAs(assertionId));
+  }
+
+  protected removeFailedAssertions() {
+    this.failedAssertions = [];
   }
 }

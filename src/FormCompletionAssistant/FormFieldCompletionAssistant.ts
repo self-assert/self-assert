@@ -1,5 +1,6 @@
 import { AssertionId } from "../Assertion/Assertion";
-import { FormCompletionAssistant, ModelFromContainer } from "./FormCompletionAssistant";
+import { FormCompletionAssistant } from "./FormCompletionAssistant";
+import type { ModelFromContainer } from "./types";
 
 export class FormFieldCompletionAssistant<Model extends string, ContainerModel> extends FormCompletionAssistant<
   Model,

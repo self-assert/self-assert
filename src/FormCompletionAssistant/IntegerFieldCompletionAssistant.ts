@@ -1,9 +1,9 @@
 import { Assertion, AssertionId } from "../Assertion/Assertion";
 import { AssertionsRunner } from "../Assertion/AssertionsRunner";
-import { ModelFromContainer } from "./FormCompletionAssistant";
-
 import { FormFieldCompletionAssistant } from "./FormFieldCompletionAssistant";
 import { FormSectionCompletionAssistant } from "./FormSectionCompletionAssistant";
+
+import type { ModelFromContainer } from "./types";
 
 export class IntegerFieldCompletionAssistant<ContainerModel = never> extends FormSectionCompletionAssistant<
   number,
