@@ -4,14 +4,17 @@ import { FormCompletionAssistant } from "../FormCompletionAssistant/FormCompleti
 export type AssertionId = string;
 
 /**
- * Represents a rule that must be met in order for\
+ * Represents a rule that must be met in order for
  * an object to be considered valid.
  *
- * @todo Analyze coupling with FormCompletionAssistant in {@link shouldNotRun}
+ * @todo
+ * Analyze coupling with FormCompletionAssistant {@link shouldNotRun}
  */
 export class Assertion<T = unknown> {
+  
   /**
-   * @todo Cuando se serializa un Assertion no habría que mandar values y condition
+   * @todo
+   * Cuando se serializa un Assertion no habría que mandar values y condition
    * o lo que habría que reificar es AssertionFailed con solo el id y description
    * para no tener que andar transmitiendo todo
    */
@@ -19,39 +22,19 @@ export class Assertion<T = unknown> {
     return new this([], assertionAsJson.id, () => false, assertionAsJson.description);
   }
 
-  static forAll<T = unknown>(
-    values: T[],
-    id: AssertionId,
-    condition: () => boolean,
-    description: string
-  ) {
+  static forAll<T = unknown>(values: T[], id: AssertionId, condition: () => boolean, description: string) {
     return new this(values, id, condition, description);
   }
 
-  static for<T = unknown>(
-    value: T,
-    id: AssertionId,
-    condition: () => boolean,
-    description: string
-  ) {
+  static for<T = unknown>(value: T, id: AssertionId, condition: () => boolean, description: string) {
     return this.forAll([value], id, condition, description);
   }
 
-  static assertForAll<T = unknown>(
-    values: T[],
-    id: AssertionId,
-    condition: () => boolean,
-    description: string
-  ) {
+  static assertForAll<T = unknown>(values: T[], id: AssertionId, condition: () => boolean, description: string) {
     AssertionsRunner.assertAll([this.forAll(values, id, condition, description)]);
   }
 
-  static assertFor<T = unknown>(
-    value: T,
-    id: AssertionId,
-    condition: () => boolean,
-    description: string
-  ) {
+  static assertFor<T = unknown>(value: T, id: AssertionId, condition: () => boolean, description: string) {
     return this.assertForAll([value], id, condition, description);
   }
 

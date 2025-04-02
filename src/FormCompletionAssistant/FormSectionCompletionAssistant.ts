@@ -1,8 +1,21 @@
 import { FormCompletionAssistant } from "./FormCompletionAssistant";
 import { AssertionsFailed } from "../Assertion/AssertionsFailed";
 import type { AssertionId, Assertion } from "../Assertion/Assertion";
-import type { ModelFromContainer, CreationClosure, AssistantsFor } from "./types";
+import type { ModelFromContainer, AssistantsFor } from "./types";
 
+type CreationClosure<Model, ComposedModels extends any[]> = (...models: ComposedModels) => Model;
+
+/**
+ * Assists in the creation of complex models by coordinating multiple inner `FormCompletionAssistant` instances.
+ *
+ * @extends FormCompletionAssistant {@link FormCompletionAssistant link}
+ * @template ComposedModels - An array of types representing the types of the models created by the inner assistants,
+ * in the same order as the `assistants` array.
+ *
+ * @remarks
+ * It uses a `creationClosure` function to combine the models created by its
+ * assistants into a single composed model.
+ */
 export class FormSectionCompletionAssistant<
   Model,
   ContainerModel,

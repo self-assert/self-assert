@@ -1,15 +1,11 @@
 {
-  "name": "form-completion-assistant",
+  "name": "self-assert",
   "version": "1.0.0",
   "description": "Provides a structured approach to model creation and validation, based on the 'Form Completion Assistant' concept presented in the Diseño a la Gorra webinar.",
-  "main": "index.js",
+  "main": "src/index.ts",
   "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tomasossa/form-completion-assistant.git"
   },
   "keywords": [
     "validation",
@@ -22,10 +18,14 @@
     }
   ],
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/tomasossa/form-completion-assistant/issues"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomasossa/self-assert.git"
   },
-  "homepage": "https://github.com/tomasossa/form-completion-assistant#readme",
+  "bugs": {
+    "url": "https://github.com/tomasossa/self-assert/issues"
+  },
+  "homepage": "https://github.com/tomasossa/self-assert#readme",
   "devDependencies": {
     "typescript": "^5.8.2"
   }

@@ -2,6 +2,12 @@ import { AssertionId } from "../Assertion/Assertion";
 import { FormCompletionAssistant } from "./FormCompletionAssistant";
 import type { ModelFromContainer } from "./types";
 
+/**
+ * An assistant designed to manage a single field or a simple
+ * piece of data within a larger form or model.
+ *
+ * @extends FormCompletionAssistant {@link FormCompletionAssistant link}
+ */
 export class FormFieldCompletionAssistant<Model extends string, ContainerModel> extends FormCompletionAssistant<
   Model,
   ContainerModel

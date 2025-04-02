@@ -2,10 +2,11 @@ import type { Assertion, AssertionId } from "../Assertion/Assertion";
 import type { ModelFromContainer } from "./types";
 
 /**
- * The name was chosen employing the metaphor of an assistant guiding form completion.
- *
  * @template Model - The type of the model the assistant helps to create.
  * @template ContainerModel - The type of the container model the assistant works on.
+ *
+ * @remarks
+ * The name was chosen employing the metaphor of an assistant guiding form completion.
  */
 export abstract class FormCompletionAssistant<Model, ContainerModel> {
   /**
