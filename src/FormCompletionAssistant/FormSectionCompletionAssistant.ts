@@ -2,24 +2,31 @@ import { FormCompletionAssistant, ModelFromContainer } from "./FormCompletionAss
 import { AssertionsFailed } from "../Assertion/AssertionsFailed";
 import type { AssertionId, Assertion } from "../Assertion/Assertion";
 
-type CreationClosure<T, S extends any[] = unknown[]> = (...models: S) => T;
+type CreationClosure<Model, ComposedModels extends any[]> = (...models: ComposedModels) => Model;
 
-export class FormSectionCompletionAssistant<T = unknown, S extends any[] = any[]> extends FormCompletionAssistant<T> {
-  protected model!: T; //| typeof FormCompletionAssistant.INVALID_MODEL;
+type AssistantsFor<Models extends any[]> = {
+  [Index in keyof Models]: FormCompletionAssistant<Models[Index]>;
+};
 
-  static with<T = unknown, S extends any[] = any[]>(
-    assistants: FormCompletionAssistant[],
-    creationClosure: CreationClosure<T, S>,
-    fromContainerModelGetter: ModelFromContainer<T>,
+export class FormSectionCompletionAssistant<
+  Model,
+  ComposedModels extends any[]
+> extends FormCompletionAssistant<Model> {
+  protected model!: Model; //| typeof FormCompletionAssistant.INVALID_MODEL;
+
+  static with<Model = unknown, ComposedModels extends any[] = any[]>(
+    assistants: AssistantsFor<ComposedModels>,
+    creationClosure: CreationClosure<Model, ComposedModels>,
+    fromContainerModelGetter: ModelFromContainer<Model>,
     assertionIds: AssertionId[]
   ) {
     return new this(assistants, creationClosure, fromContainerModelGetter, assertionIds);
   }
 
   constructor(
-    protected assistants: FormCompletionAssistant[],
-    protected creationClosure: CreationClosure<T, any[]>,
-    fromContainerModelGetter: ModelFromContainer<T>,
+    protected assistants: AssistantsFor<ComposedModels>,
+    protected creationClosure: CreationClosure<Model, ComposedModels>,
+    fromContainerModelGetter: ModelFromContainer<Model>,
     assertionIds: AssertionId[]
   ) {
     super(assertionIds, fromContainerModelGetter);
@@ -42,7 +49,7 @@ export class FormSectionCompletionAssistant<T = unknown, S extends any[] = any[]
     return this.model;
   }
 
-  setModel(newModel: T) {
+  setModel(newModel: Model) {
     this.model = newModel;
     this.assistants.forEach((assistant) => assistant.setModelFrom(newModel));
   }
@@ -81,8 +88,9 @@ export class FormSectionCompletionAssistant<T = unknown, S extends any[] = any[]
     this.model = this.constructor.INVALID_MODEL;
   }
 
-  protected createComposedModels() {
-    return this.assistants.map((assistant) => assistant.createModel());
+  protected createComposedModels(): ComposedModels {
+    // TypeScript can't infer the tuple type directly.
+    return this.assistants.map((assistant) => assistant.createModel()) as ComposedModels;
   }
 
   protected handleCreateModelError(error: unknown) {

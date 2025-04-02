@@ -4,13 +4,13 @@ import { AssertionsRunner } from "../Assertion/AssertionsRunner";
 import { FormFieldCompletionAssistant } from "./FormFieldCompletionAssistant";
 import { FormSectionCompletionAssistant } from "./FormSectionCompletionAssistant";
 
-export class IntegerFieldCompletionAssistant extends FormSectionCompletionAssistant {
+export class IntegerFieldCompletionAssistant extends FormSectionCompletionAssistant<number, [string]> {
   static for(assertionId: AssertionId, fromContainerModelGetter) {
     const assertionIds = assertionId === "" ? [] : [assertionId];
 
     return this.with(
       [this.createNumberAssistant()],
-      (numberAsString: string) => this.createInteger(assertionId, numberAsString),
+      (numberAsString) => this.createInteger(assertionId, numberAsString),
       fromContainerModelGetter,
       assertionIds
     );
@@ -35,7 +35,7 @@ export class IntegerFieldCompletionAssistant extends FormSectionCompletionAssist
     return this.assistants[0];
   }
 
-  setInnerModel(newModel) {
+  setInnerModel(newModel: string) {
     this.innerAssistant().setModel(newModel);
   }
 

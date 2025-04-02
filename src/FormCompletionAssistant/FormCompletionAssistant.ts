@@ -3,12 +3,12 @@ import type { Assertion, AssertionId } from "../Assertion/Assertion";
 /**
  * @todo better name
  */
-export type ModelFromContainer<T> = (containerModel: unknown) => T;
+export type ModelFromContainer<Model> = (containerModel: unknown) => Model;
 
 /**
  * The name was chosen employing the metaphor of an assistant guiding form completion.
  */
-export abstract class FormCompletionAssistant<T = unknown> {
+export abstract class FormCompletionAssistant<Model = unknown> {
   /**
    * See {@link https://github.com/microsoft/TypeScript/issues/3841 #3841} for
    * more information.
@@ -25,22 +25,25 @@ export abstract class FormCompletionAssistant<T = unknown> {
     return potentialModel === FormCompletionAssistant.INVALID_MODEL;
   }
 
-  constructor(protected assertionIds: AssertionId[], protected fromContainerModelGetter: ModelFromContainer<T>) {
+  constructor(protected assertionIds: AssertionId[], protected fromContainerModelGetter: ModelFromContainer<Model>) {
     this.removeFailedAssertions();
   }
 
-  abstract createModel(): T;
+  abstract createModel(): Model;
 
-  abstract getModel(): T;
+  abstract getModel(): Model;
 
-  abstract setModel(newModel: T): void;
+  abstract setModel(newModel: Model): void;
 
   /**
    * @todo Check if it's being used
    */
   abstract resetModel(): void;
 
-  withCreatedModelDo<S>(validModelClosure: (model: T) => S, invalidModelClosure: () => S) {
+  withCreatedModelDo<ReturnType>(
+    validModelClosure: (model: Model) => ReturnType,
+    invalidModelClosure: () => ReturnType
+  ) {
     const createdModel = this.createModel();
     if (this.constructor.isInvalidModel(createdModel)) return invalidModelClosure();
 

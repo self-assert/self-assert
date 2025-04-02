@@ -1,20 +1,20 @@
 import { AssertionId } from "../Assertion/Assertion";
 import { FormCompletionAssistant, ModelFromContainer } from "./FormCompletionAssistant";
 
-export class FormFieldCompletionAssistant<T extends string> extends FormCompletionAssistant<T> {
-  protected model!: T;
+export class FormFieldCompletionAssistant<Model extends string> extends FormCompletionAssistant<Model> {
+  protected model!: Model;
 
-  static handling<T extends string>(
+  static handling<Model extends string>(
     assertionId: AssertionId,
-    fromContainerModelGetter: ModelFromContainer<T>,
+    fromContainerModelGetter: ModelFromContainer<Model>,
     initialModel = ""
   ) {
     return this.handlingAll([assertionId], fromContainerModelGetter, initialModel);
   }
 
-  static handlingAll<T extends string>(
+  static handlingAll<Model extends string>(
     assertionIds: AssertionId[],
-    fromContainerModelGetter: ModelFromContainer<T>,
+    fromContainerModelGetter: ModelFromContainer<Model>,
     initialModel = ""
   ) {
     return new this(assertionIds, fromContainerModelGetter, initialModel);
@@ -22,8 +22,8 @@ export class FormFieldCompletionAssistant<T extends string> extends FormCompleti
 
   constructor(
     assertionIds: AssertionId[],
-    fromContainerModelGetter: ModelFromContainer<T>,
-    protected initialModel: T
+    fromContainerModelGetter: ModelFromContainer<Model>,
+    protected initialModel: Model
   ) {
     super(assertionIds, fromContainerModelGetter);
     this.setModel(initialModel);
@@ -38,7 +38,7 @@ export class FormFieldCompletionAssistant<T extends string> extends FormCompleti
     return this.model;
   }
 
-  setModel(newModel: T) {
+  setModel(newModel: Model) {
     this.model = newModel;
   }
 

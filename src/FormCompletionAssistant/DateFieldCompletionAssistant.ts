@@ -6,7 +6,7 @@ import { AssertionsRunner } from "../Assertion/AssertionsRunner";
 /**
  * @todo complete and refactor
  */
-export class DateFieldCompletionAssistant extends FormSectionCompletionAssistant<Date> {
+export class DateFieldCompletionAssistant extends FormSectionCompletionAssistant<Date, [string]> {
   static for(assertionId: AssertionId, fromContainerModelGetter) {
     const assertionIds = assertionId === "" ? [] : [assertionId];
 
@@ -37,7 +37,7 @@ export class DateFieldCompletionAssistant extends FormSectionCompletionAssistant
     return this.assistants[0];
   }
 
-  setInnerModel(newModel) {
+  setInnerModel(newModel: string) {
     this.innerAssistant().setModel(newModel);
   }
 
