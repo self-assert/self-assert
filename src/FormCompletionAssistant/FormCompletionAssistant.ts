@@ -5,17 +5,14 @@ import type { Assertion, AssertionId } from "../Assertion/Assertion";
  */
 export type ModelFromContainer<T> = (containerModel: unknown) => T;
 
-/**** FormCompletionAssistant model ****
- * Este código es provisto as-is. No ha sido probado en producción y
- * fue desarrollado con el propósito de ejemplificar lo mostrado en el webinar
- * de Diseño a la gorra.
- * Le cambie los nombres a los mostrados en el webinar para utilizar unos más
- * relacionados al dominio de negocio y tanto a la implementación. Para ello utilicé
+/**
+ * Para ello utilicé
  * la metáfora de un assistente que ayuda a completar un formulario
  */
 export abstract class FormCompletionAssistant<T = unknown> {
   /**
-   * @link https://github.com/microsoft/TypeScript/issues/3841
+   * See {@link https://github.com/microsoft/TypeScript/issues/3841 #3841} for
+   * more information.
    */
   declare ["constructor"]: typeof FormCompletionAssistant;
 
@@ -29,9 +26,6 @@ export abstract class FormCompletionAssistant<T = unknown> {
     return potentialModel === FormCompletionAssistant.INVALID_MODEL;
   }
 
-  /**
-   * @todo type this
-   */
   constructor(
     protected assertionIds: AssertionId[],
     protected fromContainerModelGetter: ModelFromContainer<T>
