@@ -4,7 +4,7 @@ import { FormCompletionAssistant } from "../FormCompletionAssistant/FormCompleti
 export type AssertionId = string;
 
 /**
- * Represents a rule that must be met in order for
+ * Represents a rule that must be met in order for\
  * an object to be considered valid.
  *
  * @todo Analyze coupling with FormCompletionAssistant in {@link shouldNotRun}
@@ -55,27 +55,12 @@ export class Assertion<T = unknown> {
     return this.assertForAll([value], id, condition, description);
   }
 
-  /**
-   * @todo type this
-   */
-  static checkIsValid(potentialModel) {
-    return this.for(potentialModel, "", () => true, "");
-  }
-
   constructor(
     protected values: T[],
     protected id: AssertionId,
     protected condition: () => boolean,
     protected description: string
   ) {}
-
-  /**
-   * Indicates whether the assertion should be run based on the values of the form.
-   * If any of the values is invalid, the assertion should not be run.
-   */
-  shouldNotRun() {
-    return this.values.some((value) => FormCompletionAssistant.isInvalidModel(value));
-  }
 
   /**
    * Evaluates the condition of the assertion.
@@ -109,5 +94,13 @@ export class Assertion<T = unknown> {
 
   isDescription(assertionDescription: string) {
     return this.description === assertionDescription;
+  }
+
+  /**
+   * Indicates whether the assertion should be run based on the values of the form.
+   * If any of the values is invalid, the assertion should not be run.
+   */
+  protected shouldNotRun() {
+    return this.values.some((value) => FormCompletionAssistant.isInvalidModel(value));
   }
 }
