@@ -11,14 +11,13 @@ export type AssertionId = string;
  * Analyze coupling with FormCompletionAssistant {@link shouldNotRun}
  */
 export class Assertion<T = unknown> {
-  
   /**
    * @todo
    * Cuando se serializa un Assertion no habría que mandar values y condition
    * o lo que habría que reificar es AssertionFailed con solo el id y description
    * para no tener que andar transmitiendo todo
    */
-  static fromJson(assertionAsJson) {
+  static fromJson(assertionAsJson: any) {
     return new this([], assertionAsJson.id, () => false, assertionAsJson.description);
   }
 
