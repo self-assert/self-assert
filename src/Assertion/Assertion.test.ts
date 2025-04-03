@@ -1,6 +1,5 @@
 import { describe, expect, it } from "@jest/globals";
 import { Assertion } from "./Assertion";
-import { AssertionsFailed } from "./AssertionsFailed";
 
 describe("Assertion", () => {
   const holdingAssertion = Assertion.for(1, "anAID", () => true, "Description");
