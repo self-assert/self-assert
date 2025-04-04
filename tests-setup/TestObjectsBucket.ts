@@ -1,4 +1,8 @@
-import { Assertion } from "@/Assertion/Assertion";
+import { Assertion, AssertionId } from "@/Assertion/Assertion";
+import { FormFieldCompletionAssistant } from "@/FormCompletionAssistant/FormFieldCompletionAssistant";
+import { FormSectionCompletionAssistant } from "@/FormCompletionAssistant/FormSectionCompletionAssistant";
+import { TestModel } from "./TestModel";
+
 import type { ModelFromContainer } from "@/FormCompletionAssistant/types";
 
 const genericContainer = {
@@ -27,5 +31,20 @@ export class TestObjectsBucket {
 
   static genericContainerForString(): ModelFromContainer<string, typeof genericContainer> {
     return (c) => c.getModel();
+  }
+
+  static createNameAssistant() {
+    return FormFieldCompletionAssistant.handling<TestModel>("", (model) => model.getName());
+  }
+
+  static createTestModelAssistant(assertionIds: AssertionId[] = []) {
+    const nameAssistant = this.createNameAssistant();
+    const assistant = FormSectionCompletionAssistant.topLevelWith<TestModel, [string]>(
+      [nameAssistant],
+      (name) => new TestModel(name),
+      assertionIds
+    );
+
+    return Object.assign(assistant, { nameAssistant });
   }
 }

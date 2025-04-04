@@ -14,7 +14,7 @@ import type { FormSectionCompletionAssistant } from "./FormSectionCompletionAssi
  * ]
  * ```
  */
-export type AssistantsFor<Models extends any[], ContainerModel> = {
+export type AssistantsIn<Models extends any[], ContainerModel> = {
   [Index in keyof Models]: FormCompletionAssistant<Models[Index], ContainerModel>;
 };
 

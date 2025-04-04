@@ -8,13 +8,13 @@ import type { ModelFromContainer } from "./types";
  *
  * @extends FormCompletionAssistant {@link FormCompletionAssistant link}
  */
-export class FormFieldCompletionAssistant<Model extends string, ContainerModel> extends FormCompletionAssistant<
+export class FormFieldCompletionAssistant<Model, ContainerModel> extends FormCompletionAssistant<
   Model,
   ContainerModel
 > {
   protected model!: Model;
 
-  static handling<Model extends string, ContainerModel>(
+  static handling<ContainerModel, Model extends string = string>(
     assertionId: AssertionId,
     fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
     initialModel = ""
@@ -22,7 +22,7 @@ export class FormFieldCompletionAssistant<Model extends string, ContainerModel> 
     return this.handlingAll([assertionId], fromContainerModelGetter, initialModel);
   }
 
-  static handlingAll<Model extends string, ContainerModel>(
+  static handlingAll<ContainerModel, Model extends string = string>(
     assertionIds: AssertionId[],
     fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
     initialModel = ""

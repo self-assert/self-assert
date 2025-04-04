@@ -1,7 +1,7 @@
 import { FormCompletionAssistant } from "./FormCompletionAssistant";
 import { AssertionsFailed } from "../Assertion/AssertionsFailed";
 import type { AssertionId, Assertion } from "../Assertion/Assertion";
-import type { ModelFromContainer, AssistantsFor } from "./types";
+import type { ModelFromContainer, AssistantsIn } from "./types";
 
 type CreationClosure<Model, ComposedModels extends any[]> = (...models: ComposedModels) => Model;
 
@@ -24,7 +24,7 @@ export class FormSectionCompletionAssistant<
   protected model!: Model; //| typeof FormCompletionAssistant.INVALID_MODEL;
 
   static with<Model, ContainerModel, ComposedModels extends any[]>(
-    assistants: AssistantsFor<ComposedModels, Model>,
+    assistants: AssistantsIn<ComposedModels, Model>,
     creationClosure: CreationClosure<Model, ComposedModels>,
     fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
     assertionIds: AssertionId[]
@@ -32,8 +32,23 @@ export class FormSectionCompletionAssistant<
     return new this(assistants, creationClosure, fromContainerModelGetter, assertionIds);
   }
 
+  static topLevelWith<Model, ComposedModels extends any[]>(
+    assistants: AssistantsIn<ComposedModels, Model>,
+    creationClosure: CreationClosure<Model, ComposedModels>,
+    assertionIds: AssertionId[]
+  ) {
+    return this.with(
+      assistants,
+      creationClosure,
+      (() => {
+        throw new Error("Should not be called");
+      }) as ModelFromContainer<Model, never>,
+      assertionIds
+    );
+  }
+
   constructor(
-    protected assistants: AssistantsFor<ComposedModels, Model>,
+    protected assistants: AssistantsIn<ComposedModels, Model>,
     protected creationClosure: CreationClosure<Model, ComposedModels>,
     fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
     assertionIds: AssertionId[]
