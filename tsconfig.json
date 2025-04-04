@@ -9,7 +9,12 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitAny": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "resolveJsonModule": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "@tests/*": ["./tests-setup/*"]
+    }
   },
   "include": ["./src", "./tests-setup"]
 }

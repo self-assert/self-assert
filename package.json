@@ -5,7 +5,8 @@
   "main": "src/index.ts",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "npm test -- --watchAll"
   },
   "keywords": [
     "validation",

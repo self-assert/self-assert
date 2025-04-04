@@ -18,6 +18,10 @@ export class AssertionsFailed extends Error {
     super();
   }
 
+  hasOneAssertionFailedWith(assertionId: AssertionId, assertionDescription: string) {
+    return this.failedAssertions.some((assertion) => assertion.isIdentifiedAsWith(assertionId, assertionDescription));
+  }
+
   hasOnlyOneAssertionFailedWith(assertionId: AssertionId, assertionDescription: string) {
     return (
       this.failedAssertions.length === 1 &&

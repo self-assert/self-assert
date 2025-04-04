@@ -1,5 +1,10 @@
 import { expect } from "@jest/globals";
-import { AssertionsFailed } from "../src/Assertion/AssertionsFailed";
+
+import { AssertionsFailed } from "@/Assertion/AssertionsFailed";
+
+export function expectToBeAssertionsFailed(error: unknown): asserts error is AssertionsFailed {
+  expect(error).toBeInstanceOf(AssertionsFailed);
+}
 
 expect.extend({
   toFailAssertion(closure, assertionId, description) {
@@ -10,12 +15,11 @@ expect.extend({
         pass: false,
       };
     } catch (error) {
-      if (error instanceof AssertionsFailed) {
-        return {
-          message: () => `Should only have thrown ${AssertionsFailed.name} with '${assertionId}' and '${description}'.`,
-          pass: error.hasOnlyOneAssertionFailedWith(assertionId, description),
-        };
-      } else throw error;
+      expectToBeAssertionsFailed(error);
+      return {
+        message: () => `Should only have thrown ${AssertionsFailed.name} with '${assertionId}' and '${description}'.`,
+        pass: error.hasOnlyOneAssertionFailedWith(assertionId, description),
+      };
     }
   },
 });

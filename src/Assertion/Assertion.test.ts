@@ -1,11 +1,14 @@
 import { describe, expect, it } from "@jest/globals";
 import { Assertion } from "./Assertion";
+import { TestObjectsBucket } from "@tests/TestObjectsBucket";
 
 describe("Assertion", () => {
-  const holdingAssertion = Assertion.for(1, "anAID", () => true, "Description");
-  const failingAssertionAID = "failsAID";
-  const failingAssertionDescription = "Should fail";
-  const failingAssertion = Assertion.for(2, failingAssertionAID, () => false, failingAssertionDescription);
+  const holdingAssertion = TestObjectsBucket.holdingAssertion();
+  const holdingAssertionAID = TestObjectsBucket.defaultHoldingAssertionAID;
+  const holdingAssertionDescription = TestObjectsBucket.defaultHoldingAssertionDescription;
+  const failingAssertion = TestObjectsBucket.defaultFailingAssertion();
+  const failingAssertionAID = TestObjectsBucket.defaultFailingAssertionAID;
+  const failingAssertionDescription = TestObjectsBucket.defaultFailingAssertionDescription;
 
   it("should hold when condition is true", () => {
     expect(holdingAssertion.doesHold()).toBe(true);
@@ -20,13 +23,13 @@ describe("Assertion", () => {
   });
 
   it("should remember its id and description", () => {
-    expect(holdingAssertion.isIdentifiedAs("anAID")).toBe(true);
-    expect(holdingAssertion.isIdentifiedAsWith("anAID", "Description")).toBe(true);
+    expect(holdingAssertion.isIdentifiedAs(holdingAssertionAID)).toBe(true);
+    expect(holdingAssertion.isIdentifiedAsWith(holdingAssertionAID, holdingAssertionDescription)).toBe(true);
     expect(holdingAssertion.isIdentifiedAs(failingAssertionAID)).toBe(false);
-    expect(holdingAssertion.isIdentifiedAsWith(failingAssertionAID, "Description")).toBe(false);
-    expect(holdingAssertion.isDescription("Description")).toBe(true);
+    expect(holdingAssertion.isIdentifiedAsWith(failingAssertionAID, holdingAssertionDescription)).toBe(false);
+    expect(holdingAssertion.isDescription(holdingAssertionDescription)).toBe(true);
     expect(holdingAssertion.isDescription("No description")).toBe(false);
-    expect(holdingAssertion.getDescription()).toBe("Description");
+    expect(holdingAssertion.getDescription()).toBe(holdingAssertionDescription);
 
     expect(failingAssertion.isIdentifiedAs(failingAssertionAID)).toBe(true);
     expect(failingAssertion.isIdentifiedAsWith(failingAssertionAID, failingAssertionDescription)).toBe(true);
