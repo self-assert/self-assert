@@ -1,0 +1,16 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "test: coverage",
+      "type": "shell",
+      "command": "npm test -- --coverage && npx http-server coverage/lcov-report",
+      "group": "test",
+      "detail": "Runs tests with coverage and serves the coverage report",
+      "icon": {
+        "id": "coverage",
+        "color": "terminal.ansiCyan"
+      }
+    }
+  ]
+}
