@@ -66,6 +66,10 @@ export class Assertion<T = unknown> {
     return this.id === assertionId;
   }
 
+  getId(): AssertionId {
+    return this.id;
+  }
+
   isIdentifiedAsWith(assertionId: AssertionId, assertionDescription: string) {
     return this.isIdentifiedAs(assertionId) && this.isDescription(assertionDescription);
   }
