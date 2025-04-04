@@ -18,9 +18,17 @@ describe("FormFieldCompletionAssistant", () => {
   });
 
   it("should allow to be reset to its initial model", () => {
-    const formFieldCompletionAssistant = FormFieldCompletionAssistant.handling("AID.1", modelFromContainer, "Init");
+    const formFieldCompletionAssistant = FormFieldCompletionAssistant.handling("AID.1", modelFromContainer);
     formFieldCompletionAssistant.setModel("Changed");
     formFieldCompletionAssistant.resetModel();
-    expect(formFieldCompletionAssistant.getModel()).toBe("Init");
+    expect(formFieldCompletionAssistant.getModel()).toBe("");
+  });
+
+  it("should be able to create a model without failing", () => {
+    const formFieldCompletionAssistant = FormFieldCompletionAssistant.handlingAll(
+      ["AID.1", "AID.2"],
+      modelFromContainer
+    );
+    expect(formFieldCompletionAssistant.createModel()).toBe("");
   });
 });
