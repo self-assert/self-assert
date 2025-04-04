@@ -39,6 +39,7 @@ export class FormSectionCompletionAssistant<
     assertionIds: AssertionId[]
   ) {
     super(assertionIds, fromContainerModelGetter);
+    this.resetModel();
   }
 
   createModel() {

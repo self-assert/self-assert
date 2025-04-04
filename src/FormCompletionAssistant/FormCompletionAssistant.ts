@@ -34,15 +34,18 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
     this.removeFailedAssertions();
   }
 
+  /**
+   * Attempts to create a model. It fails if any of the assertions fail.
+   * Using {@link withCreatedModelDo} is the recommended approach.
+   *
+   * @throws {AssertionsFailed} if the model is invalid
+   */
   abstract createModel(): Model;
 
   abstract getModel(): Model;
 
   abstract setModel(newModel: Model): void;
 
-  /**
-   * @todo Check if it's being used
-   */
   abstract resetModel(): void;
 
   /**
