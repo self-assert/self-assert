@@ -1,4 +1,11 @@
 import { Assertion } from "@/Assertion/Assertion";
+import type { ModelFromContainer } from "@/FormCompletionAssistant/types";
+
+const genericContainer = {
+  getModel(): string {
+    return "Model";
+  },
+};
 
 export class TestObjectsBucket {
   static defaultHoldingAssertionAID = "holdsAID";
@@ -16,5 +23,9 @@ export class TestObjectsBucket {
 
   static failingAssertion(assertionId: string, description: string) {
     return Assertion.for(2, assertionId, () => false, description);
+  }
+
+  static genericContainerForString(): ModelFromContainer<string, typeof genericContainer> {
+    return (c) => c.getModel();
   }
 }
