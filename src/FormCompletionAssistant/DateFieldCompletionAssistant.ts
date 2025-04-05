@@ -33,7 +33,7 @@ export class DateFieldCompletionAssistant<ContainerModel> extends FormSectionCom
   }
 
   static createDateAssistant() {
-    return FormFieldCompletionAssistant.handling<string, Date>("", (date) => date.toLocaleDateString());
+    return FormFieldCompletionAssistant.handling<Date>("", (date) => date.toLocaleDateString());
   }
 
   static createAssertionFor(assertionId: AssertionId, dateAsString: string) {
