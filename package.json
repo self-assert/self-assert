@@ -1,32 +1,55 @@
 {
-  "name": "self-assert",
-  "version": "1.0.0",
-  "description": "Provides a structured approach to model creation and validation, based on the 'Form Completion Assistant' concept presented in the Diseño a la Gorra webinar.",
-  "main": "src/index.ts",
+  "name": "@self-assert-org/self-assert",
+  "version": "0.1.2",
+  "description": "Provides a structured approach to a bussiness model creation and validation.",
+  "main": "dist/index.js",
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "private": false,
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "scripts": {
-    "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc -p tsconfig.build.json",
+    "test": "jest",
+    "test:watch": "npm test -- --watchAll"
   },
   "keywords": [
     "validation",
-    "form"
+    "form",
+    "assert"
   ],
   "contributors": [
     {
       "name": "Hernán Wilkinson",
       "url": "https://github.com/hernanwilkinson"
+    },
+    {
+      "name": "Tomás Ossa",
+      "url": "https://github.com/tomasossa"
     }
   ],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tomasossa/self-assert.git"
+    "url": "git+https://github.com/self-assert-org/self-assert.git"
   },
   "bugs": {
-    "url": "https://github.com/tomasossa/self-assert/issues"
+    "url": "https://github.com/self-assert-org/self-assert/issues"
   },
-  "homepage": "https://github.com/tomasossa/self-assert#readme",
+  "homepage": "https://github.com/self-assert-org/self-assert#readme",
   "devDependencies": {
+    "@babel/core": "^7.26.10",
+    "@babel/preset-env": "^7.26.9",
+    "@babel/preset-typescript": "^7.27.0",
+    "@jest/globals": "^29.7.0",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.3.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   }
 }

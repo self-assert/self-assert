@@ -1,7 +1,7 @@
 import { FormCompletionAssistant } from "./FormCompletionAssistant";
 import { AssertionsFailed } from "../Assertion/AssertionsFailed";
 import type { AssertionId, Assertion } from "../Assertion/Assertion";
-import type { ModelFromContainer, AssistantsFor } from "./types";
+import type { ModelFromContainer, AssistantsIn } from "./types";
 
 type CreationClosure<Model, ComposedModels extends any[]> = (...models: ComposedModels) => Model;
 
@@ -24,7 +24,7 @@ export class FormSectionCompletionAssistant<
   protected model!: Model; //| typeof FormCompletionAssistant.INVALID_MODEL;
 
   static with<Model, ContainerModel, ComposedModels extends any[]>(
-    assistants: AssistantsFor<ComposedModels, Model>,
+    assistants: AssistantsIn<ComposedModels, Model>,
     creationClosure: CreationClosure<Model, ComposedModels>,
     fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
     assertionIds: AssertionId[]
@@ -32,13 +32,22 @@ export class FormSectionCompletionAssistant<
     return new this(assistants, creationClosure, fromContainerModelGetter, assertionIds);
   }
 
+  static topLevelContainerWith<Model, ComposedModels extends any[]>(
+    assistants: AssistantsIn<ComposedModels, Model>,
+    creationClosure: CreationClosure<Model, ComposedModels>,
+    assertionIds: AssertionId[] = []
+  ) {
+    return this.with(assistants, creationClosure, this.topLevelContainerModelGetter<Model>(), assertionIds);
+  }
+
   constructor(
-    protected assistants: AssistantsFor<ComposedModels, Model>,
+    protected assistants: AssistantsIn<ComposedModels, Model>,
     protected creationClosure: CreationClosure<Model, ComposedModels>,
     fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
     assertionIds: AssertionId[]
   ) {
     super(assertionIds, fromContainerModelGetter);
+    this.resetModel();
   }
 
   createModel() {
@@ -48,7 +57,7 @@ export class FormSectionCompletionAssistant<
       this.model = this.creationClosure(...models);
     } catch (error) {
       this.invalidateModel();
-      this.handleCreateModelError(error);
+      this.handleError(error);
     }
 
     return this.model;
@@ -68,6 +77,13 @@ export class FormSectionCompletionAssistant<
     this.assistants.forEach((assistant) => assistant.resetModel());
   }
 
+  handleError(possibleCreateModelError: unknown) {
+    if (possibleCreateModelError instanceof AssertionsFailed)
+      return this.routeFailedAssertionsOf(possibleCreateModelError);
+
+    throw possibleCreateModelError;
+  }
+
   routeFailedAssertionsOf(creationError: AssertionsFailed) {
     creationError.forEachAssertionFailed((failedAssertion) => this.routeFailedAssertion(failedAssertion));
   }
@@ -77,18 +93,15 @@ export class FormSectionCompletionAssistant<
     else this.routeNotHandledByThisFailedAssertion(failedAssertion);
   }
 
-  routeNotHandledByThisFailedAssertion(failedAssertion: Assertion) {
+  protected routeNotHandledByThisFailedAssertion(failedAssertion: Assertion) {
     const assistantsHandlingAssertion = this.assistantsHandling(failedAssertion);
 
     if (assistantsHandlingAssertion.length === 0) this.addFailedAssertion(failedAssertion);
     else this.addFailedAssertionToAll(assistantsHandlingAssertion, failedAssertion);
   }
 
-  /**
-   * @todo Better type check
-   */
-  addFailedAssertionToAll(
-    assistantsHandlingAssertion: FormCompletionAssistant<any, any>[],
+  protected addFailedAssertionToAll(
+    assistantsHandlingAssertion: FormCompletionAssistant<any, Model>[],
     failedAssertion: Assertion<unknown>
   ) {
     assistantsHandlingAssertion.forEach((assistant) => assistant.addFailedAssertion(failedAssertion));
@@ -99,18 +112,12 @@ export class FormSectionCompletionAssistant<
   }
 
   protected invalidateModel() {
-    // @ts-expect-error MUST FIX
+    /** @ts-expect-error See {@link FormCompletionAssistant.INVALID_MODEL} */
     this.model = this.constructor.INVALID_MODEL;
   }
 
   protected createComposedModels(): ComposedModels {
-    // TypeScript can't infer the tuple type directly.
-    return this.assistants.map((assistant) => assistant.createModel()) as ComposedModels;
-  }
-
-  protected handleCreateModelError(error: unknown) {
-    if (error instanceof AssertionsFailed) return this.routeFailedAssertionsOf(error);
-
-    throw error;
+    // @ts-expect-error TypeScript can't infer the tuple type directly.
+    return this.assistants.map((assistant) => assistant.createModel());
   }
 }

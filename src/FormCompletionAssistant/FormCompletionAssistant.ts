@@ -25,6 +25,12 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
     return potentialModel === FormCompletionAssistant.INVALID_MODEL;
   }
 
+  static topLevelContainerModelGetter<Model>(): ModelFromContainer<Model, never> {
+    return () => {
+      throw new Error("No container to get model from");
+    };
+  }
+
   protected failedAssertions!: Assertion[];
 
   constructor(
@@ -34,15 +40,18 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
     this.removeFailedAssertions();
   }
 
+  /**
+   * Attempts to create a model. It fails if any of the assertions fail.
+   * @see {@link withCreatedModelDo}.
+   *
+   * @throws {AssertionsFailed} if the model is invalid
+   */
   abstract createModel(): Model;
 
   abstract getModel(): Model;
 
   abstract setModel(newModel: Model): void;
 
-  /**
-   * @todo Check if it's being used
-   */
   abstract resetModel(): void;
 
   /**

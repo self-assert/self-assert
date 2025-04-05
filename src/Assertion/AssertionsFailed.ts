@@ -2,12 +2,12 @@ import { Assertion, AssertionId } from "./Assertion";
 
 /**
  * Provides a way to handle multiple failed assertions.
- * 
+ *
  * @see {@link Assertion}
  */
 export class AssertionsFailed extends Error {
-  static fromJson(assertionsFailedAsJson) {
-    const failedAssertions = assertionsFailedAsJson.failedAssertions.map((assertionAsJson) =>
+  static fromJson(assertionsFailedAsJson: any) {
+    const failedAssertions = assertionsFailedAsJson.failedAssertions.map((assertionAsJson: any) =>
       Assertion.fromJson(assertionAsJson)
     );
 
@@ -16,6 +16,10 @@ export class AssertionsFailed extends Error {
 
   constructor(protected failedAssertions: Assertion[]) {
     super();
+  }
+
+  hasOneAssertionFailedWith(assertionId: AssertionId, assertionDescription: string) {
+    return this.failedAssertions.some((assertion) => assertion.isIdentifiedAsWith(assertionId, assertionDescription));
   }
 
   hasOnlyOneAssertionFailedWith(assertionId: AssertionId, assertionDescription: string) {

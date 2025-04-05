@@ -1,27 +1,51 @@
 # self-assert
 
-A TypeScript library for creating valid objects, promoting encapsulation and robust design.
+A TypeScript library for creating valid objects,
+promoting encapsulation and robust design.
+
+> [!warning]
+> This project is in its early stages. It is meant to be published soon.
+
+## Table of Contents
+
+- [Credits and Acknowledgements](#credits-and-acknowledgements)
+- [Installation](#installation)
 
 ## Credits and Acknowledgements
 
-This project is based on the ideas presented by Hernán Wilkinson ([@hernanwilkinson][hernan-url]) in his [Diseño a la Gorra][disenio-a-la-gorra] webinar. The concepts behind `self-assert` were shown in the [second episode][dalg-t1-ch2] and further refined in the [third episode][dalg-t1-ch3]. The videos are primarily in Spanish; however, the code is self-explanatory.
+This project is based on the ideas presented by Hernán Wilkinson ([@hernanwilkinson][hernan-url])
+in his [Diseño a la Gorra][disenio-a-la-gorra] webinar.
 
-Hernán covers many different topics of modern OOP and software development in his webinar. Key points include:
+Diseño a la Gorra is a webinar exploring the principles of object-oriented software design,
+with a focus on practical examples and heuristics for creating high-quality software.
+The videos are primarily in Spanish; however, the code is self-explanatory.
 
-- Software systems are models of real-world problems. As such, developing software means **designing** a model. Good software is a good model, and a good model is expected to **teach** how to interact with it.
-- Designing software is a continuous **learning process**.
-- Objects are representations of an entity in the problem's domain and they should represent such entity from the moment they are created. Therefore they should:
-  - be created **complete**.
-  - be created **valid**.
+A core idea of Diseño a la Gorra is understanding software as a **model of a real-world problem**.
+Developing software, therefore, is fundamentally the act of **designing an effective model**.
+
+According to this perspective:
+
+- A good software model **abstracts the relevant aspects** of the problem domain,
+  allowing for clear understanding and effective solutions.
+- Software design is a continuous process of **learning and refining** the model.
+- A good model not only works but also **teaches** how to interact with it through its structure and behavior.
+- **Objects** within the software should represent **entities of the domain** and be created
+  **complete** and **valid** from the outset, reflecting a coherent state of the real world.
+
+The concepts behind `self-assert` were introduced in [Episode 2][dalg-t1-ch2] ("Valid Objects")
+and further refined in [Episode 3][dalg-t1-ch3] ("Modeling Sets of Objects").
 
 ## Installation
 
-## Usage
+Install `self-assert` with `npm`:
 
-## Examples
+```shell
+npm install self-assert
+```
+
+<!-- ## Usage -->
 
 [hernan-url]: https://github.com/hernanwilkinson
 [disenio-a-la-gorra]: https://github.com/hernanwilkinson/disenioALaGorra
-[dalg-t1-ch2]: PENDING URL
-[dalg-t1-ch3]: PENDING URL
-
+[dalg-t1-ch2]: https://github.com/hernanwilkinson/disenioALaGorra/tree/a6d90a0044bf69f98fb50584872b226bf678e67b/Temporada01/Episodio02%20-%20Objetos%20V%C3%A1lidos
+[dalg-t1-ch3]: https://github.com/hernanwilkinson/disenioALaGorra/tree/a6d90a0044bf69f98fb50584872b226bf678e67b/Temporada01/Episodio03%20-%20Modelar%20los%20Conjuntos%20de%20Objetos
