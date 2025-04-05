@@ -31,7 +31,7 @@ export class IntegerFieldCompletionAssistant<ContainerModel = never> extends For
   }
 
   static createNumberAssistant() {
-    return FormFieldCompletionAssistant.handling<string, number>("", (number) => number.toString());
+    return FormFieldCompletionAssistant.handling<number>("", (number) => number.toString());
   }
 
   static createAssertionFor(assertionId: AssertionId, numberAsString: string) {
