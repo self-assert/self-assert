@@ -35,13 +35,13 @@ export class FormSectionCompletionAssistant<
   static topLevelWith<Model, ComposedModels extends any[]>(
     assistants: AssistantsIn<ComposedModels, Model>,
     creationClosure: CreationClosure<Model, ComposedModels>,
-    assertionIds: AssertionId[]
+    assertionIds: AssertionId[] = []
   ) {
     return this.with(
       assistants,
       creationClosure,
       (() => {
-        throw new Error("Should not be called");
+        throw new Error("No container to get model from");
       }) as ModelFromContainer<Model, never>,
       assertionIds
     );
@@ -93,18 +93,15 @@ export class FormSectionCompletionAssistant<
     else this.routeNotHandledByThisFailedAssertion(failedAssertion);
   }
 
-  routeNotHandledByThisFailedAssertion(failedAssertion: Assertion) {
+  protected routeNotHandledByThisFailedAssertion(failedAssertion: Assertion) {
     const assistantsHandlingAssertion = this.assistantsHandling(failedAssertion);
 
     if (assistantsHandlingAssertion.length === 0) this.addFailedAssertion(failedAssertion);
     else this.addFailedAssertionToAll(assistantsHandlingAssertion, failedAssertion);
   }
 
-  /**
-   * @todo Better type check
-   */
-  addFailedAssertionToAll(
-    assistantsHandlingAssertion: FormCompletionAssistant<any, any>[],
+  protected addFailedAssertionToAll(
+    assistantsHandlingAssertion: FormCompletionAssistant<any, Model>[],
     failedAssertion: Assertion<unknown>
   ) {
     assistantsHandlingAssertion.forEach((assistant) => assistant.addFailedAssertion(failedAssertion));
@@ -115,13 +112,13 @@ export class FormSectionCompletionAssistant<
   }
 
   protected invalidateModel() {
-    // @ts-expect-error MUST FIX
+    /** @ts-expect-error See {@link FormCompletionAssistant.INVALID_MODEL} */
     this.model = this.constructor.INVALID_MODEL;
   }
 
   protected createComposedModels(): ComposedModels {
-    // TypeScript can't infer the tuple type directly.
-    return this.assistants.map((assistant) => assistant.createModel()) as ComposedModels;
+    // @ts-expect-error TypeScript can't infer the tuple type directly.
+    return this.assistants.map((assistant) => assistant.createModel());
   }
 
   protected handleCreateModelError(error: unknown) {

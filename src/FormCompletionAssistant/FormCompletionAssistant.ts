@@ -36,7 +36,7 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
 
   /**
    * Attempts to create a model. It fails if any of the assertions fail.
-   * Using {@link withCreatedModelDo} is the recommended approach.
+   * @see {@link withCreatedModelDo}.
    *
    * @throws {AssertionsFailed} if the model is invalid
    */

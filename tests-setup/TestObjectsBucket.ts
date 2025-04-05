@@ -1,7 +1,7 @@
 import { Assertion, AssertionId } from "@/Assertion/Assertion";
 import { FormFieldCompletionAssistant } from "@/FormCompletionAssistant/FormFieldCompletionAssistant";
 import { FormSectionCompletionAssistant } from "@/FormCompletionAssistant/FormSectionCompletionAssistant";
-import { TestModel } from "./TestModel";
+import { ModelWithNoAssertions, SelfAssertingModel } from "./TestModels";
 
 import type { ModelFromContainer } from "@/FormCompletionAssistant/types";
 
@@ -33,18 +33,31 @@ export class TestObjectsBucket {
     return (c) => c.getModel();
   }
 
-  static createNameAssistant() {
-    return FormFieldCompletionAssistant.handling<TestModel>("", (model) => model.getName());
+  protected static createNameAssistant() {
+    return FormFieldCompletionAssistant.handlingAll<ModelWithNoAssertions>(
+      [SelfAssertingModel.nameNotEmptyAID],
+      (model) => model.getName()
+    );
   }
 
-  static createTestModelAssistant(assertionIds: AssertionId[] = []) {
+  static createModelWithNoAssertionsAssistant(assertionIds: AssertionId[] = []) {
     const nameAssistant = this.createNameAssistant();
-    const assistant = FormSectionCompletionAssistant.topLevelWith<TestModel, [string]>(
+    const assistant = FormSectionCompletionAssistant.topLevelWith<ModelWithNoAssertions, [string]>(
       [nameAssistant],
-      (name) => new TestModel(name),
+      (name) => new ModelWithNoAssertions(name),
       assertionIds
     );
 
+    return Object.assign(assistant, { nameAssistant });
+  }
+
+  static createSelfAssertingModelAssistant(assertionIds: AssertionId[] = []) {
+    const nameAssistant = this.createNameAssistant();
+    const assistant = FormSectionCompletionAssistant.topLevelWith<SelfAssertingModel, [string]>(
+      [nameAssistant],
+      (name) => SelfAssertingModel.named(name),
+      assertionIds
+    );
     return Object.assign(assistant, { nameAssistant });
   }
 }
