@@ -10,6 +10,7 @@ describe("DateFieldCompletionAssistant", () => {
 
     assistant.withCreatedModelDo(
       (model) => {
+        expect(assistant.getInnerModel()).toBe("2020-01-01");
         expect(model).toBeInstanceOf(Date);
         expect(model.toISOString().startsWith("2020-01-01")).toBe(true);
         done();
@@ -54,5 +55,15 @@ describe("DateFieldCompletionAssistant", () => {
         done();
       }
     );
+  });
+
+  describe("inner assistant", () => {
+    it("should allow setting its value from an ISO date", () => {
+      const assistant = DateFieldCompletionAssistant.forTopLevel("");
+
+      assistant.innerAssistant().setModelFrom(new Date(2020, 0, 1));
+
+      expect(assistant.getInnerModel()).toBe("2020-01-01");
+    });
   });
 });
