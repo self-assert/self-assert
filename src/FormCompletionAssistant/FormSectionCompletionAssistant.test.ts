@@ -65,7 +65,7 @@ describe("FormSectionCompletionAssistant", () => {
   });
 
   it("should fail if trying to set from a container when is top level", () => {
-    const assistant = FormSectionCompletionAssistant.topLevelWith<{ name: string }, [string]>(
+    const assistant = FormSectionCompletionAssistant.topLevelContainerWith<{ name: string }, [string]>(
       [FormFieldCompletionAssistant.handling("AID.1", ({ name }) => name, "")],
       (name) => ({ name })
     );
@@ -174,7 +174,7 @@ describe("FormSectionCompletionAssistant", () => {
           done("Should have thrown");
         } catch (error) {
           expect(() => assistant.handleError(error)).toThrow(error);
-          done()        ;
+          done();
         }
       },
       () => done("Should not be invalid model")

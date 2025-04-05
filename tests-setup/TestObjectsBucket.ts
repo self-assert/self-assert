@@ -42,7 +42,7 @@ export class TestObjectsBucket {
 
   static createModelWithNoAssertionsAssistant(assertionIds: AssertionId[] = []) {
     const nameAssistant = this.createNameAssistant();
-    const assistant = FormSectionCompletionAssistant.topLevelWith<ModelWithNoAssertions, [string]>(
+    const assistant = FormSectionCompletionAssistant.topLevelContainerWith<ModelWithNoAssertions, [string]>(
       [nameAssistant],
       (name) => new ModelWithNoAssertions(name),
       assertionIds
@@ -53,7 +53,7 @@ export class TestObjectsBucket {
 
   static createSelfAssertingModelAssistant(assertionIds: AssertionId[] = []) {
     const nameAssistant = this.createNameAssistant();
-    const assistant = FormSectionCompletionAssistant.topLevelWith<SelfAssertingModel, [string]>(
+    const assistant = FormSectionCompletionAssistant.topLevelContainerWith<SelfAssertingModel, [string]>(
       [nameAssistant],
       (name) => SelfAssertingModel.named(name),
       assertionIds

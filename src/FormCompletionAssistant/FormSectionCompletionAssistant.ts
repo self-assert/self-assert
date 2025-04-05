@@ -32,19 +32,12 @@ export class FormSectionCompletionAssistant<
     return new this(assistants, creationClosure, fromContainerModelGetter, assertionIds);
   }
 
-  static topLevelWith<Model, ComposedModels extends any[]>(
+  static topLevelContainerWith<Model, ComposedModels extends any[]>(
     assistants: AssistantsIn<ComposedModels, Model>,
     creationClosure: CreationClosure<Model, ComposedModels>,
     assertionIds: AssertionId[] = []
   ) {
-    return this.with(
-      assistants,
-      creationClosure,
-      (() => {
-        throw new Error("No container to get model from");
-      }) as ModelFromContainer<Model, never>,
-      assertionIds
-    );
+    return this.with(assistants, creationClosure, this.topLevelContainerModelGetter<Model>(), assertionIds);
   }
 
   constructor(

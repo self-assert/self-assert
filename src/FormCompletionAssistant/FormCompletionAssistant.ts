@@ -25,6 +25,12 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
     return potentialModel === FormCompletionAssistant.INVALID_MODEL;
   }
 
+  static topLevelContainerModelGetter<Model>(): ModelFromContainer<Model, never> {
+    return () => {
+      throw new Error("No container to get model from");
+    };
+  }
+
   protected failedAssertions!: Assertion[];
 
   constructor(

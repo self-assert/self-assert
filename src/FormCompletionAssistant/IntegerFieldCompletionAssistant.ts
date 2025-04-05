@@ -5,7 +5,7 @@ import { FormSectionCompletionAssistant } from "./FormSectionCompletionAssistant
 
 import type { ModelFromContainer } from "./types";
 
-export class IntegerFieldCompletionAssistant<ContainerModel = never> extends FormSectionCompletionAssistant<
+export class IntegerFieldCompletionAssistant<ContainerModel> extends FormSectionCompletionAssistant<
   number,
   ContainerModel,
   [string]
@@ -13,15 +13,20 @@ export class IntegerFieldCompletionAssistant<ContainerModel = never> extends For
   static for<ContainerModel>(
     assertionId: AssertionId,
     fromContainerModelGetter: ModelFromContainer<number, ContainerModel>
-  ) {
+  ): IntegerFieldCompletionAssistant<ContainerModel> {
     const assertionIds = assertionId === "" ? [] : [assertionId];
 
+    /** @ts-expect-error @see {@link https://github.com/microsoft/TypeScript/issues/5863 #5863} */
     return this.with(
       [this.createNumberAssistant()],
       (numberAsString) => this.createInteger(assertionId, numberAsString),
       fromContainerModelGetter,
       assertionIds
     );
+  }
+
+  static forTopLevel(assertionId: AssertionId) {
+    return this.for(assertionId, this.topLevelContainerModelGetter());
   }
 
   static createInteger(assertionId: AssertionId, numberAsString: string) {
