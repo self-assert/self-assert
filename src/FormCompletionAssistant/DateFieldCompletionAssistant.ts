@@ -12,18 +12,25 @@ export class DateFieldCompletionAssistant<ContainerModel> extends FormSectionCom
   ContainerModel,
   [string]
 > {
+  static readonly defaultAssertionDescription = "Invalid date";
+
   static for<ContainerModel>(
     assertionId: AssertionId,
     fromContainerModelGetter: ModelFromContainer<Date, ContainerModel>
-  ) {
+  ): DateFieldCompletionAssistant<ContainerModel> {
     const assertionIds = assertionId === "" ? [] : [assertionId];
 
+    /** @ts-expect-error @see {@link https://github.com/microsoft/TypeScript/issues/5863 #5863} */
     return this.with(
       [this.createDateAssistant()],
       (dateAsString) => this.createDate(assertionId, dateAsString),
       fromContainerModelGetter,
       assertionIds
     );
+  }
+
+  static forTopLevel(assertionId: AssertionId) {
+    return this.for(assertionId, this.topLevelContainerModelGetter());
   }
 
   static createDate(assertionId: AssertionId, dateAsString: string) {
@@ -37,7 +44,12 @@ export class DateFieldCompletionAssistant<ContainerModel> extends FormSectionCom
   }
 
   static createAssertionFor(assertionId: AssertionId, dateAsString: string) {
-    return Assertion.for(dateAsString, assertionId, () => dateAsString !== "", "Invalid date");
+    return Assertion.for(
+      dateAsString,
+      assertionId,
+      () => /^\d{4}-\d{2}-\d{2}$/.test(dateAsString),
+      DateFieldCompletionAssistant.defaultAssertionDescription
+    );
   }
 
   innerAssistant() {
