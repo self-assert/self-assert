@@ -5,6 +5,19 @@ import { FormCompletionAssistant } from "./FormCompletionAssistant";
 import { TestObjectsBucket } from "@tests/TestObjectsBucket";
 import { Assertion } from "@/Assertion/Assertion";
 import { ModelWithNoAssertions, SelfAssertingModel } from "@tests/TestModels";
+import { expectToBeAssertionsFailed } from "@tests/jest.setup";
+
+const systemAID = "systemVerifiedAID";
+const system = {
+  add(aSelfAssertingModel: SelfAssertingModel) {
+    Assertion.assertFor(
+      aSelfAssertingModel,
+      systemAID,
+      () => false,
+      "This assertion should be handled by the assistant"
+    );
+  },
+};
 
 describe("FormSectionCompletionAssistant", () => {
   it("should be created invalid with no failed assertions", () => {
@@ -86,7 +99,7 @@ describe("FormSectionCompletionAssistant", () => {
     );
   });
 
-  it("should handle its own model failed assertions", (done) => {
+  it("should fail creating its model if its composed assistants fail", (done) => {
     const assistant = TestObjectsBucket.createSelfAssertingModelAssistant();
     const nameAssistant = assistant.nameAssistant;
     nameAssistant.setModel("");
@@ -101,6 +114,48 @@ describe("FormSectionCompletionAssistant", () => {
         expect(nameAssistant.hasOnlyOneAssertionFailedIdentifiedAs(SelfAssertingModel.nameNotEmptyAID)).toBe(true);
         done();
       }
+    );
+  });
+
+  it("should handle its own failed assertions", (done) => {
+    const assistant = TestObjectsBucket.createSelfAssertingModelAssistant([systemAID]);
+    assistant.nameAssistant.setModel("Pedro");
+
+    assistant.withCreatedModelDo(
+      (model) => {
+        try {
+          system.add(model);
+          done("Should have thrown");
+        } catch (error) {
+          expectToBeAssertionsFailed(error);
+          assistant.routeFailedAssertionsOf(error);
+          expect(assistant.hasFailedAssertions()).toBe(true);
+          expect(assistant.hasOnlyOneAssertionFailedIdentifiedAs(systemAID)).toBe(true);
+          done();
+        }
+      },
+      () => done("Should not be invalid, the system should have failed, the model should be valid")
+    );
+  });
+
+  it("should handle failed assertions if none of its composed assistants handles them", (done) => {
+    const assistant = TestObjectsBucket.createSelfAssertingModelAssistant();
+    assistant.nameAssistant.setModel("Pedro");
+
+    assistant.withCreatedModelDo(
+      (model) => {
+        try {
+          system.add(model);
+          done("Should have thrown");
+        } catch (error) {
+          expectToBeAssertionsFailed(error);
+          assistant.routeFailedAssertionsOf(error);
+          expect(assistant.hasFailedAssertions()).toBe(true);
+          expect(assistant.hasOnlyOneAssertionFailedIdentifiedAs(systemAID)).toBe(true);
+          done();
+        }
+      },
+      () => done("Should not be invalid, the system should have failed, the model should be valid")
     );
   });
 });
