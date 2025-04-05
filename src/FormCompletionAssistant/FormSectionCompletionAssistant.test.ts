@@ -17,6 +17,9 @@ const system = {
       "This assertion should be handled by the assistant"
     );
   },
+  doSomethingThatFails() {
+    throw new Error("Not implemented");
+  },
 };
 
 describe("FormSectionCompletionAssistant", () => {
@@ -128,7 +131,7 @@ describe("FormSectionCompletionAssistant", () => {
           done("Should have thrown");
         } catch (error) {
           expectToBeAssertionsFailed(error);
-          assistant.routeFailedAssertionsOf(error);
+          assistant.handleError(error);
           expect(assistant.hasFailedAssertions()).toBe(true);
           expect(assistant.hasOnlyOneAssertionFailedIdentifiedAs(systemAID)).toBe(true);
           done();
@@ -149,13 +152,32 @@ describe("FormSectionCompletionAssistant", () => {
           done("Should have thrown");
         } catch (error) {
           expectToBeAssertionsFailed(error);
-          assistant.routeFailedAssertionsOf(error);
+          assistant.handleError(error);
           expect(assistant.hasFailedAssertions()).toBe(true);
           expect(assistant.hasOnlyOneAssertionFailedIdentifiedAs(systemAID)).toBe(true);
           done();
         }
       },
-      () => done("Should not be invalid, the system should have failed, the model should be valid")
+      () => done("Should not be invalid model")
+    );
+  });
+
+  it("should not handle other types of errors", (done) => {
+    const assistant = TestObjectsBucket.createSelfAssertingModelAssistant();
+    const nameAssistant = assistant.nameAssistant;
+    nameAssistant.setModel("Pedro");
+
+    assistant.withCreatedModelDo(
+      (_model) => {
+        try {
+          system.doSomethingThatFails();
+          done("Should have thrown");
+        } catch (error) {
+          expect(() => assistant.handleError(error)).toThrow(error);
+          done()        ;
+        }
+      },
+      () => done("Should not be invalid model")
     );
   });
 });
