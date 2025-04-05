@@ -10,6 +10,8 @@ export class IntegerFieldCompletionAssistant<ContainerModel> extends FormSection
   ContainerModel,
   [string]
 > {
+  static readonly defaultAssertionDescription = "Invalid integer";
+
   static for<ContainerModel>(
     assertionId: AssertionId,
     fromContainerModelGetter: ModelFromContainer<number, ContainerModel>
@@ -40,7 +42,12 @@ export class IntegerFieldCompletionAssistant<ContainerModel> extends FormSection
   }
 
   static createAssertionFor(assertionId: AssertionId, numberAsString: string) {
-    return Assertion.for(numberAsString, assertionId, () => /^[-+]?(\d+)$/.test(numberAsString), "Invalid integer");
+    return Assertion.for(
+      numberAsString,
+      assertionId,
+      () => /^[-+]?(\d+)$/.test(numberAsString),
+      this.defaultAssertionDescription
+    );
   }
 
   innerAssistant() {
