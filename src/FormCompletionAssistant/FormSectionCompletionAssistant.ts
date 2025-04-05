@@ -64,7 +64,7 @@ export class FormSectionCompletionAssistant<
       this.model = this.creationClosure(...models);
     } catch (error) {
       this.invalidateModel();
-      this.handleCreateModelError(error);
+      this.handleError(error);
     }
 
     return this.model;
@@ -82,6 +82,13 @@ export class FormSectionCompletionAssistant<
   resetModel() {
     this.invalidateModel();
     this.assistants.forEach((assistant) => assistant.resetModel());
+  }
+
+  handleError(possibleCreateModelError: unknown) {
+    if (possibleCreateModelError instanceof AssertionsFailed)
+      return this.routeFailedAssertionsOf(possibleCreateModelError);
+
+    throw possibleCreateModelError;
   }
 
   routeFailedAssertionsOf(creationError: AssertionsFailed) {
@@ -119,11 +126,5 @@ export class FormSectionCompletionAssistant<
   protected createComposedModels(): ComposedModels {
     // @ts-expect-error TypeScript can't infer the tuple type directly.
     return this.assistants.map((assistant) => assistant.createModel());
-  }
-
-  protected handleCreateModelError(error: unknown) {
-    if (error instanceof AssertionsFailed) return this.routeFailedAssertionsOf(error);
-
-    throw error;
   }
 }
