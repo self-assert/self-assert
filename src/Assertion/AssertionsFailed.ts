@@ -1,13 +1,16 @@
-import { Assertion, AssertionId } from "./Assertion";
+import { Assertion, AssertionAsJson, AssertionId } from "./Assertion";
 
+export interface AssertionsFailedAsJson {
+  failedAssertions: AssertionAsJson[];
+}
 /**
  * Provides a way to handle multiple failed assertions.
  *
  * @see {@link Assertion}
  */
 export class AssertionsFailed extends Error {
-  static fromJson(assertionsFailedAsJson: any) {
-    const failedAssertions = assertionsFailedAsJson.failedAssertions.map((assertionAsJson: any) =>
+  static fromJson(assertionsFailedAsJson: AssertionsFailedAsJson) {
+    const failedAssertions = assertionsFailedAsJson.failedAssertions.map((assertionAsJson) =>
       Assertion.fromJson(assertionAsJson)
     );
 
@@ -18,7 +21,7 @@ export class AssertionsFailed extends Error {
     super();
   }
 
-  hasOneAssertionFailedWith(assertionId: AssertionId, assertionDescription: string) {
+  hasAnAssertionFailedWith(assertionId: AssertionId, assertionDescription: string) {
     return this.failedAssertions.some((assertion) => assertion.isIdentifiedAsWith(assertionId, assertionDescription));
   }
 

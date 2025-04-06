@@ -3,7 +3,7 @@ import { AssertionsFailed } from "../Assertion/AssertionsFailed";
 import type { AssertionId, Assertion } from "../Assertion/Assertion";
 import type { ModelFromContainer, AssistantsIn } from "./types";
 
-type CreationClosure<Model, ComposedModels extends any[]> = (...models: ComposedModels) => Model;
+type CreationClosure<Model, ComposedModels extends unknown[]> = (...models: ComposedModels) => Model;
 
 /**
  * Assists in the creation of complex models by coordinating multiple inner `FormCompletionAssistant` instances.
@@ -19,11 +19,11 @@ type CreationClosure<Model, ComposedModels extends any[]> = (...models: Composed
 export class FormSectionCompletionAssistant<
   Model,
   ContainerModel,
-  ComposedModels extends any[]
+  ComposedModels extends unknown[]
 > extends FormCompletionAssistant<Model, ContainerModel> {
   protected model!: Model; //| typeof FormCompletionAssistant.INVALID_MODEL;
 
-  static with<Model, ContainerModel, ComposedModels extends any[]>(
+  static with<Model, ContainerModel, ComposedModels extends unknown[]>(
     assistants: AssistantsIn<ComposedModels, Model>,
     creationClosure: CreationClosure<Model, ComposedModels>,
     fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
@@ -32,7 +32,7 @@ export class FormSectionCompletionAssistant<
     return new this(assistants, creationClosure, fromContainerModelGetter, assertionIds);
   }
 
-  static topLevelContainerWith<Model, ComposedModels extends any[]>(
+  static topLevelContainerWith<Model, ComposedModels extends unknown[]>(
     assistants: AssistantsIn<ComposedModels, Model>,
     creationClosure: CreationClosure<Model, ComposedModels>,
     assertionIds: AssertionId[] = []
@@ -101,8 +101,8 @@ export class FormSectionCompletionAssistant<
   }
 
   protected addFailedAssertionToAll(
-    assistantsHandlingAssertion: FormCompletionAssistant<any, Model>[],
-    failedAssertion: Assertion<unknown>
+    assistantsHandlingAssertion: FormCompletionAssistant<unknown, Model>[],
+    failedAssertion: Assertion
   ) {
     assistantsHandlingAssertion.forEach((assistant) => assistant.addFailedAssertion(failedAssertion));
   }

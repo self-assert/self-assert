@@ -1,0 +1,23 @@
+name: Lint and Test
+description: Default CI action for self-assert
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install dependencies
+      run: npm ci
+      shell: bash
+
+    - name: Lint
+      run: npm run lint --if-present
+      shell: bash
+
+    - name: Test
+      run: npm test -- --coverage
+      shell: bash
+
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report
+        path: coverage/

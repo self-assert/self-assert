@@ -1,12 +1,11 @@
-import { Assertion } from "./Assertion";
+import type { Assertion } from "./Assertion";
 import { AssertionsFailed } from "./AssertionsFailed";
 
 /**
  * Runs all assertions and throws an error if any has failed.
  * The failed assertions are included in the error.
  *
- * @see {@link AssertionsFailed}
- * @see {@link Assertion}
+ * @see {@link Assertion}, {@link AssertionsFailed}
  */
 export class AssertionsRunner {
   static assert(assertion: Assertion) {

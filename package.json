@@ -1,19 +1,25 @@
 {
   "name": "@self-assert-org/self-assert",
-  "version": "0.1.2",
+  "version": "0.1.14",
   "description": "Provides a structured approach to a bussiness model creation and validation.",
-  "main": "dist/index.js",
-  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "type": "module",
+  "exports": {
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs"
+  },
   "files": [
     "dist"
   ],
   "private": false,
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "rollup -c",
+    "lint": "eslint src",
+    "prepare": "npm run build",
+    "preversion": "npm test",
+    "postversion": "git push && git push --tags",
     "test": "jest",
     "test:watch": "npm test -- --watchAll"
   },
@@ -45,11 +51,19 @@
     "@babel/core": "^7.26.10",
     "@babel/preset-env": "^7.26.9",
     "@babel/preset-typescript": "^7.27.0",
+    "@eslint/js": "^9.24.0",
     "@jest/globals": "^29.7.0",
+    "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-typescript": "^12.1.2",
     "babel-jest": "^29.7.0",
+    "eslint": "^9.24.0",
     "jest": "^29.7.0",
+    "rollup": "^4.39.0",
     "ts-jest": "^29.3.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.2"
+    "tslib": "^2.8.1",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.29.0"
   }
 }

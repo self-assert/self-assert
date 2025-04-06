@@ -1,6 +1,6 @@
 import { describe, expect, it } from "@jest/globals";
 import { FormFieldCompletionAssistant } from "./FormFieldCompletionAssistant";
-import { TestObjectsBucket } from "@tests/TestObjectsBucket";
+import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
 
 describe("FormFieldCompletionAssistant", () => {
   const modelFromContainer = TestObjectsBucket.genericContainerForString();

@@ -1,10 +1,9 @@
 import { describe, expect, it } from "@jest/globals";
 
 import { AssertionsRunner } from "./AssertionsRunner";
-import { AssertionsFailed } from "./AssertionsFailed";
 
-import { TestObjectsBucket } from "@tests/TestObjectsBucket";
-import { expectToBeAssertionsFailed } from "@tests/jest.setup";
+import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
+import { expectToBeAssertionsFailed } from "@testing-support/jest.setup";
 
 describe("AssertionsRunner", () => {
   it("should not throw on assertion that holds", () => {
@@ -29,10 +28,10 @@ describe("AssertionsRunner", () => {
       done("Should have thrown");
     } catch (error) {
       expectToBeAssertionsFailed(error);
-      expect(error.hasOneAssertionFailedWith("AID.1", "Description 1")).toBe(true);
-      expect(error.hasOneAssertionFailedWith("AID.2", "Description 2")).toBe(true);
+      expect(error.hasAnAssertionFailedWith("AID.1", "Description 1")).toBe(true);
+      expect(error.hasAnAssertionFailedWith("AID.2", "Description 2")).toBe(true);
       expect(
-        error.hasOneAssertionFailedWith(
+        error.hasAnAssertionFailedWith(
           TestObjectsBucket.defaultHoldingAssertionAID,
           TestObjectsBucket.defaultHoldingAssertionDescription
         )

@@ -3,6 +3,11 @@ import { FormCompletionAssistant } from "../FormCompletionAssistant/FormCompleti
 
 export type AssertionId = string;
 
+export interface AssertionAsJson {
+  id: AssertionId;
+  description: string;
+}
+
 /**
  * Represents a rule that must be met in order for
  * an object to be considered valid.
@@ -17,7 +22,7 @@ export class Assertion<T = unknown> {
    * o lo que habría que reificar es AssertionFailed con solo el id y description
    * para no tener que andar transmitiendo todo
    */
-  static fromJson(assertionAsJson: any) {
+  static fromJson(assertionAsJson: AssertionAsJson) {
     return new this([], assertionAsJson.id, () => false, assertionAsJson.description);
   }
 
@@ -29,11 +34,11 @@ export class Assertion<T = unknown> {
     return this.forAll([value], id, condition, description);
   }
 
-  static assertForAll<T = unknown>(values: T[], id: AssertionId, condition: () => boolean, description: string) {
+  static assertForAll(values: unknown[], id: AssertionId, condition: () => boolean, description: string) {
     AssertionsRunner.assertAll([this.forAll(values, id, condition, description)]);
   }
 
-  static assertFor<T = unknown>(value: T, id: AssertionId, condition: () => boolean, description: string) {
+  static assertFor(value: unknown, id: AssertionId, condition: () => boolean, description: string) {
     return this.assertForAll([value], id, condition, description);
   }
 

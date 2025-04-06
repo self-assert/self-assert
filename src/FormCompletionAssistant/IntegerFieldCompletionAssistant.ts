@@ -5,6 +5,10 @@ import { FormSectionCompletionAssistant } from "./FormSectionCompletionAssistant
 
 import type { ModelFromContainer } from "./types";
 
+/**
+ * Provides an assistant for the completion of an integer field,
+ * represented by a string.
+ */
 export class IntegerFieldCompletionAssistant<ContainerModel> extends FormSectionCompletionAssistant<
   number,
   ContainerModel,

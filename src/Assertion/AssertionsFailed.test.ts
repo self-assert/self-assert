@@ -1,6 +1,6 @@
 import { describe, expect, it } from "@jest/globals";
 import { AssertionsFailed } from "./AssertionsFailed";
-import { TestObjectsBucket } from "@tests/TestObjectsBucket";
+import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
 
 describe("AssertionsFailed", () => {
   const aFailedAssertionJson = {
@@ -24,8 +24,8 @@ describe("AssertionsFailed", () => {
       failedAssertions: [aFailedAssertionJson, anotherFailedAssertionJson],
     };
     const assertionsFailed = AssertionsFailed.fromJson(assertionsFailedAsJson);
-    expect(assertionsFailed.hasOneAssertionFailedWith("AID.1", "1 description")).toBe(true);
-    expect(assertionsFailed.hasOneAssertionFailedWith("AID.2", "2 description")).toBe(true);
+    expect(assertionsFailed.hasAnAssertionFailedWith("AID.1", "1 description")).toBe(true);
+    expect(assertionsFailed.hasAnAssertionFailedWith("AID.2", "2 description")).toBe(true);
   });
 
   it("should let traverse failed assertions", () => {

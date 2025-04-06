@@ -2,10 +2,10 @@ import { describe, expect, it } from "@jest/globals";
 import { FormSectionCompletionAssistant } from "./FormSectionCompletionAssistant";
 import { FormFieldCompletionAssistant } from "./FormFieldCompletionAssistant";
 import { FormCompletionAssistant } from "./FormCompletionAssistant";
-import { TestObjectsBucket } from "@tests/TestObjectsBucket";
+import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
 import { Assertion } from "@/Assertion/Assertion";
-import { ModelWithNoAssertions, SelfAssertingModel } from "@tests/TestModels";
-import { expectToBeAssertionsFailed } from "@tests/jest.setup";
+import { ModelWithNoAssertions, SelfAssertingModel } from "@testing-support/TestModels";
+import { expectToBeAssertionsFailed } from "@testing-support/jest.setup";
 
 const systemAID = "systemVerifiedAID";
 const system = {
@@ -108,7 +108,7 @@ describe("FormSectionCompletionAssistant", () => {
     nameAssistant.setModel("");
 
     assistant.withCreatedModelDo(
-      (_model) => {
+      () => {
         done("Should be invalid");
       },
       () => {
@@ -168,7 +168,7 @@ describe("FormSectionCompletionAssistant", () => {
     nameAssistant.setModel("Pedro");
 
     assistant.withCreatedModelDo(
-      (_model) => {
+      () => {
         try {
           system.doSomethingThatFails();
           done("Should have thrown");
