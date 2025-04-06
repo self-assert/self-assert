@@ -8,8 +8,8 @@ Design objects that are fully responsible for their validity.
 <div align="center">
 
 [![License](https://img.shields.io/badge/license-MIT-green)][license]
-[![Lint and Test](https://github.com/self-assert-org/self-assert/actions/workflows/ci.yml/badge.svg)](https://github.com/self-assert-org/self-assert/actions/workflows/ci.yml)
-[![Publish](https://github.com/self-assert-org/self-assert/actions/workflows/publish.yml/badge.svg)](https://github.com/self-assert-org/self-assert/actions/workflows/publish.yml)
+[![Lint and Test](https://github.com/self-assert/self-assert/actions/workflows/ci.yml/badge.svg)](https://github.com/self-assert/self-assert/actions/workflows/ci.yml)
+[![Publish](https://github.com/self-assert/self-assert/actions/workflows/publish.yml/badge.svg)](https://github.com/self-assert/self-assert/actions/workflows/publish.yml)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)][coc]
 
 </div>
@@ -202,15 +202,15 @@ personAssistant.withCreatedModelDo(
 
 ## Resources
 
-- [Contributors' Guide](https://github.com/self-assert-org/self-assert/blob/main/CONTRIBUTING.md)
+- [Contributors' Guide](https://github.com/self-assert/self-assert/blob/main/CONTRIBUTING.md)
 - [Code of Conduct][coc]
 
 ## License
 
 [MIT][license]
 
-[license]: https://github.com/self-assert-org/self-assert/blob/main/LICENSE
-[coc]: https://github.com/self-assert-org/self-assert/blob/main/CODE_OF_CONDUCT.md
+[license]: https://github.com/self-assert/self-assert/blob/main/LICENSE
+[coc]: https://github.com/self-assert/self-assert/blob/main/CODE_OF_CONDUCT.md
 [hernan-url]: https://github.com/hernanwilkinson
 [disenio-a-la-gorra]: https://github.com/hernanwilkinson/disenioALaGorra
 [dalg-t1-ch2]: https://github.com/hernanwilkinson/disenioALaGorra/tree/a6d90a0044bf69f98fb50584872b226bf678e67b/Temporada01/Episodio02%20-%20Objetos%20V%C3%A1lidos

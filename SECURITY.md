@@ -1,8 +1,12 @@
 # Security Policy
 
-## Supported Versions
+> [!CAUTION]
+> The security policy will be updated soon.
 
-The following versions will receive security updates promptly based on the maintainers' discretion.
+<!-- ## Supported Versions
+
+The following versions will receive security updates promptly
+based on the maintainers' discretion.
 
 | Version | Supported          |
 | ------- | ------------------ |
@@ -10,4 +14,5 @@ The following versions will receive security updates promptly based on the maint
 
 ## Reporting a Vulnerability
 
-Please use the [Security tab](https://github.com/self-assert-org/self-assert/security) on GitHub to report a vulnerability.
+Please use the [Security tab](https://github.com/self-assert/self-assert/security)
+on GitHub to report a vulnerability. -->

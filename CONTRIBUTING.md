@@ -1,23 +1,28 @@
 # Contributing to self-assert
 
-Thanks for your interest in contributing! This project welcomes contributions of all kinds, including bug reports, feature requests, documentation improvements, and code changes.
+Thanks for your interest in contributing! This project welcomes
+contributions of all kinds, including bug reports, feature requests,
+documentation improvements, and code changes.
 
 ## 🐞 Reporting Bugs
 
 Found a bug? Please help us by reporting it!
 
 Before submitting an issue:
+
 - Check if it’s already been reported or fixed in recent commits.
 - Make sure you’re using the latest version.
 
 When creating a bug report, include:
+
 - A clear and descriptive title.
 - Steps to reproduce the problem.
 - Expected vs. actual behavior.
 - Relevant code snippets or test cases, if possible.
 - Your environment: OS, Node.js version, and package version.
 
-Create a [new issue](https://github.com/self-assert-org/self-assert/issues/new) to report the bug.
+Create a [new issue](https://github.com/self-assert/self-assert/issues/new)
+to report the bug.
 
 ## 🧰 Prerequisites
 
