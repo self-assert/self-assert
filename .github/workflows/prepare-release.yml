@@ -26,27 +26,25 @@ jobs:
           cache: "npm"
       - uses: ./.github/actions/lint-and-test
 
-      - name: 📝 Bump version
+      - name: Bump version
         id: version
         run: |
           npm version ${{ github.event.inputs.bump }} --no-git-tag-version
           VERSION=$(node -p "require('./package.json').version")
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-      - name: 💾 Commit version bump
+      - name: Commit version bump
         run: |
           git config user.name "Self-Assert Bot"
           git config user.email "self-assert-org[bot]@users.noreply.github.com"
-          git checkout -b version/v${{ steps.version.outputs.version }}
           git commit -am "chore: release v${{ steps.version.outputs.version }}"
           git tag v${{ steps.version.outputs.version }}
-          git push origin version/v${{ steps.version.outputs.version }}
           git push origin v${{ steps.version.outputs.version }}
 
-      - name: 🔁 Create PR
+      - name: Create PR
         uses: peter-evans/create-pull-request@v5
         with:
-          # branch:
+          branch: "release/v${{ steps.version.outputs.version }}"
           title: "Release v${{ steps.version.outputs.version }}"
           body: "This PR prepares version `v${{ steps.version.outputs.version }}` for release."
           # base: "main"
