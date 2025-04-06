@@ -40,7 +40,6 @@ jobs:
           git checkout -b version/v${{ steps.version.outputs.version }}
           git commit -am "chore: release v${{ steps.version.outputs.version }}"
           git tag v${{ steps.version.outputs.version }}
-          git push origin version/v${{ steps.version.outputs.version }}
           git push origin v${{ steps.version.outputs.version }}
 
       - name: 🔁 Create PR
