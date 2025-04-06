@@ -1,6 +1,6 @@
 {
   "name": "@self-assert-org/self-assert",
-  "version": "0.1.15",
+  "version": "0.1.19",
   "description": "Provides a structured approach to a bussiness model creation and validation.",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
