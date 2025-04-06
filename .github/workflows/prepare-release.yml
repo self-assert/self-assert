@@ -40,13 +40,14 @@ jobs:
           git checkout -b version/v${{ steps.version.outputs.version }}
           git commit -am "chore: release v${{ steps.version.outputs.version }}"
           git tag v${{ steps.version.outputs.version }}
+          git push origin version/v${{ steps.version.outputs.version }}
           git push origin v${{ steps.version.outputs.version }}
 
       - name: 🔁 Create PR
         uses: peter-evans/create-pull-request@v5
         with:
-          branch: version/v${{ steps.version.outputs.version }}
+          # branch:
           title: "Release v${{ steps.version.outputs.version }}"
           body: "This PR prepares version `v${{ steps.version.outputs.version }}` for release."
-          base: "main"
+          # base: "main"
           draft: false
