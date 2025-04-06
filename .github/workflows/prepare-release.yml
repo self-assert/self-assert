@@ -50,3 +50,4 @@ jobs:
           body: "This PR prepares version `v${{ steps.version.outputs.version }}` for release."
           draft: false
           committer: "Self-Assert Bot <self-assert-org[bot]@users.noreply.github.com>"
+          author: "Self-Assert Bot <self-assert-org[bot]@users.noreply.github.com>"
