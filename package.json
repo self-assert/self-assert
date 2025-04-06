@@ -18,8 +18,8 @@
     "build": "rollup -c",
     "lint": "eslint src",
     "prepare": "npm run build",
-    "preversion": "npm test",
-    "postversion": "git push && git push --tags",
+    "preversion": "npm test && git checkout main && git pull && git checkout -b version/v$npm_package_version",
+    "postversion": "git push --all && git push --tags",
     "test": "jest",
     "test:watch": "npm test -- --watchAll"
   },
