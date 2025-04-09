@@ -202,7 +202,7 @@ personAssistant.withCreatedModelDo(
 
 ## Resources
 
-- [Contributors' Guide](https://github.com/self-assert/self-assert/blob/main/CONTRIBUTING.md)
+- [Contributors' Guide](https://github.com/self-assert/.github/blob/main/CONTRIBUTING.md)
 - [Code of Conduct][coc]
 
 ## License
@@ -210,7 +210,7 @@ personAssistant.withCreatedModelDo(
 [MIT][license]
 
 [license]: https://github.com/self-assert/self-assert/blob/main/LICENSE
-[coc]: https://github.com/self-assert/self-assert/blob/main/CODE_OF_CONDUCT.md
+[coc]: https://github.com/self-assert/.github/blob/main/CODE_OF_CONDUCT.md
 [hernan-url]: https://github.com/hernanwilkinson
 [disenio-a-la-gorra]: https://github.com/hernanwilkinson/disenioALaGorra
 [dalg-t1-ch2]: https://github.com/hernanwilkinson/disenioALaGorra/tree/a6d90a0044bf69f98fb50584872b226bf678e67b/Temporada01/Episodio02%20-%20Objetos%20V%C3%A1lidos
