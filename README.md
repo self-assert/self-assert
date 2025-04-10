@@ -4,16 +4,19 @@
 
 <div align="center">
 
+[![npm version](https://img.shields.io/npm/v/self-assert)](https://www.npmjs.com/package/self-assert)
 [![License](https://img.shields.io/badge/license-MIT-green)][license]
 [![Lint and Test](https://github.com/self-assert/self-assert/actions/workflows/ci.yml/badge.svg)](https://github.com/self-assert/self-assert/actions/workflows/ci.yml)
-[![Publish](https://github.com/self-assert/self-assert/actions/workflows/publish.yml/badge.svg)](https://github.com/self-assert/self-assert/actions/workflows/publish.yml)
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)][coc]
+<!-- [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)][coc]
+ [![Publish](https://github.com/self-assert/self-assert/actions/workflows/publish.yml/badge.svg)](https://github.com/self-assert/self-assert/actions/workflows/publish.yml) -->
 
 </div>
 
-> [!WARNING]
-> This project is in its early stages and still **unstable**.
-> Use with caution. A stable version is meant to be released soon.
+---
+⚠️ WARNING ⚠️
+
+This project is in its early stages and still **unstable**.
+A stable version is meant to be released soon.
 
 ## Table of Contents
 
