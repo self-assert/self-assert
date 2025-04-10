@@ -1,6 +1,10 @@
 import type { Assertion, AssertionId } from "../Assertion/Assertion";
 import type { ModelFromContainer } from "./types";
 
+interface AssistantMirror {
+  modelChanged: () => void;
+}
+
 /**
  * @template Model - The type of the model the assistant helps to create.
  * @template ContainerModel - The type of the container model the assistant works on.
@@ -32,11 +36,13 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
   }
 
   protected failedAssertions!: Assertion[];
+  protected mirrors: AssistantMirror[];
 
   constructor(
     protected assertionIds: AssertionId[],
     protected fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>
   ) {
+    this.mirrors = [];
     this.removeFailedAssertions();
   }
 
@@ -73,6 +79,14 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
 
   setModelFrom(containerModel: ContainerModel) {
     return this.setModel(this.fromContainerModelGetter(containerModel));
+  }
+
+  accept(aMirror: AssistantMirror) {
+    this.mirrors.push(aMirror);
+  }
+
+  numberOfMirrors() {
+    return this.mirrors.length;
   }
 
   hasOnlyOneAssertionFailedIdentifiedAs(assertionId: AssertionId) {

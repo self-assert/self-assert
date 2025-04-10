@@ -50,6 +50,7 @@ export class FormFieldCompletionAssistant<Model, ContainerModel> extends FormCom
 
   setModel(newModel: Model) {
     this.model = newModel;
+    this.mirrors.forEach((mirror) => mirror.modelChanged());
   }
 
   resetModel() {
