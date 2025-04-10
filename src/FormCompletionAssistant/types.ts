@@ -1,6 +1,13 @@
 import type { FormCompletionAssistant } from "./FormCompletionAssistant";
 
 /**
+ * Changes to an assistant's model can be observed by mirrors.
+ */
+export interface AssistantMirror<Model> {
+  onReflection: (anImage: Model) => void;
+}
+
+/**
  * Maps an array of models to the assistants that handle them.
  *
  * @see {@link FormSectionCompletionAssistant}

@@ -8,10 +8,10 @@ import type { ModelFromContainer } from "./types";
  *
  * @extends FormCompletionAssistant {@link FormCompletionAssistant link}
  */
-export class FormFieldCompletionAssistant<Model, ContainerModel> extends FormCompletionAssistant<
-  Model,
-  ContainerModel
-> {
+export class FormFieldCompletionAssistant<
+  ContainerModel,
+  Model extends string = string
+> extends FormCompletionAssistant<Model, ContainerModel> {
   protected model!: Model;
 
   static handling<ContainerModel, Model extends string = string>(
@@ -30,7 +30,7 @@ export class FormFieldCompletionAssistant<Model, ContainerModel> extends FormCom
     return new this(assertionIds, fromContainerModelGetter, initialModel);
   }
 
-  constructor(
+  protected constructor(
     assertionIds: AssertionId[],
     fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
     protected initialModel: Model
@@ -50,7 +50,7 @@ export class FormFieldCompletionAssistant<Model, ContainerModel> extends FormCom
 
   setModel(newModel: Model) {
     this.model = newModel;
-    this.mirrors.forEach((mirror) => mirror.modelChanged());
+    this.reflect(newModel);
   }
 
   resetModel() {
