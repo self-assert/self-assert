@@ -1,5 +1,5 @@
 {
-  "name": "@self-assert/self-assert",
+  "name": "self-assert",
   "version": "0.1.21",
   "description": "Provides a structured approach to a bussiness model creation and validation.",
   "main": "dist/index.cjs",
