@@ -206,7 +206,7 @@ personAssistant.withCreatedModelDo(
 
 ## Resources
 
-- [Contributors' Guide](https://github.com/self-assert/.github/blob/main/CONTRIBUTING.md)
+- [Contributors' Guide](https://github.com/self-assert/self-assert/blob/main/CONTRIBUTING.md)
 - [Code of Conduct][coc]
 
 ## License
