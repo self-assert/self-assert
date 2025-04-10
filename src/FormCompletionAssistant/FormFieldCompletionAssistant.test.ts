@@ -1,6 +1,7 @@
 import { describe, expect, it } from "@jest/globals";
 import { FormFieldCompletionAssistant } from "./FormFieldCompletionAssistant";
 import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
+import { AssistantMirror } from "./types";
 
 describe("FormFieldCompletionAssistant", () => {
   const modelFromContainer = TestObjectsBucket.genericContainerForString();
@@ -39,12 +40,13 @@ describe("FormFieldCompletionAssistant", () => {
   it("should accept a mirror", () => {
     const formFieldCompletionAssistant = FormFieldCompletionAssistant.handling("AID.1", modelFromContainer);
 
-    let notified = 0;
-    formFieldCompletionAssistant.accept({ modelChanged: () => (notified = 1) });
+    let mirroredImage = "Empty";
+    const mirror: AssistantMirror<string> = { onReflection: (image) => (mirroredImage = image) };
+    formFieldCompletionAssistant.accept(mirror);
 
     formFieldCompletionAssistant.setModel("Changed");
 
-    expect(notified).toBe(1);
+    expect(mirroredImage).toBe("Changed");
     expect(formFieldCompletionAssistant.numberOfMirrors()).toBe(1);
   });
 });
