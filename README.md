@@ -1,9 +1,6 @@
 # self-assert
 
-Design objects that are fully responsible for their validity.
-
-> [!WARNING]
-> This project is in its early stages. It is meant to be published soon.
+> Design objects that are fully responsible for their validity.
 
 <div align="center">
 
@@ -13,6 +10,10 @@ Design objects that are fully responsible for their validity.
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)][coc]
 
 </div>
+
+> [!WARNING]
+> This project is in its early stages and still **unstable**.
+> Use with caution. A stable version is meant to be released soon.
 
 ## Table of Contents
 
