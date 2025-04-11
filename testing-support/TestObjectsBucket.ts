@@ -3,7 +3,7 @@ import { FormFieldCompletionAssistant } from "@/FormCompletionAssistant/FormFiel
 import { FormSectionCompletionAssistant } from "@/FormCompletionAssistant/FormSectionCompletionAssistant";
 import { ModelWithNoAssertions, SelfAssertingModel } from "./TestModels";
 
-import type { ModelFromContainer } from "@/FormCompletionAssistant/types";
+import type { ModelFromContainer } from "@/types";
 
 const genericContainer = {
   getModel(): string {

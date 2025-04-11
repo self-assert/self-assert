@@ -1,5 +1,5 @@
-import type { Assertion, AssertionId } from "../Assertion/Assertion";
-import type { ModelFromContainer, AssistantMirror } from "./types";
+import type { Assertion, AssertionId } from "@/Assertion/Assertion";
+import type { ModelFromContainer, AssistantMirror } from "@/types";
 
 /**
  * @template Model - The type of the model the assistant helps to create.

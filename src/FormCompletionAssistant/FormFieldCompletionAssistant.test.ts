@@ -1,7 +1,7 @@
 import { describe, expect, it } from "@jest/globals";
 import { FormFieldCompletionAssistant } from "./FormFieldCompletionAssistant";
 import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
-import { AssistantMirror } from "./types";
+import { AssistantMirror } from "../types";
 import type { Assertion } from "@/Assertion";
 
 describe("FormFieldCompletionAssistant", () => {
