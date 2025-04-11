@@ -17,6 +17,14 @@ export default [
         sourcemap: true,
       },
     ],
-    plugins: [typescript({ tsconfig: "./tsconfig.build.json" }), resolve(), commonjs()],
+    plugins: [
+      typescript({
+        tsconfig: "./tsconfig.json",
+        exclude: ["**/*.test.ts"],
+        include: ["./src/**/*"],
+      }),
+      resolve(),
+      commonjs(),
+    ],
   },
 ];
