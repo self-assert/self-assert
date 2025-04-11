@@ -180,4 +180,25 @@ describe("FormSectionCompletionAssistant", () => {
       () => done("Should not be invalid model")
     );
   });
+
+  describe("Mirror", () => {
+    it("should reflect changes when created", (done) => {
+      const assistant = TestObjectsBucket.createSelfAssertingModelAssistant();
+
+      let image: SelfAssertingModel | typeof FormCompletionAssistant.INVALID_MODEL =
+        FormCompletionAssistant.INVALID_MODEL;
+      assistant.accept({ reflect: (model) => (image = model) });
+
+      assistant.nameAssistant.setModel("Pedro");
+
+      assistant.withCreatedModelDo(
+        () => {
+          expect(image).toBeInstanceOf(SelfAssertingModel);
+          expect((image as SelfAssertingModel).isNamed("Pedro")).toBe(true);
+          done();
+        },
+        () => done("Should not have failed")
+      );
+    });
+  });
 });

@@ -55,6 +55,7 @@ export class FormSectionCompletionAssistant<
     const models = this.createComposedModels();
     try {
       this.model = this.creationClosure(...models);
+      this.reflectToAll(this.model);
     } catch (error) {
       this.invalidateModel();
       this.handleError(error);
