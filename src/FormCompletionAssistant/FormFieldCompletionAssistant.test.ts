@@ -2,6 +2,7 @@ import { describe, expect, it } from "@jest/globals";
 import { FormFieldCompletionAssistant } from "./FormFieldCompletionAssistant";
 import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
 import { AssistantMirror } from "./types";
+import type { Assertion } from "@/Assertion";
 
 describe("FormFieldCompletionAssistant", () => {
   const modelFromContainer = TestObjectsBucket.genericContainerForString();
@@ -41,7 +42,7 @@ describe("FormFieldCompletionAssistant", () => {
     const formFieldCompletionAssistant = FormFieldCompletionAssistant.handling("AID.1", modelFromContainer);
 
     let mirroredImage = "Empty";
-    const mirror: AssistantMirror<string> = { onReflection: (image) => (mirroredImage = image) };
+    const mirror: AssistantMirror<string> = { reflect: (image) => (mirroredImage = image) };
     formFieldCompletionAssistant.accept(mirror);
 
     formFieldCompletionAssistant.setModel("Changed");
@@ -55,11 +56,11 @@ describe("FormFieldCompletionAssistant", () => {
 
     let mirroredImage = "Empty";
     const firstMirror: AssistantMirror<string> = {
-      onReflection: () => {
+      reflect: () => {
         throw new Error("Should not be called");
       },
     };
-    const secondMirror: AssistantMirror<string> = { onReflection: (image) => (mirroredImage = image) };
+    const secondMirror: AssistantMirror<string> = { reflect: (image) => (mirroredImage = image) };
     formFieldCompletionAssistant.accept(firstMirror);
     formFieldCompletionAssistant.accept(secondMirror);
 
@@ -69,5 +70,26 @@ describe("FormFieldCompletionAssistant", () => {
 
     expect(mirroredImage).toBe("Changed");
     expect(formFieldCompletionAssistant.numberOfMirrors()).toBe(1);
+  });
+
+  it("should receive failed assertions", () => {
+    const formFieldCompletionAssistant = FormFieldCompletionAssistant.handlingAll(
+      ["AID.1", "AID.2"],
+      modelFromContainer
+    );
+    const firstFailedAssertion = TestObjectsBucket.failingAssertion("AID.1", "1 description");
+    const secondFailedAssertion = TestObjectsBucket.failingAssertion("AID.2", "2 description");
+
+    const mirroredFailedAssertions: Assertion[] = [];
+    formFieldCompletionAssistant.accept({
+      onFailure(aFailedAsserion) {
+        mirroredFailedAssertions.push(aFailedAsserion);
+      },
+    });
+
+    formFieldCompletionAssistant.addFailedAssertion(firstFailedAssertion);
+    formFieldCompletionAssistant.addFailedAssertion(secondFailedAssertion);
+
+    expect(mirroredFailedAssertions).toEqual([firstFailedAssertion, secondFailedAssertion]);
   });
 });

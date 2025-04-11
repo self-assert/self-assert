@@ -81,8 +81,8 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
     this.mirrors.push(aMirror);
   }
 
-  protected reflect(anImage: Model) {
-    this.mirrors.forEach((mirror) => mirror.onReflection(anImage));
+  protected reflectToAll(anImage: Model) {
+    this.forEachMirror((mirror) => mirror.reflect?.(anImage));
   }
 
   break(aMirror: AssistantMirror<Model>) {
@@ -99,6 +99,7 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
 
   addFailedAssertion(assertionFailed: Assertion) {
     this.failedAssertions.push(assertionFailed);
+    this.forEachMirror((mirror) => mirror.onFailure?.(assertionFailed));
   }
 
   doesNotHaveFailedAssertions() {
@@ -125,5 +126,9 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
 
   protected removeFailedAssertions() {
     this.failedAssertions = [];
+  }
+
+  protected forEachMirror(action: (mirror: AssistantMirror<Model>) => void) {
+    this.mirrors.forEach(action);
   }
 }
