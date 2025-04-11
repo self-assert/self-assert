@@ -72,7 +72,7 @@ describe("FormFieldCompletionAssistant", () => {
     expect(formFieldCompletionAssistant.numberOfMirrors()).toBe(1);
   });
 
-  it("should receive failed assertions", () => {
+  it("should mirror failed assertions", () => {
     const formFieldCompletionAssistant = FormFieldCompletionAssistant.handlingAll(
       ["AID.1", "AID.2"],
       modelFromContainer
@@ -91,5 +91,25 @@ describe("FormFieldCompletionAssistant", () => {
     formFieldCompletionAssistant.addFailedAssertion(secondFailedAssertion);
 
     expect(mirroredFailedAssertions).toEqual([firstFailedAssertion, secondFailedAssertion]);
+  });
+
+  it("should mirror a reset", () => {
+    const formFieldCompletionAssistant = FormFieldCompletionAssistant.handlingAll(
+      ["AID.1", "AID.2"],
+      modelFromContainer
+    );
+
+    let hasBeenReset = false;
+    formFieldCompletionAssistant.accept({
+      onFailureReset() {
+        hasBeenReset = true;
+      },
+    });
+    const failedAssertion = TestObjectsBucket.failingAssertion("AID.1", "1 description");
+
+    formFieldCompletionAssistant.addFailedAssertion(failedAssertion);
+    formFieldCompletionAssistant.createModel();
+
+    expect(hasBeenReset).toBe(true);
   });
 });

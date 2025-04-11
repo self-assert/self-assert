@@ -126,6 +126,7 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
 
   protected removeFailedAssertions() {
     this.failedAssertions = [];
+    this.forEachMirror((mirror) => mirror.onFailureReset?.());
   }
 
   protected forEachMirror(action: (mirror: AssistantMirror<Model>) => void) {

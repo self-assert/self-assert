@@ -14,6 +14,11 @@ export interface AssistantMirror<Model = unknown> {
    * Receives notifications about failed assertions.
    */
   onFailure?: (aFailedAsserion: Assertion) => void;
+
+  /**
+   * Receives notifications when the model's failed assertions are cleared.
+   */
+  onFailureReset?: () => void;
 }
 
 /**
