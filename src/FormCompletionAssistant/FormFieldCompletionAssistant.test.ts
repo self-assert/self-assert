@@ -49,4 +49,25 @@ describe("FormFieldCompletionAssistant", () => {
     expect(mirroredImage).toBe("Changed");
     expect(formFieldCompletionAssistant.numberOfMirrors()).toBe(1);
   });
+
+  it("should be able to break mirrors", () => {
+    const formFieldCompletionAssistant = FormFieldCompletionAssistant.handling("AID.1", modelFromContainer);
+
+    let mirroredImage = "Empty";
+    const firstMirror: AssistantMirror<string> = {
+      onReflection: () => {
+        throw new Error("Should not be called");
+      },
+    };
+    const secondMirror: AssistantMirror<string> = { onReflection: (image) => (mirroredImage = image) };
+    formFieldCompletionAssistant.accept(firstMirror);
+    formFieldCompletionAssistant.accept(secondMirror);
+
+    formFieldCompletionAssistant.break(firstMirror);
+
+    formFieldCompletionAssistant.setModel("Changed");
+
+    expect(mirroredImage).toBe("Changed");
+    expect(formFieldCompletionAssistant.numberOfMirrors()).toBe(1);
+  });
 });

@@ -85,6 +85,10 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
     this.mirrors.forEach((mirror) => mirror.onReflection(anImage));
   }
 
+  break(aMirror: AssistantMirror<Model>) {
+    this.mirrors = this.mirrors.filter((mirror) => mirror !== aMirror);
+  }
+
   numberOfMirrors() {
     return this.mirrors.length;
   }
