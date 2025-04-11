@@ -71,6 +71,7 @@ export class FormSectionCompletionAssistant<
   setModel(newModel: Model) {
     this.model = newModel;
     this.assistants.forEach((assistant) => assistant.setModelFrom(newModel));
+    this.reflectToAll(newModel);
   }
 
   resetModel() {
@@ -115,6 +116,7 @@ export class FormSectionCompletionAssistant<
   protected invalidateModel() {
     /** @ts-expect-error See {@link FormCompletionAssistant.INVALID_MODEL} */
     this.model = this.constructor.INVALID_MODEL;
+    this.reflectToAll(this.model);
   }
 
   protected createComposedModels(): ComposedModels {
