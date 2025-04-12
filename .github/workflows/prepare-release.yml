@@ -43,6 +43,7 @@ jobs:
           git push origin v${{ steps.version.outputs.version }}
 
       - name: Create PR
+        id: create-pr
         uses: peter-evans/create-pull-request@v7
         with:
           branch: "release/v${{ steps.version.outputs.version }}"
@@ -50,3 +51,9 @@ jobs:
           body: "This PR prepares version `v${{ steps.version.outputs.version }}` for release."
           draft: false
           sign-commits: true
+
+      - name: Enable auto-merge
+        run: |
+          gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --auto --merge
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
