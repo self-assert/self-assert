@@ -1,6 +1,6 @@
 import { AssertionId } from "../Assertion/Assertion";
 import { FormCompletionAssistant } from "./FormCompletionAssistant";
-import type { ModelFromContainer } from "./types";
+import type { ModelFromContainer } from "../types";
 
 /**
  * An assistant designed to manage a single field or a simple
@@ -8,12 +8,10 @@ import type { ModelFromContainer } from "./types";
  *
  * @extends FormCompletionAssistant {@link FormCompletionAssistant link}
  */
-export class FormFieldCompletionAssistant<Model, ContainerModel> extends FormCompletionAssistant<
-  Model,
-  ContainerModel
-> {
-  protected model!: Model;
-
+export class FormFieldCompletionAssistant<
+  ContainerModel,
+  Model extends string = string
+> extends FormCompletionAssistant<Model, ContainerModel> {
   static handling<ContainerModel, Model extends string = string>(
     assertionId: AssertionId,
     fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
@@ -30,29 +28,10 @@ export class FormFieldCompletionAssistant<Model, ContainerModel> extends FormCom
     return new this(assertionIds, fromContainerModelGetter, initialModel);
   }
 
-  constructor(
-    assertionIds: AssertionId[],
-    fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
-    protected initialModel: Model
-  ) {
-    super(assertionIds, fromContainerModelGetter);
-    this.setModel(initialModel);
-  }
-
   createModel() {
     this.removeFailedAssertions();
     return this.model;
   }
 
-  getModel() {
-    return this.model;
-  }
-
-  setModel(newModel: Model) {
-    this.model = newModel;
-  }
-
-  resetModel() {
-    this.model = this.initialModel;
-  }
+  
 }

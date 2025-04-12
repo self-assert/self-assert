@@ -3,13 +3,11 @@ import { FormFieldCompletionAssistant } from "@/FormCompletionAssistant/FormFiel
 import { FormSectionCompletionAssistant } from "@/FormCompletionAssistant/FormSectionCompletionAssistant";
 import { ModelWithNoAssertions, SelfAssertingModel } from "./TestModels";
 
-import type { ModelFromContainer } from "@/FormCompletionAssistant/types";
+import type { ModelFromContainer } from "@/types";
 
-const genericContainer = {
-  getModel(): string {
-    return "Model";
-  },
-};
+interface GenericContainer {
+  getModel(): string;
+}
 
 export class TestObjectsBucket {
   static defaultHoldingAssertionAID = "holdsAID";
@@ -29,7 +27,7 @@ export class TestObjectsBucket {
     return Assertion.for(2, assertionId, () => false, description);
   }
 
-  static genericContainerForString(): ModelFromContainer<string, typeof genericContainer> {
+  static genericContainerForString(): ModelFromContainer<string, GenericContainer> {
     return (c) => c.getModel();
   }
 

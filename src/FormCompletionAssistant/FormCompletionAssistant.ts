@@ -1,5 +1,5 @@
-import type { Assertion, AssertionId } from "../Assertion/Assertion";
-import type { ModelFromContainer } from "./types";
+import type { Assertion, AssertionId } from "@/Assertion/Assertion";
+import type { ModelFromContainer, AssistantMirror } from "@/types";
 
 /**
  * @template Model - The type of the model the assistant helps to create.
@@ -31,12 +31,17 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
     };
   }
 
+  protected model: Model;
   protected failedAssertions!: Assertion[];
+  protected mirrors: AssistantMirror<Model>[];
 
   constructor(
     protected assertionIds: AssertionId[],
-    protected fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>
+    protected fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
+    protected initialModel: Model
   ) {
+    this.model = this.initialModel;
+    this.mirrors = [];
     this.removeFailedAssertions();
   }
 
@@ -47,12 +52,6 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
    * @throws {AssertionsFailed} if the model is invalid
    */
   abstract createModel(): Model;
-
-  abstract getModel(): Model;
-
-  abstract setModel(newModel: Model): void;
-
-  abstract resetModel(): void;
 
   /**
    * @template ReturnType - The type of the value returned by the closures.
@@ -71,8 +70,37 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
     return validModelClosure(createdModel);
   }
 
+  getModel() {
+    return this.model;
+  }
+
+  setModel(newModel: Model) {
+    this.model = newModel;
+    this.reflectToAll(newModel);
+  }
+
+  /**
+   * Resets the model to its initial value.
+   */
+  resetModel() {
+    this.model = this.initialModel;
+    this.reflectToAll(this.model);
+  }
+
   setModelFrom(containerModel: ContainerModel) {
     return this.setModel(this.fromContainerModelGetter(containerModel));
+  }
+
+  accept(aMirror: AssistantMirror<Model>) {
+    this.mirrors.push(aMirror);
+  }
+
+  break(aMirror: AssistantMirror<Model>) {
+    this.mirrors = this.mirrors.filter((mirror) => mirror !== aMirror);
+  }
+
+  numberOfMirrors() {
+    return this.mirrors.length;
   }
 
   hasOnlyOneAssertionFailedIdentifiedAs(assertionId: AssertionId) {
@@ -81,6 +109,7 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
 
   addFailedAssertion(assertionFailed: Assertion) {
     this.failedAssertions.push(assertionFailed);
+    this.forEachMirror((mirror) => mirror.onFailure?.(assertionFailed));
   }
 
   doesNotHaveFailedAssertions() {
@@ -107,5 +136,14 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
 
   protected removeFailedAssertions() {
     this.failedAssertions = [];
+    this.forEachMirror((mirror) => mirror.onFailureReset?.());
+  }
+
+  protected forEachMirror(action: (mirror: AssistantMirror<Model>) => void) {
+    this.mirrors.forEach(action);
+  }
+
+  protected reflectToAll(anImage: Model) {
+    this.forEachMirror((mirror) => mirror.reflect?.(anImage));
   }
 }

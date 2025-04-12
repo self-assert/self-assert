@@ -2,7 +2,7 @@ import { FormFieldCompletionAssistant } from "./FormFieldCompletionAssistant";
 import { FormSectionCompletionAssistant } from "./FormSectionCompletionAssistant";
 import { Assertion, AssertionId } from "../Assertion/Assertion";
 import { AssertionsRunner } from "../Assertion/AssertionsRunner";
-import type { ModelFromContainer } from "./types";
+import type { ModelFromContainer } from "../types";
 
 /**
  * Assists in the completion of a date field in format `YYYY-MM-DD`.

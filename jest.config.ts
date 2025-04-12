@@ -3,7 +3,7 @@
  * https://jestjs.io/docs/configuration
  */
 import type { Config } from "jest";
-import { createDefaultPreset, pathsToModuleNameMapper } from "ts-jest";
+import { createDefaultPreset, pathsToModuleNameMapper, TsConfigCompilerOptionsJson } from "ts-jest";
 
 import { compilerOptions } from "./tsconfig.json";
 
@@ -12,6 +12,7 @@ const config: Config = {
   coverageDirectory: "coverage",
   coverageProvider: "babel",
   collectCoverageFrom: ["<rootDir>/src/**/*.{ts,tsx,js,jsx}"],
+  coveragePathIgnorePatterns: ["index.ts$"],
   // The maximum amount of workers used to run your tests. Can be specified as % or a number. E.g. maxWorkers: 10% will use 10% of your CPU amount + 1 as the maximum worker number. maxWorkers: 2 will use a maximum of 2 workers.
   maxWorkers: "50%",
   rootDir: ".",
@@ -29,7 +30,7 @@ const config: Config = {
   testPathIgnorePatterns: ["/node_modules/", "/dist/"],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: "<rootDir>/" }),
   // ts-jest
-  ...createDefaultPreset({}),
+  ...createDefaultPreset({ tsconfig: { ...(compilerOptions as TsConfigCompilerOptionsJson), noEmit: true } }),
 };
 
 export default config;

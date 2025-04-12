@@ -1,4 +1,25 @@
+import type { Assertion } from "@/Assertion";
 import type { FormCompletionAssistant } from "./FormCompletionAssistant";
+
+/**
+ * Changes to an assistant's model can be observed by mirrors.
+ */
+export interface AssistantMirror<Model = unknown> {
+  /**
+   * Reflects changes to the model.
+   */
+  reflect?: (anImage: Model) => void;
+
+  /**
+   * Receives notifications about failed assertions.
+   */
+  onFailure?: (aFailedAsserion: Assertion) => void;
+
+  /**
+   * Receives notifications when the model's failed assertions are cleared.
+   */
+  onFailureReset?: () => void;
+}
 
 /**
  * Maps an array of models to the assistants that handle them.

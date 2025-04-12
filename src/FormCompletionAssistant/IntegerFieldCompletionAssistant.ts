@@ -3,7 +3,7 @@ import { AssertionsRunner } from "../Assertion/AssertionsRunner";
 import { FormFieldCompletionAssistant } from "./FormFieldCompletionAssistant";
 import { FormSectionCompletionAssistant } from "./FormSectionCompletionAssistant";
 
-import type { ModelFromContainer } from "./types";
+import type { ModelFromContainer } from "../types";
 
 /**
  * Provides an assistant for the completion of an integer field,

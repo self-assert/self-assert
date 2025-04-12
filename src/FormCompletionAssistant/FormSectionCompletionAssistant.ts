@@ -1,7 +1,7 @@
 import { FormCompletionAssistant } from "./FormCompletionAssistant";
 import { AssertionsFailed } from "../Assertion/AssertionsFailed";
 import type { AssertionId, Assertion } from "../Assertion/Assertion";
-import type { ModelFromContainer, AssistantsIn } from "./types";
+import type { ModelFromContainer, AssistantsIn } from "../types";
 
 type CreationClosure<Model, ComposedModels extends unknown[]> = (...models: ComposedModels) => Model;
 
@@ -21,8 +21,6 @@ export class FormSectionCompletionAssistant<
   ContainerModel,
   ComposedModels extends unknown[]
 > extends FormCompletionAssistant<Model, ContainerModel> {
-  protected model!: Model; //| typeof FormCompletionAssistant.INVALID_MODEL;
-
   static with<Model, ContainerModel, ComposedModels extends unknown[]>(
     assistants: AssistantsIn<ComposedModels, Model>,
     creationClosure: CreationClosure<Model, ComposedModels>,
@@ -46,34 +44,30 @@ export class FormSectionCompletionAssistant<
     fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
     assertionIds: AssertionId[]
   ) {
-    super(assertionIds, fromContainerModelGetter);
-    this.resetModel();
+    /** @ts-expect-error See {@link FormCompletionAssistant.INVALID_MODEL} */
+    super(assertionIds, fromContainerModelGetter, FormCompletionAssistant.INVALID_MODEL);
   }
 
   createModel() {
     this.removeFailedAssertions();
     const models = this.createComposedModels();
     try {
-      this.model = this.creationClosure(...models);
+      super.setModel(this.creationClosure(...models));
     } catch (error) {
-      this.invalidateModel();
+      super.resetModel();
       this.handleError(error);
     }
 
     return this.model;
   }
 
-  getModel() {
-    return this.model;
-  }
-
   setModel(newModel: Model) {
-    this.model = newModel;
+    super.setModel(newModel);
     this.assistants.forEach((assistant) => assistant.setModelFrom(newModel));
   }
 
   resetModel() {
-    this.invalidateModel();
+    super.resetModel();
     this.assistants.forEach((assistant) => assistant.resetModel());
   }
 
@@ -109,11 +103,6 @@ export class FormSectionCompletionAssistant<
 
   protected assistantsHandling(assertion: Assertion) {
     return this.assistants.filter((assistant) => assistant.handles(assertion));
-  }
-
-  protected invalidateModel() {
-    /** @ts-expect-error See {@link FormCompletionAssistant.INVALID_MODEL} */
-    this.model = this.constructor.INVALID_MODEL;
   }
 
   protected createComposedModels(): ComposedModels {
