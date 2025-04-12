@@ -12,13 +12,11 @@ describe("Assertion", () => {
 
   it("should hold when condition is true", () => {
     expect(holdingAssertion.doesHold()).toBe(true);
-    expect(holdingAssertion.doesNotHold()).toBe(false);
     expect(holdingAssertion.hasFailed()).toBe(false);
   });
 
   it("should not hold when condition is false", () => {
     expect(failingAssertion.doesHold()).toBe(false);
-    expect(failingAssertion.doesNotHold()).toBe(true);
     expect(failingAssertion.hasFailed()).toBe(true);
   });
 

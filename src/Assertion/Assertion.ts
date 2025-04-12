@@ -1,5 +1,4 @@
 import { AssertionsRunner } from "./AssertionsRunner";
-import { FormCompletionAssistant } from "../FormCompletionAssistant/FormCompletionAssistant";
 
 export type AssertionId = string;
 
@@ -64,7 +63,7 @@ export class Assertion<T = unknown> {
   }
 
   hasFailed() {
-    return this.shouldNotRun() || this.doesNotHold();
+    return !this.doesHold();
   }
 
   isIdentifiedAs(assertionId: AssertionId) {
@@ -85,13 +84,5 @@ export class Assertion<T = unknown> {
 
   isDescription(assertionDescription: string) {
     return this.description === assertionDescription;
-  }
-
-  /**
-   * Indicates whether the assertion should be run based on the values of the form.
-   * If any of the values is invalid, the assertion should not be run.
-   */
-  protected shouldNotRun() {
-    return this.values.some((value) => FormCompletionAssistant.isInvalidModel(value));
   }
 }
