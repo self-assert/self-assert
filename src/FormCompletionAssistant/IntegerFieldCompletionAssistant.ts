@@ -46,7 +46,7 @@ export class IntegerFieldCompletionAssistant<ContainerModel> extends FormSection
   }
 
   static createAssertionFor(assertionId: AssertionId, numberAsString: string) {
-    return Assertion.for(assertionId, () => /^[-+]?(\d+)$/.test(numberAsString), this.defaultAssertionDescription);
+    return Assertion.for(assertionId, this.defaultAssertionDescription, () => /^[-+]?(\d+)$/.test(numberAsString));
   }
 
   innerAssistant() {

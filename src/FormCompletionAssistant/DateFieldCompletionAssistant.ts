@@ -54,8 +54,8 @@ export class DateFieldCompletionAssistant<ContainerModel> extends FormSectionCom
   static createAssertionFor(assertionId: AssertionId, dateAsString: string) {
     return Assertion.for(
       assertionId,
-      () => /^\d{4}-\d{2}-\d{2}$/.test(dateAsString) && !isNaN(new Date(dateAsString).getTime()),
-      DateFieldCompletionAssistant.defaultAssertionDescription
+      DateFieldCompletionAssistant.defaultAssertionDescription,
+      () => /^\d{4}-\d{2}-\d{2}$/.test(dateAsString) && !isNaN(new Date(dateAsString).getTime())
     );
   }
 

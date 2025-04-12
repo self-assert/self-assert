@@ -34,11 +34,11 @@ describe("Assertion", () => {
   });
 
   it("should not throw when run and holds", () => {
-    expect(() => Assertion.assertFor(failingAssertionAID, () => true, failingAssertionDescription)).not.toThrow();
+    expect(() => Assertion.assertFor(failingAssertionAID, failingAssertionDescription, () => true)).not.toThrow();
   });
 
   it("should throw when run and does not hold", () => {
-    expect(() => Assertion.assertFor(failingAssertionAID, () => false, failingAssertionDescription)).toFailAssertion(
+    expect(() => Assertion.assertFor(failingAssertionAID, failingAssertionDescription, () => false)).toFailAssertion(
       failingAssertionAID,
       failingAssertionDescription
     );

@@ -13,19 +13,23 @@ export interface AssertionAsJson {
  */
 export class Assertion {
   static fromJson(assertionAsJson: AssertionAsJson) {
-    return new this(assertionAsJson.id, assertionAsJson.description);
+    return this.identifiedAs(assertionAsJson.id, assertionAsJson.description);
   }
 
-  static for(id: AssertionId, condition: () => boolean, description: string) {
-    return new this(id, description).require(condition);
+  static identifiedAs(id: AssertionId, description: string) {
+    return new this(id, description);
   }
 
-  static assertForAll(id: AssertionId, condition: () => boolean, description: string) {
-    AssertionsRunner.assertAll([this.for(id, condition, description)]);
+  static for(id: AssertionId, description: string, condition: () => boolean) {
+    return this.identifiedAs(id, description).require(condition);
   }
 
-  static assertFor(id: AssertionId, condition: () => boolean, description: string) {
-    return this.assertForAll(id, condition, description);
+  static assertForAll(id: AssertionId, description: string, condition: () => boolean) {
+    AssertionsRunner.assertAll([this.for(id, description, condition)]);
+  }
+
+  static assertFor(id: AssertionId, description: string, condition: () => boolean) {
+    return this.assertForAll(id, description, condition);
   }
 
   protected conditions: (() => boolean)[];

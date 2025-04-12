@@ -12,8 +12,8 @@ const system = {
   add(model: SelfAssertingModel) {
     Assertion.assertFor(
       systemAID,
-      () => model === SelfAssertingModel.named("Pedro"),
-      "This assertion should be handled by the assistant"
+      "This assertion should be handled by the assistant",
+      () => model === SelfAssertingModel.named("Pedro")
     );
   },
   doSomethingThatFails() {
@@ -28,7 +28,7 @@ describe("FormSectionCompletionAssistant", () => {
     expect(FormCompletionAssistant.isInvalidModel(assistant.getModel())).toBe(true);
     expect(assistant.hasFailedAssertions()).toBe(false);
     expect(assistant.doesNotHaveFailedAssertions()).toBe(true);
-    expect(assistant.handles(Assertion.for("AID.1", () => true, "Description 1"))).toBe(false);
+    expect(assistant.handles(Assertion.identifiedAs("AID.1", "Description 1"))).toBe(false);
     expect(assistant.failedAssertionsDescriptions()).toEqual([]);
   });
 
