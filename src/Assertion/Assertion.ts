@@ -12,39 +12,38 @@ export interface AssertionAsJson {
  * an object to be considered valid.
  */
 export class Assertion {
-  /**
-   * @todo
-   * Cuando se serializa un Assertion no habría que mandar values y condition
-   * o lo que habría que reificar es AssertionFailed con solo el id y description
-   * para no tener que andar transmitiendo todo
-   */
   static fromJson(assertionAsJson: AssertionAsJson) {
-    return new this(assertionAsJson.id, () => false, assertionAsJson.description);
-  }
-
-  static forAll(id: AssertionId, condition: () => boolean, description: string) {
-    return new this(id, condition, description);
+    return new this(assertionAsJson.id, assertionAsJson.description);
   }
 
   static for(id: AssertionId, condition: () => boolean, description: string) {
-    return this.forAll(id, condition, description);
+    return new this(id, description).require(condition);
   }
 
   static assertForAll(id: AssertionId, condition: () => boolean, description: string) {
-    AssertionsRunner.assertAll([this.forAll(id, condition, description)]);
+    AssertionsRunner.assertAll([this.for(id, condition, description)]);
   }
 
   static assertFor(id: AssertionId, condition: () => boolean, description: string) {
     return this.assertForAll(id, condition, description);
   }
 
-  constructor(protected id: AssertionId, protected condition: () => boolean, protected description: string) {}
+  protected conditions: (() => boolean)[];
+
+  protected constructor(protected id: AssertionId, protected description: string) {
+    this.conditions = [];
+  }
+
+  require(condition: () => boolean) {
+    this.conditions.push(condition);
+    return this;
+  }
 
   /**
    * Evaluates the condition of the assertion.
    */
   doesHold() {
-    return this.condition();
+    return this.conditions.every((condition) => condition());
   }
 
   hasFailed() {
