@@ -21,15 +21,19 @@ export class SelfAssertingModel extends ModelWithNoAssertions {
   static readonly nameNotForbiddenAID = "sam.nameNotForbiddenAID";
   static readonly nameNotForbiddenDescription = `Name cannot be '${this.forbiddenName}'`;
 
+  static nameNotForbiddenAssertion(name: string): Assertion {
+    return Assertion.for(
+      name,
+      this.nameNotForbiddenAID,
+      () => name !== this.forbiddenName,
+      this.nameNotForbiddenDescription
+    );
+  }
+
   static named(name: string) {
     AssertionsRunner.assertAll([
       Assertion.for(name, this.nameNotEmptyAID, () => name !== "", this.nameNotEmptyDescription),
-      Assertion.for(
-        name,
-        this.nameNotForbiddenAID,
-        () => name !== this.forbiddenName,
-        this.nameNotForbiddenDescription
-      ),
+      SelfAssertingModel.nameNotForbiddenAssertion(name),
     ]);
 
     return new this(name);
