@@ -55,5 +55,6 @@ export class FormFieldCompletionAssistant<
 
   resetModel() {
     this.model = this.initialModel;
+    this.reflectToAll(this.model);
   }
 }

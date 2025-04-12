@@ -93,7 +93,7 @@ describe("FormFieldCompletionAssistant", () => {
     expect(mirroredFailedAssertions).toEqual([firstFailedAssertion, secondFailedAssertion]);
   });
 
-  it("should mirror a reset", () => {
+  it("should mirror a failed assertions reset", () => {
     const formFieldCompletionAssistant = FormFieldCompletionAssistant.handlingAll(
       ["AID.1", "AID.2"],
       modelFromContainer
@@ -111,5 +111,24 @@ describe("FormFieldCompletionAssistant", () => {
     formFieldCompletionAssistant.createModel();
 
     expect(hasBeenReset).toBe(true);
+  });
+
+  it("should mirror a reset", () => {
+    const formFieldCompletionAssistant = FormFieldCompletionAssistant.handlingAll(
+      ["AID.1"],
+      modelFromContainer,
+      "Init"
+    );
+
+    let image = "";
+    formFieldCompletionAssistant.accept({
+      reflect(anImage) {
+        image = anImage;
+      },
+    });
+
+    formFieldCompletionAssistant.resetModel();
+
+    expect(image).toBe("Init");
   });
 });
