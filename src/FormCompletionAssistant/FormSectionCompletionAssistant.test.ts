@@ -9,11 +9,10 @@ import { expectToBeAssertionsFailed } from "@testing-support/jest.setup";
 
 const systemAID = "systemVerifiedAID";
 const system = {
-  add(aSelfAssertingModel: SelfAssertingModel) {
+  add(model: SelfAssertingModel) {
     Assertion.assertFor(
-      aSelfAssertingModel,
       systemAID,
-      () => false,
+      () => model === SelfAssertingModel.named("Pedro"),
       "This assertion should be handled by the assistant"
     );
   },
@@ -29,7 +28,7 @@ describe("FormSectionCompletionAssistant", () => {
     expect(FormCompletionAssistant.isInvalidModel(assistant.getModel())).toBe(true);
     expect(assistant.hasFailedAssertions()).toBe(false);
     expect(assistant.doesNotHaveFailedAssertions()).toBe(true);
-    expect(assistant.handles(Assertion.for(1, "AID.1", () => true, "Description 1"))).toBe(false);
+    expect(assistant.handles(Assertion.for("AID.1", () => true, "Description 1"))).toBe(false);
     expect(assistant.failedAssertionsDescriptions()).toEqual([]);
   });
 
