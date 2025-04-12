@@ -37,7 +37,7 @@ jobs:
           registry-url: https://registry.npmjs.org
           cache: 'npm'
       - uses: ./.github/actions/lint-and-test
-      - run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-      - run: npm publish --access public --provenance
+      #- run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+      - run: npm publish --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
