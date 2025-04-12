@@ -12,8 +12,6 @@ export class FormFieldCompletionAssistant<
   ContainerModel,
   Model extends string = string
 > extends FormCompletionAssistant<Model, ContainerModel> {
-  protected model!: Model;
-
   static handling<ContainerModel, Model extends string = string>(
     assertionId: AssertionId,
     fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
@@ -30,31 +28,10 @@ export class FormFieldCompletionAssistant<
     return new this(assertionIds, fromContainerModelGetter, initialModel);
   }
 
-  protected constructor(
-    assertionIds: AssertionId[],
-    fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
-    protected initialModel: Model
-  ) {
-    super(assertionIds, fromContainerModelGetter);
-    this.setModel(initialModel);
-  }
-
   createModel() {
     this.removeFailedAssertions();
     return this.model;
   }
 
-  getModel() {
-    return this.model;
-  }
-
-  setModel(newModel: Model) {
-    this.model = newModel;
-    this.reflectToAll(newModel);
-  }
-
-  resetModel() {
-    this.model = this.initialModel;
-    this.reflectToAll(this.model);
-  }
+  
 }

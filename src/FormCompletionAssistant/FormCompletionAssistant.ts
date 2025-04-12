@@ -31,13 +31,16 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
     };
   }
 
+  protected model: Model;
   protected failedAssertions!: Assertion[];
   protected mirrors: AssistantMirror<Model>[];
 
   constructor(
     protected assertionIds: AssertionId[],
-    protected fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>
+    protected fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
+    protected initialModel: Model
   ) {
+    this.model = this.initialModel;
     this.mirrors = [];
     this.removeFailedAssertions();
   }
@@ -49,12 +52,6 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
    * @throws {AssertionsFailed} if the model is invalid
    */
   abstract createModel(): Model;
-
-  abstract getModel(): Model;
-
-  abstract setModel(newModel: Model): void;
-
-  abstract resetModel(): void;
 
   /**
    * @template ReturnType - The type of the value returned by the closures.
@@ -73,16 +70,29 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
     return validModelClosure(createdModel);
   }
 
+  getModel() {
+    return this.model;
+  }
+
+  setModel(newModel: Model) {
+    this.model = newModel;
+    this.reflectToAll(newModel);
+  }
+
+  /**
+   * Resets the model to its initial value.
+   */
+  resetModel() {
+    this.model = this.initialModel;
+    this.reflectToAll(this.model);
+  }
+
   setModelFrom(containerModel: ContainerModel) {
     return this.setModel(this.fromContainerModelGetter(containerModel));
   }
 
   accept(aMirror: AssistantMirror<Model>) {
     this.mirrors.push(aMirror);
-  }
-
-  protected reflectToAll(anImage: Model) {
-    this.forEachMirror((mirror) => mirror.reflect?.(anImage));
   }
 
   break(aMirror: AssistantMirror<Model>) {
@@ -131,5 +141,9 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
 
   protected forEachMirror(action: (mirror: AssistantMirror<Model>) => void) {
     this.mirrors.forEach(action);
+  }
+
+  protected reflectToAll(anImage: Model) {
+    this.forEachMirror((mirror) => mirror.reflect?.(anImage));
   }
 }
