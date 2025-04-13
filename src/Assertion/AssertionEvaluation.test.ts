@@ -18,4 +18,15 @@ describe("AssertionEvaluation", () => {
     expect(evaluation.doesHold()).toBe(false);
     expect(evaluation.hasFailed()).toBe(true);
   });
+
+  it("behaves like an assertion", () => {
+    const assertion = Assertion.for<string>("AID", "Description", (value) => value === "value");
+    const evaluation = AssertionEvaluation.for(assertion, "value");
+
+    expect(evaluation.getId()).toBe("AID");
+    expect(evaluation.isIdentifiedAs("AID")).toBe(true);
+    expect(evaluation.getDescription()).toBe("Description");
+    expect(evaluation.isDescription("Description")).toBe(true);
+    expect(evaluation.isIdentifiedAsWith("AID", "Description")).toBe(true);
+  });
 });
