@@ -42,12 +42,12 @@ describe("Assertion", () => {
     expect(deserializedAssertion.isIdentifiedAsWith("deserializedAID", "A description")).toBe(true);
   });
 
-  // it("should be able to require many conditions", () => {
-  //   const assertion = Assertion.identifiedAs<string>("ManyConditionsAssertion", "A description")
-  //     .require((value) => value !== "")
-  //     .require((value) => value !== "FORBIDDEN");
+  it("should be able to require many conditions", () => {
+    const assertion = Assertion.identifiedAs<string>("ManyConditionsAssertion", "A description")
+      .require((value) => value !== "")
+      .require((value) => value !== "FORBIDDEN");
 
-  //   expect(assertion.doesHold("FORBIDDEN")).toBe(false);
-  //   expect(assertion.hasFailed("FORBIDDEN")).toBe(true);
-  // });
+    expect(assertion.doesHold("FORBIDDEN")).toBe(false);
+    expect(assertion.hasFailed("FORBIDDEN")).toBe(true);
+  });
 });

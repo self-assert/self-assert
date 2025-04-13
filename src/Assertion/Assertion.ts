@@ -9,26 +9,26 @@ export interface AssertionAsJson {
  * Represents a rule that must be met in order for
  * an object to be considered valid.
  */
-export class Assertion {
+export class Assertion<ValueType = void> {
   static fromJson(assertionAsJson: AssertionAsJson) {
     return this.identifiedAs(assertionAsJson.id, assertionAsJson.description);
   }
 
-  static identifiedAs(id: AssertionId, description: string) {
-    return new this(id, description);
+  static identifiedAs<ValueType = void>(id: AssertionId, description: string) {
+    return new this<ValueType>(id, description);
   }
 
-  static for(id: AssertionId, description: string, condition: () => boolean) {
-    return this.identifiedAs(id, description).require(condition);
+  static for<ValueType = void>(id: AssertionId, description: string, condition: (value: ValueType) => boolean) {
+    return this.identifiedAs<ValueType>(id, description).require(condition);
   }
 
-  protected conditions: (() => boolean)[];
+  protected conditions: ((value: ValueType) => boolean)[];
 
   protected constructor(protected id: AssertionId, protected description: string) {
     this.conditions = [];
   }
 
-  require(condition: () => boolean) {
+  require(condition: (value: ValueType) => boolean) {
     this.conditions.push(condition);
     return this;
   }
@@ -36,12 +36,12 @@ export class Assertion {
   /**
    * Evaluates the condition of the assertion.
    */
-  doesHold() {
-    return this.conditions.every((condition) => condition());
+  doesHold(value: ValueType) {
+    return this.conditions.every((condition) => condition(value));
   }
 
-  hasFailed() {
-    return !this.doesHold();
+  hasFailed(value: ValueType) {
+    return !this.doesHold(value);
   }
 
   isIdentifiedAs(assertionId: AssertionId) {
