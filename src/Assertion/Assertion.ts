@@ -1,5 +1,3 @@
-import { AssertionsRunner } from "./AssertionsRunner";
-
 export type AssertionId = string;
 
 export interface AssertionAsJson {
@@ -22,14 +20,6 @@ export class Assertion {
 
   static for(id: AssertionId, description: string, condition: () => boolean) {
     return this.identifiedAs(id, description).require(condition);
-  }
-
-  static assertForAll(id: AssertionId, description: string, condition: () => boolean) {
-    AssertionsRunner.assertAll([this.for(id, description, condition)]);
-  }
-
-  static assertFor(id: AssertionId, description: string, condition: () => boolean) {
-    return this.assertForAll(id, description, condition);
   }
 
   protected conditions: (() => boolean)[];

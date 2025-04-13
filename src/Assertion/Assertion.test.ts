@@ -33,17 +33,6 @@ describe("Assertion", () => {
     expect(failingAssertion.isIdentifiedAsWith(failingAssertionAID, failingAssertionDescription)).toBe(true);
   });
 
-  it("should not throw when run and holds", () => {
-    expect(() => Assertion.assertFor(failingAssertionAID, failingAssertionDescription, () => true)).not.toThrow();
-  });
-
-  it("should throw when run and does not hold", () => {
-    expect(() => Assertion.assertFor(failingAssertionAID, failingAssertionDescription, () => false)).toFailAssertion(
-      failingAssertionAID,
-      failingAssertionDescription
-    );
-  });
-
   it("should be deserializable", () => {
     const deserializedAssertion = Assertion.fromJson({
       id: "deserializedAID",
@@ -52,4 +41,13 @@ describe("Assertion", () => {
 
     expect(deserializedAssertion.isIdentifiedAsWith("deserializedAID", "A description")).toBe(true);
   });
+
+  // it("should be able to require many conditions", () => {
+  //   const assertion = Assertion.identifiedAs<string>("ManyConditionsAssertion", "A description")
+  //     .require((value) => value !== "")
+  //     .require((value) => value !== "FORBIDDEN");
+
+  //   expect(assertion.doesHold("FORBIDDEN")).toBe(false);
+  //   expect(assertion.hasFailed("FORBIDDEN")).toBe(true);
+  // });
 });

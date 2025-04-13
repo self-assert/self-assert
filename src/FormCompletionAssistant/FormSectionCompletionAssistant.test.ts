@@ -6,15 +6,18 @@ import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
 import { Assertion } from "@/Assertion/Assertion";
 import { ModelWithNoAssertions, SelfAssertingModel } from "@testing-support/TestModels";
 import { expectToBeAssertionsFailed } from "@testing-support/jest.setup";
+import { AssertionsRunner } from "@/Assertion";
 
 const systemAID = "systemVerifiedAID";
 const system = {
   add(model: SelfAssertingModel) {
-    Assertion.assertFor(
+    const failingAssertion = Assertion.for(
       systemAID,
       "This assertion should be handled by the assistant",
       () => model === SelfAssertingModel.named("Pedro")
     );
+
+    AssertionsRunner.assert(failingAssertion);
   },
   doSomethingThatFails() {
     throw new Error("Not implemented");
