@@ -1,5 +1,5 @@
-import type { Assertion } from "./Assertion";
 import { AssertionsFailed } from "./AssertionsFailed";
+import type { SelfContainedAssertion } from "./types";
 
 /**
  * Runs all assertions and throws an error if any has failed.
@@ -8,15 +8,15 @@ import { AssertionsFailed } from "./AssertionsFailed";
  * @see {@link Assertion}, {@link AssertionsFailed}
  */
 export class AssertionsRunner {
-  static assert(assertion: Assertion) {
+  static assert(assertion: SelfContainedAssertion) {
     this.assertAll([assertion]);
   }
 
-  static assertAll(assertions: Assertion[]) {
+  static assertAll(assertions: SelfContainedAssertion[]) {
     new this(assertions).run();
   }
 
-  constructor(protected assertions: Assertion[]) {}
+  constructor(protected assertions: SelfContainedAssertion[]) {}
 
   /**
    * @throws {AssertionsFailed} if any assertion has failed

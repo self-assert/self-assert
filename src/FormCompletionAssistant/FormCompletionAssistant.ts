@@ -1,4 +1,4 @@
-import type { Assertion, AssertionId } from "@/Assertion/Assertion";
+import type { AssertionId, SelfContainedAssertion } from "@/Assertion";
 import type { ModelFromContainer, AssistantMirror } from "@/types";
 
 /**
@@ -32,7 +32,7 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
   }
 
   protected model: Model;
-  protected failedAssertions!: Assertion[];
+  protected failedAssertions!: SelfContainedAssertion[];
   protected mirrors: AssistantMirror<Model>[];
 
   constructor(
@@ -107,7 +107,7 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
     return this.failedAssertions.length === 1 && this.failedAssertions[0].isIdentifiedAs(assertionId);
   }
 
-  addFailedAssertion(assertionFailed: Assertion) {
+  addFailedAssertion(assertionFailed: SelfContainedAssertion) {
     this.failedAssertions.push(assertionFailed);
     this.forEachMirror((mirror) => mirror.onFailure?.(assertionFailed));
   }
@@ -130,7 +130,7 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
     this.assertionIds.push(anAssertionId);
   }
 
-  handles(anAssertion: Assertion) {
+  handles(anAssertion: SelfContainedAssertion) {
     return this.assertionIds.some((assertionId) => anAssertion.isIdentifiedAs(assertionId));
   }
 

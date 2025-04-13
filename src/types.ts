@@ -1,4 +1,4 @@
-import type { Assertion } from "@/Assertion";
+import type { SelfContainedAssertion } from "@/Assertion";
 import type { FormCompletionAssistant } from "./FormCompletionAssistant";
 
 /**
@@ -13,7 +13,7 @@ export interface AssistantMirror<Model = unknown> {
   /**
    * Receives notifications about failed assertions.
    */
-  onFailure?: (aFailedAsserion: Assertion) => void;
+  onFailure?: (aFailedAsserion: SelfContainedAssertion) => void;
 
   /**
    * Receives notifications when the model's failed assertions are cleared.

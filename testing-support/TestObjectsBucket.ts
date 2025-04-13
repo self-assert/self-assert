@@ -1,4 +1,5 @@
-import { Assertion, AssertionId } from "@/Assertion/Assertion";
+import { Assertion } from "@/Assertion/Assertion";
+import { AssertionId } from "@/Assertion/types";
 import { FormFieldCompletionAssistant } from "@/FormCompletionAssistant/FormFieldCompletionAssistant";
 import { FormSectionCompletionAssistant } from "@/FormCompletionAssistant/FormSectionCompletionAssistant";
 import { ModelWithNoAssertions, SelfAssertingModel } from "./TestModels";

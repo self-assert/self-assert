@@ -1,4 +1,4 @@
-export type AssertionId = string;
+import type { AssertionId, SelfContainedAssertion } from "./types";
 
 export interface AssertionAsJson {
   id: AssertionId;
@@ -64,3 +64,14 @@ export class Assertion<ValueType = void> {
     return this.description === assertionDescription;
   }
 }
+
+/**
+ * **Type check only**
+ *
+ * This dummy class exists solely to ensure at compile time that `Assertion<void>`
+ * structurally satisfies the `SelfContainedAssertion` interface.
+ *
+ * It is never instantiated or exported.
+ */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-unnecessary-type-arguments
+class VoidAssertionIsSelfContained extends Assertion<void> implements SelfContainedAssertion {}

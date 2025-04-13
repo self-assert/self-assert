@@ -1,4 +1,4 @@
-import { AssertionId } from "../Assertion/Assertion";
+import { AssertionId } from "@/Assertion/types";
 import { FormCompletionAssistant } from "./FormCompletionAssistant";
 import type { ModelFromContainer } from "../types";
 
@@ -32,6 +32,4 @@ export class FormFieldCompletionAssistant<
     this.removeFailedAssertions();
     return this.model;
   }
-
-  
 }

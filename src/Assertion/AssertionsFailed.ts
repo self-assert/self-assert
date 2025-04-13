@@ -1,4 +1,6 @@
-import { Assertion, AssertionAsJson, AssertionId } from "./Assertion";
+import { Assertion, AssertionAsJson } from "./Assertion";
+import { AssertionId } from "./types";
+import type { SelfContainedAssertion } from "./types";
 
 export interface AssertionsFailedAsJson {
   failedAssertions: AssertionAsJson[];
@@ -17,7 +19,7 @@ export class AssertionsFailed extends Error {
     return new this(failedAssertions);
   }
 
-  constructor(protected failedAssertions: Assertion[]) {
+  constructor(protected failedAssertions: SelfContainedAssertion[]) {
     super();
   }
 
@@ -32,7 +34,7 @@ export class AssertionsFailed extends Error {
     );
   }
 
-  forEachAssertionFailed(closure: (failedAssertion: Assertion) => void) {
+  forEachAssertionFailed(closure: (failedAssertion: SelfContainedAssertion) => void) {
     return this.failedAssertions.forEach(closure);
   }
 }
