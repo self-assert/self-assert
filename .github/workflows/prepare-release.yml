@@ -54,6 +54,6 @@ jobs:
 
       - name: Enable auto-merge
         run: |
-          gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --auto --merge
+          gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --auto --squash
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
