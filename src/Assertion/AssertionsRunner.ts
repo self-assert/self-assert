@@ -5,7 +5,7 @@ import type { SelfContainedAssertion } from "./types";
  * Runs all assertions and throws an error if any has failed.
  * The failed assertions are included in the error.
  *
- * @see {@link Assertion}, {@link AssertionsFailed}
+ * @see {@link SelfContainedAssertion}, {@link AssertionsFailed}
  */
 export class AssertionsRunner {
   static assert(assertion: SelfContainedAssertion) {

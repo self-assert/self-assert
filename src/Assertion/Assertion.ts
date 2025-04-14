@@ -18,7 +18,8 @@ export interface AssertionAsJson {
  *
  * @template ValueType The type of value this assertion applies to.
  *
- * @example Basic usage
+ * @example
+ * Basic usage
  * ```ts
  * const nameNotBlank = Assertion.for<string>(
  *   "customer.name.notBlank",

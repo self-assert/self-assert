@@ -1,5 +1,11 @@
 export type AssertionId = string;
 
+/**
+ * An assertion that can be evaluated without a value
+ *
+ * @remarks
+ * `Assertion<void>` and `AssertionEvaluation` are both `SelfContainedAssertion`
+ */
 export interface SelfContainedAssertion {
   /**
    * Returns `true` if the assertion conditions are met.
