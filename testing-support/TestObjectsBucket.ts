@@ -1,4 +1,5 @@
-import { Assertion, AssertionId } from "@/Assertion/Assertion";
+import { Assertion } from "@/Assertion/Assertion";
+import { AssertionId } from "@/Assertion/types";
 import { FormFieldCompletionAssistant } from "@/FormCompletionAssistant/FormFieldCompletionAssistant";
 import { FormSectionCompletionAssistant } from "@/FormCompletionAssistant/FormSectionCompletionAssistant";
 import { ModelWithNoAssertions, SelfAssertingModel } from "./TestModels";
@@ -16,7 +17,7 @@ export class TestObjectsBucket {
   static defaultFailingAssertionDescription = "Should fail";
 
   static holdingAssertion() {
-    return Assertion.for(1, this.defaultHoldingAssertionAID, () => true, this.defaultHoldingAssertionDescription);
+    return Assertion.identifiedAs(this.defaultHoldingAssertionAID, this.defaultHoldingAssertionDescription);
   }
 
   static defaultFailingAssertion() {
@@ -24,7 +25,7 @@ export class TestObjectsBucket {
   }
 
   static failingAssertion(assertionId: string, description: string) {
-    return Assertion.for(2, assertionId, () => false, description);
+    return Assertion.for(assertionId, description, () => false);
   }
 
   static genericContainerForString(): ModelFromContainer<string, GenericContainer> {

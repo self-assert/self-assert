@@ -1,4 +1,5 @@
-import { Assertion, AssertionId } from "../Assertion/Assertion";
+import { Assertion } from "../Assertion/Assertion";
+import { AssertionId } from "@/Assertion/types";
 import { AssertionsRunner } from "../Assertion/AssertionsRunner";
 import { FormFieldCompletionAssistant } from "./FormFieldCompletionAssistant";
 import { FormSectionCompletionAssistant } from "./FormSectionCompletionAssistant";
@@ -46,12 +47,7 @@ export class IntegerFieldCompletionAssistant<ContainerModel> extends FormSection
   }
 
   static createAssertionFor(assertionId: AssertionId, numberAsString: string) {
-    return Assertion.for(
-      numberAsString,
-      assertionId,
-      () => /^[-+]?(\d+)$/.test(numberAsString),
-      this.defaultAssertionDescription
-    );
+    return Assertion.for(assertionId, this.defaultAssertionDescription, () => /^[-+]?(\d+)$/.test(numberAsString));
   }
 
   innerAssistant() {

@@ -6,16 +6,18 @@ import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
 import { Assertion } from "@/Assertion/Assertion";
 import { ModelWithNoAssertions, SelfAssertingModel } from "@testing-support/TestModels";
 import { expectToBeAssertionsFailed } from "@testing-support/jest.setup";
+import { AssertionsRunner } from "@/Assertion";
 
 const systemAID = "systemVerifiedAID";
 const system = {
-  add(aSelfAssertingModel: SelfAssertingModel) {
-    Assertion.assertFor(
-      aSelfAssertingModel,
+  add(model: SelfAssertingModel) {
+    const failingAssertion = Assertion.for(
       systemAID,
-      () => false,
-      "This assertion should be handled by the assistant"
+      "This assertion should be handled by the assistant",
+      () => model === SelfAssertingModel.named("Pedro")
     );
+
+    AssertionsRunner.assert(failingAssertion);
   },
   doSomethingThatFails() {
     throw new Error("Not implemented");
@@ -29,7 +31,7 @@ describe("FormSectionCompletionAssistant", () => {
     expect(FormCompletionAssistant.isInvalidModel(assistant.getModel())).toBe(true);
     expect(assistant.hasFailedAssertions()).toBe(false);
     expect(assistant.doesNotHaveFailedAssertions()).toBe(true);
-    expect(assistant.handles(Assertion.for(1, "AID.1", () => true, "Description 1"))).toBe(false);
+    expect(assistant.handles(Assertion.identifiedAs("AID.1", "Description 1"))).toBe(false);
     expect(assistant.failedAssertionsDescriptions()).toEqual([]);
   });
 

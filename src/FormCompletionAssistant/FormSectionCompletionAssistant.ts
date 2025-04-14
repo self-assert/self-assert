@@ -1,12 +1,13 @@
 import { FormCompletionAssistant } from "./FormCompletionAssistant";
-import { AssertionsFailed } from "../Assertion/AssertionsFailed";
-import type { AssertionId, Assertion } from "../Assertion/Assertion";
-import type { ModelFromContainer, AssistantsIn } from "../types";
+import { AssertionsFailed } from "@/Assertion";
+
+import type { AssertionId, SelfContainedAssertion } from "@/Assertion";
+import type { ModelFromContainer, AssistantsIn } from "@/types";
 
 type CreationClosure<Model, ComposedModels extends unknown[]> = (...models: ComposedModels) => Model;
 
 /**
- * Assists in the creation of complex models by coordinating multiple inner `FormCompletionAssistant` instances.
+ * Assists in the creation of complex models by coordinating multiple inner `FormCompletionAssistant`.
  *
  * @extends FormCompletionAssistant {@link FormCompletionAssistant link}
  * @template ComposedModels - An array of types representing the types of the models created by the inner assistants,
@@ -82,12 +83,12 @@ export class FormSectionCompletionAssistant<
     creationError.forEachAssertionFailed((failedAssertion) => this.routeFailedAssertion(failedAssertion));
   }
 
-  routeFailedAssertion(failedAssertion: Assertion) {
+  routeFailedAssertion(failedAssertion: SelfContainedAssertion) {
     if (this.handles(failedAssertion)) this.addFailedAssertion(failedAssertion);
     else this.routeNotHandledByThisFailedAssertion(failedAssertion);
   }
 
-  protected routeNotHandledByThisFailedAssertion(failedAssertion: Assertion) {
+  protected routeNotHandledByThisFailedAssertion(failedAssertion: SelfContainedAssertion) {
     const assistantsHandlingAssertion = this.assistantsHandling(failedAssertion);
 
     if (assistantsHandlingAssertion.length === 0) this.addFailedAssertion(failedAssertion);
@@ -96,12 +97,12 @@ export class FormSectionCompletionAssistant<
 
   protected addFailedAssertionToAll(
     assistantsHandlingAssertion: FormCompletionAssistant<unknown, Model>[],
-    failedAssertion: Assertion
+    failedAssertion: SelfContainedAssertion
   ) {
     assistantsHandlingAssertion.forEach((assistant) => assistant.addFailedAssertion(failedAssertion));
   }
 
-  protected assistantsHandling(assertion: Assertion) {
+  protected assistantsHandling(assertion: SelfContainedAssertion) {
     return this.assistants.filter((assistant) => assistant.handles(assertion));
   }
 

@@ -1,12 +1,23 @@
-import type { Assertion, AssertionId } from "@/Assertion/Assertion";
+import type { AssertionId, SelfContainedAssertion } from "@/Assertion";
 import type { ModelFromContainer, AssistantMirror } from "@/types";
 
 /**
- * @template Model - The type of the model the assistant helps to create.
- * @template ContainerModel - The type of the container model the assistant works on.
+ * Provides an assistant to guide the completion of a model during form interaction.
+ *
+ * A `FormCompletionAssistant` encapsulates the logic needed to:
+ *
+ * - track the current state of a form field or group of fields,
+ * - validate the model being built,
+ * - handle and route failed assertions,
+ * - notify observers (mirrors) of changes or validation failures.
+ *
+ * @template Model The type of the model the assistant helps to create.
+ * @template ContainerModel The type of the container model the assistant works on.
  *
  * @remarks
  * The name was chosen employing the metaphor of an assistant guiding form completion.
+ * Assistants can be nested and composed to build complex forms with clear responsibilities.
+ *
  */
 export abstract class FormCompletionAssistant<Model, ContainerModel> {
   /**
@@ -16,8 +27,7 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
   declare ["constructor"]: typeof FormCompletionAssistant;
 
   /**
-   * This object is used as a token for an invalid model.
-   * This allows running all validations on a composed model.
+   * This object is used as a **token** for an invalid model.
    */
   static INVALID_MODEL = new Object();
 
@@ -25,6 +35,10 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
     return potentialModel === FormCompletionAssistant.INVALID_MODEL;
   }
 
+  /**
+   * @returns A default model getter from a container for the top-level assistant.
+   * Since there is no container to get the model from, it throws an error.
+   */
   static topLevelContainerModelGetter<Model>(): ModelFromContainer<Model, never> {
     return () => {
       throw new Error("No container to get model from");
@@ -32,7 +46,7 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
   }
 
   protected model: Model;
-  protected failedAssertions!: Assertion[];
+  protected failedAssertions!: SelfContainedAssertion[];
   protected mirrors: AssistantMirror<Model>[];
 
   constructor(
@@ -54,6 +68,8 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
   abstract createModel(): Model;
 
   /**
+   * Executes a closure depending on whether the model is valid or not after creating it.
+   *
    * @template ReturnType - The type of the value returned by the closures.
    * @param validModelClosure - A closure that will be called with the created model
    * if it's valid.
@@ -87,51 +103,88 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
     this.reflectToAll(this.model);
   }
 
+  /**
+   * Sets the model from its container.
+   */
   setModelFrom(containerModel: ContainerModel) {
     return this.setModel(this.fromContainerModelGetter(containerModel));
   }
 
+  /**
+   * Adds a mirror to the list of observers.
+   */
   accept(aMirror: AssistantMirror<Model>) {
     this.mirrors.push(aMirror);
   }
 
-  break(aMirror: AssistantMirror<Model>) {
+  /**
+   * Removes a mirror from the list of observers.
+   */
+  break(aMirror: AssistantMirror) {
     this.mirrors = this.mirrors.filter((mirror) => mirror !== aMirror);
   }
 
+  /**
+   * @returns The number of mirrors currently observing the assistant.
+   */
   numberOfMirrors() {
     return this.mirrors.length;
   }
 
-  hasOnlyOneAssertionFailedIdentifiedAs(assertionId: AssertionId) {
-    return this.failedAssertions.length === 1 && this.failedAssertions[0].isIdentifiedAs(assertionId);
-  }
-
-  addFailedAssertion(assertionFailed: Assertion) {
+  /**
+   * Adds an assertion to the list of failed assertions.
+   */
+  addFailedAssertion(assertionFailed: SelfContainedAssertion) {
     this.failedAssertions.push(assertionFailed);
     this.forEachMirror((mirror) => mirror.onFailure?.(assertionFailed));
   }
 
-  doesNotHaveFailedAssertions() {
-    return !this.hasFailedAssertions();
-  }
-
+  /**
+   * @returns `true` if the list of failed assertions is not empty
+   */
   hasFailedAssertions() {
     return this.failedAssertions.length > 0;
   }
 
+  /**
+   * Opposite of {@link hasFailedAssertions}.
+   */
+  doesNotHaveFailedAssertions() {
+    return !this.hasFailedAssertions();
+  }
+
+  /**
+   * @returns The descriptions of the failed assertions
+   */
   failedAssertionsDescriptions() {
     return this.failedAssertions
       .map((failedAssertion) => failedAssertion.getDescription())
       .filter((description) => description !== "");
   }
 
+  /**
+   * @returns `true` if this assistant handles the given `Assertion`.
+   */
+  handles(anAssertion: SelfContainedAssertion) {
+    return this.assertionIds.some((assertionId) => anAssertion.isIdentifiedAs(assertionId));
+  }
+
+  /**
+   * Adds an assertion id to the list of handled assertions.
+   */
   addAssertionId(anAssertionId: AssertionId) {
     this.assertionIds.push(anAssertionId);
   }
 
-  handles(anAssertion: Assertion) {
-    return this.assertionIds.some((assertionId) => anAssertion.isIdentifiedAs(assertionId));
+  /**
+   * @returns `true` if this assistant has only one failed assertion that
+   * is identified as the given `assertionId`.
+   *
+   * @remarks
+   * Used mostly for testing.
+   */
+  hasOnlyOneAssertionFailedIdentifiedAs(assertionId: AssertionId) {
+    return this.failedAssertions.length === 1 && this.failedAssertions[0].isIdentifiedAs(assertionId);
   }
 
   protected removeFailedAssertions() {

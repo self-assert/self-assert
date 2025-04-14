@@ -12,13 +12,11 @@ describe("Assertion", () => {
 
   it("should hold when condition is true", () => {
     expect(holdingAssertion.doesHold()).toBe(true);
-    expect(holdingAssertion.doesNotHold()).toBe(false);
     expect(holdingAssertion.hasFailed()).toBe(false);
   });
 
   it("should not hold when condition is false", () => {
     expect(failingAssertion.doesHold()).toBe(false);
-    expect(failingAssertion.doesNotHold()).toBe(true);
     expect(failingAssertion.hasFailed()).toBe(true);
   });
 
@@ -27,23 +25,12 @@ describe("Assertion", () => {
     expect(holdingAssertion.isIdentifiedAsWith(holdingAssertionAID, holdingAssertionDescription)).toBe(true);
     expect(holdingAssertion.isIdentifiedAs(failingAssertionAID)).toBe(false);
     expect(holdingAssertion.isIdentifiedAsWith(failingAssertionAID, holdingAssertionDescription)).toBe(false);
-    expect(holdingAssertion.isDescription(holdingAssertionDescription)).toBe(true);
-    expect(holdingAssertion.isDescription("No description")).toBe(false);
+    expect(holdingAssertion.hasDescription(holdingAssertionDescription)).toBe(true);
+    expect(holdingAssertion.hasDescription("No description")).toBe(false);
     expect(holdingAssertion.getDescription()).toBe(holdingAssertionDescription);
 
     expect(failingAssertion.isIdentifiedAs(failingAssertionAID)).toBe(true);
     expect(failingAssertion.isIdentifiedAsWith(failingAssertionAID, failingAssertionDescription)).toBe(true);
-  });
-
-  it("should not throw when run and holds", () => {
-    expect(() => Assertion.assertFor(4, failingAssertionAID, () => true, failingAssertionDescription)).not.toThrow();
-  });
-
-  it("should throw when run and does not hold", () => {
-    expect(() => Assertion.assertFor(3, failingAssertionAID, () => false, failingAssertionDescription)).toFailAssertion(
-      failingAssertionAID,
-      failingAssertionDescription
-    );
   });
 
   it("should be deserializable", () => {
@@ -53,5 +40,14 @@ describe("Assertion", () => {
     });
 
     expect(deserializedAssertion.isIdentifiedAsWith("deserializedAID", "A description")).toBe(true);
+  });
+
+  it("should be able to require many conditions", () => {
+    const assertion = Assertion.identifiedAs<string>("ManyConditionsAssertion", "A description")
+      .require((value) => value !== "")
+      .require((value) => value !== "FORBIDDEN");
+
+    expect(assertion.doesHold("FORBIDDEN")).toBe(false);
+    expect(assertion.hasFailed("FORBIDDEN")).toBe(true);
   });
 });
