@@ -26,7 +26,7 @@ describe("AssertionEvaluation", () => {
     expect(evaluation.getId()).toBe("AID");
     expect(evaluation.isIdentifiedAs("AID")).toBe(true);
     expect(evaluation.getDescription()).toBe("Description");
-    expect(evaluation.isDescription("Description")).toBe(true);
+    expect(evaluation.hasDescription("Description")).toBe(true);
     expect(evaluation.isIdentifiedAsWith("AID", "Description")).toBe(true);
   });
 });

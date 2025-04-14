@@ -25,8 +25,8 @@ describe("Assertion", () => {
     expect(holdingAssertion.isIdentifiedAsWith(holdingAssertionAID, holdingAssertionDescription)).toBe(true);
     expect(holdingAssertion.isIdentifiedAs(failingAssertionAID)).toBe(false);
     expect(holdingAssertion.isIdentifiedAsWith(failingAssertionAID, holdingAssertionDescription)).toBe(false);
-    expect(holdingAssertion.isDescription(holdingAssertionDescription)).toBe(true);
-    expect(holdingAssertion.isDescription("No description")).toBe(false);
+    expect(holdingAssertion.hasDescription(holdingAssertionDescription)).toBe(true);
+    expect(holdingAssertion.hasDescription("No description")).toBe(false);
     expect(holdingAssertion.getDescription()).toBe(holdingAssertionDescription);
 
     expect(failingAssertion.isIdentifiedAs(failingAssertionAID)).toBe(true);

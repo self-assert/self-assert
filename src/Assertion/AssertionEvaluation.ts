@@ -19,7 +19,7 @@ export class AssertionEvaluation<ValueType> implements SelfContainedAssertion {
   isIdentifiedAs(assertionId: AssertionId): boolean {
     return this.assertion.isIdentifiedAs(assertionId);
   }
-  
+
   getId(): AssertionId {
     return this.assertion.getId();
   }
@@ -31,8 +31,8 @@ export class AssertionEvaluation<ValueType> implements SelfContainedAssertion {
   getDescription(): string {
     return this.assertion.getDescription();
   }
-  
-  isDescription(assertionDescription: string): boolean {
-    return this.assertion.isDescription(assertionDescription);
+
+  hasDescription(assertionDescription: string): boolean {
+    return this.assertion.hasDescription(assertionDescription);
   }
 }
