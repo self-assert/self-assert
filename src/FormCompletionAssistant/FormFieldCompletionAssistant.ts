@@ -1,6 +1,7 @@
-import { AssertionId } from "@/Assertion/types";
 import { FormCompletionAssistant } from "./FormCompletionAssistant";
+
 import type { ModelFromContainer } from "../types";
+import type { AssertionId } from "@/Assertion";
 
 /**
  * An assistant designed to manage a single field or a simple

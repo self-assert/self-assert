@@ -7,7 +7,7 @@ import type { ModelFromContainer, AssistantsIn } from "@/types";
 type CreationClosure<Model, ComposedModels extends unknown[]> = (...models: ComposedModels) => Model;
 
 /**
- * Assists in the creation of complex models by coordinating multiple inner `FormCompletionAssistant` instances.
+ * Assists in the creation of complex models by coordinating multiple inner `FormCompletionAssistant`.
  *
  * @extends FormCompletionAssistant {@link FormCompletionAssistant link}
  * @template ComposedModels - An array of types representing the types of the models created by the inner assistants,
