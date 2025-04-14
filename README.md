@@ -4,15 +4,14 @@
 
 <div align="center">
 
-[![npm version](https://img.shields.io/npm/v/self-assert)](https://www.npmjs.com/package/self-assert)
+[![npm version](https://img.shields.io/npm/v/self-assert)][npm]
 [![License](https://img.shields.io/badge/license-MIT-green)][license]
-[![Lint and Test](https://github.com/self-assert/self-assert/actions/workflows/ci.yml/badge.svg)](https://github.com/self-assert/self-assert/actions/workflows/ci.yml)
-<!-- [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)][coc]
- [![Publish](https://github.com/self-assert/self-assert/actions/workflows/publish.yml/badge.svg)](https://github.com/self-assert/self-assert/actions/workflows/publish.yml) -->
+[![Lint and Test](https://github.com/self-assert/self-assert/actions/workflows/ci.yml/badge.svg)][gha-lint-and-test]
 
 </div>
 
 ---
+
 ⚠️ WARNING ⚠️
 
 This project is in its early stages and still **unstable**.
@@ -88,23 +87,31 @@ For more information, refer to the [original webinar example][dalg-t1-ch3].
 To ensure that domain objects are created in a valid and complete state,
 `self-assert` introduces the `Assertion` abstraction.
 
+There are two main ways to define and use assertions:
+
+- **Self-contained assertions:** the assertion conditions don't need any
+  parameters to evaluate.
+- **Reusable assertions:** the assertion is defined once and later evaluated
+  with different values.
+
 A common workflow is:
 
 1. Define a main static factory method (e.g., `create`) that:
    - Receives **all required parameters** to build a complete object.
    - Validates those parameters using one or more `Assertion`s.
    - Returns a valid instance or raises an error.
-2. Use `Assertion.for` or `Assertion.forAll` to define validations,
-   and `AssertionsRunner.assertAll` to execute them together in
+2. Use `Assertion.for` for self-contained checks, or create reusable assertions
+   and apply them later using `AssertionEvaluation`.
+3. Use `AssertionsRunner.assertAll` to execute the assertions together in
    the previously defined factory method.
-3. (Optional) If you are using TypeScript, consider marking
+4. (Optional) If you are using TypeScript, consider marking
    the class constructor as `protected`.
-4. Ensure that all other factory methods use the main one.
+5. Ensure that all other factory methods use the main one.
 
 Here's a simplified example:
 
 ```ts
-import { Assertion, AssertionsRunner } from "self-assert";
+import { Assertion, AssertionEvaluation, AssertionsRunner } from "self-assert";
 
 class Person {
   static readonly nameNotBlankAID = "name.notBlank";
@@ -112,10 +119,19 @@ class Person {
   static readonly agePositiveAID = "age.positive";
   static readonly agePositiveDescription = "Age must be positive";
 
+  // Reusable assertion (evaluated later with a value)
+  static readonly nameAssetion = Assertion.for<string>(
+    this.nameNotBlankAID,
+    this.nameNotBlankDescription,
+    (name) => name.trim().length > 0
+  );
+
   static named(name: string, age: number) {
     AssertionsRunner.assertAll([
-      Assertion.for(name, this.nameNotBlankAID, () => name.trim().length > 0, this.nameNotBlankDescription),
-      Assertion.for(age, this.agePositiveAID, () => age > 0, this.agePositiveDescription),
+      // evaluated with `name`
+      AssertionEvaluation.for(this.nameAssertion, name),
+      // self-contained assertion for age
+      Assertion.for(this.agePositiveAID, this.agePositiveDescription, () => age > 0),
     ]);
 
     return new this(name, age);
@@ -206,7 +222,7 @@ personAssistant.withCreatedModelDo(
 
 ## Resources
 
-- [Contributors' Guide](https://github.com/self-assert/self-assert/blob/main/CONTRIBUTING.md)
+- [Contributors' Guide][contributing]
 - [Code of Conduct][coc]
 
 ## License
@@ -214,7 +230,13 @@ personAssistant.withCreatedModelDo(
 [MIT][license]
 
 [license]: https://github.com/self-assert/self-assert/blob/main/LICENSE
+[contributing]: https://github.com/self-assert/self-assert/blob/main/CONTRIBUTING.md
+[npm]: https://www.npmjs.com/package/self-assert
+[gha-lint-and-test]: https://github.com/self-assert/self-assert/actions/workflows/ci.yml
 [coc]: https://github.com/self-assert/.github/blob/main/CODE_OF_CONDUCT.md
+
+<!---->
+
 [hernan-url]: https://github.com/hernanwilkinson
 [disenio-a-la-gorra]: https://github.com/hernanwilkinson/disenioALaGorra
 [dalg-t1-ch2]: https://github.com/hernanwilkinson/disenioALaGorra/tree/a6d90a0044bf69f98fb50584872b226bf678e67b/Temporada01/Episodio02%20-%20Objetos%20V%C3%A1lidos
