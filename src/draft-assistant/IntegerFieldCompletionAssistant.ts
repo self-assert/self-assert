@@ -1,5 +1,5 @@
 import { Assertion, AssertionsRunner, AssertionId } from "@/assertion";
-import { FormFieldCompletionAssistant } from "./FormFieldCompletionAssistant";
+import { FieldDraftAssistant } from "./FieldDraftAssistant";
 import { FormSectionCompletionAssistant } from "./FormSectionCompletionAssistant";
 
 import type { ModelFromContainer } from "../types";
@@ -41,7 +41,7 @@ export class IntegerFieldCompletionAssistant<ContainerModel> extends FormSection
   }
 
   static createNumberAssistant() {
-    return FormFieldCompletionAssistant.handling<number>("", (number) => number.toString());
+    return FieldDraftAssistant.handling<number>("", (number) => number.toString());
   }
 
   static createAssertionFor(assertionId: AssertionId, numberAsString: string) {

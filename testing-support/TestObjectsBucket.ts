@@ -1,5 +1,5 @@
 import { Assertion, AssertionId } from "@/assertion";
-import { FormSectionCompletionAssistant, FormFieldCompletionAssistant } from "@/draft-assistant";
+import { FormSectionCompletionAssistant, FieldDraftAssistant } from "@/draft-assistant";
 import { ModelWithNoAssertions, SelfAssertingModel } from "./TestModels";
 
 import type { ModelFromContainer } from "@/types";
@@ -31,9 +31,8 @@ export class TestObjectsBucket {
   }
 
   protected static createNameAssistant() {
-    return FormFieldCompletionAssistant.handlingAll<ModelWithNoAssertions>(
-      [SelfAssertingModel.nameNotEmptyAID],
-      (model) => model.getName()
+    return FieldDraftAssistant.handlingAll<ModelWithNoAssertions>([SelfAssertingModel.nameNotEmptyAID], (model) =>
+      model.getName()
     );
   }
 

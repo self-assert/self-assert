@@ -9,7 +9,7 @@ import type { AssertionId } from "@/assertion";
  *
  * @extends DraftAssistant {@link DraftAssistant link}
  */
-export class FormFieldCompletionAssistant<ContainerModel, Model extends string = string> extends DraftAssistant<
+export class FieldDraftAssistant<ContainerModel, Model extends string = string> extends DraftAssistant<
   Model,
   ContainerModel
 > {

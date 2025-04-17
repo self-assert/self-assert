@@ -1,6 +1,6 @@
 import { describe, expect, it } from "@jest/globals";
 import { FormSectionCompletionAssistant } from "./FormSectionCompletionAssistant";
-import { FormFieldCompletionAssistant } from "./FormFieldCompletionAssistant";
+import { FieldDraftAssistant } from "./FieldDraftAssistant";
 import { DraftAssistant } from "./DraftAssistant";
 import { Assertion, AssertionsRunner } from "@/assertion";
 
@@ -68,7 +68,7 @@ describe("FormSectionCompletionAssistant", () => {
 
   it("should fail if trying to set from a container when is top level", () => {
     const assistant = FormSectionCompletionAssistant.topLevelContainerWith<{ name: string }, [string]>(
-      [FormFieldCompletionAssistant.handling("AID.1", ({ name }) => name, "")],
+      [FieldDraftAssistant.handling("AID.1", ({ name }) => name, "")],
       (name) => ({ name })
     );
 

@@ -1,5 +1,5 @@
 export * from "./DraftAssistant";
-export * from "./FormFieldCompletionAssistant";
+export * from "./FieldDraftAssistant";
 export * from "./FormSectionCompletionAssistant";
 export * from "./IntegerFieldCompletionAssistant";
-export * from "./DateFieldCompletionAssistant";
+export * from "./DateDraftAssistant";
