@@ -1,23 +1,9 @@
 export type AssertionId = string;
 
 /**
- * An assertion that can be evaluated without a value
- *
- * @remarks
- * `Assertion<void>` and `AssertionEvaluation` are both `SelfContainedAssertion`
+ * Describes an assertion by its id and description.
  */
-export interface SelfContainedAssertion {
-  /**
-   * Returns `true` if the assertion conditions are met.
-   */
-  doesHold(): boolean;
-  /**
-   * Returns `true` if the assertion conditions are not met.
-   *
-   * @remarks
-   * Inverse of `doesHold`
-   */
-  hasFailed(): boolean;
+export interface LabeledAssertion {
   /**
    * Compares the id of the assertion with the given one.
    */
@@ -38,4 +24,37 @@ export interface SelfContainedAssertion {
 
   getId(): AssertionId;
   getDescription(): string;
+}
+
+/**
+ * An assertion that can be evaluated without a value.
+ *
+ * @extends LabeledAssertion
+ *
+ * @remarks
+ * `Assertion<void>` and `AssertionEvaluation` are both `SelfContainedAssertion`
+ */
+export interface SelfContainedAssertion extends LabeledAssertion {
+  /**
+   * Returns `true` if the assertion conditions are met.
+   */
+  doesHold(): boolean;
+  /**
+   * Returns `true` if the assertion conditions are not met.
+   *
+   * @remarks
+   * Inverse of `doesHold`
+   */
+  hasFailed(): boolean;
+
+  /**
+   * Throws an error if the assertion conditions are not met.
+   */
+  assert(): void;
+
+  /**
+   * Reports itself to the given list of failed assertions, if the assertion has failed.
+   * @param failed - the list to report the assertion to.
+   */
+  collectFailureInto(failed: LabeledAssertion[]): void;
 }

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "@jest/globals";
 import { AssertionsFailed } from "./AssertionsFailed";
-import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
+import { AssertionLabel } from "./AssertionLabel";
 
 describe("AssertionsFailed", () => {
   const aFailedAssertionJson = {
@@ -30,8 +30,8 @@ describe("AssertionsFailed", () => {
 
   it("should let traverse failed assertions", () => {
     const assertionsFailed = new AssertionsFailed([
-      TestObjectsBucket.failingAssertion("AID.1", "1 description"),
-      TestObjectsBucket.failingAssertion("AID.2", "2 description"),
+      new AssertionLabel("AID.1", "1 description"),
+      new AssertionLabel("AID.2", "2 description"),
     ]);
 
     let failedAssertionCount = 0;

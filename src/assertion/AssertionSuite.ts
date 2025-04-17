@@ -1,5 +1,5 @@
 import { AssertionsFailed } from "./AssertionsFailed";
-import type { SelfContainedAssertion } from "./types";
+import type { LabeledAssertion, SelfContainedAssertion } from "./types";
 
 /**
  * Runs all assertions and throws an error if any has failed.
@@ -7,7 +7,7 @@ import type { SelfContainedAssertion } from "./types";
  *
  * @see {@link SelfContainedAssertion}, {@link AssertionsFailed}
  */
-export class AssertionsRunner {
+export class AssertionSuite {
   static assert(assertion: SelfContainedAssertion) {
     this.assertAll([assertion]);
   }
@@ -27,7 +27,9 @@ export class AssertionsRunner {
     if (failedAssertions.length > 0) throw new AssertionsFailed(failedAssertions);
   }
 
-  protected failedAssertions() {
-    return this.assertions.filter((assertion) => assertion.hasFailed());
+  protected failedAssertions(): LabeledAssertion[] {
+    const failed: LabeledAssertion[] = [];
+    this.assertions.forEach((assertion) => assertion.collectFailureInto(failed));
+    return failed;
   }
 }

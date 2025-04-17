@@ -11,13 +11,11 @@ describe("Assertion", () => {
   const failingAssertionDescription = TestObjectsBucket.defaultFailingAssertionDescription;
 
   it("should hold when condition is true", () => {
-    expect(holdingAssertion.doesHold()).toBe(true);
-    expect(holdingAssertion.hasFailed()).toBe(false);
+    expect(holdingAssertion).toHold();
   });
 
   it("should not hold when condition is false", () => {
-    expect(failingAssertion.doesHold()).toBe(false);
-    expect(failingAssertion.hasFailed()).toBe(true);
+    expect(failingAssertion).toFail();
   });
 
   it("should remember its id and description", () => {
@@ -47,7 +45,29 @@ describe("Assertion", () => {
       .require((value) => value !== "")
       .require((value) => value !== "FORBIDDEN");
 
-    expect(assertion.doesHold("FORBIDDEN")).toBe(false);
-    expect(assertion.hasFailed("FORBIDDEN")).toBe(true);
+    expect(assertion).toFailWith("FORBIDDEN");
+    expect(assertion).toFailWith("");
+    expect(assertion).toHoldWith("OK");
+  });
+
+  it("should allow to prepare an evaluation", () => {
+    const assertion = Assertion.for<string>("AID", "Description", (value) => value !== "FORBIDDEN");
+    const holdingEvaluation = assertion.evaluateFor("OK");
+    const failingEvaluation = assertion.evaluateFor("FORBIDDEN");
+
+    expect(holdingEvaluation).toHold();
+    expect(failingEvaluation).toFail();
+  });
+
+  it("should not throw when asserting its conditions are met", () => {
+    const assertion = Assertion.for<string>("AID", "Description", (value) => value !== "FORBIDDEN");
+
+    expect(() => assertion.assert("OK")).not.toThrow();
+  });
+
+  it("should throw when asserting its conditions are not met", () => {
+    const assertion = Assertion.for<string>("AID", "Description", (value) => value !== "FORBIDDEN");
+
+    expect(() => assertion.assert("FORBIDDEN")).toFailAssertion("AID", "Description");
   });
 });

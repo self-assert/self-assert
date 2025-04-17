@@ -1,17 +1,18 @@
 import { describe, expect, it } from "@jest/globals";
 
-import { AssertionsRunner } from "./AssertionsRunner";
+import { AssertionSuite } from "./AssertionSuite";
 
 import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
 import { expectToBeAssertionsFailed } from "@testing-support/jest.setup";
+import { Assertion } from ".";
 
-describe("AssertionsRunner", () => {
+describe("AssertionSuite", () => {
   it("should not throw on assertion that holds", () => {
-    expect(() => AssertionsRunner.assert(TestObjectsBucket.holdingAssertion())).not.toThrow();
+    expect(() => AssertionSuite.assert(TestObjectsBucket.holdingAssertion())).not.toThrow();
   });
 
   it("should throw on assertion that does not hold", () => {
-    expect(() => AssertionsRunner.assert(TestObjectsBucket.defaultFailingAssertion())).toFailAssertion(
+    expect(() => AssertionSuite.assert(TestObjectsBucket.defaultFailingAssertion())).toFailAssertion(
       TestObjectsBucket.defaultFailingAssertionAID,
       TestObjectsBucket.defaultFailingAssertionDescription
     );
@@ -24,7 +25,7 @@ describe("AssertionsRunner", () => {
       TestObjectsBucket.failingAssertion("AID.2", "Description 2"),
     ];
     try {
-      AssertionsRunner.assertAll(assertions);
+      AssertionSuite.assertAll(assertions);
       done("Should have thrown");
     } catch (error) {
       expectToBeAssertionsFailed(error);
@@ -38,5 +39,13 @@ describe("AssertionsRunner", () => {
       ).toBe(false);
       done();
     }
+  });
+
+  it("should accept assertion evaluations", () => {
+    const assertions = [
+      Assertion.for<string>("name", "Name should not be empty", (name) => name !== "").evaluateFor(""),
+    ];
+
+    expect(() => AssertionSuite.assertAll(assertions)).toFailAssertion("name", "Name should not be empty");
   });
 });

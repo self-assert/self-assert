@@ -1,9 +1,7 @@
-import type { AssertionId, SelfContainedAssertion } from "./types";
-
-export interface AssertionAsJson {
-  id: AssertionId;
-  description: string;
-}
+import { AssertionEvaluation } from "./AssertionEvaluation";
+import { AssertionLabel, AssertionLabelAsJson } from "./AssertionLabel";
+import { AssertionSuite } from "./AssertionSuite";
+import type { AssertionId, LabeledAssertion, SelfContainedAssertion } from "./types";
 
 /**
  * Represents a validation rule in the problem domain.
@@ -32,16 +30,17 @@ export interface AssertionAsJson {
  * ```
  *
  */
-export class Assertion<ValueType = void> {
-  static fromJson(assertionAsJson: AssertionAsJson) {
-    return this.identifiedAs(assertionAsJson.id, assertionAsJson.description);
+export class Assertion<ValueType = void> implements LabeledAssertion {
+  static fromJson(assertionAsJson: AssertionLabelAsJson) {
+    return new this(AssertionLabel.fromJson(assertionAsJson));
   }
 
   /**
    * Creates a new assertion with the given id and description, without any conditions
    */
   static identifiedAs<ValueType = void>(id: AssertionId, description: string) {
-    return new this<ValueType>(id, description);
+    const label = new AssertionLabel(id, description);
+    return new this<ValueType>(label);
   }
 
   /**
@@ -53,16 +52,40 @@ export class Assertion<ValueType = void> {
 
   protected conditions: ((value: ValueType) => boolean)[];
 
-  protected constructor(protected id: AssertionId, protected description: string) {
+  protected constructor(protected label: AssertionLabel) {
     this.conditions = [];
   }
 
   /**
-   * Adds a necessary condition for the assertion to hold
+   * Adds a necessary condition for the assertion to hold.
+   *
+   * @returns `this` for chaining
    */
-  require(condition: (value: ValueType) => boolean) {
+  require(condition: (value: ValueType) => boolean): this {
     this.conditions.push(condition);
     return this;
+  }
+
+  /**
+   * Prepares an {@link AssertionEvaluation} for the given value.
+   *
+   * This is the same as `AssertionEvaluation.for(this, value)`.
+   *
+   * @example
+   *
+   * ```ts
+   * const nameNotBlank = Assertion.for<string>(
+   *   "customer.name.notBlank",
+   *   "Name must not be blank",
+   *   (name) => name.trim().length > 0
+   * );
+   * const evaluation = nameNotBlank.evaluateFor("John");
+   *
+   * evaluation.doesHold(); // true
+   * ```
+   */
+  evaluateFor(value: ValueType): SelfContainedAssertion {
+    return AssertionEvaluation.for(this, value);
   }
 
   /**
@@ -83,30 +106,49 @@ export class Assertion<ValueType = void> {
     return !this.doesHold(value);
   }
 
+  /**
+   * Asserts that the conditions for the given value are met.
+   *
+   * @see {@link SelfContainedAssertion.assert}
+   */
+  assert(value: ValueType) {
+    AssertionSuite.assert(this.evaluateFor(value));
+  }
+
+  /**
+   * Reports itself to the given list of failed assertions, if the assertion has failed.
+   * @see {@link SelfContainedAssertion.collectFailureInto}
+   */
+  collectFailureInto(failed: unknown[], value: ValueType) {
+    if (this.hasFailed(value)) {
+      failed.push(this.label);
+    }
+  }
+
   isIdentifiedAs(assertionId: AssertionId) {
-    return this.id === assertionId;
+    return this.label.isIdentifiedAs(assertionId);
   }
 
   getId(): AssertionId {
-    return this.id;
+    return this.label.getId();
   }
 
   /**
    * @see {@link SelfContainedAssertion.isIdentifiedAsWith}
    */
   isIdentifiedAsWith(assertionId: AssertionId, assertionDescription: string) {
-    return this.isIdentifiedAs(assertionId) && this.hasDescription(assertionDescription);
+    return this.label.isIdentifiedAsWith(assertionId, assertionDescription);
   }
 
   getDescription() {
-    return this.description;
+    return this.label.getDescription();
   }
 
   /**
    * @see {@link SelfContainedAssertion.hasFailed}
    */
   hasDescription(assertionDescription: string) {
-    return this.description === assertionDescription;
+    return this.label.hasDescription(assertionDescription);
   }
 }
 

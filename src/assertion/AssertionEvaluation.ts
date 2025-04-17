@@ -1,8 +1,11 @@
 import type { AssertionId, SelfContainedAssertion } from "./types";
 import type { Assertion } from "./Assertion";
+import type { AssertionLabel } from "./AssertionLabel";
 
 /**
  * Represents the evaluation of an assertion on a given value.
+ *
+ * It can also be created using the {@link Assertion.evaluateFor} method.
  *
  * @template ValueType The type of value this assertion applies to.
  *
@@ -16,6 +19,15 @@ import type { Assertion } from "./Assertion";
  * const evaluation = AssertionEvaluation.for(nameNotBlank, "John");
  *
  * evaluation.doesHold(); // true
+ * ```
+ *
+ * @example
+ *
+ * ```ts
+ * const evaluation = nameNotBlank.evaluateFor("John"); // AssertionEvaluation
+ *
+ * evaluation.doesHold(); // true
+ * ```
  */
 export class AssertionEvaluation<ValueType> implements SelfContainedAssertion {
   static for<ValueType>(assertion: Assertion<ValueType>, value: ValueType) {
@@ -30,6 +42,14 @@ export class AssertionEvaluation<ValueType> implements SelfContainedAssertion {
 
   hasFailed() {
     return this.assertion.hasFailed(this.value);
+  }
+
+  assert() {
+    return this.assertion.assert(this.value);
+  }
+
+  collectFailureInto(failed: AssertionLabel[]): void {
+    this.assertion.collectFailureInto(failed, this.value);
   }
 
   isIdentifiedAs(assertionId: AssertionId): boolean {

@@ -1,4 +1,4 @@
-import type { SelfContainedAssertion } from "@/assertion";
+import type { LabeledAssertion } from "@/assertion";
 import type { DraftAssistant } from "@/draft-assistant";
 
 /**
@@ -13,7 +13,7 @@ export interface AssistantMirror<Model = unknown> {
   /**
    * Receives notifications about failed assertions.
    */
-  onFailure?: (aFailedAsserion: SelfContainedAssertion) => void;
+  onFailure?: (aFailedAsserion: LabeledAssertion) => void;
 
   /**
    * Receives notifications when the model's failed assertions are cleared.

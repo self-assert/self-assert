@@ -24,8 +24,8 @@
         "color": "terminal.ansiGreen"
       },
       "presentation": {
-        "showReuseMessage": false,
-        "close": true
+        "showReuseMessage": false
+        // "close": true
       }
     }
   ]

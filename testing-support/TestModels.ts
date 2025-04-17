@@ -1,4 +1,4 @@
-import { Assertion, AssertionsRunner } from "@/assertion";
+import { Assertion, AssertionSuite } from "@/assertion";
 
 export class ModelWithNoAssertions {
   constructor(protected name: string) {}
@@ -25,7 +25,7 @@ export class SelfAssertingModel extends ModelWithNoAssertions {
   }
 
   static named(name: string) {
-    AssertionsRunner.assertAll([
+    AssertionSuite.assertAll([
       Assertion.for(this.nameNotEmptyAID, this.nameNotEmptyDescription, () => name !== ""),
       SelfAssertingModel.nameNotForbiddenAssertion(name),
     ]);

@@ -1,4 +1,4 @@
-import type { AssertionId, SelfContainedAssertion } from "@/assertion";
+import type { AssertionId, LabeledAssertion } from "@/assertion";
 import type { ModelFromContainer, AssistantMirror } from "@/types";
 
 /**
@@ -50,7 +50,7 @@ export abstract class DraftAssistant<Model, ContainerModel> {
   }
 
   protected model: Model;
-  protected failedAssertions!: SelfContainedAssertion[];
+  protected failedAssertions!: LabeledAssertion[];
   protected mirrors: AssistantMirror<Model>[];
 
   constructor(
@@ -138,7 +138,7 @@ export abstract class DraftAssistant<Model, ContainerModel> {
   /**
    * Adds an assertion to the list of failed assertions.
    */
-  addFailedAssertion(assertionFailed: SelfContainedAssertion) {
+  addFailedAssertion(assertionFailed: LabeledAssertion) {
     this.failedAssertions.push(assertionFailed);
     this.forEachMirror((mirror) => mirror.onFailure?.(assertionFailed));
   }
@@ -169,7 +169,7 @@ export abstract class DraftAssistant<Model, ContainerModel> {
   /**
    * @returns `true` if this assistant handles the given `Assertion`.
    */
-  handles(anAssertion: SelfContainedAssertion) {
+  handles(anAssertion: LabeledAssertion) {
     return this.assertionIds.some((assertionId) => anAssertion.isIdentifiedAs(assertionId));
   }
 

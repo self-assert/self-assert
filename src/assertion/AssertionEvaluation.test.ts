@@ -7,16 +7,14 @@ describe("AssertionEvaluation", () => {
     const assertion = Assertion.for<string>("AID", "Description", (value) => value === "value");
     const evaluation = AssertionEvaluation.for(assertion, "value");
 
-    expect(evaluation.doesHold()).toBe(true);
-    expect(evaluation.hasFailed()).toBe(false);
+    expect(evaluation).toHold();
   });
 
   it("should not hold when condition is false with value", () => {
     const assertion = Assertion.for<string>("AID", "Description", (value) => value === "value");
     const evaluation = AssertionEvaluation.for(assertion, "not value");
 
-    expect(evaluation.doesHold()).toBe(false);
-    expect(evaluation.hasFailed()).toBe(true);
+    expect(evaluation).toFail();
   });
 
   it("behaves like an assertion", () => {
@@ -28,5 +26,12 @@ describe("AssertionEvaluation", () => {
     expect(evaluation.getDescription()).toBe("Description");
     expect(evaluation.hasDescription("Description")).toBe(true);
     expect(evaluation.isIdentifiedAsWith("AID", "Description")).toBe(true);
+  });
+
+  it("should be able to assert its conditions are met", () => {
+    const assertion = Assertion.for<string>("AID", "Description", (value) => value === "value");
+    const evaluation = AssertionEvaluation.for(assertion, "not value");
+
+    expect(() => evaluation.assert()).toFailAssertion("AID", "Description");
   });
 });
