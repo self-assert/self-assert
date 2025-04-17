@@ -18,6 +18,12 @@ export interface SelfContainedAssertion {
    * Inverse of `doesHold`
    */
   hasFailed(): boolean;
+
+  /**
+   * Reports itself to the given list of failed assertions, if the assertion has failed.
+   * @param failed - the list to report the assertion to.
+   */
+  reportFailureTo(failed: SelfContainedAssertion[]): void;
   /**
    * Compares the id of the assertion with the given one.
    */

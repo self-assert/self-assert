@@ -110,6 +110,16 @@ export class Assertion<ValueType = void> {
     return !this.doesHold(value);
   }
 
+  /**
+   * Reports itself to the given list of failed assertions, if the assertion has failed.
+   * @see {@link SelfContainedAssertion.reportFailureTo}
+   */
+  reportFailureTo(failed: unknown[], value: ValueType) {
+    if (this.hasFailed(value)) {
+      failed.push(this);
+    }
+  }
+
   isIdentifiedAs(assertionId: AssertionId) {
     return this.label.isIdentifiedAs(assertionId);
   }

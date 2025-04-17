@@ -27,7 +27,9 @@ export class AssertionSuite {
     if (failedAssertions.length > 0) throw new AssertionsFailed(failedAssertions);
   }
 
-  protected failedAssertions() {
-    return this.assertions.filter((assertion) => assertion.hasFailed());
+  protected failedAssertions(): SelfContainedAssertion[] {
+    const failed: SelfContainedAssertion[] = [];
+    this.assertions.forEach((assertion) => assertion.reportFailureTo(failed));
+    return failed;
   }
 }

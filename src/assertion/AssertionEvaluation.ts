@@ -32,6 +32,10 @@ export class AssertionEvaluation<ValueType> implements SelfContainedAssertion {
     return this.assertion.hasFailed(this.value);
   }
 
+  reportFailureTo(failed: SelfContainedAssertion[]): void {
+    this.assertion.reportFailureTo(failed, this.value);
+  }
+
   isIdentifiedAs(assertionId: AssertionId): boolean {
     return this.assertion.isIdentifiedAs(assertionId);
   }
