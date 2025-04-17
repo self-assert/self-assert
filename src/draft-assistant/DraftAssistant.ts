@@ -19,12 +19,12 @@ import type { ModelFromContainer, AssistantMirror } from "@/types";
  * Assistants can be nested and composed to build complex forms with clear responsibilities.
  *
  */
-export abstract class FormCompletionAssistant<Model, ContainerModel> {
+export abstract class DraftAssistant<Model, ContainerModel> {
   /**
    * See {@link https://github.com/microsoft/TypeScript/issues/3841 #3841} for
    * more information.
    */
-  declare ["constructor"]: typeof FormCompletionAssistant;
+  declare ["constructor"]: typeof DraftAssistant;
 
   /**
    * This object is used as a **token** for an invalid model.
@@ -32,7 +32,7 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
   static INVALID_MODEL = new Object();
 
   static isInvalidModel(potentialModel: unknown) {
-    return potentialModel === FormCompletionAssistant.INVALID_MODEL;
+    return potentialModel === DraftAssistant.INVALID_MODEL;
   }
 
   /**

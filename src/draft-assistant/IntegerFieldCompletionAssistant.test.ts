@@ -1,6 +1,6 @@
 import { describe, it, expect } from "@jest/globals";
 import { IntegerFieldCompletionAssistant } from "./IntegerFieldCompletionAssistant";
-import { FormCompletionAssistant } from "./FormCompletionAssistant";
+import { DraftAssistant } from "./DraftAssistant";
 
 describe("IntegerFieldCompletionAssistant", () => {
   it("should allow non-negative integers as strings", (done) => {
@@ -53,7 +53,7 @@ describe("IntegerFieldCompletionAssistant", () => {
     assistant.withCreatedModelDo(
       () => done("Should be invalid"),
       () => {
-        expect(FormCompletionAssistant.isInvalidModel(assistant.getModel())).toBe(true);
+        expect(DraftAssistant.isInvalidModel(assistant.getModel())).toBe(true);
         expect(assistant.hasOnlyOneAssertionFailedIdentifiedAs(assertionId)).toBe(true);
         done();
       }
@@ -68,7 +68,7 @@ describe("IntegerFieldCompletionAssistant", () => {
     assistant.withCreatedModelDo(
       () => done("Should be invalid"),
       () => {
-        expect(FormCompletionAssistant.isInvalidModel(assistant.getModel())).toBe(true);
+        expect(DraftAssistant.isInvalidModel(assistant.getModel())).toBe(true);
         expect(assistant.hasOnlyOneAssertionFailedIdentifiedAs(assertionId)).toBe(true);
         done();
       }
@@ -83,7 +83,7 @@ describe("IntegerFieldCompletionAssistant", () => {
     assistant.withCreatedModelDo(
       () => done("Should be invalid"),
       () => {
-        expect(FormCompletionAssistant.isInvalidModel(assistant.getModel())).toBe(true);
+        expect(DraftAssistant.isInvalidModel(assistant.getModel())).toBe(true);
         expect(assistant.hasOnlyOneAssertionFailedIdentifiedAs(assertionId)).toBe(true);
         done();
       }

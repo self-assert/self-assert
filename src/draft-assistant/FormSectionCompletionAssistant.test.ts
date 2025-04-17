@@ -1,7 +1,7 @@
 import { describe, expect, it } from "@jest/globals";
 import { FormSectionCompletionAssistant } from "./FormSectionCompletionAssistant";
 import { FormFieldCompletionAssistant } from "./FormFieldCompletionAssistant";
-import { FormCompletionAssistant } from "./FormCompletionAssistant";
+import { DraftAssistant } from "./DraftAssistant";
 import { Assertion, AssertionsRunner } from "@/assertion";
 
 import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
@@ -28,7 +28,7 @@ describe("FormSectionCompletionAssistant", () => {
   it("should be created invalid with no failed assertions", () => {
     const assistant = TestObjectsBucket.createModelWithNoAssertionsAssistant();
 
-    expect(FormCompletionAssistant.isInvalidModel(assistant.getModel())).toBe(true);
+    expect(DraftAssistant.isInvalidModel(assistant.getModel())).toBe(true);
     expect(assistant.hasFailedAssertions()).toBe(false);
     expect(assistant.doesNotHaveFailedAssertions()).toBe(true);
     expect(assistant.handles(Assertion.identifiedAs("AID.1", "Description 1"))).toBe(false);
@@ -83,7 +83,7 @@ describe("FormSectionCompletionAssistant", () => {
     assistant.setModel(new ModelWithNoAssertions("Test"));
 
     const model = assistant.getModel();
-    expect(FormCompletionAssistant.isInvalidModel(model)).toBe(false);
+    expect(DraftAssistant.isInvalidModel(model)).toBe(false);
     expect(model).toBeInstanceOf(ModelWithNoAssertions);
     expect(model.isNamed("Test")).toBe(true);
     expect(assistant.nameAssistant.getModel()).toBe("Test");
@@ -187,7 +187,7 @@ describe("FormSectionCompletionAssistant", () => {
     it("should reflect changes when the model is created", (done) => {
       const assistant = TestObjectsBucket.createSelfAssertingModelAssistant();
 
-      let image: SelfAssertingModel | typeof FormCompletionAssistant.INVALID_MODEL = new Object();
+      let image: SelfAssertingModel | typeof DraftAssistant.INVALID_MODEL = new Object();
       assistant.accept({ reflect: (model) => (image = model) });
 
       assistant.nameAssistant.setModel("Pedro");
@@ -205,7 +205,7 @@ describe("FormSectionCompletionAssistant", () => {
     it("should reflect an invalid image when creation fails", (done) => {
       const assistant = TestObjectsBucket.createSelfAssertingModelAssistant();
 
-      let image: SelfAssertingModel | typeof FormCompletionAssistant.INVALID_MODEL = new Object();
+      let image: SelfAssertingModel | typeof DraftAssistant.INVALID_MODEL = new Object();
       assistant.accept({ reflect: (model) => (image = model) });
 
       assistant.nameAssistant.setModel(SelfAssertingModel.forbiddenName);
@@ -215,7 +215,7 @@ describe("FormSectionCompletionAssistant", () => {
           done("Should have failed");
         },
         () => {
-          expect(image).toBe(FormCompletionAssistant.INVALID_MODEL);
+          expect(image).toBe(DraftAssistant.INVALID_MODEL);
           done();
         }
       );
@@ -224,7 +224,7 @@ describe("FormSectionCompletionAssistant", () => {
     it("should reflect changes when the model is updated", () => {
       const assistant = TestObjectsBucket.createSelfAssertingModelAssistant();
 
-      let image: SelfAssertingModel | typeof FormCompletionAssistant.INVALID_MODEL = new Object();
+      let image: SelfAssertingModel | typeof DraftAssistant.INVALID_MODEL = new Object();
       assistant.accept({ reflect: (model) => (image = model) });
 
       const model = SelfAssertingModel.named("Pedro");

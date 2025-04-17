@@ -1,4 +1,4 @@
-import { FormCompletionAssistant } from "./FormCompletionAssistant";
+import { DraftAssistant } from "./DraftAssistant";
 import { AssertionsFailed } from "@/assertion";
 
 import type { AssertionId, SelfContainedAssertion } from "@/assertion";
@@ -9,7 +9,7 @@ type CreationClosure<Model, ComposedModels extends unknown[]> = (...models: Comp
 /**
  * Assists in the creation of complex models by coordinating multiple inner `FormCompletionAssistant`.
  *
- * @extends FormCompletionAssistant {@link FormCompletionAssistant link}
+ * @extends DraftAssistant {@link DraftAssistant link}
  * @template ComposedModels - An array of types representing the types of the models created by the inner assistants,
  * in the same order as the `assistants` array.
  *
@@ -21,7 +21,7 @@ export class FormSectionCompletionAssistant<
   Model,
   ContainerModel,
   ComposedModels extends unknown[]
-> extends FormCompletionAssistant<Model, ContainerModel> {
+> extends DraftAssistant<Model, ContainerModel> {
   static with<Model, ContainerModel, ComposedModels extends unknown[]>(
     assistants: AssistantsIn<ComposedModels, Model>,
     creationClosure: CreationClosure<Model, ComposedModels>,
@@ -45,8 +45,8 @@ export class FormSectionCompletionAssistant<
     fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
     assertionIds: AssertionId[]
   ) {
-    /** @ts-expect-error See {@link FormCompletionAssistant.INVALID_MODEL} */
-    super(assertionIds, fromContainerModelGetter, FormCompletionAssistant.INVALID_MODEL);
+    /** @ts-expect-error See {@link DraftAssistant.INVALID_MODEL} */
+    super(assertionIds, fromContainerModelGetter, DraftAssistant.INVALID_MODEL);
   }
 
   createModel() {
@@ -96,7 +96,7 @@ export class FormSectionCompletionAssistant<
   }
 
   protected addFailedAssertionToAll(
-    assistantsHandlingAssertion: FormCompletionAssistant<unknown, Model>[],
+    assistantsHandlingAssertion: DraftAssistant<unknown, Model>[],
     failedAssertion: SelfContainedAssertion
   ) {
     assistantsHandlingAssertion.forEach((assistant) => assistant.addFailedAssertion(failedAssertion));

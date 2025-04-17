@@ -1,6 +1,6 @@
 import { describe, expect, it } from "@jest/globals";
 import { DateFieldCompletionAssistant } from "./DateFieldCompletionAssistant";
-import { FormCompletionAssistant } from "./FormCompletionAssistant";
+import { DraftAssistant } from "./DraftAssistant";
 
 describe("DateFieldCompletionAssistant", () => {
   it("should handle ISO dates", (done) => {
@@ -28,7 +28,7 @@ describe("DateFieldCompletionAssistant", () => {
     assistant.withCreatedModelDo(
       () => done("Should be invalid"),
       () => {
-        expect(FormCompletionAssistant.isInvalidModel(assistant.getModel())).toBe(true);
+        expect(DraftAssistant.isInvalidModel(assistant.getModel())).toBe(true);
         expect(assistant.hasOnlyOneAssertionFailedIdentifiedAs(assertionId)).toBe(true);
         expect(assistant.failedAssertionsDescriptions()).toEqual([
           DateFieldCompletionAssistant.defaultAssertionDescription,
@@ -47,7 +47,7 @@ describe("DateFieldCompletionAssistant", () => {
     assistant.withCreatedModelDo(
       () => done("Should be invalid"),
       () => {
-        expect(FormCompletionAssistant.isInvalidModel(assistant.getModel())).toBe(true);
+        expect(DraftAssistant.isInvalidModel(assistant.getModel())).toBe(true);
         expect(assistant.hasOnlyOneAssertionFailedIdentifiedAs(assertionId)).toBe(true);
         expect(assistant.failedAssertionsDescriptions()).toEqual([
           DateFieldCompletionAssistant.defaultAssertionDescription,
