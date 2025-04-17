@@ -1,10 +1,10 @@
 import { describe, expect, it } from "@jest/globals";
-import { DateFieldCompletionAssistant } from "./DateFieldCompletionAssistant";
-import { FormCompletionAssistant } from "./FormCompletionAssistant";
+import { DateDraftAssistant } from "./DateDraftAssistant";
+import { DraftAssistant } from "./DraftAssistant";
 
-describe("DateFieldCompletionAssistant", () => {
+describe("DateDraftAssistant", () => {
   it("should handle ISO dates", (done) => {
-    const assistant = DateFieldCompletionAssistant.forTopLevel("");
+    const assistant = DateDraftAssistant.forTopLevel("");
 
     assistant.setInnerModel("2020-01-01");
 
@@ -21,18 +21,16 @@ describe("DateFieldCompletionAssistant", () => {
 
   it("should be invalid if the inner model does not have a valid ISO format", (done) => {
     const assertionId = "ISODateAID";
-    const assistant = DateFieldCompletionAssistant.forTopLevel(assertionId);
+    const assistant = DateDraftAssistant.forTopLevel(assertionId);
 
     assistant.setInnerModel("01/01/2020");
 
     assistant.withCreatedModelDo(
       () => done("Should be invalid"),
       () => {
-        expect(FormCompletionAssistant.isInvalidModel(assistant.getModel())).toBe(true);
+        expect(DraftAssistant.isInvalidModel(assistant.getModel())).toBe(true);
         expect(assistant.hasOnlyOneAssertionFailedIdentifiedAs(assertionId)).toBe(true);
-        expect(assistant.failedAssertionsDescriptions()).toEqual([
-          DateFieldCompletionAssistant.defaultAssertionDescription,
-        ]);
+        expect(assistant.failedAssertionsDescriptions()).toEqual([DateDraftAssistant.defaultAssertionDescription]);
         done();
       }
     );
@@ -40,18 +38,16 @@ describe("DateFieldCompletionAssistant", () => {
 
   it("should be invalid if the inner model has a valid format but is not an ISO date", (done) => {
     const assertionId = "ISODateAID";
-    const assistant = DateFieldCompletionAssistant.forTopLevel(assertionId);
+    const assistant = DateDraftAssistant.forTopLevel(assertionId);
 
     assistant.setInnerModel("2020-13-01");
 
     assistant.withCreatedModelDo(
       () => done("Should be invalid"),
       () => {
-        expect(FormCompletionAssistant.isInvalidModel(assistant.getModel())).toBe(true);
+        expect(DraftAssistant.isInvalidModel(assistant.getModel())).toBe(true);
         expect(assistant.hasOnlyOneAssertionFailedIdentifiedAs(assertionId)).toBe(true);
-        expect(assistant.failedAssertionsDescriptions()).toEqual([
-          DateFieldCompletionAssistant.defaultAssertionDescription,
-        ]);
+        expect(assistant.failedAssertionsDescriptions()).toEqual([DateDraftAssistant.defaultAssertionDescription]);
         done();
       }
     );
@@ -59,7 +55,7 @@ describe("DateFieldCompletionAssistant", () => {
 
   describe("inner assistant", () => {
     it("should allow setting its value from an ISO date", () => {
-      const assistant = DateFieldCompletionAssistant.forTopLevel("");
+      const assistant = DateDraftAssistant.forTopLevel("");
 
       assistant.innerAssistant().setModelFrom(new Date(2020, 0, 1));
 

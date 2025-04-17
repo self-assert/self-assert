@@ -1,30 +1,34 @@
-import type { AssertionId, SelfContainedAssertion } from "@/Assertion";
+import type { AssertionId, SelfContainedAssertion } from "@/assertion";
 import type { ModelFromContainer, AssistantMirror } from "@/types";
 
 /**
- * Provides an assistant to guide the completion of a model during form interaction.
+ * Provides an assistant to guide the completion of a model.
  *
- * A `FormCompletionAssistant` encapsulates the logic needed to:
+ * A `DraftAssistant` encapsulates the logic needed to:
  *
  * - track the current state of a form field or group of fields,
  * - validate the model being built,
  * - handle and route failed assertions,
  * - notify observers (mirrors) of changes or validation failures.
  *
+ * Assistants can be nested and composed to build complex models.
+ *
  * @template Model The type of the model the assistant helps to create.
  * @template ContainerModel The type of the container model the assistant works on.
  *
  * @remarks
- * The name was chosen employing the metaphor of an assistant guiding form completion.
- * Assistants can be nested and composed to build complex forms with clear responsibilities.
+ * Originally, this class was named `ModelCreator`. Later, it was renamed to `FormCompletionAssistant`,
+ * employing the metaphor of an assistant guiding form completion. This could have led to confusion,
+ * since the class has more use cases than just form completion.
  *
+ * It can, for example, be used in a backend context to validate an object before persisting it.
  */
-export abstract class FormCompletionAssistant<Model, ContainerModel> {
+export abstract class DraftAssistant<Model, ContainerModel> {
   /**
    * See {@link https://github.com/microsoft/TypeScript/issues/3841 #3841} for
    * more information.
    */
-  declare ["constructor"]: typeof FormCompletionAssistant;
+  declare ["constructor"]: typeof DraftAssistant;
 
   /**
    * This object is used as a **token** for an invalid model.
@@ -32,7 +36,7 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
   static INVALID_MODEL = new Object();
 
   static isInvalidModel(potentialModel: unknown) {
-    return potentialModel === FormCompletionAssistant.INVALID_MODEL;
+    return potentialModel === DraftAssistant.INVALID_MODEL;
   }
 
   /**
@@ -120,7 +124,7 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
   /**
    * Removes a mirror from the list of observers.
    */
-  break(aMirror: AssistantMirror) {
+  break(aMirror: AssistantMirror<never>) {
     this.mirrors = this.mirrors.filter((mirror) => mirror !== aMirror);
   }
 

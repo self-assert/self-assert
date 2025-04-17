@@ -1,18 +1,18 @@
-import { FormCompletionAssistant } from "./FormCompletionAssistant";
+import { DraftAssistant } from "./DraftAssistant";
 
 import type { ModelFromContainer } from "../types";
-import type { AssertionId } from "@/Assertion";
+import type { AssertionId } from "@/assertion";
 
 /**
  * An assistant designed to manage a single field or a simple
  * piece of data within a larger form or model.
  *
- * @extends FormCompletionAssistant {@link FormCompletionAssistant link}
+ * @extends DraftAssistant {@link DraftAssistant link}
  */
-export class FormFieldCompletionAssistant<
-  ContainerModel,
-  Model extends string = string
-> extends FormCompletionAssistant<Model, ContainerModel> {
+export class FieldDraftAssistant<ContainerModel, Model extends string = string> extends DraftAssistant<
+  Model,
+  ContainerModel
+> {
   static handling<ContainerModel, Model extends string = string>(
     assertionId: AssertionId,
     fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,

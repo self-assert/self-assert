@@ -1,8 +1,6 @@
-import { FormFieldCompletionAssistant } from "./FormFieldCompletionAssistant";
-import { FormSectionCompletionAssistant } from "./FormSectionCompletionAssistant";
-import { Assertion } from "../Assertion/Assertion";
-import { AssertionId } from "@/Assertion/types";
-import { AssertionsRunner } from "../Assertion/AssertionsRunner";
+import { FieldDraftAssistant } from "./FieldDraftAssistant";
+import { SectionDraftAssistant } from "./SectionDraftAssistant";
+import { Assertion, AssertionId, AssertionsRunner } from "@/assertion";
 import type { ModelFromContainer } from "../types";
 
 /**
@@ -16,17 +14,13 @@ import type { ModelFromContainer } from "../types";
  * It is recommended to use the {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal Temporal} API
  * for new projects by MDN.
  */
-export class DateFieldCompletionAssistant<ContainerModel> extends FormSectionCompletionAssistant<
-  Date,
-  ContainerModel,
-  [string]
-> {
+export class DateDraftAssistant<ContainerModel> extends SectionDraftAssistant<Date, ContainerModel, [string]> {
   static readonly defaultAssertionDescription = "Invalid date";
 
   static for<ContainerModel>(
     assertionId: AssertionId,
     fromContainerModelGetter: ModelFromContainer<Date, ContainerModel>
-  ): DateFieldCompletionAssistant<ContainerModel> {
+  ): DateDraftAssistant<ContainerModel> {
     const assertionIds = assertionId === "" ? [] : [assertionId];
 
     /** @ts-expect-error @see {@link https://github.com/microsoft/TypeScript/issues/5863 #5863} */
@@ -49,13 +43,13 @@ export class DateFieldCompletionAssistant<ContainerModel> extends FormSectionCom
   }
 
   static createDateAssistant() {
-    return FormFieldCompletionAssistant.handling<Date>("", (date) => date.toISOString().substring(0, 10));
+    return FieldDraftAssistant.handling<Date>("", (date) => date.toISOString().substring(0, 10));
   }
 
   static createAssertionFor(assertionId: AssertionId, dateAsString: string) {
     return Assertion.for(
       assertionId,
-      DateFieldCompletionAssistant.defaultAssertionDescription,
+      DateDraftAssistant.defaultAssertionDescription,
       () => /^\d{4}-\d{2}-\d{2}$/.test(dateAsString) && !isNaN(new Date(dateAsString).getTime())
     );
   }

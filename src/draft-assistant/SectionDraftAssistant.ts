@@ -1,27 +1,26 @@
-import { FormCompletionAssistant } from "./FormCompletionAssistant";
-import { AssertionsFailed } from "@/Assertion";
+import { DraftAssistant } from "./DraftAssistant";
+import { AssertionsFailed } from "@/assertion";
 
-import type { AssertionId, SelfContainedAssertion } from "@/Assertion";
+import type { AssertionId, SelfContainedAssertion } from "@/assertion";
 import type { ModelFromContainer, AssistantsIn } from "@/types";
 
 type CreationClosure<Model, ComposedModels extends unknown[]> = (...models: ComposedModels) => Model;
 
 /**
- * Assists in the creation of complex models by coordinating multiple inner `FormCompletionAssistant`.
+ * Assists in the creation of complex models by coordinating multiple inner `DraftAssistant`.
  *
- * @extends FormCompletionAssistant {@link FormCompletionAssistant link}
+ * It uses a `creationClosure` function to combine the models created by its
+ * assistants into a single composed model.
+ *
+ * @extends DraftAssistant {@link DraftAssistant link}
  * @template ComposedModels - An array of types representing the types of the models created by the inner assistants,
  * in the same order as the `assistants` array.
  *
- * @remarks
- * It uses a `creationClosure` function to combine the models created by its
- * assistants into a single composed model.
  */
-export class FormSectionCompletionAssistant<
+export class SectionDraftAssistant<Model, ContainerModel, ComposedModels extends unknown[]> extends DraftAssistant<
   Model,
-  ContainerModel,
-  ComposedModels extends unknown[]
-> extends FormCompletionAssistant<Model, ContainerModel> {
+  ContainerModel
+> {
   static with<Model, ContainerModel, ComposedModels extends unknown[]>(
     assistants: AssistantsIn<ComposedModels, Model>,
     creationClosure: CreationClosure<Model, ComposedModels>,
@@ -45,8 +44,8 @@ export class FormSectionCompletionAssistant<
     fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
     assertionIds: AssertionId[]
   ) {
-    /** @ts-expect-error See {@link FormCompletionAssistant.INVALID_MODEL} */
-    super(assertionIds, fromContainerModelGetter, FormCompletionAssistant.INVALID_MODEL);
+    /** @ts-expect-error See {@link DraftAssistant.INVALID_MODEL} */
+    super(assertionIds, fromContainerModelGetter, DraftAssistant.INVALID_MODEL);
   }
 
   createModel() {
@@ -96,7 +95,7 @@ export class FormSectionCompletionAssistant<
   }
 
   protected addFailedAssertionToAll(
-    assistantsHandlingAssertion: FormCompletionAssistant<unknown, Model>[],
+    assistantsHandlingAssertion: DraftAssistant<unknown, Model>[],
     failedAssertion: SelfContainedAssertion
   ) {
     assistantsHandlingAssertion.forEach((assistant) => assistant.addFailedAssertion(failedAssertion));

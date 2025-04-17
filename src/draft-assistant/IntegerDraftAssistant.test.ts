@@ -1,10 +1,10 @@
 import { describe, it, expect } from "@jest/globals";
-import { IntegerFieldCompletionAssistant } from "./IntegerFieldCompletionAssistant";
-import { FormCompletionAssistant } from "./FormCompletionAssistant";
+import { IntegerDraftAssistant } from "./IntegerDraftAssistant";
+import { DraftAssistant } from "./DraftAssistant";
 
-describe("IntegerFieldCompletionAssistant", () => {
+describe("IntegerDraftAssistant", () => {
   it("should allow non-negative integers as strings", (done) => {
-    const assistant = IntegerFieldCompletionAssistant.forTopLevel("");
+    const assistant = IntegerDraftAssistant.forTopLevel("");
     assistant.setInnerModel("0");
 
     assistant.withCreatedModelDo(
@@ -18,7 +18,7 @@ describe("IntegerFieldCompletionAssistant", () => {
   });
 
   it("should allow negative integers as strings", (done) => {
-    const assistant = IntegerFieldCompletionAssistant.forTopLevel("");
+    const assistant = IntegerDraftAssistant.forTopLevel("");
     assistant.setInnerModel("-1");
 
     assistant.withCreatedModelDo(
@@ -32,7 +32,7 @@ describe("IntegerFieldCompletionAssistant", () => {
   });
 
   it("should allow positive integers with explicit sign as strings", (done) => {
-    const assistant = IntegerFieldCompletionAssistant.forTopLevel("");
+    const assistant = IntegerDraftAssistant.forTopLevel("");
     assistant.setInnerModel("+1");
 
     assistant.withCreatedModelDo(
@@ -47,13 +47,13 @@ describe("IntegerFieldCompletionAssistant", () => {
 
   it("should be invalid if the inner model is empty", (done) => {
     const assertionId = "emptyStringAssertionAID";
-    const assistant = IntegerFieldCompletionAssistant.forTopLevel(assertionId);
+    const assistant = IntegerDraftAssistant.forTopLevel(assertionId);
     assistant.setInnerModel("");
 
     assistant.withCreatedModelDo(
       () => done("Should be invalid"),
       () => {
-        expect(FormCompletionAssistant.isInvalidModel(assistant.getModel())).toBe(true);
+        expect(DraftAssistant.isInvalidModel(assistant.getModel())).toBe(true);
         expect(assistant.hasOnlyOneAssertionFailedIdentifiedAs(assertionId)).toBe(true);
         done();
       }
@@ -62,13 +62,13 @@ describe("IntegerFieldCompletionAssistant", () => {
 
   it("should be invalid if the inner model is not a number", (done) => {
     const assertionId = "notANumberAssertionAID";
-    const assistant = IntegerFieldCompletionAssistant.forTopLevel(assertionId);
+    const assistant = IntegerDraftAssistant.forTopLevel(assertionId);
     assistant.setInnerModel("not a number");
 
     assistant.withCreatedModelDo(
       () => done("Should be invalid"),
       () => {
-        expect(FormCompletionAssistant.isInvalidModel(assistant.getModel())).toBe(true);
+        expect(DraftAssistant.isInvalidModel(assistant.getModel())).toBe(true);
         expect(assistant.hasOnlyOneAssertionFailedIdentifiedAs(assertionId)).toBe(true);
         done();
       }
@@ -77,13 +77,13 @@ describe("IntegerFieldCompletionAssistant", () => {
 
   it("should be invalid if the inner model is not an integer", (done) => {
     const assertionId = "notAnIntegerAssertionAID";
-    const assistant = IntegerFieldCompletionAssistant.forTopLevel(assertionId);
+    const assistant = IntegerDraftAssistant.forTopLevel(assertionId);
     assistant.setInnerModel("0.1");
 
     assistant.withCreatedModelDo(
       () => done("Should be invalid"),
       () => {
-        expect(FormCompletionAssistant.isInvalidModel(assistant.getModel())).toBe(true);
+        expect(DraftAssistant.isInvalidModel(assistant.getModel())).toBe(true);
         expect(assistant.hasOnlyOneAssertionFailedIdentifiedAs(assertionId)).toBe(true);
         done();
       }
@@ -92,7 +92,7 @@ describe("IntegerFieldCompletionAssistant", () => {
 
   describe("inner assistant", () => {
     it("should allow setting its value from an integer", (done) => {
-      const assistant = IntegerFieldCompletionAssistant.forTopLevel("");
+      const assistant = IntegerDraftAssistant.forTopLevel("");
 
       assistant.innerAssistant().setModelFrom(1);
 
