@@ -24,15 +24,13 @@ export interface AssistantMirror<Model = unknown> {
 /**
  * Maps an array of models to the assistants that handle them.
  *
- * @see {@link FormSectionCompletionAssistant}
- *
  * @example
- * Suppose a Customer has only a firstName and a lastName.
+ * Suppose a Customer has only a `firstName` and a `lastName`.
  *
  * ```ts
  * const assistants: AssistantsFor<[string, string], Customer> = [
- *    getFirstNameCompletionAssistant(),
- *    getLastNameCompletionAssistant()
+ *    firstNameDraftAssistant,
+ *    lastNameDraftAssistant
  * ]
  * ```
  */

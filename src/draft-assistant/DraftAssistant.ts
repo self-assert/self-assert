@@ -4,20 +4,24 @@ import type { ModelFromContainer, AssistantMirror } from "@/types";
 /**
  * Provides an assistant to guide the completion of a model during form interaction.
  *
- * A `FormCompletionAssistant` encapsulates the logic needed to:
+ * A `DraftAssistant` encapsulates the logic needed to:
  *
  * - track the current state of a form field or group of fields,
  * - validate the model being built,
  * - handle and route failed assertions,
  * - notify observers (mirrors) of changes or validation failures.
  *
+ * Assistants can be nested and composed to build complex models.
+ *
  * @template Model The type of the model the assistant helps to create.
  * @template ContainerModel The type of the container model the assistant works on.
  *
  * @remarks
- * The name was chosen employing the metaphor of an assistant guiding form completion.
- * Assistants can be nested and composed to build complex forms with clear responsibilities.
+ * Originally, this class was named `ModelCreator`. Later, it was renamed to `FormCompletionAssistant`,
+ * employing the metaphor of an assistant guiding form completion. This could have led to confusion,
+ * since the class has more use cases than just form completion.
  *
+ * It can, for example, be used in a backend context to validate an object before persisting it.
  */
 export abstract class DraftAssistant<Model, ContainerModel> {
   /**
