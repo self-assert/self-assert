@@ -1,4 +1,4 @@
-import type { AssertionId, SelfContainedAssertion } from "@/Assertion";
+import type { AssertionId, SelfContainedAssertion } from "@/assertion";
 import type { ModelFromContainer, AssistantMirror } from "@/types";
 
 /**
@@ -120,7 +120,7 @@ export abstract class FormCompletionAssistant<Model, ContainerModel> {
   /**
    * Removes a mirror from the list of observers.
    */
-  break(aMirror: AssistantMirror) {
+  break(aMirror: AssistantMirror<never>) {
     this.mirrors = this.mirrors.filter((mirror) => mirror !== aMirror);
   }
 

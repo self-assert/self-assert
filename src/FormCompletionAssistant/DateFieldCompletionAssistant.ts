@@ -1,8 +1,6 @@
 import { FormFieldCompletionAssistant } from "./FormFieldCompletionAssistant";
 import { FormSectionCompletionAssistant } from "./FormSectionCompletionAssistant";
-import { Assertion } from "../Assertion/Assertion";
-import { AssertionId } from "@/Assertion/types";
-import { AssertionsRunner } from "../Assertion/AssertionsRunner";
+import { Assertion, AssertionId, AssertionsRunner } from "@/assertion";
 import type { ModelFromContainer } from "../types";
 
 /**

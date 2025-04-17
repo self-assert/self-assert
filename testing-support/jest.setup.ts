@@ -1,6 +1,6 @@
 import { expect } from "@jest/globals";
 
-import { AssertionId, AssertionsFailed } from "@/Assertion";
+import { AssertionId, AssertionsFailed } from "@/assertion";
 
 export function expectToBeAssertionsFailed(error: unknown): asserts error is AssertionsFailed {
   expect(error).toBeInstanceOf(AssertionsFailed);

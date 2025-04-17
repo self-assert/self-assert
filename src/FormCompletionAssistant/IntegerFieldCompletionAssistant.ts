@@ -1,6 +1,4 @@
-import { Assertion } from "../Assertion/Assertion";
-import { AssertionId } from "@/Assertion/types";
-import { AssertionsRunner } from "../Assertion/AssertionsRunner";
+import { Assertion, AssertionsRunner, AssertionId } from "@/assertion";
 import { FormFieldCompletionAssistant } from "./FormFieldCompletionAssistant";
 import { FormSectionCompletionAssistant } from "./FormSectionCompletionAssistant";
 

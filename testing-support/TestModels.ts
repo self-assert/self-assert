@@ -1,5 +1,4 @@
-import { Assertion } from "@/Assertion/Assertion";
-import { AssertionsRunner } from "@/Assertion/AssertionsRunner";
+import { Assertion, AssertionsRunner } from "@/assertion";
 
 export class ModelWithNoAssertions {
   constructor(protected name: string) {}

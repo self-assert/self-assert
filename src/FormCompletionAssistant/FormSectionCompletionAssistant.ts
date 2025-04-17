@@ -1,7 +1,7 @@
 import { FormCompletionAssistant } from "./FormCompletionAssistant";
-import { AssertionsFailed } from "@/Assertion";
+import { AssertionsFailed } from "@/assertion";
 
-import type { AssertionId, SelfContainedAssertion } from "@/Assertion";
+import type { AssertionId, SelfContainedAssertion } from "@/assertion";
 import type { ModelFromContainer, AssistantsIn } from "@/types";
 
 type CreationClosure<Model, ComposedModels extends unknown[]> = (...models: ComposedModels) => Model;

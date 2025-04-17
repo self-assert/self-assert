@@ -2,11 +2,11 @@ import { describe, expect, it } from "@jest/globals";
 import { FormSectionCompletionAssistant } from "./FormSectionCompletionAssistant";
 import { FormFieldCompletionAssistant } from "./FormFieldCompletionAssistant";
 import { FormCompletionAssistant } from "./FormCompletionAssistant";
+import { Assertion, AssertionsRunner } from "@/assertion";
+
 import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
-import { Assertion } from "@/Assertion/Assertion";
 import { ModelWithNoAssertions, SelfAssertingModel } from "@testing-support/TestModels";
 import { expectToBeAssertionsFailed } from "@testing-support/jest.setup";
-import { AssertionsRunner } from "@/Assertion";
 
 const systemAID = "systemVerifiedAID";
 const system = {

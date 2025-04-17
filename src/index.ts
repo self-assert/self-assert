@@ -1,3 +1,3 @@
-export * from "./Assertion";
-export * from "./FormCompletionAssistant";
-export * from "./types";
+export * from "@/assertion";
+export * from "@/FormCompletionAssistant";
+export * from "@/types";

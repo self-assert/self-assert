@@ -1,4 +1,4 @@
-import type { SelfContainedAssertion } from "@/Assertion";
+import type { SelfContainedAssertion } from "@/assertion";
 import type { FormCompletionAssistant } from "./FormCompletionAssistant";
 
 /**

@@ -2,7 +2,7 @@ import { describe, expect, it } from "@jest/globals";
 import { FormFieldCompletionAssistant } from "./FormFieldCompletionAssistant";
 import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
 import { AssistantMirror } from "../types";
-import type { Assertion } from "@/Assertion";
+import type { SelfContainedAssertion } from "@/assertion";
 
 describe("FormFieldCompletionAssistant", () => {
   const modelFromContainer = TestObjectsBucket.genericContainerForString();
@@ -80,7 +80,7 @@ describe("FormFieldCompletionAssistant", () => {
     const firstFailedAssertion = TestObjectsBucket.failingAssertion("AID.1", "1 description");
     const secondFailedAssertion = TestObjectsBucket.failingAssertion("AID.2", "2 description");
 
-    const mirroredFailedAssertions: Assertion[] = [];
+    const mirroredFailedAssertions: SelfContainedAssertion[] = [];
     formFieldCompletionAssistant.accept({
       onFailure(aFailedAsserion) {
         mirroredFailedAssertions.push(aFailedAsserion);
