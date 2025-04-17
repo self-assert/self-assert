@@ -8,7 +8,7 @@ import type { ModelFromContainer } from "../types";
  * Provides an assistant for the completion of an integer field,
  * represented by a string.
  */
-export class IntegerFieldCompletionAssistant<ContainerModel> extends FormSectionCompletionAssistant<
+export class IntegerDraftAssistant<ContainerModel> extends FormSectionCompletionAssistant<
   number,
   ContainerModel,
   [string]
@@ -18,7 +18,7 @@ export class IntegerFieldCompletionAssistant<ContainerModel> extends FormSection
   static for<ContainerModel>(
     assertionId: AssertionId,
     fromContainerModelGetter: ModelFromContainer<number, ContainerModel>
-  ): IntegerFieldCompletionAssistant<ContainerModel> {
+  ): IntegerDraftAssistant<ContainerModel> {
     const assertionIds = assertionId === "" ? [] : [assertionId];
 
     /** @ts-expect-error @see {@link https://github.com/microsoft/TypeScript/issues/5863 #5863} */
