@@ -4,6 +4,8 @@ import type { Assertion } from "./Assertion";
 /**
  * Represents the evaluation of an assertion on a given value.
  *
+ * It can also be created using the {@link Assertion.evaluateFor} method.
+ *
  * @template ValueType The type of value this assertion applies to.
  *
  * @example
@@ -16,6 +18,15 @@ import type { Assertion } from "./Assertion";
  * const evaluation = AssertionEvaluation.for(nameNotBlank, "John");
  *
  * evaluation.doesHold(); // true
+ * ```
+ *
+ * @example
+ *
+ * ```ts
+ * const evaluation = nameNotBlank.evaluateFor("John"); // AssertionEvaluation
+ *
+ * evaluation.doesHold(); // true
+ * ```
  */
 export class AssertionEvaluation<ValueType> implements SelfContainedAssertion {
   static for<ValueType>(assertion: Assertion<ValueType>, value: ValueType) {
