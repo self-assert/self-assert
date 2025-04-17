@@ -13,11 +13,20 @@
       }
     },
     {
-      "type": "npm",
-      "script": "lint",
-      "problemMatcher": ["$eslint-stylish"],
-      "label": "npm: lint",
-      "detail": "eslint src"
+      "command": "bash",
+      "args": ["-c", "npm run build && npm run lint && npm run test"],
+      "label": "code checks",
+      "problemMatcher": [],
+      "detail": "builds, lints and tests the code",
+      "type": "shell",
+      "icon": {
+        "id": "check-all",
+        "color": "terminal.ansiGreen"
+      },
+      "presentation": {
+        "showReuseMessage": false,
+        "close": true
+      }
     }
   ]
 }
