@@ -47,7 +47,7 @@ export class DateDraftAssistant<ContainerModel> extends SectionDraftAssistant<Da
   }
 
   static createAssertionFor(assertionId: AssertionId, dateAsString: string) {
-    return Assertion.for(
+    return Assertion.requiring(
       assertionId,
       DateDraftAssistant.defaultAssertionDescription,
       () => /^\d{4}-\d{2}-\d{2}$/.test(dateAsString) && !isNaN(new Date(dateAsString).getTime())

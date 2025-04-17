@@ -43,7 +43,7 @@ describe("AssertionSuite", () => {
 
   it("should accept assertion evaluations", () => {
     const assertions = [
-      Assertion.for<string>("name", "Name should not be empty", (name) => name !== "").evaluateFor(""),
+      Assertion.requiring<string>("name", "Name should not be empty", (name) => name !== "").evaluateFor(""),
     ];
 
     expect(() => AssertionSuite.assertAll(assertions)).toFailAssertion("name", "Name should not be empty");

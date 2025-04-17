@@ -7,12 +7,12 @@ export interface LabeledAssertion {
   /**
    * Compares the id of the assertion with the given one.
    */
-  isIdentifiedAs(assertionId: AssertionId): boolean;
+  hasLabelId(anId: AssertionId): boolean;
 
   /**
    * Compare the id and description of the assertion with the given ones.
    */
-  isIdentifiedAsWith(assertionId: AssertionId, assertionDescription: string): boolean;
+  hasLabel(anId: AssertionId, aDescription: string): boolean;
 
   /**
    * Checks if the assertion has the given description.
@@ -20,7 +20,7 @@ export interface LabeledAssertion {
    * @remarks
    * This method is used mostly for testing.
    */
-  hasDescription(assertionDescription: string): boolean;
+  hasDescription(aDescription: string): boolean;
 
   getId(): AssertionId;
   getDescription(): string;

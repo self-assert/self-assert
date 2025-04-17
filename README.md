@@ -97,8 +97,9 @@ A common workflow is:
    - Receives **all required parameters** to build a complete object.
    - Validates those parameters using one or more `Assertion`s.
    - Returns a valid instance or raises an error.
-2. Use `Assertion.for` for self-contained checks, or create reusable assertions
-   and apply them later using `AssertionEvaluation`.
+2. Use `Assertion.requiring` for self-contained checks, or create reusable assertions
+   and apply them later using `AssertionEvaluation` or the `evaluateFor`
+   method of `Assertion`.
 3. Use `AssertionsRunner.assertAll` to execute the assertions together in
    the previously defined factory method.
 4. (Optional) If you are using TypeScript, consider marking
@@ -117,7 +118,7 @@ class Person {
   static readonly agePositiveDescription = "Age must be positive";
 
   // Reusable assertion (evaluated later with a value)
-  static readonly nameAssetion = Assertion.for<string>(
+  static readonly nameAssetion = Assertion.requiring<string>(
     this.nameNotBlankAID,
     this.nameNotBlankDescription,
     (name) => name.trim().length > 0
@@ -126,9 +127,9 @@ class Person {
   static named(name: string, age: number) {
     AssertionsRunner.assertAll([
       // evaluated with `name`
-      AssertionEvaluation.for(this.nameAssertion, name),
+      this.nameAssertion.evaluateFor(name),
       // self-contained assertion for age
-      Assertion.for(this.agePositiveAID, this.agePositiveDescription, () => age > 0),
+      Assertion.requiring(this.agePositiveAID, this.agePositiveDescription, () => age > 0),
     ]);
 
     return new this(name, age);

@@ -27,14 +27,11 @@ export class AssertionsFailed extends Error {
   }
 
   hasAnAssertionFailedWith(assertionId: AssertionId, assertionDescription: string) {
-    return this.failedAssertions.some((assertion) => assertion.isIdentifiedAsWith(assertionId, assertionDescription));
+    return this.failedAssertions.some((assertion) => assertion.hasLabel(assertionId, assertionDescription));
   }
 
   hasOnlyOneAssertionFailedWith(assertionId: AssertionId, assertionDescription: string) {
-    return (
-      this.failedAssertions.length === 1 &&
-      this.failedAssertions[0].isIdentifiedAsWith(assertionId, assertionDescription)
-    );
+    return this.failedAssertions.length === 1 && this.failedAssertions[0].hasLabel(assertionId, assertionDescription);
   }
 
   forEachAssertionFailed(closure: (failedAssertion: LabeledAssertion) => void) {

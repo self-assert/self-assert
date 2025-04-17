@@ -41,7 +41,9 @@ export class IntegerDraftAssistant<ContainerModel> extends SectionDraftAssistant
   }
 
   static createAssertionFor(assertionId: AssertionId, numberAsString: string) {
-    return Assertion.for(assertionId, this.defaultAssertionDescription, () => /^[-+]?(\d+)$/.test(numberAsString));
+    return Assertion.requiring(assertionId, this.defaultAssertionDescription, () =>
+      /^[-+]?(\d+)$/.test(numberAsString)
+    );
   }
 
   innerAssistant() {

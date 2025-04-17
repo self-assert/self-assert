@@ -19,7 +19,7 @@ import type { AssertionId, LabeledAssertion, SelfContainedAssertion } from "./ty
  * @example
  * Basic usage
  * ```ts
- * const nameNotBlank = Assertion.for<string>(
+ * const nameNotBlank = Assertion.requiring<string>(
  *   "customer.name.notBlank",
  *   "Name must not be blank",
  *   (name) => name.trim().length > 0
@@ -38,7 +38,7 @@ export class Assertion<ValueType = void> implements LabeledAssertion {
   /**
    * Creates a new assertion with the given id and description, without any conditions
    */
-  static identifiedAs<ValueType = void>(id: AssertionId, description: string) {
+  static labeled<ValueType = void>(id: AssertionId, description: string) {
     const label = new AssertionLabel(id, description);
     return new this<ValueType>(label);
   }
@@ -46,8 +46,8 @@ export class Assertion<ValueType = void> implements LabeledAssertion {
   /**
    * Creates a new assertion with the given id, description and condition
    */
-  static for<ValueType = void>(id: AssertionId, description: string, condition: (value: ValueType) => boolean) {
-    return this.identifiedAs<ValueType>(id, description).require(condition);
+  static requiring<ValueType = void>(id: AssertionId, description: string, condition: (value: ValueType) => boolean) {
+    return this.labeled<ValueType>(id, description).require(condition);
   }
 
   protected conditions: ((value: ValueType) => boolean)[];
@@ -74,7 +74,7 @@ export class Assertion<ValueType = void> implements LabeledAssertion {
    * @example
    *
    * ```ts
-   * const nameNotBlank = Assertion.for<string>(
+   * const nameNotBlank = Assertion.requiring<string>(
    *   "customer.name.notBlank",
    *   "Name must not be blank",
    *   (name) => name.trim().length > 0
@@ -125,8 +125,8 @@ export class Assertion<ValueType = void> implements LabeledAssertion {
     }
   }
 
-  isIdentifiedAs(assertionId: AssertionId) {
-    return this.label.isIdentifiedAs(assertionId);
+  hasLabelId(assertionId: AssertionId) {
+    return this.label.hasLabelId(assertionId);
   }
 
   getId(): AssertionId {
@@ -134,10 +134,10 @@ export class Assertion<ValueType = void> implements LabeledAssertion {
   }
 
   /**
-   * @see {@link SelfContainedAssertion.isIdentifiedAsWith}
+   * @see {@link SelfContainedAssertion.hasLabel}
    */
-  isIdentifiedAsWith(assertionId: AssertionId, assertionDescription: string) {
-    return this.label.isIdentifiedAsWith(assertionId, assertionDescription);
+  hasLabel(assertionId: AssertionId, assertionDescription: string) {
+    return this.label.hasLabel(assertionId, assertionDescription);
   }
 
   getDescription() {

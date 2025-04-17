@@ -12,11 +12,11 @@ export class AssertionLabel implements LabeledAssertion {
 
   constructor(protected id: AssertionId, protected description: string) {}
 
-  isIdentifiedAsWith(assertionId: AssertionId, assertionDescription: string) {
-    return this.isIdentifiedAs(assertionId) && this.hasDescription(assertionDescription);
+  hasLabel(assertionId: AssertionId, assertionDescription: string) {
+    return this.hasLabelId(assertionId) && this.hasDescription(assertionDescription);
   }
 
-  isIdentifiedAs(assertionId: AssertionId): boolean {
+  hasLabelId(assertionId: AssertionId): boolean {
     return this.id === assertionId;
   }
 

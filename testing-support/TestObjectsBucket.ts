@@ -15,7 +15,7 @@ export class TestObjectsBucket {
   static defaultFailingAssertionDescription = "Should fail";
 
   static holdingAssertion() {
-    return Assertion.identifiedAs(this.defaultHoldingAssertionAID, this.defaultHoldingAssertionDescription);
+    return Assertion.labeled(this.defaultHoldingAssertionAID, this.defaultHoldingAssertionDescription);
   }
 
   static defaultFailingAssertion() {
@@ -23,7 +23,7 @@ export class TestObjectsBucket {
   }
 
   static failingAssertion(assertionId: string, description: string) {
-    return Assertion.for(assertionId, description, () => false);
+    return Assertion.requiring(assertionId, description, () => false);
   }
 
   static genericContainerForString(): ModelFromContainer<string, GenericContainer> {

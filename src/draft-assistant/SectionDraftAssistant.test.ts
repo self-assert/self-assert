@@ -11,7 +11,7 @@ import { expectToBeAssertionsFailed } from "@testing-support/jest.setup";
 const systemAID = "systemVerifiedAID";
 const system = {
   add(model: SelfAssertingModel) {
-    const failingAssertion = Assertion.for(
+    const failingAssertion = Assertion.requiring(
       systemAID,
       "This assertion should be handled by the assistant",
       () => model === SelfAssertingModel.named("Pedro")
@@ -31,7 +31,7 @@ describe("SectionDraftAssistant", () => {
     expect(DraftAssistant.isInvalidModel(assistant.getModel())).toBe(true);
     expect(assistant.hasFailedAssertions()).toBe(false);
     expect(assistant.doesNotHaveFailedAssertions()).toBe(true);
-    expect(assistant.handles(Assertion.identifiedAs("AID.1", "Description 1"))).toBe(false);
+    expect(assistant.handles(Assertion.labeled("AID.1", "Description 1"))).toBe(false);
     expect(assistant.failedAssertionsDescriptions()).toEqual([]);
   });
 

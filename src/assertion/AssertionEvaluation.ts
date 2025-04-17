@@ -11,7 +11,7 @@ import type { AssertionLabel } from "./AssertionLabel";
  *
  * @example
  * ```ts
- * const nameNotBlank = Assertion.for<string>(
+ * const nameNotBlank = Assertion.requiring<string>(
  *   "customer.name.notBlank",
  *   "Name must not be blank",
  *   (name) => name.trim().length > 0
@@ -52,16 +52,16 @@ export class AssertionEvaluation<ValueType> implements SelfContainedAssertion {
     this.assertion.collectFailureInto(failed, this.value);
   }
 
-  isIdentifiedAs(assertionId: AssertionId): boolean {
-    return this.assertion.isIdentifiedAs(assertionId);
+  hasLabelId(assertionId: AssertionId): boolean {
+    return this.assertion.hasLabelId(assertionId);
   }
 
   getId(): AssertionId {
     return this.assertion.getId();
   }
 
-  isIdentifiedAsWith(assertionId: AssertionId, assertionDescription: string): boolean {
-    return this.assertion.isIdentifiedAsWith(assertionId, assertionDescription);
+  hasLabel(assertionId: AssertionId, assertionDescription: string): boolean {
+    return this.assertion.hasLabel(assertionId, assertionDescription);
   }
 
   getDescription(): string {

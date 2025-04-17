@@ -170,7 +170,7 @@ export abstract class DraftAssistant<Model, ContainerModel> {
    * @returns `true` if this assistant handles the given `Assertion`.
    */
   handles(anAssertion: LabeledAssertion) {
-    return this.assertionIds.some((assertionId) => anAssertion.isIdentifiedAs(assertionId));
+    return this.assertionIds.some((assertionId) => anAssertion.hasLabelId(assertionId));
   }
 
   /**
@@ -188,7 +188,7 @@ export abstract class DraftAssistant<Model, ContainerModel> {
    * Used mostly for testing.
    */
   hasOnlyOneAssertionFailedIdentifiedAs(assertionId: AssertionId) {
-    return this.failedAssertions.length === 1 && this.failedAssertions[0].isIdentifiedAs(assertionId);
+    return this.failedAssertions.length === 1 && this.failedAssertions[0].hasLabelId(assertionId);
   }
 
   protected removeFailedAssertions() {
