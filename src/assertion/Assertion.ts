@@ -1,5 +1,6 @@
 import { AssertionEvaluation } from "./AssertionEvaluation";
 import { AssertionLabel, AssertionLabelAsJson } from "./AssertionLabel";
+import { AssertionSuite } from "./AssertionSuite";
 import type { AssertionId, LabeledAssertion, SelfContainedAssertion } from "./types";
 
 /**
@@ -103,6 +104,14 @@ export class Assertion<ValueType = void> implements LabeledAssertion {
    */
   hasFailed(value: ValueType) {
     return !this.doesHold(value);
+  }
+
+  /**
+   * Asserts that the conditions for the given value are met.
+   *
+   */
+  assert(value: ValueType) {
+    AssertionSuite.assert(this.evaluateFor(value));
   }
 
   /**

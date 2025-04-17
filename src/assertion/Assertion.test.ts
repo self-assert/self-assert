@@ -58,4 +58,16 @@ describe("Assertion", () => {
     expect(holdingEvaluation).toHold();
     expect(failingEvaluation).toFail();
   });
+
+  it("should not throw when asserting its conditions are met", () => {
+    const assertion = Assertion.for<string>("AID", "Description", (value) => value !== "FORBIDDEN");
+
+    expect(() => assertion.assert("OK")).not.toThrow();
+  });
+
+  it("should throw when asserting its conditions are not met", () => {
+    const assertion = Assertion.for<string>("AID", "Description", (value) => value !== "FORBIDDEN");
+
+    expect(() => assertion.assert("FORBIDDEN")).toFailAssertion("AID", "Description");
+  });
 });
