@@ -1,5 +1,5 @@
 import { FieldDraftAssistant } from "./FieldDraftAssistant";
-import { FormSectionCompletionAssistant } from "./FormSectionCompletionAssistant";
+import { SectionDraftAssistant } from "./SectionDraftAssistant";
 import { Assertion, AssertionId, AssertionsRunner } from "@/assertion";
 import type { ModelFromContainer } from "../types";
 
@@ -14,7 +14,7 @@ import type { ModelFromContainer } from "../types";
  * It is recommended to use the {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal Temporal} API
  * for new projects by MDN.
  */
-export class DateDraftAssistant<ContainerModel> extends FormSectionCompletionAssistant<Date, ContainerModel, [string]> {
+export class DateDraftAssistant<ContainerModel> extends SectionDraftAssistant<Date, ContainerModel, [string]> {
   static readonly defaultAssertionDescription = "Invalid date";
 
   static for<ContainerModel>(

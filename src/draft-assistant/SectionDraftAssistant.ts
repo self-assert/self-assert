@@ -17,11 +17,10 @@ type CreationClosure<Model, ComposedModels extends unknown[]> = (...models: Comp
  * It uses a `creationClosure` function to combine the models created by its
  * assistants into a single composed model.
  */
-export class FormSectionCompletionAssistant<
+export class SectionDraftAssistant<Model, ContainerModel, ComposedModels extends unknown[]> extends DraftAssistant<
   Model,
-  ContainerModel,
-  ComposedModels extends unknown[]
-> extends DraftAssistant<Model, ContainerModel> {
+  ContainerModel
+> {
   static with<Model, ContainerModel, ComposedModels extends unknown[]>(
     assistants: AssistantsIn<ComposedModels, Model>,
     creationClosure: CreationClosure<Model, ComposedModels>,

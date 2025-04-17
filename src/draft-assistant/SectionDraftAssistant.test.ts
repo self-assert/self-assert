@@ -1,5 +1,5 @@
 import { describe, expect, it } from "@jest/globals";
-import { FormSectionCompletionAssistant } from "./FormSectionCompletionAssistant";
+import { SectionDraftAssistant } from "./SectionDraftAssistant";
 import { FieldDraftAssistant } from "./FieldDraftAssistant";
 import { DraftAssistant } from "./DraftAssistant";
 import { Assertion, AssertionsRunner } from "@/assertion";
@@ -24,7 +24,7 @@ const system = {
   },
 };
 
-describe("FormSectionCompletionAssistant", () => {
+describe("SectionDraftAssistant", () => {
   it("should be created invalid with no failed assertions", () => {
     const assistant = TestObjectsBucket.createModelWithNoAssertionsAssistant();
 
@@ -67,7 +67,7 @@ describe("FormSectionCompletionAssistant", () => {
   });
 
   it("should fail if trying to set from a container when is top level", () => {
-    const assistant = FormSectionCompletionAssistant.topLevelContainerWith<{ name: string }, [string]>(
+    const assistant = SectionDraftAssistant.topLevelContainerWith<{ name: string }, [string]>(
       [FieldDraftAssistant.handling("AID.1", ({ name }) => name, "")],
       (name) => ({ name })
     );
