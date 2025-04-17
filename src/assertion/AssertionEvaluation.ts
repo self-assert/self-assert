@@ -1,5 +1,6 @@
 import type { AssertionId, SelfContainedAssertion } from "./types";
 import type { Assertion } from "./Assertion";
+import type { AssertionLabel } from "./AssertionLabel";
 
 /**
  * Represents the evaluation of an assertion on a given value.
@@ -43,8 +44,8 @@ export class AssertionEvaluation<ValueType> implements SelfContainedAssertion {
     return this.assertion.hasFailed(this.value);
   }
 
-  reportFailureTo(failed: SelfContainedAssertion[]): void {
-    this.assertion.reportFailureTo(failed, this.value);
+  collectFailureInto(failed: AssertionLabel[]): void {
+    this.assertion.collectFailureInto(failed, this.value);
   }
 
   isIdentifiedAs(assertionId: AssertionId): boolean {

@@ -1,25 +1,28 @@
-import { Assertion, AssertionAsJson } from "./Assertion";
-import { AssertionId } from "./types";
-import type { SelfContainedAssertion } from "./types";
+import { AssertionLabel } from "./AssertionLabel";
+
+import type { AssertionLabelAsJson } from "./AssertionLabel";
+import type { AssertionId, LabeledAssertion } from "./types";
 
 export interface AssertionsFailedAsJson {
-  failedAssertions: AssertionAsJson[];
+  failedAssertions: AssertionLabelAsJson[];
 }
+
 /**
- * Provides a way to handle multiple failed assertions.
+ * Provides a way to handle multiple failed assertions,
+ * by their labels.
  *
- * @see {@link Assertion}
+ * @see {@link AssertionLabel}
  */
 export class AssertionsFailed extends Error {
   static fromJson(assertionsFailedAsJson: AssertionsFailedAsJson) {
     const failedAssertions = assertionsFailedAsJson.failedAssertions.map((assertionAsJson) =>
-      Assertion.fromJson(assertionAsJson)
+      AssertionLabel.fromJson(assertionAsJson)
     );
 
     return new this(failedAssertions);
   }
 
-  constructor(protected failedAssertions: SelfContainedAssertion[]) {
+  constructor(protected failedAssertions: LabeledAssertion[]) {
     super();
   }
 
@@ -34,7 +37,7 @@ export class AssertionsFailed extends Error {
     );
   }
 
-  forEachAssertionFailed(closure: (failedAssertion: SelfContainedAssertion) => void) {
+  forEachAssertionFailed(closure: (failedAssertion: LabeledAssertion) => void) {
     return this.failedAssertions.forEach(closure);
   }
 }

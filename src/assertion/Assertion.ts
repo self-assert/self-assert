@@ -1,11 +1,6 @@
 import { AssertionEvaluation } from "./AssertionEvaluation";
-import { AssertionLabel } from "./AssertionLabel";
-import type { AssertionId, SelfContainedAssertion } from "./types";
-
-export interface AssertionAsJson {
-  id: AssertionId;
-  description: string;
-}
+import { AssertionLabel, AssertionLabelAsJson } from "./AssertionLabel";
+import type { AssertionId, LabeledAssertion, SelfContainedAssertion } from "./types";
 
 /**
  * Represents a validation rule in the problem domain.
@@ -34,9 +29,9 @@ export interface AssertionAsJson {
  * ```
  *
  */
-export class Assertion<ValueType = void> {
-  static fromJson(assertionAsJson: AssertionAsJson) {
-    return this.identifiedAs(assertionAsJson.id, assertionAsJson.description);
+export class Assertion<ValueType = void> implements LabeledAssertion {
+  static fromJson(assertionAsJson: AssertionLabelAsJson) {
+    return new this(AssertionLabel.fromJson(assertionAsJson));
   }
 
   /**
@@ -112,11 +107,11 @@ export class Assertion<ValueType = void> {
 
   /**
    * Reports itself to the given list of failed assertions, if the assertion has failed.
-   * @see {@link SelfContainedAssertion.reportFailureTo}
+   * @see {@link SelfContainedAssertion.collectFailureInto}
    */
-  reportFailureTo(failed: unknown[], value: ValueType) {
+  collectFailureInto(failed: unknown[], value: ValueType) {
     if (this.hasFailed(value)) {
-      failed.push(this);
+      failed.push(this.label);
     }
   }
 
@@ -132,7 +127,7 @@ export class Assertion<ValueType = void> {
    * @see {@link SelfContainedAssertion.isIdentifiedAsWith}
    */
   isIdentifiedAsWith(assertionId: AssertionId, assertionDescription: string) {
-    return this.isIdentifiedAs(assertionId) && this.hasDescription(assertionDescription);
+    return this.label.isIdentifiedAsWith(assertionId, assertionDescription);
   }
 
   getDescription() {

@@ -1,7 +1,7 @@
 import { DraftAssistant } from "./DraftAssistant";
 import { AssertionsFailed } from "@/assertion";
 
-import type { AssertionId, SelfContainedAssertion } from "@/assertion";
+import type { AssertionId, LabeledAssertion } from "@/assertion";
 import type { ModelFromContainer, AssistantsIn } from "@/types";
 
 type CreationClosure<Model, ComposedModels extends unknown[]> = (...models: ComposedModels) => Model;
@@ -82,12 +82,12 @@ export class SectionDraftAssistant<Model, ContainerModel, ComposedModels extends
     creationError.forEachAssertionFailed((failedAssertion) => this.routeFailedAssertion(failedAssertion));
   }
 
-  routeFailedAssertion(failedAssertion: SelfContainedAssertion) {
+  routeFailedAssertion(failedAssertion: LabeledAssertion) {
     if (this.handles(failedAssertion)) this.addFailedAssertion(failedAssertion);
     else this.routeNotHandledByThisFailedAssertion(failedAssertion);
   }
 
-  protected routeNotHandledByThisFailedAssertion(failedAssertion: SelfContainedAssertion) {
+  protected routeNotHandledByThisFailedAssertion(failedAssertion: LabeledAssertion) {
     const assistantsHandlingAssertion = this.assistantsHandling(failedAssertion);
 
     if (assistantsHandlingAssertion.length === 0) this.addFailedAssertion(failedAssertion);
@@ -96,12 +96,12 @@ export class SectionDraftAssistant<Model, ContainerModel, ComposedModels extends
 
   protected addFailedAssertionToAll(
     assistantsHandlingAssertion: DraftAssistant<unknown, Model>[],
-    failedAssertion: SelfContainedAssertion
+    failedAssertion: LabeledAssertion
   ) {
     assistantsHandlingAssertion.forEach((assistant) => assistant.addFailedAssertion(failedAssertion));
   }
 
-  protected assistantsHandling(assertion: SelfContainedAssertion) {
+  protected assistantsHandling(assertion: LabeledAssertion) {
     return this.assistants.filter((assistant) => assistant.handles(assertion));
   }
 
