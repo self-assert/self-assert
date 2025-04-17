@@ -1,4 +1,5 @@
 import { AssertionEvaluation } from "./AssertionEvaluation";
+import { AssertionLabel } from "./AssertionLabel";
 import type { AssertionId, SelfContainedAssertion } from "./types";
 
 export interface AssertionAsJson {
@@ -42,7 +43,8 @@ export class Assertion<ValueType = void> {
    * Creates a new assertion with the given id and description, without any conditions
    */
   static identifiedAs<ValueType = void>(id: AssertionId, description: string) {
-    return new this<ValueType>(id, description);
+    const label = new AssertionLabel(id, description);
+    return new this<ValueType>(label);
   }
 
   /**
@@ -54,7 +56,7 @@ export class Assertion<ValueType = void> {
 
   protected conditions: ((value: ValueType) => boolean)[];
 
-  protected constructor(protected id: AssertionId, protected description: string) {
+  protected constructor(protected label: AssertionLabel) {
     this.conditions = [];
   }
 
@@ -109,11 +111,11 @@ export class Assertion<ValueType = void> {
   }
 
   isIdentifiedAs(assertionId: AssertionId) {
-    return this.id === assertionId;
+    return this.label.isIdentifiedAs(assertionId);
   }
 
   getId(): AssertionId {
-    return this.id;
+    return this.label.getId();
   }
 
   /**
@@ -124,14 +126,14 @@ export class Assertion<ValueType = void> {
   }
 
   getDescription() {
-    return this.description;
+    return this.label.getDescription();
   }
 
   /**
    * @see {@link SelfContainedAssertion.hasFailed}
    */
   hasDescription(assertionDescription: string) {
-    return this.description === assertionDescription;
+    return this.label.hasDescription(assertionDescription);
   }
 }
 
