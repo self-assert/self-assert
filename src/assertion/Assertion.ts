@@ -109,6 +109,7 @@ export class Assertion<ValueType = void> implements LabeledAssertion {
   /**
    * Asserts that the conditions for the given value are met.
    *
+   * @see {@link SelfContainedAssertion.assert}
    */
   assert(value: ValueType) {
     AssertionSuite.assert(this.evaluateFor(value));

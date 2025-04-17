@@ -48,6 +48,11 @@ export interface SelfContainedAssertion extends LabeledAssertion {
   hasFailed(): boolean;
 
   /**
+   * Throws an error if the assertion conditions are not met.
+   */
+  assert(): void;
+
+  /**
    * Reports itself to the given list of failed assertions, if the assertion has failed.
    * @param failed - the list to report the assertion to.
    */
