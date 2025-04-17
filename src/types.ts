@@ -1,5 +1,5 @@
 import type { SelfContainedAssertion } from "@/assertion";
-import type { FormCompletionAssistant } from "./FormCompletionAssistant";
+import type { FormCompletionAssistant } from "@/draft-assistant";
 
 /**
  * Changes to an assistant's model can be observed by mirrors.

@@ -1,3 +1,3 @@
 export * from "@/assertion";
-export * from "@/FormCompletionAssistant";
+export * from "@/draft-assistant";
 export * from "@/types";

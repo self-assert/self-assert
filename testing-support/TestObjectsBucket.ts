@@ -1,5 +1,5 @@
 import { Assertion, AssertionId } from "@/assertion";
-import { FormSectionCompletionAssistant, FormFieldCompletionAssistant } from "@/FormCompletionAssistant";
+import { FormSectionCompletionAssistant, FormFieldCompletionAssistant } from "@/draft-assistant";
 import { ModelWithNoAssertions, SelfAssertingModel } from "./TestModels";
 
 import type { ModelFromContainer } from "@/types";
