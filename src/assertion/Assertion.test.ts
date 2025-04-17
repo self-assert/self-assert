@@ -49,5 +49,20 @@ describe("Assertion", () => {
 
     expect(assertion.doesHold("FORBIDDEN")).toBe(false);
     expect(assertion.hasFailed("FORBIDDEN")).toBe(true);
+    expect(assertion.doesHold("")).toBe(false);
+    expect(assertion.hasFailed("")).toBe(true);
+    expect(assertion.doesHold("OK")).toBe(true);
+    expect(assertion.hasFailed("OK")).toBe(false);
+  });
+
+  it("should allow to prepare an evaluation", () => {
+    const assertion = Assertion.for<string>("AID", "Description", (value) => value !== "FORBIDDEN");
+    const failingEvaluation = assertion.evaluateFor("FORBIDDEN");
+    const holdingEvaluation = assertion.evaluateFor("OK");
+
+    expect(holdingEvaluation.doesHold()).toBe(true);
+    expect(holdingEvaluation.hasFailed()).toBe(false);
+    expect(failingEvaluation.doesHold()).toBe(false);
+    expect(failingEvaluation.hasFailed()).toBe(true);
   });
 });

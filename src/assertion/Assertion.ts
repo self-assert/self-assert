@@ -1,3 +1,4 @@
+import { AssertionEvaluation } from "./AssertionEvaluation";
 import type { AssertionId, SelfContainedAssertion } from "./types";
 
 export interface AssertionAsJson {
@@ -58,11 +59,17 @@ export class Assertion<ValueType = void> {
   }
 
   /**
-   * Adds a necessary condition for the assertion to hold
+   * Adds a necessary condition for the assertion to hold.
+   *
+   * @returns `this` for chaining
    */
-  require(condition: (value: ValueType) => boolean) {
+  require(condition: (value: ValueType) => boolean): this {
     this.conditions.push(condition);
     return this;
+  }
+
+  evaluateFor(value: ValueType): SelfContainedAssertion {
+    return AssertionEvaluation.for(this, value);
   }
 
   /**
