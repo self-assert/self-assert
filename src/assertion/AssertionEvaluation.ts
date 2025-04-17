@@ -44,6 +44,10 @@ export class AssertionEvaluation<ValueType> implements SelfContainedAssertion {
     return this.assertion.hasFailed(this.value);
   }
 
+  assert() {
+    return this.assertion.assert(this.value);
+  }
+
   collectFailureInto(failed: AssertionLabel[]): void {
     this.assertion.collectFailureInto(failed, this.value);
   }
