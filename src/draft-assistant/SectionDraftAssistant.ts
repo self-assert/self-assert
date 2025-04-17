@@ -9,13 +9,13 @@ type CreationClosure<Model, ComposedModels extends unknown[]> = (...models: Comp
 /**
  * Assists in the creation of complex models by coordinating multiple inner `DraftAssistant`.
  *
+ * It uses a `creationClosure` function to combine the models created by its
+ * assistants into a single composed model.
+ *
  * @extends DraftAssistant {@link DraftAssistant link}
  * @template ComposedModels - An array of types representing the types of the models created by the inner assistants,
  * in the same order as the `assistants` array.
  *
- * @remarks
- * It uses a `creationClosure` function to combine the models created by its
- * assistants into a single composed model.
  */
 export class SectionDraftAssistant<Model, ContainerModel, ComposedModels extends unknown[]> extends DraftAssistant<
   Model,

@@ -12,18 +12,15 @@
 
 ---
 
-⚠️ WARNING ⚠️
-
-This project is in its early stages and still **unstable**.
-A stable version is meant to be released soon.
+A stable version of this project is meant to be released soon.
 
 ## Table of Contents
 
 - [Credits and Acknowledgements](#credits-and-acknowledgements)
 - [Installation](#installation)
 - [Usage](#usage)
-  - [Using Assertions for object validation](#using-assertions-for-object-validation)
-  - [Guiding Form Completion with Assistants](#guiding-form-completion-with-assistants)
+  - [Defining Assertions for object validation](#defining-assertions-for-object-validation)
+  - [Using Draft Assistants](#using-draft-assistants)
 - [Resources](#resources)
 - [License](#license)
 
@@ -82,7 +79,7 @@ contributors consider to be best practices.
 
 For more information, refer to the [original webinar example][dalg-t1-ch3].
 
-### Using Assertions for Object Validation
+### Defining Assertions for Object Validation
 
 To ensure that domain objects are created in a valid and complete state,
 `self-assert` introduces the `Assertion` abstraction.
@@ -166,26 +163,24 @@ be thrown, containing all failed assertions.
 This promotes the idea that
 **objects should be created valid from the beginning**, enforcing consistency.
 
-### Guiding Form Completion with Assistants
+### Using Draft Assistants
 
-The `FormFieldCompletionAssistant` helps validate and suggest completion
-options for a single form field.
+The `FieldDraftAssistant` helps validate and suggest completion
+options for a single field or property.
 It should be used when you need to encapsulate the logic that determines
 whether a field is complete and what values could make it valid.
 
-The `FormSectionCompletionAssistant` validates and suggests how
+The `SectionDraftAssistant` validates and suggests how
 to complete a group of related fields.
-It aggregates multiple `FormFieldCompletionAssistant` or other
-`FormSectionCompletionAssistant` instances.
+It aggregates multiple `FieldDraftAssistant` or other
+`SectionDraftAssistant` instances.
 
 ```ts
 function createPersonAssistant() {
-  const nameAssistant = FormFieldCompletionAssistant.handlingAll<Person>([Person.nameNotBlankAID], (person) =>
-    person.getName()
-  );
-  const ageAssistant = IntegerFieldCompletionAssistant.for<Person>(Person.agePositiveAID, (person) => person.getAge());
+  const nameAssistant = FieldDraftAssistant.handlingAll<Person>([Person.nameNotBlankAID], (person) => person.getName());
+  const ageAssistant = IntegerDraftAssistant.for<Person>(Person.agePositiveAID, (person) => person.getAge());
 
-  const personAssistant = FormSectionCompletionAssistant.topLevelContainerWith<Person, [string, number]>(
+  const personAssistant = SectionDraftAssistant.topLevelContainerWith<Person, [string, number]>(
     [nameAssistant, ageAssistant],
     (name, age) => Person.named(name, age),
     [] // Any other assertion IDs if apply

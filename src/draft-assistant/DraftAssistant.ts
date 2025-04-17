@@ -2,7 +2,7 @@ import type { AssertionId, SelfContainedAssertion } from "@/assertion";
 import type { ModelFromContainer, AssistantMirror } from "@/types";
 
 /**
- * Provides an assistant to guide the completion of a model during form interaction.
+ * Provides an assistant to guide the completion of a model.
  *
  * A `DraftAssistant` encapsulates the logic needed to:
  *

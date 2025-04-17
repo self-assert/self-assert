@@ -8,48 +8,48 @@ describe("FieldDraftAssistant", () => {
   const modelFromContainer = TestObjectsBucket.genericContainerForString();
 
   it("should remember its initial model", () => {
-    const formFieldCompletionAssistant = FieldDraftAssistant.handling("AID.1", modelFromContainer, "Init");
-    expect(formFieldCompletionAssistant.getModel()).toBe("Init");
-    expect(formFieldCompletionAssistant.numberOfMirrors()).toBe(0);
+    const assistant = FieldDraftAssistant.handling("AID.1", modelFromContainer, "Init");
+    expect(assistant.getModel()).toBe("Init");
+    expect(assistant.numberOfMirrors()).toBe(0);
   });
 
   it("should allow to be changed", () => {
-    const formFieldCompletionAssistant = FieldDraftAssistant.handling("AID.1", modelFromContainer, "Init");
-    formFieldCompletionAssistant.setModel("Changed");
-    expect(formFieldCompletionAssistant.getModel()).toBe("Changed");
-    expect(formFieldCompletionAssistant.getModel()).not.toBe("Init");
-    expect(formFieldCompletionAssistant.numberOfMirrors()).toBe(0);
+    const assistant = FieldDraftAssistant.handling("AID.1", modelFromContainer, "Init");
+    assistant.setModel("Changed");
+    expect(assistant.getModel()).toBe("Changed");
+    expect(assistant.getModel()).not.toBe("Init");
+    expect(assistant.numberOfMirrors()).toBe(0);
   });
 
   it("should allow to be reset to its initial model", () => {
-    const formFieldCompletionAssistant = FieldDraftAssistant.handling("AID.1", modelFromContainer);
-    formFieldCompletionAssistant.setModel("Changed");
-    formFieldCompletionAssistant.resetModel();
-    expect(formFieldCompletionAssistant.getModel()).toBe("");
-    expect(formFieldCompletionAssistant.numberOfMirrors()).toBe(0);
+    const assistant = FieldDraftAssistant.handling("AID.1", modelFromContainer);
+    assistant.setModel("Changed");
+    assistant.resetModel();
+    expect(assistant.getModel()).toBe("");
+    expect(assistant.numberOfMirrors()).toBe(0);
   });
 
   it("should be able to create a model without failing", () => {
-    const formFieldCompletionAssistant = FieldDraftAssistant.handlingAll(["AID.1", "AID.2"], modelFromContainer);
-    expect(formFieldCompletionAssistant.createModel()).toBe("");
-    expect(formFieldCompletionAssistant.numberOfMirrors()).toBe(0);
+    const assistant = FieldDraftAssistant.handlingAll(["AID.1", "AID.2"], modelFromContainer);
+    expect(assistant.createModel()).toBe("");
+    expect(assistant.numberOfMirrors()).toBe(0);
   });
 
   it("should accept a mirror", () => {
-    const formFieldCompletionAssistant = FieldDraftAssistant.handling("AID.1", modelFromContainer);
+    const assistant = FieldDraftAssistant.handling("AID.1", modelFromContainer);
 
     let mirroredImage = "Empty";
     const mirror: AssistantMirror<string> = { reflect: (image) => (mirroredImage = image) };
-    formFieldCompletionAssistant.accept(mirror);
+    assistant.accept(mirror);
 
-    formFieldCompletionAssistant.setModel("Changed");
+    assistant.setModel("Changed");
 
     expect(mirroredImage).toBe("Changed");
-    expect(formFieldCompletionAssistant.numberOfMirrors()).toBe(1);
+    expect(assistant.numberOfMirrors()).toBe(1);
   });
 
   it("should be able to break mirrors", () => {
-    const formFieldCompletionAssistant = FieldDraftAssistant.handling("AID.1", modelFromContainer);
+    const assistant = FieldDraftAssistant.handling("AID.1", modelFromContainer);
 
     let mirroredImage = "Empty";
     const firstMirror: AssistantMirror<string> = {
@@ -58,63 +58,63 @@ describe("FieldDraftAssistant", () => {
       },
     };
     const secondMirror: AssistantMirror<string> = { reflect: (image) => (mirroredImage = image) };
-    formFieldCompletionAssistant.accept(firstMirror);
-    formFieldCompletionAssistant.accept(secondMirror);
+    assistant.accept(firstMirror);
+    assistant.accept(secondMirror);
 
-    formFieldCompletionAssistant.break(firstMirror);
+    assistant.break(firstMirror);
 
-    formFieldCompletionAssistant.setModel("Changed");
+    assistant.setModel("Changed");
 
     expect(mirroredImage).toBe("Changed");
-    expect(formFieldCompletionAssistant.numberOfMirrors()).toBe(1);
+    expect(assistant.numberOfMirrors()).toBe(1);
   });
 
   it("should mirror failed assertions", () => {
-    const formFieldCompletionAssistant = FieldDraftAssistant.handlingAll(["AID.1", "AID.2"], modelFromContainer);
+    const assistant = FieldDraftAssistant.handlingAll(["AID.1", "AID.2"], modelFromContainer);
     const firstFailedAssertion = TestObjectsBucket.failingAssertion("AID.1", "1 description");
     const secondFailedAssertion = TestObjectsBucket.failingAssertion("AID.2", "2 description");
 
     const mirroredFailedAssertions: SelfContainedAssertion[] = [];
-    formFieldCompletionAssistant.accept({
+    assistant.accept({
       onFailure(aFailedAsserion) {
         mirroredFailedAssertions.push(aFailedAsserion);
       },
     });
 
-    formFieldCompletionAssistant.addFailedAssertion(firstFailedAssertion);
-    formFieldCompletionAssistant.addFailedAssertion(secondFailedAssertion);
+    assistant.addFailedAssertion(firstFailedAssertion);
+    assistant.addFailedAssertion(secondFailedAssertion);
 
     expect(mirroredFailedAssertions).toEqual([firstFailedAssertion, secondFailedAssertion]);
   });
 
   it("should mirror a failed assertions reset", () => {
-    const formFieldCompletionAssistant = FieldDraftAssistant.handlingAll(["AID.1", "AID.2"], modelFromContainer);
+    const assistant = FieldDraftAssistant.handlingAll(["AID.1", "AID.2"], modelFromContainer);
 
     let hasBeenReset = false;
-    formFieldCompletionAssistant.accept({
+    assistant.accept({
       onFailureReset() {
         hasBeenReset = true;
       },
     });
     const failedAssertion = TestObjectsBucket.failingAssertion("AID.1", "1 description");
 
-    formFieldCompletionAssistant.addFailedAssertion(failedAssertion);
-    formFieldCompletionAssistant.createModel();
+    assistant.addFailedAssertion(failedAssertion);
+    assistant.createModel();
 
     expect(hasBeenReset).toBe(true);
   });
 
   it("should mirror a reset", () => {
-    const formFieldCompletionAssistant = FieldDraftAssistant.handlingAll(["AID.1"], modelFromContainer, "Init");
+    const assistant = FieldDraftAssistant.handlingAll(["AID.1"], modelFromContainer, "Init");
 
     let image = "";
-    formFieldCompletionAssistant.accept({
+    assistant.accept({
       reflect(anImage) {
         image = anImage;
       },
     });
 
-    formFieldCompletionAssistant.resetModel();
+    assistant.resetModel();
 
     expect(image).toBe("Init");
   });
