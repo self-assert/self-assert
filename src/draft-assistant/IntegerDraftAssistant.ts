@@ -1,4 +1,4 @@
-import { Assertion, AssertionsRunner, AssertionId } from "@/assertion";
+import { Assertion, AssertionSuite, AssertionId } from "@/assertion";
 import { FieldDraftAssistant } from "./FieldDraftAssistant";
 import { SectionDraftAssistant } from "./SectionDraftAssistant";
 
@@ -31,7 +31,7 @@ export class IntegerDraftAssistant<ContainerModel> extends SectionDraftAssistant
   }
 
   static createInteger(assertionId: AssertionId, numberAsString: string) {
-    AssertionsRunner.assert(this.createAssertionFor(assertionId, numberAsString));
+    AssertionSuite.assert(this.createAssertionFor(assertionId, numberAsString));
 
     return Number(numberAsString);
   }

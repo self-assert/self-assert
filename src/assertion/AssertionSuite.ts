@@ -7,7 +7,7 @@ import type { SelfContainedAssertion } from "./types";
  *
  * @see {@link SelfContainedAssertion}, {@link AssertionsFailed}
  */
-export class AssertionsRunner {
+export class AssertionSuite {
   static assert(assertion: SelfContainedAssertion) {
     this.assertAll([assertion]);
   }

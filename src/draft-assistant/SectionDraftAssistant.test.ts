@@ -2,7 +2,7 @@ import { describe, expect, it } from "@jest/globals";
 import { SectionDraftAssistant } from "./SectionDraftAssistant";
 import { FieldDraftAssistant } from "./FieldDraftAssistant";
 import { DraftAssistant } from "./DraftAssistant";
-import { Assertion, AssertionsRunner } from "@/assertion";
+import { Assertion, AssertionSuite } from "@/assertion";
 
 import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
 import { ModelWithNoAssertions, SelfAssertingModel } from "@testing-support/TestModels";
@@ -17,7 +17,7 @@ const system = {
       () => model === SelfAssertingModel.named("Pedro")
     );
 
-    AssertionsRunner.assert(failingAssertion);
+    AssertionSuite.assert(failingAssertion);
   },
   doSomethingThatFails() {
     throw new Error("Not implemented");
