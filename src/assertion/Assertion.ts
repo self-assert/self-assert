@@ -68,6 +68,24 @@ export class Assertion<ValueType = void> {
     return this;
   }
 
+  /**
+   * Prepares an {@link AssertionEvaluation} for the given value.
+   *
+   * This is the same as `AssertionEvaluation.for(this, value)`.
+   *
+   * @example
+   *
+   * ```ts
+   * const nameNotBlank = Assertion.for<string>(
+   *   "customer.name.notBlank",
+   *   "Name must not be blank",
+   *   (name) => name.trim().length > 0
+   * );
+   * const evaluation = nameNotBlank.evaluateFor("John");
+   *
+   * evaluation.doesHold(); // true
+   * ```
+   */
   evaluateFor(value: ValueType): SelfContainedAssertion {
     return AssertionEvaluation.for(this, value);
   }
