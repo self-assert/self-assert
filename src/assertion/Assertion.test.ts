@@ -11,13 +11,11 @@ describe("Assertion", () => {
   const failingAssertionDescription = TestObjectsBucket.defaultFailingAssertionDescription;
 
   it("should hold when condition is true", () => {
-    expect(holdingAssertion.doesHold()).toBe(true);
-    expect(holdingAssertion.hasFailed()).toBe(false);
+    expect(holdingAssertion).toHold();
   });
 
   it("should not hold when condition is false", () => {
-    expect(failingAssertion.doesHold()).toBe(false);
-    expect(failingAssertion.hasFailed()).toBe(true);
+    expect(failingAssertion).toFail();
   });
 
   it("should remember its id and description", () => {
