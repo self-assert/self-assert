@@ -5,6 +5,14 @@ import { NumbersConditions } from "./numbers/NumbersConditions";
 
 export type Predicate<ValueType> = (value: ValueType) => boolean;
 
+const { not } = LogicalConditions;
+
+class StringsConditions {
+  static isBlank: Predicate<string> = (value) => ListsConditions.isEmpty(value.trim());
+
+  static isNotBlank = not(this.isBlank);
+}
+
 /**
  * A collection of common assertion conditions.
  *
@@ -18,7 +26,7 @@ export type Predicate<ValueType> = (value: ValueType) => boolean;
  *
  * @example
  * ```ts
- * const assertion = Assertion.requiring("isAdult", "Can't be under 18", Conditions.greaterThanOrEqual(18));
+ * const assertion = Assertion.requiring("customer.age.over18", "Can't be under 18", Conditions.greaterThanOrEqual(18));
  * ```
  *
  */
@@ -28,4 +36,5 @@ export const Conditions = {
   ...LogicalConditions,
   ...NumbersConditions,
   ...ListsConditions,
+  ...StringsConditions,
 };
