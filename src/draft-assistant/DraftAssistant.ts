@@ -200,7 +200,7 @@ export abstract class DraftAssistant<Model, ContainerModel> {
     return this.failedAssertions.length === 1 && this.failedAssertions[0].hasLabelId(assertionId);
   }
 
-  protected removeFailedAssertions() {
+  removeFailedAssertions() {
     this.failedAssertions = [];
     this.forEachViewer((viewer) => viewer.onFailuresReset?.());
   }

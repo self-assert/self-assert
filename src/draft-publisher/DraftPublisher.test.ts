@@ -51,4 +51,17 @@ describe("DraftPublisher", () => {
 
     expect(eventAssertions).toEqual([firstFailedAssertion, secondFailedAssertion]);
   });
+
+  it("should emit a 'assertions:reset' event when assertions are reset", () => {
+    const assistant = TestObjectsBucket.createNameAssistant();
+    const publisher = DraftPublisher.for(assistant);
+    let wasReset = false;
+    publisher.on("assertions:reset", () => {
+      wasReset = true;
+    });
+
+    assistant.removeFailedAssertions();
+
+    expect(wasReset).toBe(true);
+  });
 });
