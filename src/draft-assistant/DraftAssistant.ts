@@ -43,7 +43,7 @@ export abstract class DraftAssistant<Model, ContainerModel> {
    * @returns A default model getter from a container for the top-level assistant.
    * Since there is no container to get the model from, it throws an error.
    */
-  static topLevelContainerModelGetter<Model>(): ModelFromContainer<Model, never> {
+  static topLevelModelFromContainer<Model>(): ModelFromContainer<Model, never> {
     return () => {
       throw new Error("No container to get model from");
     };
@@ -55,7 +55,7 @@ export abstract class DraftAssistant<Model, ContainerModel> {
 
   constructor(
     protected assertionIds: AssertionId[],
-    protected fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
+    protected modelFromContainer: ModelFromContainer<Model, ContainerModel>,
     protected initialModel: Model
   ) {
     this.model = this.initialModel;
@@ -111,7 +111,7 @@ export abstract class DraftAssistant<Model, ContainerModel> {
    * Sets the model from its container.
    */
   setModelFrom(containerModel: ContainerModel) {
-    return this.setModel(this.fromContainerModelGetter(containerModel));
+    return this.setModel(this.modelFromContainer(containerModel));
   }
 
   /**

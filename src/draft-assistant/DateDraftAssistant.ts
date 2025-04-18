@@ -19,7 +19,7 @@ export class DateDraftAssistant<ContainerModel> extends SectionDraftAssistant<Da
 
   static for<ContainerModel>(
     assertionId: AssertionId,
-    fromContainerModelGetter: ModelFromContainer<Date, ContainerModel>
+    modelFromContainer: ModelFromContainer<Date, ContainerModel>
   ): DateDraftAssistant<ContainerModel> {
     const assertionIds = assertionId === "" ? [] : [assertionId];
 
@@ -27,13 +27,13 @@ export class DateDraftAssistant<ContainerModel> extends SectionDraftAssistant<Da
     return this.with(
       [this.createDateAssistant()],
       (dateAsString) => this.createDate(assertionId, dateAsString),
-      fromContainerModelGetter,
+      modelFromContainer,
       assertionIds
     );
   }
 
   static forTopLevel(assertionId: AssertionId) {
-    return this.for(assertionId, this.topLevelContainerModelGetter());
+    return this.for(assertionId, this.topLevelModelFromContainer());
   }
 
   static createDate(assertionId: AssertionId, dateAsString: string) {
