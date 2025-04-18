@@ -183,12 +183,12 @@ describe("SectionDraftAssistant", () => {
     );
   });
 
-  describe("Mirrors", () => {
+  describe("Viewers", () => {
     it("should reflect changes when the model is created", (done) => {
       const assistant = TestObjectsBucket.createSelfAssertingModelAssistant();
 
       let image: SelfAssertingModel | typeof DraftAssistant.INVALID_MODEL = new Object();
-      assistant.accept({ reflect: (model) => (image = model) });
+      assistant.accept({ onDraftChanged: (model) => (image = model) });
 
       assistant.nameAssistant.setModel("Pedro");
 
@@ -206,7 +206,7 @@ describe("SectionDraftAssistant", () => {
       const assistant = TestObjectsBucket.createSelfAssertingModelAssistant();
 
       let image: SelfAssertingModel | typeof DraftAssistant.INVALID_MODEL = new Object();
-      assistant.accept({ reflect: (model) => (image = model) });
+      assistant.accept({ onDraftChanged: (model) => (image = model) });
 
       assistant.nameAssistant.setModel(SelfAssertingModel.forbiddenName);
 
@@ -225,7 +225,7 @@ describe("SectionDraftAssistant", () => {
       const assistant = TestObjectsBucket.createSelfAssertingModelAssistant();
 
       let image: SelfAssertingModel | typeof DraftAssistant.INVALID_MODEL = new Object();
-      assistant.accept({ reflect: (model) => (image = model) });
+      assistant.accept({ onDraftChanged: (model) => (image = model) });
 
       const model = SelfAssertingModel.named("Pedro");
       assistant.setModel(model);

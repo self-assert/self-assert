@@ -1,5 +1,5 @@
 import type { AssertionId, LabeledAssertion } from "@/assertion";
-import type { ModelFromContainer, AssistantMirror } from "@/types";
+import type { ModelFromContainer, DraftViewer } from "@/types";
 
 /**
  * Provides an assistant to guide the completion of a model.
@@ -9,7 +9,7 @@ import type { ModelFromContainer, AssistantMirror } from "@/types";
  * - track the current state of a form field or group of fields,
  * - validate the model being built,
  * - handle and route failed assertions,
- * - notify observers (mirrors) of changes or validation failures.
+ * - notify observers (viewers) of changes or validation failures.
  *
  * Assistants can be nested and composed to build complex models.
  *
@@ -51,7 +51,7 @@ export abstract class DraftAssistant<Model, ContainerModel> {
 
   protected model: Model;
   protected failedAssertions!: LabeledAssertion[];
-  protected mirrors: AssistantMirror<Model>[];
+  protected viewers: DraftViewer<Model>[];
 
   constructor(
     protected assertionIds: AssertionId[],
@@ -59,7 +59,7 @@ export abstract class DraftAssistant<Model, ContainerModel> {
     protected initialModel: Model
   ) {
     this.model = this.initialModel;
-    this.mirrors = [];
+    this.viewers = [];
     this.removeFailedAssertions();
   }
 
@@ -96,7 +96,7 @@ export abstract class DraftAssistant<Model, ContainerModel> {
 
   setModel(newModel: Model) {
     this.model = newModel;
-    this.reflectToAll(newModel);
+    this.notifyViewersOnChange(newModel);
   }
 
   /**
@@ -104,7 +104,7 @@ export abstract class DraftAssistant<Model, ContainerModel> {
    */
   resetModel() {
     this.model = this.initialModel;
-    this.reflectToAll(this.model);
+    this.notifyViewersOnChange(this.model);
   }
 
   /**
@@ -115,24 +115,24 @@ export abstract class DraftAssistant<Model, ContainerModel> {
   }
 
   /**
-   * Adds a mirror to the list of observers.
+   * Adds a viewer to the list of observers.
    */
-  accept(aMirror: AssistantMirror<Model>) {
-    this.mirrors.push(aMirror);
+  accept(aViewer: DraftViewer<Model>) {
+    this.viewers.push(aViewer);
   }
 
   /**
-   * Removes a mirror from the list of observers.
+   * Removes a viewer from the list of observers.
    */
-  break(aMirror: AssistantMirror<never>) {
-    this.mirrors = this.mirrors.filter((mirror) => mirror !== aMirror);
+  removeViewer(aViewer: DraftViewer<never>) {
+    this.viewers = this.viewers.filter((viewer) => viewer !== aViewer);
   }
 
   /**
-   * @returns The number of mirrors currently observing the assistant.
+   * @returns The number of viewers currently observing the assistant.
    */
-  numberOfMirrors() {
-    return this.mirrors.length;
+  numberOfViewers() {
+    return this.viewers.length;
   }
 
   /**
@@ -140,7 +140,7 @@ export abstract class DraftAssistant<Model, ContainerModel> {
    */
   addFailedAssertion(failedAssertions: LabeledAssertion) {
     this.failedAssertions.push(failedAssertions);
-    this.forEachMirror((mirror) => mirror.onFailure?.(failedAssertions));
+    this.forEachViewer((viewer) => viewer.onFailure?.(failedAssertions));
   }
 
   /**
@@ -202,14 +202,14 @@ export abstract class DraftAssistant<Model, ContainerModel> {
 
   protected removeFailedAssertions() {
     this.failedAssertions = [];
-    this.forEachMirror((mirror) => mirror.onFailureReset?.());
+    this.forEachViewer((viewer) => viewer.onFailuresReset?.());
   }
 
-  protected forEachMirror(action: (mirror: AssistantMirror<Model>) => void) {
-    this.mirrors.forEach(action);
+  protected forEachViewer(action: (viewer: DraftViewer<Model>) => void) {
+    this.viewers.forEach(action);
   }
 
-  protected reflectToAll(anImage: Model) {
-    this.forEachMirror((mirror) => mirror.reflect?.(anImage));
+  protected notifyViewersOnChange(aModel: Model) {
+    this.forEachViewer((viewer) => viewer.onDraftChanged?.(aModel));
   }
 }
