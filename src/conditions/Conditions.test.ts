@@ -26,5 +26,11 @@ describe("Conditions", () => {
       expect(Conditions.greaterThanOrEqual(0)(0)).toBe(true);
       expect(Conditions.greaterThanOrEqual(0)(-0.1)).toBe(false);
     });
+
+    it("should provide a condition that holds when the value is less than or equal to a number", () => {
+      expect(Conditions.lessThanOrEqual(0)(-0.1)).toBe(true);
+      expect(Conditions.lessThanOrEqual(0)(0)).toBe(true);
+      expect(Conditions.lessThanOrEqual(0)(0.1)).toBe(false);
+    });
   });
 });

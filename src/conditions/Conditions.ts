@@ -10,4 +10,8 @@ export const Conditions = {
   greaterThanOrEqual(aNumber: number) {
     return (value: number) => this.greaterThan(aNumber)(value) || value === aNumber;
   },
+
+  lessThanOrEqual(aNumber: number) {
+    return (value: number) => this.lessThan(aNumber)(value) || value === aNumber;
+  },
 };
