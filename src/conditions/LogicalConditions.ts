@@ -16,10 +16,14 @@ export class LogicalConditions {
     (value) =>
       !condition(value);
 
-  static identical =
-    <ValueType>(expected: ValueType): Predicate<ValueType> =>
-    (value) =>
-      value === expected;
+  static identical = <ValueType>(expected: ValueType) => this.isIn(expected);
 
   static differentFrom = <ValueType>(forbiddenValue: ValueType) => this.not(this.identical(forbiddenValue));
+
+  static isIn =
+    <ValueType>(...allowedSet: ValueType[]): Predicate<ValueType> =>
+    (value) =>
+      allowedSet.includes(value);
+
+  static isNotIn = <ValueType>(...forbiddenSet: ValueType[]) => this.not(this.isIn(...forbiddenSet));
 }

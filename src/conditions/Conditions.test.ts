@@ -39,4 +39,20 @@ describe("Conditions", () => {
     expect(differentFrom("")).toBe(true);
     expect(differentFrom("ab")).toBe(true);
   });
+
+  it("should provide a condition that holds when a value is in a set of values", () => {
+    const isIn = Conditions.isIn("a", "b", "c");
+    expect(isIn("a")).toBe(true);
+    expect(isIn("b")).toBe(true);
+    expect(isIn("c")).toBe(true);
+    expect(isIn("d")).toBe(false);
+  });
+
+  it("should provide a condition that holds when a value is not in a set of values", () => {
+    const isNotIn = Conditions.isNotIn("a", "b", "c");
+    expect(isNotIn("a")).toBe(false);
+    expect(isNotIn("b")).toBe(false);
+    expect(isNotIn("c")).toBe(false);
+    expect(isNotIn("d")).toBe(true);
+  });
 });
