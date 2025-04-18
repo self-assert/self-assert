@@ -17,4 +17,8 @@ export class NumbersConditions {
   static lessThanOrEqual = (aNumber: number) => not(this.greaterThan(aNumber));
 
   static between = (min: number, max: number) => and(this.greaterThanOrEqual(min), this.lessThanOrEqual(max));
+
+  static isInteger = Number.isInteger;
+
+  static isFloat = and(Number.isFinite, not(this.isInteger));
 }

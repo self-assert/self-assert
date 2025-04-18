@@ -45,5 +45,23 @@ describe("Conditions", () => {
       expect(between1and2(2)).toBe(true);
       expect(between1and2(2.1)).toBe(false);
     });
+
+    it("should provide a condition that holds when the value is an integer", () => {
+      const { isInteger } = Conditions;
+      expect(isInteger(0)).toBe(true);
+      expect(isInteger(1)).toBe(true);
+      expect(isInteger(1.1)).toBe(false);
+      expect(isInteger(NaN)).toBe(false);
+      expect(isInteger(Infinity)).toBe(false);
+    });
+
+    it("should provide a condition that holds when the value is a float", () => {
+      const { isFloat } = Conditions;
+      expect(isFloat(0)).toBe(false);
+      expect(isFloat(1)).toBe(false);
+      expect(isFloat(1.1)).toBe(true);
+      expect(isFloat(NaN)).toBe(false);
+      expect(isFloat(Infinity)).toBe(false);
+    });
   });
 });
