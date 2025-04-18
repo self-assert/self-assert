@@ -63,5 +63,47 @@ describe("Conditions", () => {
       expect(isFloat(NaN)).toBe(false);
       expect(isFloat(Infinity)).toBe(false);
     });
+
+    it("should provide a condition that holds when the value is positive", () => {
+      const { isPositive } = Conditions;
+      expect(isPositive(0)).toBe(false);
+      expect(isPositive(0.1)).toBe(true);
+      expect(isPositive(-0.1)).toBe(false);
+    });
+
+    it("should provide a condition that holds when the value is negative", () => {
+      const { isNegative } = Conditions;
+      expect(isNegative(0)).toBe(false);
+      expect(isNegative(0.1)).toBe(false);
+      expect(isNegative(-0.1)).toBe(true);
+    });
+
+    it("should provide a condition that holds when the value is a positive integer", () => {
+      const { isPositiveInteger } = Conditions;
+      expect(isPositiveInteger(0)).toBe(false);
+      expect(isPositiveInteger(1)).toBe(true);
+      expect(isPositiveInteger(2)).toBe(true);
+      expect(isPositiveInteger(1.1)).toBe(false);
+      expect(isPositiveInteger(-1)).toBe(false);
+    });
+
+    it("should provide a condition that holds when the value is a negative integer", () => {
+      const { isNegativeInteger } = Conditions;
+      expect(isNegativeInteger(0)).toBe(false);
+      expect(isNegativeInteger(-1)).toBe(true);
+      expect(isNegativeInteger(-2)).toBe(true);
+      expect(isNegativeInteger(1.1)).toBe(false);
+      expect(isNegativeInteger(1)).toBe(false);
+    });
+
+    it("should provide a condition that holds when the value is an integer between two numbers", () => {
+      const isIntegerBetween = Conditions.isIntegerBetween(1, 2);
+      expect(isIntegerBetween(0)).toBe(false);
+      expect(isIntegerBetween(1)).toBe(true);
+      expect(isIntegerBetween(1.1)).toBe(false);
+      expect(isIntegerBetween(2)).toBe(true);
+      expect(isIntegerBetween(2.1)).toBe(false);
+      expect(isIntegerBetween(3)).toBe(false);
+    });
   });
 });

@@ -1,8 +1,8 @@
-import { ConditionsCompositions } from "./ConditionsCompositions";
+import { LogicalConditions } from "./LogicalConditions";
 
 import type { Predicate } from "./Conditions";
 
-const { and, or, not } = ConditionsCompositions;
+const { and, or, not, identical } = LogicalConditions;
 
 export class NumbersConditions {
   static greaterThan =
@@ -10,7 +10,7 @@ export class NumbersConditions {
     (value) =>
       value > aNumber;
 
-  static greaterThanOrEqual = (aNumber: number) => or(this.greaterThan(aNumber), (value: number) => value === aNumber);
+  static greaterThanOrEqual = (aNumber: number) => or(this.greaterThan(aNumber), identical(aNumber));
 
   static lessThan = (aNumber: number) => not(this.greaterThanOrEqual(aNumber));
 
@@ -21,4 +21,14 @@ export class NumbersConditions {
   static isInteger = Number.isInteger;
 
   static isFloat = and(Number.isFinite, not(this.isInteger));
+
+  static isPositive = this.greaterThan(0);
+
+  static isNegative = this.lessThan(0);
+
+  static isPositiveInteger = and(this.isInteger, this.isPositive);
+
+  static isNegativeInteger = and(this.isInteger, this.isNegative);
+
+  static isIntegerBetween = (min: number, max: number) => and(this.isInteger, this.between(min, max));
 }

@@ -1,10 +1,11 @@
-import { Predicate } from "./Conditions";
+import type { Predicate } from "./Conditions";
 
-export const ConditionsCompositions = {
+export const LogicalConditions = {
   and:
     <ValueType>(...conditions: Predicate<ValueType>[]): Predicate<ValueType> =>
     (value) =>
       conditions.every((condition) => condition(value)),
+
   or:
     <ValueType>(...conditions: Predicate<ValueType>[]): Predicate<ValueType> =>
     (value) =>
@@ -14,4 +15,9 @@ export const ConditionsCompositions = {
     <ValueType>(condition: Predicate<ValueType>): Predicate<ValueType> =>
     (value) =>
       !condition(value),
+
+  identical:
+    <ValueType>(expected: ValueType): Predicate<ValueType> =>
+    (value) =>
+      value === expected,
 };

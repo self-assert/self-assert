@@ -1,9 +1,7 @@
-import { ConditionsCompositions } from "./ConditionsCompositions";
+import { LogicalConditions } from "./LogicalConditions";
 import { NumbersConditions } from "./NumbersConditions";
 
 export type Predicate<ValueType> = (value: ValueType) => boolean;
-
-
 
 /**
  * A collection of common assertion conditions.
@@ -25,7 +23,7 @@ export type Predicate<ValueType> = (value: ValueType) => boolean;
 export const Conditions = {
   hold: () => true,
   fail: () => false,
-  ...ConditionsCompositions,
+  ...LogicalConditions,
   // eslint-disable-next-line @typescript-eslint/no-misused-spread
   ...NumbersConditions,
 };
