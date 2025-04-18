@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-misused-spread */
+import { ListsConditions } from "./lists/ListsConditions";
 import { LogicalConditions } from "./LogicalConditions";
 import { NumbersConditions } from "./numbers/NumbersConditions";
 
@@ -24,6 +26,6 @@ export const Conditions = {
   hold: () => true,
   fail: () => false,
   ...LogicalConditions,
-  // eslint-disable-next-line @typescript-eslint/no-misused-spread
   ...NumbersConditions,
+  ...ListsConditions,
 };
