@@ -28,9 +28,19 @@ describe("Conditions", () => {
     });
 
     it("should provide a condition that holds when the value is less than or equal to a number", () => {
-      expect(Conditions.lessThanOrEqual(0)(-0.1)).toBe(true);
-      expect(Conditions.lessThanOrEqual(0)(0)).toBe(true);
-      expect(Conditions.lessThanOrEqual(0)(0.1)).toBe(false);
+      const lessThanOrEqualTo0 = Conditions.lessThanOrEqual(0);
+      expect(lessThanOrEqualTo0(-0.1)).toBe(true);
+      expect(lessThanOrEqualTo0(0)).toBe(true);
+      expect(lessThanOrEqualTo0(0.1)).toBe(false);
+    });
+
+    it("should provide a condition that holds when the value is between two numbers", () => {
+      const between0and1 = Conditions.between(0, 1);
+      expect(between0and1(0.5)).toBe(true);
+      expect(between0and1(-0.1)).toBe(false);
+      expect(between0and1(1.1)).toBe(false);
+      expect(between0and1(0)).toBe(true);
+      expect(between0and1(1)).toBe(true);
     });
   });
 });
