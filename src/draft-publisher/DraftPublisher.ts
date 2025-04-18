@@ -2,12 +2,12 @@ import { EventEmitter } from "events";
 
 import type { DraftAssistant } from "@/draft-assistant";
 import type { DraftViewer } from "@/types";
+import type { LabeledAssertion } from "@/assertion";
 
-type PublisherEvents = "draft:updated";
-type PublisherEventsMap<Model = unknown> = Record<PublisherEvents, [Model]>;
+type PublisherEvents<Model = unknown> = { "draft:updated": [Model] } | { "assertions:added": [LabeledAssertion] };
 
 export class DraftPublisher<Model = unknown>
-  extends EventEmitter<PublisherEventsMap<Model>>
+  extends EventEmitter<PublisherEvents<Model>>
   implements DraftViewer<Model>
 {
   static for<Model = unknown>(anAssistant: DraftAssistant<Model, never>) {
@@ -18,5 +18,9 @@ export class DraftPublisher<Model = unknown>
 
   onDraftChanged(aModel: Model) {
     this.emit("draft:updated", aModel);
+  }
+
+  onFailure(aFailedAsserion: LabeledAssertion) {
+    this.emit("assertions:added", aFailedAsserion);
   }
 }

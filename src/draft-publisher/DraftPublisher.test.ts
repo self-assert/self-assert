@@ -2,6 +2,7 @@ import { describe, expect, it } from "@jest/globals";
 import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
 
 import { DraftPublisher } from "./DraftPublisher";
+import { LabeledAssertion } from "@/assertion";
 
 describe("DraftPublisher", () => {
   it("should emit a 'draft:updated' event when the draft is changed", () => {
@@ -31,5 +32,23 @@ describe("DraftPublisher", () => {
     assistant.setModel("Changed Again");
 
     expect(eventModel).toBe("Changed Again");
+  });
+
+  it("should emit a 'assertions:added' event when assertions are added", () => {
+    const assistant = TestObjectsBucket.createNameAssistant();
+    const publisher = DraftPublisher.for(assistant);
+
+    const eventAssertions: LabeledAssertion[] = [];
+    publisher.on("assertions:added", (assertions) => {
+      eventAssertions.push(assertions);
+    });
+
+    const firstFailedAssertion = TestObjectsBucket.failingAssertion("AID.1", "1 description");
+    const secondFailedAssertion = TestObjectsBucket.failingAssertion("AID.2", "2 description");
+
+    assistant.addFailedAssertion(firstFailedAssertion);
+    assistant.addFailedAssertion(secondFailedAssertion);
+
+    expect(eventAssertions).toEqual([firstFailedAssertion, secondFailedAssertion]);
   });
 });
