@@ -1,5 +1,6 @@
-import { Predicate, Conditions } from "./Conditions";
 import { ConditionsCompositions } from "./ConditionsCompositions";
+
+import type { Predicate } from "./Conditions";
 
 const { and, or, not } = ConditionsCompositions;
 
@@ -11,9 +12,9 @@ export class NumbersConditions {
 
   static greaterThanOrEqual = (aNumber: number) => or(this.greaterThan(aNumber), (value: number) => value === aNumber);
 
-  static lessThan = (aNumber: number) => not(Conditions.greaterThanOrEqual(aNumber));
+  static lessThan = (aNumber: number) => not(this.greaterThanOrEqual(aNumber));
 
-  static lessThanOrEqual = (aNumber: number) => not(Conditions.greaterThan(aNumber));
+  static lessThanOrEqual = (aNumber: number) => not(this.greaterThan(aNumber));
 
   static between = (min: number, max: number) => and(this.greaterThanOrEqual(min), this.lessThanOrEqual(max));
 }
