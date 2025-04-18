@@ -1,23 +1,25 @@
 import type { Predicate } from "./Conditions";
 
-export const LogicalConditions = {
-  and:
+export class LogicalConditions {
+  static and =
     <ValueType>(...conditions: Predicate<ValueType>[]): Predicate<ValueType> =>
     (value) =>
-      conditions.every((condition) => condition(value)),
+      conditions.every((condition) => condition(value));
 
-  or:
+  static or =
     <ValueType>(...conditions: Predicate<ValueType>[]): Predicate<ValueType> =>
     (value) =>
-      conditions.some((condition) => condition(value)),
+      conditions.some((condition) => condition(value));
 
-  not:
+  static not =
     <ValueType>(condition: Predicate<ValueType>): Predicate<ValueType> =>
     (value) =>
-      !condition(value),
+      !condition(value);
 
-  identical:
+  static identical =
     <ValueType>(expected: ValueType): Predicate<ValueType> =>
     (value) =>
-      value === expected,
-};
+      value === expected;
+
+  static differentFrom = <ValueType>(forbiddenValue: ValueType) => this.not(this.identical(forbiddenValue));
+}

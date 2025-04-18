@@ -31,4 +31,12 @@ describe("Conditions", () => {
     ).toBe(false);
     expect(Conditions.isNotBlank("a")).toBe(true);
   });
+
+  it("should provide a condition that holds when a value is different from another specified value", () => {
+    const differentFrom = Conditions.differentFrom("a");
+    expect(differentFrom("a")).toBe(false);
+    expect(differentFrom("b")).toBe(true);
+    expect(differentFrom("")).toBe(true);
+    expect(differentFrom("ab")).toBe(true);
+  });
 });
