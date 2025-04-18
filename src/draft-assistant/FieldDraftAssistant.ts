@@ -74,8 +74,8 @@ export class FieldDraftAssistant<ContainerModel, Model extends string = string> 
       assertion.collectFailureInto(failures, this.model);
     });
 
-    failures.forEach((failure) => {
-      this.addFailedAssertion(failure);
-    });
+    this.addFailedAssertions(failures);
   }
+
+  
 }

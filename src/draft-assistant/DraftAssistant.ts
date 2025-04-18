@@ -138,9 +138,18 @@ export abstract class DraftAssistant<Model, ContainerModel> {
   /**
    * Adds an assertion to the list of failed assertions.
    */
-  addFailedAssertion(assertionFailed: LabeledAssertion) {
-    this.failedAssertions.push(assertionFailed);
-    this.forEachMirror((mirror) => mirror.onFailure?.(assertionFailed));
+  addFailedAssertion(failedAssertions: LabeledAssertion) {
+    this.failedAssertions.push(failedAssertions);
+    this.forEachMirror((mirror) => mirror.onFailure?.(failedAssertions));
+  }
+
+  /**
+   * Adds a list of assertions to the list of failed assertions.
+   */
+  addFailedAssertions(failedAssertions: LabeledAssertion[]) {
+    failedAssertions.forEach((failure) => {
+      this.addFailedAssertion(failure);
+    });
   }
 
   /**
