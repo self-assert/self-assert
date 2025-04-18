@@ -1,7 +1,7 @@
 import { DraftAssistant } from "./DraftAssistant";
 
 import type { ModelFromContainer } from "../types";
-import type { AssertionId } from "@/assertion";
+import { Assertion, AssertionId, LabeledAssertion, SelfContainedAssertion } from "@/assertion";
 
 /**
  * An assistant designed to manage a single field or a simple
@@ -26,11 +26,52 @@ export class FieldDraftAssistant<ContainerModel, Model extends string = string> 
     fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
     initialModel = ""
   ) {
-    return new this(assertionIds, fromContainerModelGetter, initialModel);
+    return this.requiringAll(
+      assertionIds.map((id) => Assertion.requiring(id, "", () => true)),
+      fromContainerModelGetter,
+      initialModel
+    );
+  }
+
+  static requiring<ContainerModel, Model extends string = string>(
+    assertion: Assertion<Model> | SelfContainedAssertion,
+    fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
+    initialModel = ""
+  ) {
+    return this.requiringAll<ContainerModel, Model>([assertion], fromContainerModelGetter, initialModel);
+  }
+
+  static requiringAll<ContainerModel, Model extends string = string>(
+    assertions: (Assertion<Model> | SelfContainedAssertion)[],
+    fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
+    initialModel = ""
+  ) {
+    return new this<ContainerModel, Model>(assertions, fromContainerModelGetter, initialModel as Model);
+  }
+
+  protected constructor(
+    protected assertions: (Assertion<Model> | SelfContainedAssertion)[],
+    fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
+    initialModel: Model
+  ) {
+    const ids = assertions.map((assertion) => assertion.getId());
+    super(ids, fromContainerModelGetter, initialModel);
   }
 
   createModel() {
     this.removeFailedAssertions();
     return this.model;
+  }
+
+  evaluate() {
+    this.removeFailedAssertions();
+    const failures: LabeledAssertion[] = [];
+    this.assertions.forEach((assertion) => {
+      assertion.collectFailureInto(failures, this.model);
+    });
+
+    failures.forEach((failure) => {
+      this.addFailedAssertion(failure);
+    });
   }
 }

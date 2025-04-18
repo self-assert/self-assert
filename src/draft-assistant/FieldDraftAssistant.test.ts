@@ -2,7 +2,7 @@ import { describe, expect, it } from "@jest/globals";
 import { FieldDraftAssistant } from "./FieldDraftAssistant";
 import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
 import { AssistantMirror } from "../types";
-import type { LabeledAssertion } from "@/assertion";
+import { Assertion, type LabeledAssertion } from "@/assertion";
 
 describe("FieldDraftAssistant", () => {
   const modelFromContainer = TestObjectsBucket.genericContainerForString();
@@ -117,5 +117,32 @@ describe("FieldDraftAssistant", () => {
     assistant.resetModel();
 
     expect(image).toBe("Init");
+  });
+
+  it("should be able to evaluate its assertions", () => {
+    const assistant = FieldDraftAssistant.requiring(
+      Assertion.requiring("AID.1", "1 description", () => true),
+      modelFromContainer
+    );
+
+    assistant.evaluate();
+
+    expect(assistant.doesNotHaveFailedAssertions()).toBe(true);
+  });
+
+  it("should be able to evaluate its assertions and fail", () => {
+    const assistant = FieldDraftAssistant.requiringAll(
+      [
+        Assertion.requiring<string>("AID.1", "1 description", (name) => name !== "FORBIDDEN"),
+        Assertion.requiring<string>("AID.2", "2 description", (name) => name.length < 5),
+      ],
+      modelFromContainer
+    );
+
+    assistant.setModel("FORBIDDEN");
+    assistant.evaluate();
+
+    expect(assistant.hasFailedAssertions()).toBe(true);
+    expect(assistant.failedAssertionsDescriptions()).toEqual(["1 description", "2 description"]);
   });
 });

@@ -1,6 +1,6 @@
 import { FieldDraftAssistant } from "./FieldDraftAssistant";
 import { SectionDraftAssistant } from "./SectionDraftAssistant";
-import { Assertion, AssertionId, AssertionSuite } from "@/assertion";
+import { Assertion, AssertionId } from "@/assertion";
 import type { ModelFromContainer } from "../types";
 
 /**
@@ -37,7 +37,7 @@ export class DateDraftAssistant<ContainerModel> extends SectionDraftAssistant<Da
   }
 
   static createDate(assertionId: AssertionId, dateAsString: string) {
-    AssertionSuite.assert(this.createAssertionFor(assertionId, dateAsString));
+    this.createAssertionFor(assertionId, dateAsString).assert();
 
     return new Date(dateAsString);
   }
