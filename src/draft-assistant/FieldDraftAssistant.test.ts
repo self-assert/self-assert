@@ -125,7 +125,7 @@ describe("FieldDraftAssistant", () => {
       modelFromContainer
     );
 
-    assistant.evaluate();
+    assistant.review();
 
     expect(assistant.doesNotHaveFailedAssertions()).toBe(true);
   });
@@ -140,7 +140,7 @@ describe("FieldDraftAssistant", () => {
     );
 
     assistant.setModel("FORBIDDEN");
-    assistant.evaluate();
+    assistant.review();
 
     expect(assistant.hasFailedAssertions()).toBe(true);
     expect(assistant.failedAssertionsDescriptions()).toEqual(["1 description", "2 description"]);
