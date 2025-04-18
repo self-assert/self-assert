@@ -1,24 +1,25 @@
 import { describe, expect, it } from "@jest/globals";
 import { Assertion } from "./Assertion";
 import { AssertionEvaluation } from "./AssertionEvaluation";
+import { Conditions } from "@/conditions";
 
 describe("AssertionEvaluation", () => {
   it("should hold when condition is true with value", () => {
-    const assertion = Assertion.requiring<string>("AID", "Description", (value) => value === "value");
+    const assertion = Assertion.requiring("AID", "Description", Conditions.identical("value"));
     const evaluation = AssertionEvaluation.for(assertion, "value");
 
     expect(evaluation).toHold();
   });
 
   it("should not hold when condition is false with value", () => {
-    const assertion = Assertion.requiring<string>("AID", "Description", (value) => value === "value");
+    const assertion = Assertion.requiring("AID", "Description", Conditions.identical("value"));
     const evaluation = AssertionEvaluation.for(assertion, "not value");
 
     expect(evaluation).toFail();
   });
 
   it("behaves like an assertion", () => {
-    const assertion = Assertion.requiring<string>("AID", "Description", (value) => value === "value");
+    const assertion = Assertion.requiring("AID", "Description", Conditions.identical("value"));
     const evaluation = AssertionEvaluation.for(assertion, "value");
 
     expect(evaluation.getId()).toBe("AID");
@@ -29,7 +30,7 @@ describe("AssertionEvaluation", () => {
   });
 
   it("should be able to assert its conditions are met", () => {
-    const assertion = Assertion.requiring<string>("AID", "Description", (value) => value === "value");
+    const assertion = Assertion.requiring("AID", "Description", Conditions.identical("value"));
     const evaluation = AssertionEvaluation.for(assertion, "not value");
 
     expect(() => evaluation.assert()).toFailAssertion("AID", "Description");

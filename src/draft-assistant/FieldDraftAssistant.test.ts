@@ -3,6 +3,7 @@ import { FieldDraftAssistant } from "./FieldDraftAssistant";
 import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
 import { DraftViewer } from "../types";
 import { Assertion, type LabeledAssertion } from "@/assertion";
+import { Conditions } from "@/conditions";
 
 describe("FieldDraftAssistant", () => {
   const modelFromContainer = TestObjectsBucket.genericContainerForString();
@@ -121,7 +122,7 @@ describe("FieldDraftAssistant", () => {
 
   it("should be able to evaluate its assertions", () => {
     const assistant = FieldDraftAssistant.requiring(
-      Assertion.requiring("AID.1", "1 description", () => true),
+      Assertion.requiring("AID.1", "1 description", Conditions.hold),
       modelFromContainer
     );
 
@@ -131,10 +132,12 @@ describe("FieldDraftAssistant", () => {
   });
 
   it("should be able to evaluate its assertions and fail", () => {
+    const firstDescription = "Value is not 'FORBIDDEN'";
+    const secondDescription = "Value has at most 4 characters";
     const assistant = FieldDraftAssistant.requiringAll(
       [
-        Assertion.requiring<string>("AID.1", "1 description", (name) => name !== "FORBIDDEN"),
-        Assertion.requiring<string>("AID.2", "2 description", (name) => name.length < 5),
+        Assertion.requiring<string>("AID.1", firstDescription, Conditions.differentFrom("FORBIDDEN")),
+        Assertion.requiring<string>("AID.2", secondDescription, Conditions.hasAtMost(4)),
       ],
       modelFromContainer
     );
@@ -143,6 +146,6 @@ describe("FieldDraftAssistant", () => {
     assistant.review();
 
     expect(assistant.hasFailedAssertions()).toBe(true);
-    expect(assistant.failedAssertionsDescriptions()).toEqual(["1 description", "2 description"]);
+    expect(assistant.failedAssertionsDescriptions()).toEqual([firstDescription, secondDescription]);
   });
 });

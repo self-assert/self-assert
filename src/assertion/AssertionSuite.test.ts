@@ -5,6 +5,7 @@ import { AssertionSuite } from "./AssertionSuite";
 import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
 import { expectToBeAssertionsFailed } from "@testing-support/jest.setup";
 import { Assertion } from ".";
+import { Conditions } from "@/conditions";
 
 describe("AssertionSuite", () => {
   it("should not throw on assertion that holds", () => {
@@ -42,9 +43,7 @@ describe("AssertionSuite", () => {
   });
 
   it("should accept assertion evaluations", () => {
-    const assertions = [
-      Assertion.requiring<string>("name", "Name should not be empty", (name) => name !== "").evaluateFor(""),
-    ];
+    const assertions = [Assertion.requiring("name", "Name should not be empty", Conditions.isNotEmpty).evaluateFor("")];
 
     expect(() => AssertionSuite.assertAll(assertions)).toFailAssertion("name", "Name should not be empty");
   });

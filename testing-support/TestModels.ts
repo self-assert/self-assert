@@ -1,4 +1,5 @@
 import { Assertion, AssertionSuite } from "@/assertion";
+import { Conditions } from "@/conditions";
 
 export class ModelWithNoAssertions {
   constructor(protected name: string) {}
@@ -20,18 +21,18 @@ export class SelfAssertingModel extends ModelWithNoAssertions {
   static readonly nameNotForbiddenAID = "sam.nameNotForbiddenAID";
   static readonly nameNotForbiddenDescription = `Name cannot be '${this.forbiddenName}'`;
 
-  static nameNotForbiddenAssertion(name: string): Assertion {
+  static nameNotForbiddenAssertion() {
     return Assertion.requiring(
       this.nameNotForbiddenAID,
       this.nameNotForbiddenDescription,
-      () => name !== this.forbiddenName
+      Conditions.differentFrom(this.forbiddenName)
     );
   }
 
   static named(name: string) {
     AssertionSuite.assertAll([
-      Assertion.requiring(this.nameNotEmptyAID, this.nameNotEmptyDescription, () => name !== ""),
-      SelfAssertingModel.nameNotForbiddenAssertion(name),
+      Assertion.requiring(this.nameNotEmptyAID, this.nameNotEmptyDescription, Conditions.isNotEmpty).evaluateFor(name),
+      SelfAssertingModel.nameNotForbiddenAssertion().evaluateFor(name),
     ]);
 
     return new this(name);

@@ -13,7 +13,7 @@ export class IntegerDraftAssistant<ContainerModel> extends SectionDraftAssistant
 
   static for<ContainerModel>(
     assertionId: AssertionId,
-    fromContainerModelGetter: ModelFromContainer<number, ContainerModel>
+    modelFromContainer: ModelFromContainer<number, ContainerModel>
   ): IntegerDraftAssistant<ContainerModel> {
     const assertionIds = assertionId === "" ? [] : [assertionId];
 
@@ -21,13 +21,13 @@ export class IntegerDraftAssistant<ContainerModel> extends SectionDraftAssistant
     return this.with(
       [this.createNumberAssistant()],
       (numberAsString) => this.createInteger(assertionId, numberAsString),
-      fromContainerModelGetter,
+      modelFromContainer,
       assertionIds
     );
   }
 
   static forTopLevel(assertionId: AssertionId) {
-    return this.for(assertionId, this.topLevelContainerModelGetter());
+    return this.for(assertionId, this.topLevelModelFromContainer());
   }
 
   static createInteger(assertionId: AssertionId, numberAsString: string) {

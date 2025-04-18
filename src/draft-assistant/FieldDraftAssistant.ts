@@ -15,47 +15,47 @@ export class FieldDraftAssistant<ContainerModel, Model extends string = string> 
 > {
   static handling<ContainerModel, Model extends string = string>(
     assertionId: AssertionId,
-    fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
+    modelFromContainer: ModelFromContainer<Model, ContainerModel>,
     initialModel = ""
   ) {
-    return this.handlingAll([assertionId], fromContainerModelGetter, initialModel);
+    return this.handlingAll([assertionId], modelFromContainer, initialModel);
   }
 
   static handlingAll<ContainerModel, Model extends string = string>(
     assertionIds: AssertionId[],
-    fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
+    modelFromContainer: ModelFromContainer<Model, ContainerModel>,
     initialModel = ""
   ) {
     return this.requiringAll(
-      assertionIds.map((id) => Assertion.requiring(id, "(placeholder)", () => true)),
-      fromContainerModelGetter,
+      assertionIds.map((id) => Assertion.labeled(id, "(placeholder)")),
+      modelFromContainer,
       initialModel
     );
   }
 
   static requiring<ContainerModel, Model extends string = string>(
     assertion: Assertion<Model> | SelfContainedAssertion,
-    fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
+    modelFromContainer: ModelFromContainer<Model, ContainerModel>,
     initialModel = ""
   ) {
-    return this.requiringAll<ContainerModel, Model>([assertion], fromContainerModelGetter, initialModel);
+    return this.requiringAll<ContainerModel, Model>([assertion], modelFromContainer, initialModel);
   }
 
   static requiringAll<ContainerModel, Model extends string = string>(
     assertions: (Assertion<Model> | SelfContainedAssertion)[],
-    fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
+    modelFromContainer: ModelFromContainer<Model, ContainerModel>,
     initialModel = ""
   ) {
-    return new this<ContainerModel, Model>(assertions, fromContainerModelGetter, initialModel as Model);
+    return new this<ContainerModel, Model>(assertions, modelFromContainer, initialModel as Model);
   }
 
   protected constructor(
     protected assertions: (Assertion<Model> | SelfContainedAssertion)[],
-    fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
+    modelFromContainer: ModelFromContainer<Model, ContainerModel>,
     initialModel: Model
   ) {
     const ids = assertions.map((assertion) => assertion.getId());
-    super(ids, fromContainerModelGetter, initialModel);
+    super(ids, modelFromContainer, initialModel);
   }
 
   createModel() {
@@ -76,6 +76,4 @@ export class FieldDraftAssistant<ContainerModel, Model extends string = string> 
 
     this.addFailedAssertions(failures);
   }
-
-  
 }

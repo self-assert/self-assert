@@ -24,10 +24,10 @@ export class SectionDraftAssistant<Model, ContainerModel, ComposedModels extends
   static with<Model, ContainerModel, ComposedModels extends unknown[]>(
     assistants: AssistantsIn<ComposedModels, Model>,
     creationClosure: CreationClosure<Model, ComposedModels>,
-    fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
+    modelFromContainer: ModelFromContainer<Model, ContainerModel>,
     assertionIds: AssertionId[]
   ) {
-    return new this(assistants, creationClosure, fromContainerModelGetter, assertionIds);
+    return new this(assistants, creationClosure, modelFromContainer, assertionIds);
   }
 
   static topLevelContainerWith<Model, ComposedModels extends unknown[]>(
@@ -35,17 +35,17 @@ export class SectionDraftAssistant<Model, ContainerModel, ComposedModels extends
     creationClosure: CreationClosure<Model, ComposedModels>,
     assertionIds: AssertionId[] = []
   ) {
-    return this.with(assistants, creationClosure, this.topLevelContainerModelGetter<Model>(), assertionIds);
+    return this.with(assistants, creationClosure, this.topLevelModelFromContainer<Model>(), assertionIds);
   }
 
   constructor(
     protected assistants: AssistantsIn<ComposedModels, Model>,
     protected creationClosure: CreationClosure<Model, ComposedModels>,
-    fromContainerModelGetter: ModelFromContainer<Model, ContainerModel>,
+    modelFromContainer: ModelFromContainer<Model, ContainerModel>,
     assertionIds: AssertionId[]
   ) {
     /** @ts-expect-error See {@link DraftAssistant.INVALID_MODEL} */
-    super(assertionIds, fromContainerModelGetter, DraftAssistant.INVALID_MODEL);
+    super(assertionIds, modelFromContainer, DraftAssistant.INVALID_MODEL);
   }
 
   createModel() {
