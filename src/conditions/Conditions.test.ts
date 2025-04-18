@@ -12,19 +12,22 @@ describe("Conditions", () => {
 
   describe("Numbers", () => {
     it("should provide a condition that holds when the value is greater than a number", () => {
-      expect(Conditions.greaterThan(0)(0.1)).toBe(true);
-      expect(Conditions.greaterThan(0)(0)).toBe(false);
+      const greaterThan0 = Conditions.greaterThan(0);
+      expect(greaterThan0(0.1)).toBe(true);
+      expect(greaterThan0(0)).toBe(false);
     });
 
     it("should provide a condition that holds when the value is less than a number", () => {
-      expect(Conditions.lessThan(0)(-0.1)).toBe(true);
-      expect(Conditions.lessThan(0)(0)).toBe(false);
+      const lessThan0 = Conditions.lessThan(0);
+      expect(lessThan0(-0.1)).toBe(true);
+      expect(lessThan0(0)).toBe(false);
     });
 
     it("should provide a condition that holds when the value is greater than or equal to a number", () => {
-      expect(Conditions.greaterThanOrEqual(0)(0.1)).toBe(true);
-      expect(Conditions.greaterThanOrEqual(0)(0)).toBe(true);
-      expect(Conditions.greaterThanOrEqual(0)(-0.1)).toBe(false);
+      const greaterThanOrEqual0 = Conditions.greaterThanOrEqual(0);
+      expect(greaterThanOrEqual0(0.1)).toBe(true);
+      expect(greaterThanOrEqual0(0)).toBe(true);
+      expect(greaterThanOrEqual0(-0.1)).toBe(false);
     });
 
     it("should provide a condition that holds when the value is less than or equal to a number", () => {
@@ -35,12 +38,12 @@ describe("Conditions", () => {
     });
 
     it("should provide a condition that holds when the value is between two numbers", () => {
-      const between0and1 = Conditions.between(0, 1);
-      expect(between0and1(0.5)).toBe(true);
-      expect(between0and1(-0.1)).toBe(false);
-      expect(between0and1(1.1)).toBe(false);
-      expect(between0and1(0)).toBe(true);
-      expect(between0and1(1)).toBe(true);
+      const between1and2 = Conditions.between(1, 2);
+      expect(between1and2(0.9)).toBe(false);
+      expect(between1and2(1)).toBe(true);
+      expect(between1and2(1.5)).toBe(true);
+      expect(between1and2(2)).toBe(true);
+      expect(between1and2(2.1)).toBe(false);
     });
   });
 });
