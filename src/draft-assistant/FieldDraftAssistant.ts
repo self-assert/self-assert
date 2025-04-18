@@ -27,7 +27,7 @@ export class FieldDraftAssistant<ContainerModel, Model extends string = string> 
     initialModel = ""
   ) {
     return this.requiringAll(
-      assertionIds.map((id) => Assertion.requiring(id, "", () => true)),
+      assertionIds.map((id) => Assertion.requiring(id, "(placeholder)", () => true)),
       fromContainerModelGetter,
       initialModel
     );
@@ -63,15 +63,19 @@ export class FieldDraftAssistant<ContainerModel, Model extends string = string> 
     return this.model;
   }
 
-  evaluate() {
+  /**
+   * Checks if the current draft verifies all assertions.
+   * If not, it adds them to the list of failed assertions.
+   */
+  review() {
     this.removeFailedAssertions();
     const failures: LabeledAssertion[] = [];
     this.assertions.forEach((assertion) => {
       assertion.collectFailureInto(failures, this.model);
     });
 
-    failures.forEach((failure) => {
-      this.addFailedAssertion(failure);
-    });
+    this.addFailedAssertions(failures);
   }
+
+  
 }

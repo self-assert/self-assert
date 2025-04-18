@@ -1,7 +1,7 @@
 import { describe, expect, it } from "@jest/globals";
 import { FieldDraftAssistant } from "./FieldDraftAssistant";
 import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
-import { AssistantMirror } from "../types";
+import { DraftViewer } from "../types";
 import { Assertion, type LabeledAssertion } from "@/assertion";
 
 describe("FieldDraftAssistant", () => {
@@ -10,7 +10,7 @@ describe("FieldDraftAssistant", () => {
   it("should remember its initial model", () => {
     const assistant = FieldDraftAssistant.handling("AID.1", modelFromContainer, "Init");
     expect(assistant.getModel()).toBe("Init");
-    expect(assistant.numberOfMirrors()).toBe(0);
+    expect(assistant.numberOfViewers()).toBe(0);
   });
 
   it("should allow to be changed", () => {
@@ -18,7 +18,7 @@ describe("FieldDraftAssistant", () => {
     assistant.setModel("Changed");
     expect(assistant.getModel()).toBe("Changed");
     expect(assistant.getModel()).not.toBe("Init");
-    expect(assistant.numberOfMirrors()).toBe(0);
+    expect(assistant.numberOfViewers()).toBe(0);
   });
 
   it("should allow to be reset to its initial model", () => {
@@ -26,50 +26,50 @@ describe("FieldDraftAssistant", () => {
     assistant.setModel("Changed");
     assistant.resetModel();
     expect(assistant.getModel()).toBe("");
-    expect(assistant.numberOfMirrors()).toBe(0);
+    expect(assistant.numberOfViewers()).toBe(0);
   });
 
   it("should be able to create a model without failing", () => {
     const assistant = FieldDraftAssistant.handlingAll(["AID.1", "AID.2"], modelFromContainer);
     expect(assistant.createModel()).toBe("");
-    expect(assistant.numberOfMirrors()).toBe(0);
+    expect(assistant.numberOfViewers()).toBe(0);
   });
 
-  it("should accept a mirror", () => {
+  it("should accept a viewer", () => {
     const assistant = FieldDraftAssistant.handling("AID.1", modelFromContainer);
 
-    let mirroredImage = "Empty";
-    const mirror: AssistantMirror<string> = { reflect: (image) => (mirroredImage = image) };
-    assistant.accept(mirror);
+    let mirroredModel = "Empty";
+    const viewer: DraftViewer<string> = { onDraftChanged: (model) => (mirroredModel = model) };
+    assistant.accept(viewer);
 
     assistant.setModel("Changed");
 
-    expect(mirroredImage).toBe("Changed");
-    expect(assistant.numberOfMirrors()).toBe(1);
+    expect(mirroredModel).toBe("Changed");
+    expect(assistant.numberOfViewers()).toBe(1);
   });
 
-  it("should be able to break mirrors", () => {
+  it("should be able to remove a viewer", () => {
     const assistant = FieldDraftAssistant.handling("AID.1", modelFromContainer);
 
-    let mirroredImage = "Empty";
-    const firstMirror: AssistantMirror<string> = {
-      reflect: () => {
+    let mirroredModel = "Empty";
+    const firstViewer: DraftViewer<string> = {
+      onDraftChanged: () => {
         throw new Error("Should not be called");
       },
     };
-    const secondMirror: AssistantMirror<string> = { reflect: (image) => (mirroredImage = image) };
-    assistant.accept(firstMirror);
-    assistant.accept(secondMirror);
+    const secondViewer: DraftViewer<string> = { onDraftChanged: (image) => (mirroredModel = image) };
+    assistant.accept(firstViewer);
+    assistant.accept(secondViewer);
 
-    assistant.break(firstMirror);
+    assistant.removeViewer(firstViewer);
 
     assistant.setModel("Changed");
 
-    expect(mirroredImage).toBe("Changed");
-    expect(assistant.numberOfMirrors()).toBe(1);
+    expect(mirroredModel).toBe("Changed");
+    expect(assistant.numberOfViewers()).toBe(1);
   });
 
-  it("should mirror failed assertions", () => {
+  it("should be notified about failed assertions", () => {
     const assistant = FieldDraftAssistant.handlingAll(["AID.1", "AID.2"], modelFromContainer);
     const firstFailedAssertion = TestObjectsBucket.failingAssertion("AID.1", "1 description");
     const secondFailedAssertion = TestObjectsBucket.failingAssertion("AID.2", "2 description");
@@ -87,12 +87,12 @@ describe("FieldDraftAssistant", () => {
     expect(mirroredFailedAssertions).toEqual([firstFailedAssertion, secondFailedAssertion]);
   });
 
-  it("should mirror a failed assertions reset", () => {
+  it("should be notified about a failed assertions reset", () => {
     const assistant = FieldDraftAssistant.handlingAll(["AID.1", "AID.2"], modelFromContainer);
 
     let hasBeenReset = false;
     assistant.accept({
-      onFailureReset() {
+      onFailuresReset() {
         hasBeenReset = true;
       },
     });
@@ -104,12 +104,12 @@ describe("FieldDraftAssistant", () => {
     expect(hasBeenReset).toBe(true);
   });
 
-  it("should mirror a reset", () => {
+  it("should be notified about a draft reset", () => {
     const assistant = FieldDraftAssistant.handlingAll(["AID.1"], modelFromContainer, "Init");
 
     let image = "";
     assistant.accept({
-      reflect(anImage) {
+      onDraftChanged(anImage) {
         image = anImage;
       },
     });
@@ -125,7 +125,7 @@ describe("FieldDraftAssistant", () => {
       modelFromContainer
     );
 
-    assistant.evaluate();
+    assistant.review();
 
     expect(assistant.doesNotHaveFailedAssertions()).toBe(true);
   });
@@ -140,7 +140,7 @@ describe("FieldDraftAssistant", () => {
     );
 
     assistant.setModel("FORBIDDEN");
-    assistant.evaluate();
+    assistant.review();
 
     expect(assistant.hasFailedAssertions()).toBe(true);
     expect(assistant.failedAssertionsDescriptions()).toEqual(["1 description", "2 description"]);

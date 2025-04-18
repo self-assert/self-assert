@@ -30,7 +30,7 @@ export class TestObjectsBucket {
     return (c) => c.getModel();
   }
 
-  protected static createNameAssistant() {
+  static createNameAssistant() {
     return FieldDraftAssistant.handlingAll<ModelWithNoAssertions>([SelfAssertingModel.nameNotEmptyAID], (model) =>
       model.getName()
     );

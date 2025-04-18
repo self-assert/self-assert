@@ -2,13 +2,14 @@ import type { LabeledAssertion } from "@/assertion";
 import type { DraftAssistant } from "@/draft-assistant";
 
 /**
- * Changes to an assistant's model can be observed by mirrors.
+ * Changes to a draft can be observed by viewers.
+ * Viewers can be notified about changes to the draft or about failed assertions.
  */
-export interface AssistantMirror<Model = unknown> {
+export interface DraftViewer<Model = unknown> {
   /**
-   * Reflects changes to the model.
+   * Receives notifications about changes to the draft's model.
    */
-  reflect?: (anImage: Model) => void;
+  onDraftChanged?: (aModel: Model) => void;
 
   /**
    * Receives notifications about failed assertions.
@@ -18,7 +19,7 @@ export interface AssistantMirror<Model = unknown> {
   /**
    * Receives notifications when the model's failed assertions are cleared.
    */
-  onFailureReset?: () => void;
+  onFailuresReset?: () => void;
 }
 
 /**
