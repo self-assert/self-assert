@@ -1,6 +1,6 @@
-import { LogicalConditions } from "./LogicalConditions";
+import { LogicalConditions } from "../LogicalConditions";
 
-import type { Predicate } from "./Conditions";
+import type { Predicate } from "../Conditions";
 
 const { and, or, not, identical } = LogicalConditions;
 

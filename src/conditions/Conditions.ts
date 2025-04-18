@@ -1,5 +1,5 @@
 import { LogicalConditions } from "./LogicalConditions";
-import { NumbersConditions } from "./NumbersConditions";
+import { NumbersConditions } from "./numbers/NumbersConditions";
 
 export type Predicate<ValueType> = (value: ValueType) => boolean;
 
