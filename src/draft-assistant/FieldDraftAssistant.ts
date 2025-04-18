@@ -27,7 +27,7 @@ export class FieldDraftAssistant<ContainerModel, Model extends string = string> 
     initialModel = ""
   ) {
     return this.requiringAll(
-      assertionIds.map((id) => Assertion.requiring(id, "(placeholder)", () => true)),
+      assertionIds.map((id) => Assertion.labeled(id, "(placeholder)")),
       modelFromContainer,
       initialModel
     );
@@ -76,6 +76,4 @@ export class FieldDraftAssistant<ContainerModel, Model extends string = string> 
 
     this.addFailedAssertions(failures);
   }
-
-  
 }
