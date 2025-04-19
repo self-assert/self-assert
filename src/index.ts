@@ -1,6 +1,6 @@
 /**
  * @groupDescription Assertions
- * Framework
+ * Related to the definition of business rules and their evaluation.
  * @packageDocumentation
  */
 

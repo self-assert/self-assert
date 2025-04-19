@@ -18,20 +18,31 @@ class StringsConditions {
  *
  * It also provides a way to compose conditions using the `and`, `or` and `not` functions.
  *
+ * @namespace
  * @example
+ * Composition
  * ```ts
- * const myCondition = Conditions.and(Conditions.greaterThan(0), (value: number) => value % 42 === 0);
+ * const myCondition = Conditions.and(
+ *    Conditions.greaterThan(0),
+ *    (value: number) => value % 42 === 0
+ * );
  * myCondition(42); // true
  * ```
- *
  * @example
+ * Usage with {@link Assertion}:
  * ```ts
  * const assertion = Assertion.requiring("customer.age.over18", "Can't be under 18", Conditions.greaterThanOrEqual(18));
  * ```
- *
+ * @group Assertions
  */
 export const Conditions = {
+  /**
+   * This is a predicate that always evaluates to `true`.
+   */
   hold: () => true,
+  /**
+   * This is a predicate that always evaluates to `false`.
+   */
   fail: () => false,
   ...LogicalConditions,
   ...NumbersConditions,

@@ -3,14 +3,16 @@
   "out": "./docs/api",
   "includeVersion": true,
   "tsconfig": "./tsconfig.json",
-  "router": "category",
+  "router": "group",
   "navigation": {
     "includeGroups": true,
     "includeCategories": true,
     "excludeReferences": true
   },
-  "categorizeByGroup": true,
+  "categorizeByGroup": false,
+  "defaultCategory": "Others",
   "sort": ["static-first", "visibility"],
   "groupOrder": ["Assertions", "*"],
+  "useFirstParagraphOfCommentAsSummary": true,
   "plugin": ["typedoc-github-theme"]
 }
