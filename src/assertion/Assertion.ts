@@ -14,6 +14,9 @@ import type { AssertionId, LabeledAssertion, SelfContainedAssertion } from "./ty
  * These identifiers are meant to be meaningful within the domain,
  * and can be used to route or display validation errors.
  *
+ * @see
+ * - {@link Conditions} provides a list of built-in conditions.
+ *
  * @template ValueType The type of value this assertion applies to.
  *
  * @example
@@ -22,22 +25,18 @@ import type { AssertionId, LabeledAssertion, SelfContainedAssertion } from "./ty
  * const nameNotBlank = Assertion.requiring<string>(
  *   "customer.name.notBlank",
  *   "Name must not be blank",
- *   (name) => name.trim().length > 0
+ *   Conditions.isNotBlank
  * );
  *
  * nameNotBlank.doesHold("John"); // true
  * nameNotBlank.hasFailed("   "); // true
  * ```
- *
  */
 export class Assertion<ValueType = void> implements LabeledAssertion {
   static fromJson(assertionAsJson: AssertionLabelAsJson) {
     return new this(AssertionLabel.fromJson(assertionAsJson));
   }
 
-  /**
-   * Creates a new assertion with the given id and description, without any conditions
-   */
   static labeled<ValueType = void>(id: AssertionId, description: string) {
     const label = new AssertionLabel(id, description);
     return new this<ValueType>(label);

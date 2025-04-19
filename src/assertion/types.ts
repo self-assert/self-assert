@@ -2,6 +2,8 @@ export type AssertionId = string;
 
 /**
  * Describes an assertion by its id and description.
+ *
+ * @group Assertions
  */
 export interface LabeledAssertion {
   /**
@@ -33,6 +35,8 @@ export interface LabeledAssertion {
  *
  * @remarks
  * `Assertion<void>` and `AssertionEvaluation` are both `SelfContainedAssertion`
+ *
+ * @group Assertions
  */
 export interface SelfContainedAssertion extends LabeledAssertion {
   /**
