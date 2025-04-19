@@ -1,0 +1,16 @@
+{
+  "entryPoints": ["src/index.ts"],
+  "out": "./docs/api",
+  "includeVersion": true,
+  "tsconfig": "./tsconfig.json",
+  "router": "category",
+  "navigation": {
+    "includeGroups": true,
+    "includeCategories": true,
+    "excludeReferences": true
+  },
+  "categorizeByGroup": true,
+  "sort": ["static-first", "visibility"],
+  "groupOrder": ["Assertions", "*"],
+  "plugin": ["typedoc-github-theme"]
+}

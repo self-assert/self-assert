@@ -28,6 +28,8 @@ import type { AssertionLabel } from "./AssertionLabel";
  *
  * evaluation.doesHold(); // true
  * ```
+ *
+ * @group Assertions
  */
 export class AssertionEvaluation<ValueType> implements SelfContainedAssertion {
   static for<ValueType>(assertion: Assertion<ValueType>, value: ValueType) {

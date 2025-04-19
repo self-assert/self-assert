@@ -19,6 +19,7 @@
   },
   "scripts": {
     "build": "rollup -c",
+    "docs": "typedoc",
     "lint": "eslint src",
     "prepare": "npm run build",
     "test": "jest",
@@ -64,6 +65,8 @@
     "ts-jest": "^29.3.1",
     "ts-node": "^10.9.2",
     "tslib": "^2.8.1",
+    "typedoc": "^0.28.2",
+    "typedoc-github-theme": "^0.3.0",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.29.1"
   }
