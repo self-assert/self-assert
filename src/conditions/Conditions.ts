@@ -8,8 +8,17 @@ export type Predicate<ValueType> = (value: ValueType) => boolean;
 const { not } = LogicalConditions;
 
 class StringsConditions {
+  /**
+   * A predicate that evaluates to `true` if the string is empty or contains only whitespace characters.
+   * @function @category Strings
+   * @see {@link isNotBlank}
+   */
   static isBlank: Predicate<string> = (value) => ListsConditions.isEmpty(value.trim());
 
+  /**
+   * Opposite of {@link isBlank}.
+   * @function @category Strings
+   */
   static isNotBlank = not(this.isBlank);
 }
 
@@ -48,4 +57,10 @@ export const Conditions = {
   ...NumbersConditions,
   ...ListsConditions,
   ...StringsConditions,
+  /**
+   * @hidden
+   * @privateRemarks
+   * This is to avoid TypeDoc from showing the prototype in the docs
+   */
+  prototype: Object.prototype,
 };
