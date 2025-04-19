@@ -26,7 +26,7 @@ jobs:
           registry-url: https://registry.npmjs.org
           cache: "npm"
       - name: Generate docs
-        run: npm run docs
+        run: npm ci && npm run docs
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
