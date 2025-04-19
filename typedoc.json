@@ -16,5 +16,4 @@
   "useFirstParagraphOfCommentAsSummary": true,
   "disableSources": true,
   "plugin": ["typedoc-github-theme"]
-  // "plugin": ["typedoc-github-theme", "typedoc-plugin-markdown"]
 }
