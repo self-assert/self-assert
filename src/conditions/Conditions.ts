@@ -46,11 +46,11 @@ class StringsConditions {
  */
 export const Conditions = {
   /**
-   * This is a predicate that always evaluates to `true`.
+   * A predicate that always evaluates to `true`.
    */
   hold: () => true,
   /**
-   * This is a predicate that always evaluates to `false`.
+   * A predicate that always evaluates to `false`.
    */
   fail: () => false,
   ...LogicalConditions,
