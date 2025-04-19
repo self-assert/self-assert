@@ -183,6 +183,26 @@ describe("SectionDraftAssistant", () => {
     );
   });
 
+  it("should be able to reset its model", () => {
+    const assistant = TestObjectsBucket.createSelfAssertingModelAssistant();
+    assistant.nameAssistant.setModel("Pedro");
+    assistant.createModel();
+
+    assistant.resetModel();
+
+    expect(assistant.getModel()).toBe(DraftAssistant.INVALID_MODEL);
+  });
+
+  it("should reset its composed assistants when resetting its model", () => {
+    const assistant = TestObjectsBucket.createSelfAssertingModelAssistant();
+    assistant.nameAssistant.setModel("Pedro");
+    assistant.createModel();
+
+    assistant.resetModel();
+
+    expect(assistant.nameAssistant.getModel()).toBe("");
+  });
+
   describe("Viewers", () => {
     it("should reflect changes when the model is created", (done) => {
       const assistant = TestObjectsBucket.createSelfAssertingModelAssistant();
