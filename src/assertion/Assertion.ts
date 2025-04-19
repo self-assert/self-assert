@@ -31,8 +31,6 @@ import type { AssertionId, LabeledAssertion, SelfContainedAssertion } from "./ty
  * nameNotBlank.doesHold("John"); // true
  * nameNotBlank.hasFailed("   "); // true
  * ```
- *
- * @group Assertions
  */
 export class Assertion<ValueType = void> implements LabeledAssertion {
   static fromJson(assertionAsJson: AssertionLabelAsJson) {
