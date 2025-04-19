@@ -1,3 +1,6 @@
+import { AssertionLabel } from "./AssertionLabel";
+import { AssertionsFailed } from "./AssertionsFailed";
+
 export class Audit {
   static requiring(anId: string, aDescription: string, aCondition: () => Promise<boolean>) {
     return new this(anId, aDescription).require(aCondition);
@@ -19,6 +22,12 @@ export class Audit {
 
   async hasFailed() {
     return !(await this.doesHold());
+  }
+
+  async assert() {
+    if (await this.hasFailed()) {
+      throw new AssertionsFailed([new AssertionLabel(this.id, this.description)]);
+    }
   }
 
   require(aCondition: () => Promise<boolean>) {
