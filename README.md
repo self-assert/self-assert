@@ -8,60 +8,20 @@
 [![License](https://img.shields.io/badge/license-MIT-green)][license]
 [![Lint and Test](https://github.com/self-assert/self-assert/actions/workflows/ci.yml/badge.svg)][gha-lint-and-test]
 
+<br/>
+
+🔗 [Documentation][docs] | [Getting Started](#getting-started)
+
 </div>
 
 ---
 
-A stable version of this project is meant to be released soon.
+**Inspired by [Hernán Wilkinson][hernan-url]’s
+“[Diseño a la Gorra][disenio-a-la-gorra]” webinar**—software
+as a model of real‑world problems, continuous refinement of that model,
+and objects that encapsulate and protect their own validity.
 
-## Table of Contents
-
-- [Credits and Acknowledgements](#credits-and-acknowledgements)
-- [Installation](#installation)
-- [Usage](#usage)
-  - [Defining Assertions for object validation](#defining-assertions-for-object-validation)
-  - [Using Draft Assistants](#using-draft-assistants)
-- [Resources](#resources)
-- [License](#license)
-
-## Credits and Acknowledgements
-
-This project is based on the ideas presented by Hernán Wilkinson ([@hernanwilkinson][hernan-url])
-in his [Diseño a la Gorra][disenio-a-la-gorra] webinar.
-
-Diseño a la Gorra explores the principles of object-oriented software design,
-with a focus on practical examples and heuristics for creating high-quality software.
-The videos are mostly in Spanish, but the code and ideas are universally understandable.
-
-A central theme of Diseño a la Gorra is understanding software as a
-**model of a real-world problem**.
-From this perspective, developing software is fundamentally the act of
-**designing an effective model**.
-
-According to this approach:
-
-- A good software model **abstracts the relevant aspects** of the domain,
-  allowing for clear understanding and effective solutions.
-- Software design is a continuous process of **learning and refining** the model.
-- A good model not only works but also **teaches** how to interact with it
-  through its structure and behavior.
-- **Objects** should represent **domain entities**, and be created
-  **complete** and **valid** from the start, reflecting a coherent
-  state of the real world.
-
-The concepts behind `self-assert` were introduced in [Episode 2][dalg-t1-ch2]
-("Valid Objects")
-and further developed in [Episode 3][dalg-t1-ch3] ("Modeling Sets of Objects").
-
-Diseño a la Gorra also encourages a shift in mindset:
-
-- **Code is not written for the computer**; it's written to
-  **model our understanding of the domain**.
-- **Objects are not just data containers**; they are
-  **collaborators that encapsulate behavior** and ensure consistency.
-
-This mindset is what `self-assert` aims to support: designing
-objects that **are responsible of protecting their own validity** from the very beginning.
+See [full acknowledgements](#credits-and-acknowledgements) below.
 
 ## Installation
 
@@ -71,13 +31,14 @@ Install `self-assert` with `npm`:
 npm install self-assert
 ```
 
-## Usage
+## Getting Started
 
 This section is meant as a **guide** to help you get started with `self-assert`.
 It does not define rules, but rather showcases what the
 contributors consider to be best practices.
 
-For more information, refer to the [original webinar example][dalg-t1-ch3].
+For more information, refer to the [documentation][docs] or
+the [original webinar example][dalg-t1-ch3].
 
 ### Defining Assertions for Object Validation
 
@@ -100,16 +61,16 @@ A common workflow is:
 2. Use `Assertion.requiring` for self-contained checks, or create reusable assertions
    and apply them later using `AssertionEvaluation` or the `evaluateFor`
    method of `Assertion`.
-3. Use `AssertionsRunner.assertAll` to execute the assertions together in
+3. Use `AssertionSuite.assertAll` to execute the assertions together in
    the previously defined factory method.
-4. (Optional) If you are using TypeScript, consider marking
+4. _(Optional)_ If you are using TypeScript, consider marking
    the class constructor as `protected`.
 5. Ensure that all other factory methods use the main one.
 
 Here's a simplified example:
 
 ```ts
-import { Assertion, AssertionEvaluation, AssertionsRunner } from "self-assert";
+import { Assertion, AssertionSuite, Conditions } from "self-assert";
 
 class Person {
   static readonly nameNotBlankAID = "name.notBlank";
@@ -118,14 +79,14 @@ class Person {
   static readonly agePositiveDescription = "Age must be positive";
 
   // Reusable assertion (evaluated later with a value)
-  static readonly nameAssetion = Assertion.requiring<string>(
+  static readonly nameAssertion = Assertion.requiring<string>(
     this.nameNotBlankAID,
     this.nameNotBlankDescription,
-    (name) => name.trim().length > 0
+    Conditions.isNotBlank
   );
 
   static named(name: string, age: number) {
-    AssertionsRunner.assertAll([
+    AssertionSuite.assertAll([
       // evaluated with `name`
       this.nameAssertion.evaluateFor(name),
       // self-contained assertion for age
@@ -218,8 +179,51 @@ personAssistant.withCreatedModelDo(
 
 ## Resources
 
+Contributions are welcome! Whether it's fixing bugs,
+improving documentation, or proposing new ideas aligned with the
+project's philosophy, feel free to get involved.
+
 - [Contributors' Guide][contributing]
 - [Code of Conduct][coc]
+
+## Credits and Acknowledgements
+
+This project is based on the ideas presented by Hernán Wilkinson ([@hernanwilkinson][hernan-url])
+in his [Diseño a la Gorra][disenio-a-la-gorra] webinar.
+
+Diseño a la Gorra explores the principles of object-oriented software design,
+with a focus on practical examples and heuristics for creating high-quality software.
+The videos are mostly in Spanish, but the code and ideas are universally understandable.
+
+A central theme of Diseño a la Gorra is understanding software as a
+**model of a real-world problem**.
+From this perspective, developing software is fundamentally the act of
+**designing an effective model**.
+
+According to this approach:
+
+- A good software model **abstracts the relevant aspects** of the domain,
+  allowing for clear understanding and effective solutions.
+- Software design is a continuous process of **learning and refining** the model.
+- A good model not only works but also **teaches** how to interact with it
+  through its structure and behavior.
+- **Objects** should represent **domain entities**, and be created
+  **complete** and **valid** from the start, reflecting a coherent
+  state of the real world.
+
+The concepts behind `self-assert` were introduced in [Episode 2][dalg-t1-ch2]
+("Valid Objects")
+and further developed in [Episode 3][dalg-t1-ch3] ("Modeling Sets of Objects").
+
+Diseño a la Gorra also encourages a shift in mindset:
+
+- **Code is not written for the computer**; it's written to
+  **model our understanding of the domain**.
+- **Objects are not just data containers**; they are
+  **collaborators that encapsulate behavior** and ensure consistency.
+
+This mindset is what `self-assert` aims to support: designing
+objects that **are responsible of protecting their own validity** from the very beginning.
 
 ## License
 
@@ -227,9 +231,10 @@ personAssistant.withCreatedModelDo(
 
 [license]: https://github.com/self-assert/self-assert/blob/main/LICENSE
 [contributing]: https://github.com/self-assert/self-assert/blob/main/CONTRIBUTING.md
-[npm]: https://www.npmjs.com/package/self-assert
 [gha-lint-and-test]: https://github.com/self-assert/self-assert/actions/workflows/ci.yml
 [coc]: https://github.com/self-assert/.github/blob/main/CODE_OF_CONDUCT.md
+[docs]: https://self-assert.github.io/self-assert
+[npm]: https://www.npmjs.com/package/self-assert
 
 <!---->
 
