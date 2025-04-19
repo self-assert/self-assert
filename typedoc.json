@@ -1,7 +1,7 @@
 {
   "entryPoints": ["src/index.ts"],
   "out": "./docs/api",
-  "includeVersion": true,
+  "includeVersion": false,
   "tsconfig": "./tsconfig.json",
   "router": "group",
   "navigation": {
@@ -16,5 +16,8 @@
   "useFirstParagraphOfCommentAsSummary": true,
   "disableSources": true,
   "plugin": ["typedoc-github-theme"],
-  "readme": "none"
+  "readme": "./docs/README.md",
+  "navigationLinks": {
+    "GitHub": "https://github.com/self-assert/self-assert"
+  }
 }
