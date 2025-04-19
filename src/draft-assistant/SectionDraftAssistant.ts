@@ -4,7 +4,7 @@ import { AssertionsFailed } from "@/assertion";
 import type { AssertionId, LabeledAssertion } from "@/assertion";
 import type { ModelFromContainer, AssistantsIn } from "@/types";
 
-type CreationClosure<Model, ComposedModels extends unknown[]> = (...models: ComposedModels) => Model;
+export type CreationClosure<Model, ComposedModels extends unknown[]> = (...models: ComposedModels) => Model;
 
 /**
  * Assists in the creation of complex models by coordinating multiple inner `DraftAssistant`.
