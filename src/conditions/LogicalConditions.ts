@@ -1,6 +1,5 @@
 import type { Predicate } from "./Conditions";
 
-
 export class LogicalConditions {
   /**
    * Combines multiple conditions using logical AND
@@ -29,14 +28,30 @@ export class LogicalConditions {
     (value) =>
       !condition(value);
 
+  /**
+   * Returns a predicate that checks if the value is equal to the expected value.
+   * @function @category Comparison
+   */
   static identical = <ValueType>(expected: ValueType) => this.isIn(expected);
 
+  /**
+   * Returns a predicate that checks if the value is not equal to the forbidden value.
+   * @function @category Comparison
+   */
   static differentFrom = <ValueType>(forbiddenValue: ValueType) => this.not(this.identical(forbiddenValue));
 
+  /**
+   * Returns a predicate that checks if the value is in the allowed set.
+   * @function @category Comparison
+   */
   static isIn =
     <ValueType>(...allowedSet: ValueType[]): Predicate<ValueType> =>
     (value) =>
       allowedSet.includes(value);
 
+  /**
+   * Returns a predicate that checks if the value is not in the forbidden set.
+   * @function @category Comparison
+   */
   static isNotIn = <ValueType>(...forbiddenSet: ValueType[]) => this.not(this.isIn(...forbiddenSet));
 }
