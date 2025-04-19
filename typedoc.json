@@ -15,5 +15,6 @@
   "groupOrder": ["Assertions", "*"],
   "useFirstParagraphOfCommentAsSummary": true,
   "disableSources": true,
-  "plugin": ["typedoc-github-theme"]
+  "plugin": ["typedoc-github-theme"],
+  "readme": "none"
 }

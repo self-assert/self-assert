@@ -1,0 +1,36 @@
+name: Publish docs
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  publish-docs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{steps.deployment.outputs.page_url}}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+          cache: "npm"
+      - name: Generate docs
+        run: npm run docs
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./docs/api
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
