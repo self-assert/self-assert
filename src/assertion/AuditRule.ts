@@ -34,4 +34,24 @@ export class AuditRule<ValueType = void> extends Rule<Promise<boolean>, ValueTyp
       throw new RulesBroken([this.label]);
     }
   }
+
+  evaluateFor(aValue: ValueType) {
+    return new AuditRuleEvaluation(this, aValue);
+  }
+}
+
+export class AuditRuleEvaluation<ValueType> {
+  constructor(private rule: AuditRule<ValueType>, private value: ValueType) {}
+
+  doesHold() {
+    return this.rule.doesHold(this.value);
+  }
+
+  hasFailed() {
+    return this.rule.hasFailed(this.value);
+  }
+
+  mustHold() {
+    return this.rule.mustHold(this.value);
+  }
 }

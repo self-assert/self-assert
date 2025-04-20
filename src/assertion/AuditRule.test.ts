@@ -4,6 +4,7 @@ import { RulesBroken } from "./RulesBroken";
 
 const hold = () => Promise.resolve(true);
 const fail = () => Promise.resolve(false);
+const isStringHello = (value: string) => Promise.resolve(value === "hello");
 
 describe("AuditRule", () => {
   it("fails when condition is not met", async () => {
@@ -44,10 +45,10 @@ describe("AuditRule", () => {
   });
 
   it("should allow conditions that depend on a value", async () => {
-    const audit = AuditRule.requiring("AID", "Description", (value: string) => Promise.resolve(value === "value"));
+    const audit = AuditRule.requiring("AID", "Description", isStringHello);
 
-    await expect(audit.doesHold("value")).resolves.toBe(true);
-    await expect(audit.hasFailed("value")).resolves.toBe(false);
+    await expect(audit.doesHold("hello")).resolves.toBe(true);
+    await expect(audit.hasFailed("hello")).resolves.toBe(false);
   });
 
   it("should behave like a label", () => {
@@ -58,5 +59,13 @@ describe("AuditRule", () => {
     expect(audit.hasLabelId("AID")).toBe(true);
     expect(audit.hasDescription("Description")).toBe(true);
     expect(audit.hasLabel("AID", "Description")).toBe(true);
+  });
+
+  it("should allow to be prepared for evaluation", async () => {
+    const audit = AuditRule.requiring("AID", "Description", isStringHello);
+    const evaluation = audit.evaluateFor("hello");
+
+    await expect(evaluation.doesHold()).resolves.toBe(true);
+    await expect(evaluation.hasFailed()).resolves.toBe(false);
   });
 });
