@@ -1,6 +1,7 @@
 import { RuleLabel } from "./RuleLabel";
 import { RulesBroken } from "./RulesBroken";
-import { Rule, RuleEvaluation } from "./Rule";
+import { Rule } from "./Rule";
+import { RuleEvaluation } from "./RuleEvaluation";
 import { LabeledRule, LabelId } from "./types";
 
 export class AuditRule<ValueType = void> extends Rule<Promise<boolean>, ValueType> {

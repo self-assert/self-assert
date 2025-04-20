@@ -1,6 +1,7 @@
 import { RuleLabel, RuleLabelAsJson } from "./RuleLabel";
 import { Ruleset } from "./Ruleset";
-import { Rule, RuleEvaluation } from "./Rule";
+import { Rule } from "./Rule";
+import { RuleEvaluation } from "./RuleEvaluation";
 import type { LabelId, SelfContainedAssertion } from "./types";
 
 /**

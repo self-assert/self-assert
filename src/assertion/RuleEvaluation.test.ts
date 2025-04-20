@@ -1,7 +1,7 @@
 import { describe, expect, it } from "@jest/globals";
 import { Assertion } from "./Assertion";
 import { Conditions } from "@/conditions";
-import { RuleEvaluation } from "./Rule";
+import { RuleEvaluation } from "./RuleEvaluation";
 
 describe("RuleEvaluation", () => {
   it("should hold when condition is true with value", () => {

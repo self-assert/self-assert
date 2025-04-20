@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AuditRule } from "./AuditRule";
-import { RuleEvaluation } from "./Rule";
+import { RuleEvaluation } from "./RuleEvaluation";
 import { RulesBroken } from "./RulesBroken";
 import type { LabeledRule, SelfContainedAssertion } from "./types";
 
