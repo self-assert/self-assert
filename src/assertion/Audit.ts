@@ -38,9 +38,4 @@ export class Audit<ValueType = void> extends Rule<Promise<boolean>, ValueType> {
       throw new AssertionsFailed([this.label]);
     }
   }
-
-  require(aCondition: (value: ValueType) => Promise<boolean>) {
-    this.conditions.push(aCondition);
-    return this;
-  }
 }

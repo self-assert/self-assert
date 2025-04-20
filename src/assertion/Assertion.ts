@@ -55,16 +55,6 @@ export class Assertion<ValueType = void> extends Rule<boolean, ValueType> {
   }
 
   /**
-   * Adds a necessary condition for the assertion to hold.
-   *
-   * @returns `this` for chaining
-   */
-  require(condition: (value: ValueType) => boolean): this {
-    this.conditions.push(condition);
-    return this;
-  }
-
-  /**
    * Prepares an {@link AssertionEvaluation} for the given value.
    *
    * This is the same as `AssertionEvaluation.for(this, value)`.

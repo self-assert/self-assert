@@ -16,6 +16,16 @@ export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, Valu
 
   abstract doesHold(value: ValueType): PredicateReturnType;
 
+  /**
+   * Adds a necessary condition for the assertion to hold.
+   *
+   * @returns `this` for chaining
+   */
+  require(condition: RulePredicate<PredicateReturnType, ValueType>): this {
+    this.conditions.push(condition);
+    return this;
+  }
+
   hasLabel(anId: AssertionId, aDescription: string) {
     return this.label.hasLabel(anId, aDescription);
   }
