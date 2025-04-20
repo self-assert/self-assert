@@ -42,4 +42,21 @@ describe("Audit", () => {
       expect((error as AssertionsFailed).hasAnAssertionFailedWith("AID", "Description")).toBe(true);
     });
   });
+
+  it("should allow conditions that depend on a value", async () => {
+    const audit = Audit.requiring("AID", "Description", (value: string) => Promise.resolve(value === "value"));
+
+    await expect(audit.doesHold("value")).resolves.toBe(true);
+    await expect(audit.hasFailed("value")).resolves.toBe(false);
+  });
+
+  it("should behave like a label", () => {
+    const audit = Audit.labeled("AID", "Description");
+
+    expect(audit.getId()).toBe("AID");
+    expect(audit.getDescription()).toBe("Description");
+    expect(audit.hasLabelId("AID")).toBe(true);
+    expect(audit.hasDescription("Description")).toBe(true);
+    expect(audit.hasLabel("AID", "Description")).toBe(true);
+  });
 });
