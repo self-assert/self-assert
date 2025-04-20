@@ -29,7 +29,7 @@ export class Audit<ValueType = void> extends Rule<Promise<boolean>, ValueType> {
     return true;
   }
 
-  async assert(value: ValueType) {
+  async mustHold(value: ValueType) {
     if (await this.hasFailed(value)) {
       throw new AssertionsFailed([this.label]);
     }

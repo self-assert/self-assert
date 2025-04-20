@@ -33,6 +33,6 @@ describe("AssertionEvaluation", () => {
     const assertion = Assertion.requiring("AID", "Description", Conditions.identical("value"));
     const evaluation = AssertionEvaluation.for(assertion, "not value");
 
-    expect(() => evaluation.assert()).toFailAssertion("AID", "Description");
+    expect(() => evaluation.mustHold()).toFailAssertion("AID", "Description");
   });
 });

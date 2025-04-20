@@ -75,7 +75,7 @@ export class Assertion<ValueType = void> extends Rule<boolean, ValueType> {
   evaluateFor(value: ValueType): SelfContainedAssertion {
     return AssertionEvaluation.for(this, value);
   }
-  
+
   doesHold(value: ValueType): boolean {
     return this.conditions.every((condition) => condition(value));
   }
@@ -83,9 +83,9 @@ export class Assertion<ValueType = void> extends Rule<boolean, ValueType> {
   /**
    * Asserts that the conditions for the given value are met.
    *
-   * @see {@link SelfContainedAssertion.assert}
+   * @see {@link SelfContainedAssertion.mustHold}
    */
-  assert(value: ValueType) {
+  mustHold(value: ValueType) {
     AssertionSuite.assert(this.evaluateFor(value));
   }
 

@@ -63,12 +63,12 @@ describe("Assertion", () => {
   it("should not throw when asserting its conditions are met", () => {
     const assertion = Assertion.requiring<string>("AID", "Description", Conditions.differentFrom("FORBIDDEN"));
 
-    expect(() => assertion.assert("OK")).not.toThrow();
+    expect(() => assertion.mustHold("OK")).not.toThrow();
   });
 
   it("should throw when asserting its conditions are not met", () => {
     const assertion = Assertion.requiring<string>("AID", "Description", Conditions.differentFrom("FORBIDDEN"));
 
-    expect(() => assertion.assert("FORBIDDEN")).toFailAssertion("AID", "Description");
+    expect(() => assertion.mustHold("FORBIDDEN")).toFailAssertion("AID", "Description");
   });
 });

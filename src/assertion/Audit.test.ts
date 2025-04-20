@@ -30,14 +30,14 @@ describe("Audit", () => {
   it("should not throw when is asserted and all conditions hold", async () => {
     const audit = Audit.requiring("AID", "Description", hold);
 
-    await expect(audit.assert()).resolves.toBeUndefined();
+    await expect(audit.mustHold()).resolves.toBeUndefined();
   });
 
   it("should throw an AssertionFailed when is asserted and any condition fails", async () => {
     expect.assertions(2);
     const audit = Audit.requiring("AID", "Description", fail);
 
-    return audit.assert().catch((error: unknown) => {
+    return audit.mustHold().catch((error: unknown) => {
       expect(error).toBeInstanceOf(AssertionsFailed);
       expect((error as AssertionsFailed).hasAnAssertionFailedWith("AID", "Description")).toBe(true);
     });

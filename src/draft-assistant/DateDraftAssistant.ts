@@ -37,7 +37,7 @@ export class DateDraftAssistant<ContainerModel> extends SectionDraftAssistant<Da
   }
 
   static createDate(assertionId: AssertionId, dateAsString: string) {
-    this.createAssertionFor(assertionId, dateAsString).assert();
+    this.createAssertionFor(assertionId, dateAsString).mustHold();
 
     return new Date(dateAsString);
   }
