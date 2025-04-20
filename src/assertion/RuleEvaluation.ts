@@ -1,4 +1,4 @@
-import { MaybeAsync, Rule } from "./Rule";
+import type { MaybeAsync, Rule } from "./Rule";
 import type { LabeledRule, LabelId } from "./types";
 
 /**

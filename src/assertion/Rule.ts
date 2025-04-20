@@ -1,3 +1,4 @@
+import { RuleEvaluation } from "./RuleEvaluation";
 import { RuleLabel } from "./RuleLabel";
 import type { LabelId, LabeledRule } from "./types";
 
@@ -51,6 +52,28 @@ export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, Valu
   require(condition: RulePredicate<PredicateReturnType, ValueType>): this {
     this.conditions.push(condition);
     return this;
+  }
+
+  /**
+   * Prepares an {@link RuleEvaluation} for the given value.
+   *
+   * This is the same as `new RuleEvaluation(rule, value)`.
+   *
+   * @example
+   *
+   * ```ts
+   * const nameNotBlank = Assertion.requiring<string>(
+   *   "customer.name.notBlank",
+   *   "Name must not be blank",
+   *   (name) => name.trim().length > 0
+   * );
+   * const evaluation = nameNotBlank.evaluateFor("John");
+   *
+   * evaluation.doesHold(); // true
+   * ```
+   */
+  evaluateFor(aValue: ValueType) {
+    return new RuleEvaluation(this, aValue);
   }
 
   hasLabel(anId: LabelId, aDescription: string) {

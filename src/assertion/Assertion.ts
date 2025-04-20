@@ -1,7 +1,6 @@
 import { RuleLabel, RuleLabelAsJson } from "./RuleLabel";
 import { Ruleset } from "./Ruleset";
 import { Rule } from "./Rule";
-import { RuleEvaluation } from "./RuleEvaluation";
 import type { LabelId, SelfContainedAssertion } from "./types";
 
 /**
@@ -52,28 +51,6 @@ export class Assertion<ValueType = void> extends Rule<boolean, ValueType> {
 
   protected constructor(label: RuleLabel) {
     super(label);
-  }
-
-  /**
-   * Prepares an {@link AssertionEvaluation} for the given value.
-   *
-   * This is the same as `AssertionEvaluation.for(this, value)`.
-   *
-   * @example
-   *
-   * ```ts
-   * const nameNotBlank = Assertion.requiring<string>(
-   *   "customer.name.notBlank",
-   *   "Name must not be blank",
-   *   (name) => name.trim().length > 0
-   * );
-   * const evaluation = nameNotBlank.evaluateFor("John");
-   *
-   * evaluation.doesHold(); // true
-   * ```
-   */
-  evaluateFor(value: ValueType) {
-    return new RuleEvaluation(this, value);
   }
 
   doesHold(value: ValueType): boolean {

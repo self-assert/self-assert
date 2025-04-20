@@ -1,7 +1,6 @@
 import { RuleLabel } from "./RuleLabel";
 import { RulesBroken } from "./RulesBroken";
 import { Rule } from "./Rule";
-import { RuleEvaluation } from "./RuleEvaluation";
 import { LabeledRule, LabelId } from "./types";
 
 export class AuditRule<ValueType = void> extends Rule<Promise<boolean>, ValueType> {
@@ -40,9 +39,5 @@ export class AuditRule<ValueType = void> extends Rule<Promise<boolean>, ValueTyp
     if (await this.hasFailed(value)) {
       failed.push(this.label);
     }
-  }
-
-  evaluateFor(aValue: ValueType) {
-    return new RuleEvaluation(this, aValue);
   }
 }
