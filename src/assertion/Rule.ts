@@ -1,9 +1,19 @@
 import type { AssertionLabel } from "./AssertionLabel";
 import type { AssertionId, LabeledAssertion } from "./types";
 
-type MaybeAsync<aType> = aType | Promise<aType>;
-
 export type RulePredicate<ReturnType extends MaybeAsync<boolean>, ValueType = void> = (value: ValueType) => ReturnType;
+
+type MaybeAsync<Type> = Type | Promise<Type>;
+
+function mapMaybeAsync<Type, ReturnType>(
+  value: MaybeAsync<Type>,
+  doSomething: (value: Type) => ReturnType
+): MaybeAsync<ReturnType> {
+  if (value instanceof Promise) {
+    return value.then((resolved) => doSomething(resolved));
+  }
+  return doSomething(value);
+}
 
 export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, ValueType = void>
   implements LabeledAssertion
@@ -14,7 +24,22 @@ export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, Valu
     this.conditions = [];
   }
 
+  /**
+   * Evaluates the conditions for the given value
+   *
+   * @returns `true` if all conditions are met
+   */
   abstract doesHold(value: ValueType): PredicateReturnType;
+
+  /**
+   * Opposite of {@link doesHold}
+   *
+   * @returns `true` if any condition is not met
+   */
+  hasFailed(value: ValueType): PredicateReturnType {
+    const result = this.doesHold(value);
+    return mapMaybeAsync(result, (r) => !r) as PredicateReturnType;
+  }
 
   /**
    * Adds a necessary condition for the assertion to hold.

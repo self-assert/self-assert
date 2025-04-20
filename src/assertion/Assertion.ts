@@ -75,23 +75,9 @@ export class Assertion<ValueType = void> extends Rule<boolean, ValueType> {
   evaluateFor(value: ValueType): SelfContainedAssertion {
     return AssertionEvaluation.for(this, value);
   }
-
-  /**
-   * Evaluates the conditions for the given value
-   *
-   * @returns `true` if all conditions are met
-   */
+  
   doesHold(value: ValueType): boolean {
     return this.conditions.every((condition) => condition(value));
-  }
-
-  /**
-   * Opposite of {@link doesHold}
-   *
-   * @returns `true` if the conditions are not met
-   */
-  hasFailed(value: ValueType) {
-    return !this.doesHold(value);
   }
 
   /**
