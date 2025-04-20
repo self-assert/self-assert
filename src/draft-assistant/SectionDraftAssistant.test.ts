@@ -6,7 +6,7 @@ import { Assertion, Ruleset } from "@/assertion";
 
 import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
 import { ModelWithNoAssertions, SelfAssertingModel } from "@testing-support/TestModels";
-import { expectToBeAssertionsFailed } from "@testing-support/jest.setup";
+import { expectToBeRulesBroken } from "@testing-support/jest.setup";
 
 const systemAID = "systemVerifiedAID";
 const system = {
@@ -132,7 +132,7 @@ describe("SectionDraftAssistant", () => {
           system.add(model);
           done("Should have thrown");
         } catch (error) {
-          expectToBeAssertionsFailed(error);
+          expectToBeRulesBroken(error);
           assistant.handleError(error);
           expect(assistant.hasFailedAssertions()).toBe(true);
           expect(assistant.hasOnlyOneAssertionFailedIdentifiedAs(systemAID)).toBe(true);
@@ -153,7 +153,7 @@ describe("SectionDraftAssistant", () => {
           system.add(model);
           done("Should have thrown");
         } catch (error) {
-          expectToBeAssertionsFailed(error);
+          expectToBeRulesBroken(error);
           assistant.handleError(error);
           expect(assistant.hasFailedAssertions()).toBe(true);
           expect(assistant.hasOnlyOneAssertionFailedIdentifiedAs(systemAID)).toBe(true);

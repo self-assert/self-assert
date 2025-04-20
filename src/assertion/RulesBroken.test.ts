@@ -17,7 +17,7 @@ describe("RulesBroken", () => {
       brokenRules: [aFailedAssertionJson],
     };
     const assertionsFailed = RulesBroken.fromJson(rulesBrokenAsJson);
-    expect(assertionsFailed.hasOnlyOneAssertionFailedWith("AID.1", "1 description")).toBe(true);
+    expect(assertionsFailed.hasOnlyOneRuleBrokenWith("AID.1", "1 description")).toBe(true);
   });
 
   it("should be deserializable with multiple failed assertions", () => {
@@ -25,8 +25,8 @@ describe("RulesBroken", () => {
       brokenRules: [aFailedAssertionJson, anotherFailedAssertionJson],
     };
     const assertionsFailed = RulesBroken.fromJson(rulesBrokenAsJson);
-    expect(assertionsFailed.hasAnAssertionFailedWith("AID.1", "1 description")).toBe(true);
-    expect(assertionsFailed.hasAnAssertionFailedWith("AID.2", "2 description")).toBe(true);
+    expect(assertionsFailed.hasRuleBrokenWith("AID.1", "1 description")).toBe(true);
+    expect(assertionsFailed.hasRuleBrokenWith("AID.2", "2 description")).toBe(true);
   });
 
   it("should let traverse failed assertions", () => {

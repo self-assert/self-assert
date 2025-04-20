@@ -39,7 +39,7 @@ describe("AuditRule", () => {
 
     return audit.mustHold().catch((error: unknown) => {
       expect(error).toBeInstanceOf(RulesBroken);
-      expect((error as RulesBroken).hasAnAssertionFailedWith("AID", "Description")).toBe(true);
+      expect((error as RulesBroken).hasRuleBrokenWith("AID", "Description")).toBe(true);
     });
   });
 

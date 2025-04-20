@@ -3,7 +3,7 @@ import { describe, expect, it } from "@jest/globals";
 import { Ruleset } from "./Ruleset";
 
 import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
-import { expectToBeAssertionsFailed } from "@testing-support/jest.setup";
+import { expectToBeRulesBroken } from "@testing-support/jest.setup";
 import { Assertion } from ".";
 import { Conditions } from "@/conditions";
 
@@ -29,11 +29,11 @@ describe("Ruleset", () => {
       Ruleset.assertAll(assertions);
       done("Should have thrown");
     } catch (error) {
-      expectToBeAssertionsFailed(error);
-      expect(error.hasAnAssertionFailedWith("AID.1", "Description 1")).toBe(true);
-      expect(error.hasAnAssertionFailedWith("AID.2", "Description 2")).toBe(true);
+      expectToBeRulesBroken(error);
+      expect(error.hasRuleBrokenWith("AID.1", "Description 1")).toBe(true);
+      expect(error.hasRuleBrokenWith("AID.2", "Description 2")).toBe(true);
       expect(
-        error.hasAnAssertionFailedWith(
+        error.hasRuleBrokenWith(
           TestObjectsBucket.defaultHoldingAssertionAID,
           TestObjectsBucket.defaultHoldingAssertionDescription
         )

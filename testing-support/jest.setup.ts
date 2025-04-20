@@ -4,7 +4,7 @@ import type { MatcherFunction } from "expect";
 import { RulesBroken } from "@/assertion";
 import type { Assertion, LabelId } from "@/assertion";
 
-export function expectToBeAssertionsFailed(error: unknown): asserts error is RulesBroken {
+export function expectToBeRulesBroken(error: unknown): asserts error is RulesBroken {
   expect(error).toBeInstanceOf(RulesBroken);
 }
 
@@ -58,10 +58,10 @@ expect.extend({
         pass: false,
       };
     } catch (error) {
-      expectToBeAssertionsFailed(error);
+      expectToBeRulesBroken(error);
       return {
         message: () => `Should only have thrown ${RulesBroken.name} with '${assertionId}' and '${description}'.`,
-        pass: error.hasOnlyOneAssertionFailedWith(assertionId, description),
+        pass: error.hasOnlyOneRuleBrokenWith(assertionId, description),
       };
     }
   },

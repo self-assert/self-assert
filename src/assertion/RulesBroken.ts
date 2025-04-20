@@ -24,11 +24,11 @@ export class RulesBroken extends Error {
     super();
   }
 
-  hasAnAssertionFailedWith(labelId: LabelId, labelDescription: string) {
+  hasRuleBrokenWith(labelId: LabelId, labelDescription: string) {
     return this.brokenRules.some((rule) => rule.hasLabel(labelId, labelDescription));
   }
 
-  hasOnlyOneAssertionFailedWith(labelId: LabelId, labelDescription: string) {
+  hasOnlyOneRuleBrokenWith(labelId: LabelId, labelDescription: string) {
     return this.brokenRules.length === 1 && this.brokenRules[0].hasLabel(labelId, labelDescription);
   }
 
