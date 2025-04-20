@@ -1,6 +1,6 @@
 import { RuleLabel } from "./RuleLabel";
 import { RulesBroken } from "./RulesBroken";
-import { Rule } from "./Rule";
+import { Rule, RuleEvaluation } from "./Rule";
 import { LabeledRule, LabelId } from "./types";
 
 export class AuditRule<ValueType = void> extends Rule<Promise<boolean>, ValueType> {
@@ -42,46 +42,6 @@ export class AuditRule<ValueType = void> extends Rule<Promise<boolean>, ValueTyp
   }
 
   evaluateFor(aValue: ValueType) {
-    return new AuditRuleEvaluation(this, aValue);
-  }
-}
-
-export class AuditRuleEvaluation<ValueType = unknown> {
-  constructor(private rule: AuditRule<ValueType>, private value: ValueType) {}
-
-  doesHold() {
-    return this.rule.doesHold(this.value);
-  }
-
-  hasFailed() {
-    return this.rule.hasFailed(this.value);
-  }
-
-  mustHold() {
-    return this.rule.mustHold(this.value);
-  }
-
-  collectFailureInto(failed: LabeledRule[]) {
-    return this.rule.collectFailureInto(failed, this.value);
-  }
-
-  getId() {
-    return this.rule.getId();
-  }
-
-  getDescription() {
-    return this.rule.getDescription();
-  }
-
-  hasLabel(anId: LabelId, aDescription: string) {
-    return this.rule.hasLabel(anId, aDescription);
-  }
-
-  hasLabelId(anId: LabelId) {
-    return this.rule.hasLabelId(anId);
-  }
-
-  hasDescription(aDescription: string) {
-    return this.rule.hasDescription(aDescription);
+    return new RuleEvaluation(this, aValue);
   }
 }

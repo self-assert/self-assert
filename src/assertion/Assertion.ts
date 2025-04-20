@@ -1,7 +1,6 @@
-import { AssertionEvaluation } from "./AssertionEvaluation";
 import { RuleLabel, RuleLabelAsJson } from "./RuleLabel";
 import { Ruleset } from "./Ruleset";
-import { Rule } from "./Rule";
+import { Rule, RuleEvaluation } from "./Rule";
 import type { LabelId, SelfContainedAssertion } from "./types";
 
 /**
@@ -72,8 +71,8 @@ export class Assertion<ValueType = void> extends Rule<boolean, ValueType> {
    * evaluation.doesHold(); // true
    * ```
    */
-  evaluateFor(value: ValueType): SelfContainedAssertion {
-    return AssertionEvaluation.for(this, value);
+  evaluateFor(value: ValueType) {
+    return new RuleEvaluation(this, value);
   }
 
   doesHold(value: ValueType): boolean {

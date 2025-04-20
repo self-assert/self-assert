@@ -1,6 +1,10 @@
-import { AuditRule, AuditRuleEvaluation } from "./AuditRule";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { AuditRule } from "./AuditRule";
+import { RuleEvaluation } from "./Rule";
 import { RulesBroken } from "./RulesBroken";
 import type { LabeledRule, SelfContainedAssertion } from "./types";
+
+type nfjfr = Pick<SelfContainedAssertion, "collectFailureInto">;
 
 /**
  * Runs all assertions and throws an error if any has failed.
@@ -9,21 +13,21 @@ import type { LabeledRule, SelfContainedAssertion } from "./types";
  * @see {@link SelfContainedAssertion}, {@link RulesBroken}
  */
 export class Ruleset {
-  static assert(assertion: SelfContainedAssertion) {
+  static assert(assertion: nfjfr) {
     this.assertAll([assertion]);
   }
 
-  static assertAll(assertions: SelfContainedAssertion[]) {
+  static assertAll(assertions: nfjfr[]) {
     new this(assertions, []).run();
   }
 
-  static mustHold(...rules: (AuditRule | AuditRuleEvaluation<any>)[]) {
+  static mustHold(...rules: (AuditRule | RuleEvaluation<Promise<boolean>, any>)[]) {
     return new this([], rules).mustHold();
   }
 
   constructor(
-    protected assertions: SelfContainedAssertion[],
-    protected auditRules: (AuditRule | AuditRuleEvaluation<any>)[]
+    protected assertions: nfjfr[],
+    protected auditRules: (AuditRule | RuleEvaluation<Promise<boolean>, any>)[]
   ) {}
 
   async mustHold(): Promise<void> {
