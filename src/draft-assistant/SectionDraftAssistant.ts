@@ -1,5 +1,5 @@
 import { DraftAssistant } from "./DraftAssistant";
-import { AssertionsFailed } from "@/assertion";
+import { RulesBroken } from "@/assertion";
 
 import type { LabelId, LabeledRule } from "@/assertion";
 import type { ModelFromContainer, AssistantsIn } from "@/types";
@@ -72,13 +72,12 @@ export class SectionDraftAssistant<Model, ContainerModel, ComposedModels extends
   }
 
   handleError(possibleCreateModelError: unknown) {
-    if (possibleCreateModelError instanceof AssertionsFailed)
-      return this.routeFailedAssertionsOf(possibleCreateModelError);
+    if (possibleCreateModelError instanceof RulesBroken) return this.routeFailedAssertionsOf(possibleCreateModelError);
 
     throw possibleCreateModelError;
   }
 
-  routeFailedAssertionsOf(creationError: AssertionsFailed) {
+  routeFailedAssertionsOf(creationError: RulesBroken) {
     creationError.forEachAssertionFailed((failedAssertion) => this.routeFailedAssertion(failedAssertion));
   }
 

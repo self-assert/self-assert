@@ -1,9 +1,9 @@
 import { describe, expect, it } from "@jest/globals";
-import { AssertionsFailed } from "./AssertionsFailed";
+import { RulesBroken } from "./RulesBroken";
 import { RuleLabel } from "./RuleLabel";
 import { LabelId } from "./types";
 
-describe("AssertionsFailed", () => {
+describe("RulesBroken", () => {
   const aFailedAssertionJson = {
     id: "AID.1",
     description: "1 description",
@@ -16,7 +16,7 @@ describe("AssertionsFailed", () => {
     const assertionsFailedAsJson = {
       failedAssertions: [aFailedAssertionJson],
     };
-    const assertionsFailed = AssertionsFailed.fromJson(assertionsFailedAsJson);
+    const assertionsFailed = RulesBroken.fromJson(assertionsFailedAsJson);
     expect(assertionsFailed.hasOnlyOneAssertionFailedWith("AID.1", "1 description")).toBe(true);
   });
 
@@ -24,13 +24,13 @@ describe("AssertionsFailed", () => {
     const assertionsFailedAsJson = {
       failedAssertions: [aFailedAssertionJson, anotherFailedAssertionJson],
     };
-    const assertionsFailed = AssertionsFailed.fromJson(assertionsFailedAsJson);
+    const assertionsFailed = RulesBroken.fromJson(assertionsFailedAsJson);
     expect(assertionsFailed.hasAnAssertionFailedWith("AID.1", "1 description")).toBe(true);
     expect(assertionsFailed.hasAnAssertionFailedWith("AID.2", "2 description")).toBe(true);
   });
 
   it("should let traverse failed assertions", () => {
-    const assertionsFailed = new AssertionsFailed([
+    const assertionsFailed = new RulesBroken([
       new RuleLabel("AID.1", "1 description"),
       new RuleLabel("AID.2", "2 description"),
     ]);

@@ -1,11 +1,11 @@
-import { AssertionsFailed } from "./AssertionsFailed";
+import { RulesBroken } from "./RulesBroken";
 import type { LabeledRule, SelfContainedAssertion } from "./types";
 
 /**
  * Runs all assertions and throws an error if any has failed.
  * The failed assertions are included in the error.
  *
- * @see {@link SelfContainedAssertion}, {@link AssertionsFailed}
+ * @see {@link SelfContainedAssertion}, {@link RulesBroken}
  */
 export class Ruleset {
   static assert(assertion: SelfContainedAssertion) {
@@ -19,12 +19,12 @@ export class Ruleset {
   constructor(protected assertions: SelfContainedAssertion[]) {}
 
   /**
-   * @throws {AssertionsFailed} if any assertion has failed
+   * @throws {RulesBroken} if any assertion has failed
    */
   run(): void {
     const failedAssertions = this.failedAssertions();
 
-    if (failedAssertions.length > 0) throw new AssertionsFailed(failedAssertions);
+    if (failedAssertions.length > 0) throw new RulesBroken(failedAssertions);
   }
 
   protected failedAssertions(): LabeledRule[] {

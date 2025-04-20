@@ -1,5 +1,5 @@
 import { RuleLabel } from "./RuleLabel";
-import { AssertionsFailed } from "./AssertionsFailed";
+import { RulesBroken } from "./RulesBroken";
 import { Rule } from "./Rule";
 import { LabelId } from "./types";
 
@@ -31,7 +31,7 @@ export class AuditRule<ValueType = void> extends Rule<Promise<boolean>, ValueTyp
 
   async mustHold(value: ValueType) {
     if (await this.hasFailed(value)) {
-      throw new AssertionsFailed([this.label]);
+      throw new RulesBroken([this.label]);
     }
   }
 }

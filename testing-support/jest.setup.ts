@@ -1,11 +1,11 @@
 import { expect } from "@jest/globals";
 import type { MatcherFunction } from "expect";
 
-import { AssertionsFailed } from "@/assertion";
+import { RulesBroken } from "@/assertion";
 import type { Assertion, LabelId } from "@/assertion";
 
-export function expectToBeAssertionsFailed(error: unknown): asserts error is AssertionsFailed {
-  expect(error).toBeInstanceOf(AssertionsFailed);
+export function expectToBeAssertionsFailed(error: unknown): asserts error is RulesBroken {
+  expect(error).toBeInstanceOf(RulesBroken);
 }
 
 function isAssertionLike(actual: unknown): actual is Assertion<unknown> {
@@ -54,13 +54,13 @@ expect.extend({
     try {
       closure();
       return {
-        message: () => `Should have thrown ${AssertionsFailed.name}`,
+        message: () => `Should have thrown ${RulesBroken.name}`,
         pass: false,
       };
     } catch (error) {
       expectToBeAssertionsFailed(error);
       return {
-        message: () => `Should only have thrown ${AssertionsFailed.name} with '${assertionId}' and '${description}'.`,
+        message: () => `Should only have thrown ${RulesBroken.name} with '${assertionId}' and '${description}'.`,
         pass: error.hasOnlyOneAssertionFailedWith(assertionId, description),
       };
     }

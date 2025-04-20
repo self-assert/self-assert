@@ -1,6 +1,6 @@
 import { describe, expect, it } from "@jest/globals";
 import { AuditRule } from "./AuditRule";
-import { AssertionsFailed } from "./AssertionsFailed";
+import { RulesBroken } from "./RulesBroken";
 
 const hold = () => Promise.resolve(true);
 const fail = () => Promise.resolve(false);
@@ -38,8 +38,8 @@ describe("AuditRule", () => {
     const audit = AuditRule.requiring("AID", "Description", fail);
 
     return audit.mustHold().catch((error: unknown) => {
-      expect(error).toBeInstanceOf(AssertionsFailed);
-      expect((error as AssertionsFailed).hasAnAssertionFailedWith("AID", "Description")).toBe(true);
+      expect(error).toBeInstanceOf(RulesBroken);
+      expect((error as RulesBroken).hasAnAssertionFailedWith("AID", "Description")).toBe(true);
     });
   });
 
