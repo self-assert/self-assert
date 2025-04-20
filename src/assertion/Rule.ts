@@ -27,14 +27,14 @@ export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, Valu
   /**
    * Evaluates the conditions for the given value
    *
-   * @returns `true` if all conditions are met
+   * @returns `true` or `Promise<true>` if all conditions are met
    */
   abstract doesHold(value: ValueType): PredicateReturnType;
 
   /**
    * Opposite of {@link doesHold}
    *
-   * @returns `true` if any condition is not met
+   * @returns `true` or `Promise<true>` if any condition is not met
    */
   hasFailed(value: ValueType): PredicateReturnType {
     const result = this.doesHold(value);
@@ -42,7 +42,7 @@ export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, Valu
   }
 
   /**
-   * Adds a necessary condition for the assertion to hold.
+   * Adds a necessary condition for the rule to hold.
    *
    * @returns `this` for chaining
    */
