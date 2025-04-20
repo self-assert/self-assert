@@ -1,5 +1,5 @@
-import type { AssertionLabel } from "./AssertionLabel";
-import type { AssertionId, LabeledAssertion } from "./types";
+import type { AssertionLabel } from "./RuleLabel";
+import type { LabelId, LabeledRule } from "./types";
 
 export type RulePredicate<ReturnType extends MaybeAsync<boolean>, ValueType = void> = (value: ValueType) => ReturnType;
 
@@ -15,9 +15,7 @@ function mapMaybeAsync<Type, ReturnType>(
   return doSomething(value);
 }
 
-export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, ValueType = void>
-  implements LabeledAssertion
-{
+export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, ValueType = void> implements LabeledRule {
   protected readonly conditions: RulePredicate<PredicateReturnType, ValueType>[];
 
   protected constructor(protected label: AssertionLabel) {
@@ -51,7 +49,7 @@ export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, Valu
     return this;
   }
 
-  hasLabel(anId: AssertionId, aDescription: string) {
+  hasLabel(anId: LabelId, aDescription: string) {
     return this.label.hasLabel(anId, aDescription);
   }
 
@@ -59,11 +57,11 @@ export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, Valu
     return this.label.hasDescription(aDescription);
   }
 
-  hasLabelId(anId: AssertionId) {
+  hasLabelId(anId: LabelId) {
     return this.label.hasLabelId(anId);
   }
 
-  getId(): AssertionId {
+  getId(): LabelId {
     return this.label.getId();
   }
 

@@ -1,4 +1,4 @@
-import type { AssertionId, LabeledAssertion } from "@/assertion";
+import type { LabelId, LabeledRule } from "@/assertion";
 import type { ModelFromContainer, DraftViewer } from "@/types";
 
 /**
@@ -50,11 +50,11 @@ export abstract class DraftAssistant<Model, ContainerModel> {
   }
 
   protected model: Model;
-  protected failedAssertions!: LabeledAssertion[];
+  protected failedAssertions!: LabeledRule[];
   protected viewers: DraftViewer<Model>[];
 
   constructor(
-    protected assertionIds: AssertionId[],
+    protected assertionIds: LabelId[],
     protected modelFromContainer: ModelFromContainer<Model, ContainerModel>,
     protected initialModel: Model
   ) {
@@ -138,7 +138,7 @@ export abstract class DraftAssistant<Model, ContainerModel> {
   /**
    * Adds an assertion to the list of failed assertions.
    */
-  addFailedAssertion(failedAssertions: LabeledAssertion) {
+  addFailedAssertion(failedAssertions: LabeledRule) {
     this.failedAssertions.push(failedAssertions);
     this.forEachViewer((viewer) => viewer.onFailure?.(failedAssertions));
   }
@@ -146,7 +146,7 @@ export abstract class DraftAssistant<Model, ContainerModel> {
   /**
    * Adds a list of assertions to the list of failed assertions.
    */
-  addFailedAssertions(failedAssertions: LabeledAssertion[]) {
+  addFailedAssertions(failedAssertions: LabeledRule[]) {
     failedAssertions.forEach((failure) => {
       this.addFailedAssertion(failure);
     });
@@ -178,14 +178,14 @@ export abstract class DraftAssistant<Model, ContainerModel> {
   /**
    * @returns `true` if this assistant handles the given `Assertion`.
    */
-  handles(anAssertion: LabeledAssertion) {
+  handles(anAssertion: LabeledRule) {
     return this.assertionIds.some((assertionId) => anAssertion.hasLabelId(assertionId));
   }
 
   /**
    * Adds an assertion id to the list of handled assertions.
    */
-  addAssertionId(anAssertionId: AssertionId) {
+  addAssertionId(anAssertionId: LabelId) {
     this.assertionIds.push(anAssertionId);
   }
 
@@ -196,7 +196,7 @@ export abstract class DraftAssistant<Model, ContainerModel> {
    * @remarks
    * Used mostly for testing.
    */
-  hasOnlyOneAssertionFailedIdentifiedAs(assertionId: AssertionId) {
+  hasOnlyOneAssertionFailedIdentifiedAs(assertionId: LabelId) {
     return this.failedAssertions.length === 1 && this.failedAssertions[0].hasLabelId(assertionId);
   }
 

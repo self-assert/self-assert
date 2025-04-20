@@ -2,7 +2,7 @@ import { expect } from "@jest/globals";
 import type { MatcherFunction } from "expect";
 
 import { AssertionsFailed } from "@/assertion";
-import type { Assertion, AssertionId } from "@/assertion";
+import type { Assertion, LabelId } from "@/assertion";
 
 export function expectToBeAssertionsFailed(error: unknown): asserts error is AssertionsFailed {
   expect(error).toBeInstanceOf(AssertionsFailed);
@@ -50,7 +50,7 @@ const expectToFailWith: MatcherFunction<[value: unknown]> = function (actual, va
 };
 
 expect.extend({
-  toFailAssertion(closure: () => void, assertionId: AssertionId, description: string) {
+  toFailAssertion(closure: () => void, assertionId: LabelId, description: string) {
     try {
       closure();
       return {

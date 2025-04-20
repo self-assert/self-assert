@@ -1,8 +1,8 @@
 import { AssertionEvaluation } from "./AssertionEvaluation";
-import { AssertionLabel, AssertionLabelAsJson } from "./AssertionLabel";
+import { AssertionLabel, AssertionLabelAsJson } from "./RuleLabel";
 import { Ruleset } from "./Ruleset";
 import { Rule } from "./Rule";
-import type { AssertionId, SelfContainedAssertion } from "./types";
+import type { LabelId, SelfContainedAssertion } from "./types";
 
 /**
  * Represents a validation rule in the problem domain.
@@ -38,7 +38,7 @@ export class Assertion<ValueType = void> extends Rule<boolean, ValueType> {
     return new this(AssertionLabel.fromJson(assertionAsJson));
   }
 
-  static labeled<ValueType = void>(id: AssertionId, description: string) {
+  static labeled<ValueType = void>(id: LabelId, description: string) {
     const label = new AssertionLabel(id, description);
     return new this<ValueType>(label);
   }
@@ -46,7 +46,7 @@ export class Assertion<ValueType = void> extends Rule<boolean, ValueType> {
   /**
    * Creates a new assertion with the given id, description and condition
    */
-  static requiring<ValueType = void>(id: AssertionId, description: string, condition: (value: ValueType) => boolean) {
+  static requiring<ValueType = void>(id: LabelId, description: string, condition: (value: ValueType) => boolean) {
     return this.labeled<ValueType>(id, description).require(condition);
   }
 

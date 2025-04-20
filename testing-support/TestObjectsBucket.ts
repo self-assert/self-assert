@@ -1,4 +1,4 @@
-import { Assertion, AssertionId } from "@/assertion";
+import { Assertion, LabelId } from "@/assertion";
 import { SectionDraftAssistant, FieldDraftAssistant } from "@/draft-assistant";
 import { ModelWithNoAssertions, SelfAssertingModel } from "./TestModels";
 
@@ -37,7 +37,7 @@ export class TestObjectsBucket {
     );
   }
 
-  static createModelWithNoAssertionsAssistant(assertionIds: AssertionId[] = []) {
+  static createModelWithNoAssertionsAssistant(assertionIds: LabelId[] = []) {
     const nameAssistant = this.createNameAssistant();
     const assistant = SectionDraftAssistant.topLevelContainerWith<ModelWithNoAssertions, [string]>(
       [nameAssistant],
@@ -48,7 +48,7 @@ export class TestObjectsBucket {
     return Object.assign(assistant, { nameAssistant });
   }
 
-  static createSelfAssertingModelAssistant(assertionIds: AssertionId[] = []) {
+  static createSelfAssertingModelAssistant(assertionIds: LabelId[] = []) {
     const nameAssistant = this.createNameAssistant();
     const assistant = SectionDraftAssistant.topLevelContainerWith<SelfAssertingModel, [string]>(
       [nameAssistant],

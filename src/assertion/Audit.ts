@@ -1,15 +1,15 @@
-import { AssertionLabel } from "./AssertionLabel";
+import { AssertionLabel } from "./RuleLabel";
 import { AssertionsFailed } from "./AssertionsFailed";
 import { Rule } from "./Rule";
-import { AssertionId } from "./types";
+import { LabelId } from "./types";
 
 export class Audit<ValueType = void> extends Rule<Promise<boolean>, ValueType> {
-  static labeled<ValueType = void>(anId: AssertionId, aDescription: string) {
+  static labeled<ValueType = void>(anId: LabelId, aDescription: string) {
     return new this<ValueType>(new AssertionLabel(anId, aDescription));
   }
 
   static requiring<ValueType = void>(
-    anId: AssertionId,
+    anId: LabelId,
     aDescription: string,
     aCondition: (value: ValueType) => Promise<boolean>
   ) {

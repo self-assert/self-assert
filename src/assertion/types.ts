@@ -1,20 +1,20 @@
-export type AssertionId = string;
+export type LabelId = string;
 
 /**
  * Describes an assertion by its id and description.
  *
  * @group Assertions
  */
-export interface LabeledAssertion {
+export interface LabeledRule {
   /**
    * Compares the id of the assertion with the given one.
    */
-  hasLabelId(anId: AssertionId): boolean;
+  hasLabelId(anId: LabelId): boolean;
 
   /**
    * Compare the id and description of the assertion with the given ones.
    */
-  hasLabel(anId: AssertionId, aDescription: string): boolean;
+  hasLabel(anId: LabelId, aDescription: string): boolean;
 
   /**
    * Checks if the assertion has the given description.
@@ -24,21 +24,19 @@ export interface LabeledAssertion {
    */
   hasDescription(aDescription: string): boolean;
 
-  getId(): AssertionId;
+  getId(): LabelId;
   getDescription(): string;
 }
 
 /**
  * An assertion that can be evaluated without a value.
  *
- * @extends LabeledAssertion
- *
  * @remarks
  * `Assertion<void>` and `AssertionEvaluation` are both `SelfContainedAssertion`
  *
  * @group Assertions
  */
-export interface SelfContainedAssertion extends LabeledAssertion {
+export interface SelfContainedAssertion extends LabeledRule {
   /**
    * Returns `true` if the assertion conditions are met.
    */
@@ -60,5 +58,5 @@ export interface SelfContainedAssertion extends LabeledAssertion {
    * Reports itself to the given list of failed assertions, if the assertion has failed.
    * @param failed - the list to report the assertion to.
    */
-  collectFailureInto(failed: LabeledAssertion[]): void;
+  collectFailureInto(failed: LabeledRule[]): void;
 }

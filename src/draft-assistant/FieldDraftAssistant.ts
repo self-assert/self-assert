@@ -1,7 +1,7 @@
 import { DraftAssistant } from "./DraftAssistant";
 
 import type { ModelFromContainer } from "../types";
-import { Assertion, AssertionId, LabeledAssertion, SelfContainedAssertion } from "@/assertion";
+import { Assertion, LabelId, LabeledRule, SelfContainedAssertion } from "@/assertion";
 
 /**
  * An assistant designed to manage a single field or a simple
@@ -14,7 +14,7 @@ export class FieldDraftAssistant<ContainerModel, Model extends string = string> 
   ContainerModel
 > {
   static handling<ContainerModel, Model extends string = string>(
-    assertionId: AssertionId,
+    assertionId: LabelId,
     modelFromContainer: ModelFromContainer<Model, ContainerModel>,
     initialModel = ""
   ) {
@@ -22,7 +22,7 @@ export class FieldDraftAssistant<ContainerModel, Model extends string = string> 
   }
 
   static handlingAll<ContainerModel, Model extends string = string>(
-    assertionIds: AssertionId[],
+    assertionIds: LabelId[],
     modelFromContainer: ModelFromContainer<Model, ContainerModel>,
     initialModel = ""
   ) {
@@ -69,7 +69,7 @@ export class FieldDraftAssistant<ContainerModel, Model extends string = string> 
    */
   review() {
     this.removeFailedAssertions();
-    const failures: LabeledAssertion[] = [];
+    const failures: LabeledRule[] = [];
     this.assertions.forEach((assertion) => {
       assertion.collectFailureInto(failures, this.model);
     });

@@ -2,7 +2,7 @@ import { describe, expect, it } from "@jest/globals";
 import { FieldDraftAssistant } from "./FieldDraftAssistant";
 import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
 import { DraftViewer } from "../types";
-import { Assertion, type LabeledAssertion } from "@/assertion";
+import { Assertion, type LabeledRule } from "@/assertion";
 import { Conditions } from "@/conditions";
 
 describe("FieldDraftAssistant", () => {
@@ -75,7 +75,7 @@ describe("FieldDraftAssistant", () => {
       const assistant = FieldDraftAssistant.handlingAll(["AID.1", "AID.2"], modelFromContainer);
       const firstFailedAssertion = TestObjectsBucket.failingAssertion("AID.1", "1 description");
       const secondFailedAssertion = TestObjectsBucket.failingAssertion("AID.2", "2 description");
-      const mirroredFailedAssertions: LabeledAssertion[] = [];
+      const mirroredFailedAssertions: LabeledRule[] = [];
       assistant.accept({
         onFailure(aFailedAsserion) {
           mirroredFailedAssertions.push(aFailedAsserion);

@@ -1,7 +1,7 @@
-import { AssertionLabel } from "./AssertionLabel";
+import { AssertionLabel } from "./RuleLabel";
 
-import type { AssertionLabelAsJson } from "./AssertionLabel";
-import type { AssertionId, LabeledAssertion } from "./types";
+import type { AssertionLabelAsJson } from "./RuleLabel";
+import type { LabelId, LabeledRule } from "./types";
 
 export interface AssertionsFailedAsJson {
   failedAssertions: AssertionLabelAsJson[];
@@ -22,19 +22,19 @@ export class AssertionsFailed extends Error {
     return new this(failedAssertions);
   }
 
-  constructor(protected failedAssertions: LabeledAssertion[]) {
+  constructor(protected failedAssertions: LabeledRule[]) {
     super();
   }
 
-  hasAnAssertionFailedWith(assertionId: AssertionId, assertionDescription: string) {
+  hasAnAssertionFailedWith(assertionId: LabelId, assertionDescription: string) {
     return this.failedAssertions.some((assertion) => assertion.hasLabel(assertionId, assertionDescription));
   }
 
-  hasOnlyOneAssertionFailedWith(assertionId: AssertionId, assertionDescription: string) {
+  hasOnlyOneAssertionFailedWith(assertionId: LabelId, assertionDescription: string) {
     return this.failedAssertions.length === 1 && this.failedAssertions[0].hasLabel(assertionId, assertionDescription);
   }
 
-  forEachAssertionFailed(closure: (failedAssertion: LabeledAssertion) => void) {
+  forEachAssertionFailed(closure: (failedAssertion: LabeledRule) => void) {
     return this.failedAssertions.forEach(closure);
   }
 }

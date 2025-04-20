@@ -1,5 +1,5 @@
 import { AssertionsFailed } from "./AssertionsFailed";
-import type { LabeledAssertion, SelfContainedAssertion } from "./types";
+import type { LabeledRule, SelfContainedAssertion } from "./types";
 
 /**
  * Runs all assertions and throws an error if any has failed.
@@ -27,8 +27,8 @@ export class Ruleset {
     if (failedAssertions.length > 0) throw new AssertionsFailed(failedAssertions);
   }
 
-  protected failedAssertions(): LabeledAssertion[] {
-    const failed: LabeledAssertion[] = [];
+  protected failedAssertions(): LabeledRule[] {
+    const failed: LabeledRule[] = [];
     this.assertions.forEach((assertion) => assertion.collectFailureInto(failed));
     return failed;
   }

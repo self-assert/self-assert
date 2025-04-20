@@ -1,7 +1,7 @@
 import { DraftAssistant } from "./DraftAssistant";
 import { AssertionsFailed } from "@/assertion";
 
-import type { AssertionId, LabeledAssertion } from "@/assertion";
+import type { LabelId, LabeledRule } from "@/assertion";
 import type { ModelFromContainer, AssistantsIn } from "@/types";
 
 export type CreationClosure<Model, ComposedModels extends unknown[]> = (...models: ComposedModels) => Model;
@@ -25,7 +25,7 @@ export class SectionDraftAssistant<Model, ContainerModel, ComposedModels extends
     assistants: AssistantsIn<ComposedModels, Model>,
     creationClosure: CreationClosure<Model, ComposedModels>,
     modelFromContainer: ModelFromContainer<Model, ContainerModel>,
-    assertionIds: AssertionId[]
+    assertionIds: LabelId[]
   ) {
     return new this(assistants, creationClosure, modelFromContainer, assertionIds);
   }
@@ -33,7 +33,7 @@ export class SectionDraftAssistant<Model, ContainerModel, ComposedModels extends
   static topLevelContainerWith<Model, ComposedModels extends unknown[]>(
     assistants: AssistantsIn<ComposedModels, Model>,
     creationClosure: CreationClosure<Model, ComposedModels>,
-    assertionIds: AssertionId[] = []
+    assertionIds: LabelId[] = []
   ) {
     return this.with(assistants, creationClosure, this.topLevelModelFromContainer<Model>(), assertionIds);
   }
@@ -42,7 +42,7 @@ export class SectionDraftAssistant<Model, ContainerModel, ComposedModels extends
     protected assistants: AssistantsIn<ComposedModels, Model>,
     protected creationClosure: CreationClosure<Model, ComposedModels>,
     modelFromContainer: ModelFromContainer<Model, ContainerModel>,
-    assertionIds: AssertionId[]
+    assertionIds: LabelId[]
   ) {
     /** @ts-expect-error See {@link DraftAssistant.INVALID_MODEL} */
     super(assertionIds, modelFromContainer, DraftAssistant.INVALID_MODEL);
@@ -82,12 +82,12 @@ export class SectionDraftAssistant<Model, ContainerModel, ComposedModels extends
     creationError.forEachAssertionFailed((failedAssertion) => this.routeFailedAssertion(failedAssertion));
   }
 
-  routeFailedAssertion(failedAssertion: LabeledAssertion) {
+  routeFailedAssertion(failedAssertion: LabeledRule) {
     if (this.handles(failedAssertion)) this.addFailedAssertion(failedAssertion);
     else this.routeNotHandledByThisFailedAssertion(failedAssertion);
   }
 
-  protected routeNotHandledByThisFailedAssertion(failedAssertion: LabeledAssertion) {
+  protected routeNotHandledByThisFailedAssertion(failedAssertion: LabeledRule) {
     const assistantsHandlingAssertion = this.assistantsHandling(failedAssertion);
 
     if (assistantsHandlingAssertion.length === 0) this.addFailedAssertion(failedAssertion);
@@ -96,12 +96,12 @@ export class SectionDraftAssistant<Model, ContainerModel, ComposedModels extends
 
   protected addFailedAssertionToAll(
     assistantsHandlingAssertion: DraftAssistant<unknown, Model>[],
-    failedAssertion: LabeledAssertion
+    failedAssertion: LabeledRule
   ) {
     assistantsHandlingAssertion.forEach((assistant) => assistant.addFailedAssertion(failedAssertion));
   }
 
-  protected assistantsHandling(assertion: LabeledAssertion) {
+  protected assistantsHandling(assertion: LabeledRule) {
     return this.assistants.filter((assistant) => assistant.handles(assertion));
   }
 

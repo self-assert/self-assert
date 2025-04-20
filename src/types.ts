@@ -1,4 +1,4 @@
-import type { LabeledAssertion } from "@/assertion";
+import type { LabeledRule } from "@/assertion";
 import type { DraftAssistant } from "@/draft-assistant";
 
 /**
@@ -14,7 +14,7 @@ export interface DraftViewer<Model = unknown> {
   /**
    * Receives notifications about failed assertions.
    */
-  onFailure?: (aFailedAsserion: LabeledAssertion) => void;
+  onFailure?: (aFailedAsserion: LabeledRule) => void;
 
   /**
    * Receives notifications when the model's failed assertions are cleared.

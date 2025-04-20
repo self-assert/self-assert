@@ -1,22 +1,22 @@
-import type { AssertionId, LabeledAssertion } from "./types";
+import type { LabelId, LabeledRule } from "./types";
 
 export interface AssertionLabelAsJson {
-  id: AssertionId;
+  id: LabelId;
   description: string;
 }
 
-export class AssertionLabel implements LabeledAssertion {
+export class AssertionLabel implements LabeledRule {
   static fromJson({ id, description }: AssertionLabelAsJson): AssertionLabel {
     return new this(id, description);
   }
 
-  constructor(protected id: AssertionId, protected description: string) {}
+  constructor(protected id: LabelId, protected description: string) {}
 
-  hasLabel(assertionId: AssertionId, assertionDescription: string) {
+  hasLabel(assertionId: LabelId, assertionDescription: string) {
     return this.hasLabelId(assertionId) && this.hasDescription(assertionDescription);
   }
 
-  hasLabelId(assertionId: AssertionId): boolean {
+  hasLabelId(assertionId: LabelId): boolean {
     return this.id === assertionId;
   }
 

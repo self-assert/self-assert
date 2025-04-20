@@ -1,6 +1,7 @@
 import { describe, expect, it } from "@jest/globals";
 import { AssertionsFailed } from "./AssertionsFailed";
-import { AssertionLabel } from "./AssertionLabel";
+import { AssertionLabel } from "./RuleLabel";
+import { LabelId } from "./types";
 
 describe("AssertionsFailed", () => {
   const aFailedAssertionJson = {
@@ -35,7 +36,7 @@ describe("AssertionsFailed", () => {
     ]);
 
     let failedAssertionCount = 0;
-    const failedAssertionIds: string[] = [];
+    const failedAssertionIds: LabelId[] = [];
     assertionsFailed.forEachAssertionFailed((assertion) => {
       failedAssertionIds.push(assertion.getId());
       failedAssertionCount++;

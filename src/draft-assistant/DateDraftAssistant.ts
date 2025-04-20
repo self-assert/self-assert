@@ -1,6 +1,6 @@
 import { FieldDraftAssistant } from "./FieldDraftAssistant";
 import { SectionDraftAssistant } from "./SectionDraftAssistant";
-import { Assertion, AssertionId } from "@/assertion";
+import { Assertion, LabelId } from "@/assertion";
 import type { ModelFromContainer } from "../types";
 
 /**
@@ -18,7 +18,7 @@ export class DateDraftAssistant<ContainerModel> extends SectionDraftAssistant<Da
   static readonly defaultAssertionDescription = "Invalid date";
 
   static for<ContainerModel>(
-    assertionId: AssertionId,
+    assertionId: LabelId,
     modelFromContainer: ModelFromContainer<Date, ContainerModel>
   ): DateDraftAssistant<ContainerModel> {
     const assertionIds = assertionId === "" ? [] : [assertionId];
@@ -32,11 +32,11 @@ export class DateDraftAssistant<ContainerModel> extends SectionDraftAssistant<Da
     );
   }
 
-  static forTopLevel(assertionId: AssertionId) {
+  static forTopLevel(assertionId: LabelId) {
     return this.for(assertionId, this.topLevelModelFromContainer());
   }
 
-  static createDate(assertionId: AssertionId, dateAsString: string) {
+  static createDate(assertionId: LabelId, dateAsString: string) {
     this.createAssertionFor(assertionId, dateAsString).mustHold();
 
     return new Date(dateAsString);
@@ -46,7 +46,7 @@ export class DateDraftAssistant<ContainerModel> extends SectionDraftAssistant<Da
     return FieldDraftAssistant.handling<Date>("", (date) => date.toISOString().substring(0, 10));
   }
 
-  static createAssertionFor(assertionId: AssertionId, dateAsString: string) {
+  static createAssertionFor(assertionId: LabelId, dateAsString: string) {
     return Assertion.requiring(
       assertionId,
       DateDraftAssistant.defaultAssertionDescription,
