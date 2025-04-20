@@ -1,5 +1,5 @@
 import { describe, expect, it } from "@jest/globals";
-import { RulesBroken } from "./RulesBroken";
+import { RulesBroken, RulesBrokenAsJson } from "./RulesBroken";
 import { RuleLabel } from "./RuleLabel";
 import { LabelId } from "./types";
 
@@ -13,18 +13,18 @@ describe("RulesBroken", () => {
     description: "2 description",
   };
   it("should be deserializable with one failed assertion", () => {
-    const assertionsFailedAsJson = {
-      failedAssertions: [aFailedAssertionJson],
+    const rulesBrokenAsJson: RulesBrokenAsJson = {
+      brokenRules: [aFailedAssertionJson],
     };
-    const assertionsFailed = RulesBroken.fromJson(assertionsFailedAsJson);
+    const assertionsFailed = RulesBroken.fromJson(rulesBrokenAsJson);
     expect(assertionsFailed.hasOnlyOneAssertionFailedWith("AID.1", "1 description")).toBe(true);
   });
 
   it("should be deserializable with multiple failed assertions", () => {
-    const assertionsFailedAsJson = {
-      failedAssertions: [aFailedAssertionJson, anotherFailedAssertionJson],
+    const rulesBrokenAsJson: RulesBrokenAsJson = {
+      brokenRules: [aFailedAssertionJson, anotherFailedAssertionJson],
     };
-    const assertionsFailed = RulesBroken.fromJson(assertionsFailedAsJson);
+    const assertionsFailed = RulesBroken.fromJson(rulesBrokenAsJson);
     expect(assertionsFailed.hasAnAssertionFailedWith("AID.1", "1 description")).toBe(true);
     expect(assertionsFailed.hasAnAssertionFailedWith("AID.2", "2 description")).toBe(true);
   });
@@ -37,7 +37,7 @@ describe("RulesBroken", () => {
 
     let failedAssertionCount = 0;
     const failedAssertionIds: LabelId[] = [];
-    assertionsFailed.forEachAssertionFailed((assertion) => {
+    assertionsFailed.forEachRuleBroken((assertion) => {
       failedAssertionIds.push(assertion.getId());
       failedAssertionCount++;
     });

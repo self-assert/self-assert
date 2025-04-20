@@ -3,38 +3,36 @@ import { RuleLabel } from "./RuleLabel";
 import type { RuleLabelAsJson } from "./RuleLabel";
 import type { LabelId, LabeledRule } from "./types";
 
-export interface AssertionsFailedAsJson {
-  failedAssertions: RuleLabelAsJson[];
+export interface RulesBrokenAsJson {
+  brokenRules: RuleLabelAsJson[];
 }
 
 /**
- * Provides a way to handle multiple failed assertions,
+ * Provides a way to handle multiple failed rules,
  * by their labels.
  *
  * @see {@link RuleLabel}
  */
 export class RulesBroken extends Error {
-  static fromJson(assertionsFailedAsJson: AssertionsFailedAsJson) {
-    const failedAssertions = assertionsFailedAsJson.failedAssertions.map((ruleAsJson) =>
-      RuleLabel.fromJson(ruleAsJson)
-    );
+  static fromJson(rulesBrokenAsJson: RulesBrokenAsJson) {
+    const brokenRules = rulesBrokenAsJson.brokenRules.map((ruleAsJson) => RuleLabel.fromJson(ruleAsJson));
 
-    return new this(failedAssertions);
+    return new this(brokenRules);
   }
 
   constructor(protected brokenRules: LabeledRule[]) {
     super();
   }
 
-  hasAnAssertionFailedWith(assertionId: LabelId, assertionDescription: string) {
-    return this.brokenRules.some((assertion) => assertion.hasLabel(assertionId, assertionDescription));
+  hasAnAssertionFailedWith(labelId: LabelId, labelDescription: string) {
+    return this.brokenRules.some((rule) => rule.hasLabel(labelId, labelDescription));
   }
 
-  hasOnlyOneAssertionFailedWith(assertionId: LabelId, assertionDescription: string) {
-    return this.brokenRules.length === 1 && this.brokenRules[0].hasLabel(assertionId, assertionDescription);
+  hasOnlyOneAssertionFailedWith(labelId: LabelId, labelDescription: string) {
+    return this.brokenRules.length === 1 && this.brokenRules[0].hasLabel(labelId, labelDescription);
   }
 
-  forEachAssertionFailed(closure: (failedAssertion: LabeledRule) => void) {
+  forEachRuleBroken(closure: (brokenRule: LabeledRule) => void) {
     return this.brokenRules.forEach(closure);
   }
 }

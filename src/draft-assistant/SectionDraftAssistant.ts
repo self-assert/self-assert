@@ -78,7 +78,7 @@ export class SectionDraftAssistant<Model, ContainerModel, ComposedModels extends
   }
 
   routeFailedAssertionsOf(creationError: RulesBroken) {
-    creationError.forEachAssertionFailed((failedAssertion) => this.routeFailedAssertion(failedAssertion));
+    creationError.forEachRuleBroken((failedAssertion) => this.routeFailedAssertion(failedAssertion));
   }
 
   routeFailedAssertion(failedAssertion: LabeledRule) {
