@@ -3,7 +3,7 @@ import { AssertionsFailed } from "./AssertionsFailed";
 import { Rule } from "./Rule";
 import { LabelId } from "./types";
 
-export class Audit<ValueType = void> extends Rule<Promise<boolean>, ValueType> {
+export class AuditRule<ValueType = void> extends Rule<Promise<boolean>, ValueType> {
   static labeled<ValueType = void>(anId: LabelId, aDescription: string) {
     return new this<ValueType>(new RuleLabel(anId, aDescription));
   }
