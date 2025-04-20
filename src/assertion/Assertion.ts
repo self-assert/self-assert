@@ -33,7 +33,7 @@ import type { AssertionId, SelfContainedAssertion } from "./types";
  * nameNotBlank.hasFailed("   "); // true
  * ```
  */
-export class Assertion<ValueType = void> extends Rule {
+export class Assertion<ValueType = void> extends Rule<boolean, ValueType> {
   static fromJson(assertionAsJson: AssertionLabelAsJson) {
     return new this(AssertionLabel.fromJson(assertionAsJson));
   }
@@ -50,11 +50,8 @@ export class Assertion<ValueType = void> extends Rule {
     return this.labeled<ValueType>(id, description).require(condition);
   }
 
-  protected conditions: ((value: ValueType) => boolean)[];
-
   protected constructor(label: AssertionLabel) {
     super(label);
-    this.conditions = [];
   }
 
   /**
