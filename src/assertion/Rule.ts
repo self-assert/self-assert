@@ -16,6 +16,10 @@ function mapMaybeAsync<Type, ReturnType>(
   return doSomething(value);
 }
 
+type toMaybeAsyncVoid<PredicateReturnType extends MaybeAsync<boolean>> = PredicateReturnType extends boolean
+  ? void
+  : Promise<void>;
+
 export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, ValueType = void> implements LabeledRule {
   protected readonly conditions: RulePredicate<PredicateReturnType, ValueType>[];
 
@@ -30,9 +34,9 @@ export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, Valu
    */
   abstract doesHold(value: ValueType): PredicateReturnType;
 
-  abstract mustHold(value: ValueType): void | Promise<void>;
+  abstract mustHold(value: ValueType): toMaybeAsyncVoid<PredicateReturnType>;
 
-  abstract collectFailureInto(failed: LabeledRule[], value: ValueType): void | Promise<void>;
+  abstract collectFailureInto(failed: LabeledRule[], value: ValueType): toMaybeAsyncVoid<PredicateReturnType>;
 
   /**
    * Opposite of {@link doesHold}

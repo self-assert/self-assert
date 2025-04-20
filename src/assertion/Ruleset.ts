@@ -1,11 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { Assertion } from "./Assertion";
-import { AuditRule } from "./AuditRule";
-import { RuleEvaluation } from "./RuleEvaluation";
 import { RulesBroken } from "./RulesBroken";
-import type { LabeledRule } from "./types";
-
-type nfjfr = Pick<Assertion, "collectFailureInto">;
+import type { CollectableRule, LabeledRule } from "./types";
 
 /**
  * Runs all assertions and throws an error if any has failed.
@@ -14,21 +8,21 @@ type nfjfr = Pick<Assertion, "collectFailureInto">;
  * @see {@link RulesBroken}
  */
 export class Ruleset {
-  static assert(assertion: nfjfr) {
+  static assert(assertion: CollectableRule<void, void>) {
     this.assertAll([assertion]);
   }
 
-  static assertAll(assertions: nfjfr[]) {
+  static assertAll(assertions: CollectableRule<void, void>[]) {
     new this(assertions, []).run();
   }
 
-  static mustHold(...rules: (AuditRule | RuleEvaluation<Promise<boolean>, any>)[]) {
+  static mustHold(...rules: CollectableRule<void, Promise<void>>[]) {
     return new this([], rules).mustHold();
   }
 
   constructor(
-    protected assertions: nfjfr[],
-    protected auditRules: (AuditRule | RuleEvaluation<Promise<boolean>, any>)[]
+    protected assertions: CollectableRule<void, void>[],
+    protected auditRules: CollectableRule<void, Promise<void>>[]
   ) {}
 
   /**

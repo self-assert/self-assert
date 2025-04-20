@@ -1,7 +1,7 @@
 import { RuleLabel, RuleLabelAsJson } from "./RuleLabel";
 import { Ruleset } from "./Ruleset";
 import { Rule } from "./Rule";
-import type { CollectableRule, LabelId } from "./types";
+import type { CollectableRule, LabeledRule, LabelId } from "./types";
 
 /**
  * Represents a validation rule in the problem domain.
@@ -61,7 +61,7 @@ export class Assertion<ValueType = void> extends Rule<boolean, ValueType> {
     Ruleset.assert(this.evaluateFor(value));
   }
 
-  collectFailureInto(failed: unknown[], value: ValueType) {
+  collectFailureInto(failed: LabeledRule[], value: ValueType) {
     if (this.hasFailed(value)) {
       failed.push(this.label);
     }
