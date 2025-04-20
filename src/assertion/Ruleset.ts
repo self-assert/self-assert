@@ -1,3 +1,4 @@
+import { AuditRule, AuditRuleEvaluation } from "./AuditRule";
 import { RulesBroken } from "./RulesBroken";
 import type { LabeledRule, SelfContainedAssertion } from "./types";
 
@@ -13,23 +14,43 @@ export class Ruleset {
   }
 
   static assertAll(assertions: SelfContainedAssertion[]) {
-    new this(assertions).run();
+    new this(assertions, []).run();
   }
 
-  constructor(protected assertions: SelfContainedAssertion[]) {}
+  static mustHold(...rules: (AuditRule | AuditRuleEvaluation<any>)[]) {
+    return new this([], rules).mustHold();
+  }
+
+  constructor(
+    protected assertions: SelfContainedAssertion[],
+    protected auditRules: (AuditRule | AuditRuleEvaluation<any>)[]
+  ) {}
+
+  async mustHold(): Promise<void> {
+    const brokenRules: LabeledRule[] = [];
+    for (const rule of this.auditRules) {
+      await rule.collectFailureInto(brokenRules);
+    }
+
+    this.throwIfNotEmpty(brokenRules);
+  }
 
   /**
    * @throws {RulesBroken} if any assertion has failed
    */
   run(): void {
-    const failedAssertions = this.failedAssertions();
+    const brokenRules = this.failedAssertions();
 
-    if (failedAssertions.length > 0) throw new RulesBroken(failedAssertions);
+    this.throwIfNotEmpty(brokenRules);
   }
 
   protected failedAssertions(): LabeledRule[] {
     const failed: LabeledRule[] = [];
     this.assertions.forEach((assertion) => assertion.collectFailureInto(failed));
     return failed;
+  }
+
+  protected throwIfNotEmpty(brokenRules: LabeledRule[]) {
+    if (brokenRules.length > 0) throw new RulesBroken(brokenRules);
   }
 }
