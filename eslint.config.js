@@ -17,6 +17,7 @@ export default tseslint.config(
       "@typescript-eslint/no-confusing-void-expression": ["off"],
       "@typescript-eslint/no-extraneous-class": ["off"],
       "@typescript-eslint/restrict-template-expressions": ["off"],
+      "@typescript-eslint/no-invalid-void-type": ["off"],
     },
   }
 );

@@ -1,7 +1,7 @@
 import { RuleLabel, RuleLabelAsJson } from "./RuleLabel";
 import { Ruleset } from "./Ruleset";
 import { Rule } from "./Rule";
-import type { LabelId, SelfContainedAssertion } from "./types";
+import type { CollectableRule, LabelId } from "./types";
 
 /**
  * Represents a validation rule in the problem domain.
@@ -57,19 +57,10 @@ export class Assertion<ValueType = void> extends Rule<boolean, ValueType> {
     return this.conditions.every((condition) => condition(value));
   }
 
-  /**
-   * Asserts that the conditions for the given value are met.
-   *
-   * @see {@link SelfContainedAssertion.mustHold}
-   */
   mustHold(value: ValueType) {
     Ruleset.assert(this.evaluateFor(value));
   }
 
-  /**
-   * Reports itself to the given list of failed assertions, if the assertion has failed.
-   * @see {@link SelfContainedAssertion.collectFailureInto}
-   */
   collectFailureInto(failed: unknown[], value: ValueType) {
     if (this.hasFailed(value)) {
       failed.push(this.label);
@@ -81,9 +72,9 @@ export class Assertion<ValueType = void> extends Rule<boolean, ValueType> {
  * **Type check only**
  *
  * This dummy class exists solely to ensure at compile time that `Assertion<void>`
- * structurally satisfies the `SelfContainedAssertion` interface.
+ * structurally satisfies the {@link CollectableRule} interface.
  *
  * It is never instantiated or exported.
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-unnecessary-type-arguments
-class VoidAssertionIsSelfContained extends Assertion<void> implements SelfContainedAssertion {}
+class VoidAssertionIsSelfContained extends Assertion<void> implements CollectableRule<void, void> {}

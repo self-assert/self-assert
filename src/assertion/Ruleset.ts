@@ -1,16 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Assertion } from "./Assertion";
 import { AuditRule } from "./AuditRule";
 import { RuleEvaluation } from "./RuleEvaluation";
 import { RulesBroken } from "./RulesBroken";
-import type { LabeledRule, SelfContainedAssertion } from "./types";
+import type { LabeledRule } from "./types";
 
-type nfjfr = Pick<SelfContainedAssertion, "collectFailureInto">;
+type nfjfr = Pick<Assertion, "collectFailureInto">;
 
 /**
  * Runs all assertions and throws an error if any has failed.
  * The failed assertions are included in the error.
  *
- * @see {@link SelfContainedAssertion}, {@link RulesBroken}
+ * @see {@link RulesBroken}
  */
 export class Ruleset {
   static assert(assertion: nfjfr) {
@@ -30,6 +31,9 @@ export class Ruleset {
     protected auditRules: (AuditRule | RuleEvaluation<Promise<boolean>, any>)[]
   ) {}
 
+  /**
+   * @throws {RulesBroken} if any audit rule has failed
+   */
   async mustHold(): Promise<void> {
     const brokenRules: LabeledRule[] = [];
     for (const rule of this.auditRules) {
