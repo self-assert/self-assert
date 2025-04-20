@@ -1,5 +1,5 @@
 import { AssertionEvaluation } from "./AssertionEvaluation";
-import { AssertionLabel, AssertionLabelAsJson } from "./RuleLabel";
+import { RuleLabel, RuleLabelAsJson } from "./RuleLabel";
 import { Ruleset } from "./Ruleset";
 import { Rule } from "./Rule";
 import type { LabelId, SelfContainedAssertion } from "./types";
@@ -34,12 +34,12 @@ import type { LabelId, SelfContainedAssertion } from "./types";
  * ```
  */
 export class Assertion<ValueType = void> extends Rule<boolean, ValueType> {
-  static fromJson(assertionAsJson: AssertionLabelAsJson) {
-    return new this(AssertionLabel.fromJson(assertionAsJson));
+  static fromJson(assertionAsJson: RuleLabelAsJson) {
+    return new this(RuleLabel.fromJson(assertionAsJson));
   }
 
   static labeled<ValueType = void>(id: LabelId, description: string) {
-    const label = new AssertionLabel(id, description);
+    const label = new RuleLabel(id, description);
     return new this<ValueType>(label);
   }
 
@@ -50,7 +50,7 @@ export class Assertion<ValueType = void> extends Rule<boolean, ValueType> {
     return this.labeled<ValueType>(id, description).require(condition);
   }
 
-  protected constructor(label: AssertionLabel) {
+  protected constructor(label: RuleLabel) {
     super(label);
   }
 

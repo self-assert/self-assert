@@ -1,12 +1,12 @@
 import type { LabelId, LabeledRule } from "./types";
 
-export interface AssertionLabelAsJson {
+export interface RuleLabelAsJson {
   id: LabelId;
   description: string;
 }
 
-export class AssertionLabel implements LabeledRule {
-  static fromJson({ id, description }: AssertionLabelAsJson): AssertionLabel {
+export class RuleLabel implements LabeledRule {
+  static fromJson({ id, description }: RuleLabelAsJson) {
     return new this(id, description);
   }
 

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "@jest/globals";
 import { AssertionsFailed } from "./AssertionsFailed";
-import { AssertionLabel } from "./RuleLabel";
+import { RuleLabel } from "./RuleLabel";
 import { LabelId } from "./types";
 
 describe("AssertionsFailed", () => {
@@ -31,8 +31,8 @@ describe("AssertionsFailed", () => {
 
   it("should let traverse failed assertions", () => {
     const assertionsFailed = new AssertionsFailed([
-      new AssertionLabel("AID.1", "1 description"),
-      new AssertionLabel("AID.2", "2 description"),
+      new RuleLabel("AID.1", "1 description"),
+      new RuleLabel("AID.2", "2 description"),
     ]);
 
     let failedAssertionCount = 0;

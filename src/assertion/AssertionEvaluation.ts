@@ -1,6 +1,6 @@
 import type { LabelId, SelfContainedAssertion } from "./types";
 import type { Assertion } from "./Assertion";
-import type { AssertionLabel } from "./RuleLabel";
+import type { RuleLabel } from "./RuleLabel";
 
 /**
  * Represents the evaluation of an assertion on a given value.
@@ -48,7 +48,7 @@ export class AssertionEvaluation<ValueType> implements SelfContainedAssertion {
     return this.assertion.mustHold(this.value);
   }
 
-  collectFailureInto(failed: AssertionLabel[]): void {
+  collectFailureInto(failed: RuleLabel[]): void {
     this.assertion.collectFailureInto(failed, this.value);
   }
 
