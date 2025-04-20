@@ -1,8 +1,9 @@
 import { AssertionLabel } from "./AssertionLabel";
 import { AssertionsFailed } from "./AssertionsFailed";
-import { AssertionId, LabeledAssertion } from "./types";
+import { Rule } from "./Rule";
+import { AssertionId } from "./types";
 
-export class Audit<ValueType = void> implements LabeledAssertion {
+export class Audit<ValueType = void> extends Rule {
   static labeled<ValueType = void>(anId: AssertionId, aDescription: string) {
     return new this<ValueType>(new AssertionLabel(anId, aDescription));
   }
@@ -17,7 +18,8 @@ export class Audit<ValueType = void> implements LabeledAssertion {
 
   protected conditions: ((value: ValueType) => Promise<boolean>)[];
 
-  protected constructor(protected label: AssertionLabel) {
+  protected constructor(label: AssertionLabel) {
+    super(label);
     this.conditions = [];
   }
 
@@ -43,31 +45,5 @@ export class Audit<ValueType = void> implements LabeledAssertion {
   require(aCondition: (value: ValueType) => Promise<boolean>) {
     this.conditions.push(aCondition);
     return this;
-  }
-
-  hasLabelId(assertionId: AssertionId) {
-    return this.label.hasLabelId(assertionId);
-  }
-
-  getId(): AssertionId {
-    return this.label.getId();
-  }
-
-  /**
-   * @see {@link SelfContainedAssertion.hasLabel}
-   */
-  hasLabel(assertionId: AssertionId, assertionDescription: string) {
-    return this.label.hasLabel(assertionId, assertionDescription);
-  }
-
-  getDescription() {
-    return this.label.getDescription();
-  }
-
-  /**
-   * @see {@link SelfContainedAssertion.hasFailed}
-   */
-  hasDescription(assertionDescription: string) {
-    return this.label.hasDescription(assertionDescription);
   }
 }

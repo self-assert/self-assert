@@ -1,7 +1,8 @@
 import { AssertionEvaluation } from "./AssertionEvaluation";
 import { AssertionLabel, AssertionLabelAsJson } from "./AssertionLabel";
 import { AssertionSuite } from "./AssertionSuite";
-import type { AssertionId, LabeledAssertion, SelfContainedAssertion } from "./types";
+import { Rule } from "./Rule";
+import type { AssertionId, SelfContainedAssertion } from "./types";
 
 /**
  * Represents a validation rule in the problem domain.
@@ -32,7 +33,7 @@ import type { AssertionId, LabeledAssertion, SelfContainedAssertion } from "./ty
  * nameNotBlank.hasFailed("   "); // true
  * ```
  */
-export class Assertion<ValueType = void> implements LabeledAssertion {
+export class Assertion<ValueType = void> extends Rule {
   static fromJson(assertionAsJson: AssertionLabelAsJson) {
     return new this(AssertionLabel.fromJson(assertionAsJson));
   }
@@ -51,7 +52,8 @@ export class Assertion<ValueType = void> implements LabeledAssertion {
 
   protected conditions: ((value: ValueType) => boolean)[];
 
-  protected constructor(protected label: AssertionLabel) {
+  protected constructor(label: AssertionLabel) {
+    super(label);
     this.conditions = [];
   }
 
@@ -122,32 +124,6 @@ export class Assertion<ValueType = void> implements LabeledAssertion {
     if (this.hasFailed(value)) {
       failed.push(this.label);
     }
-  }
-
-  hasLabelId(assertionId: AssertionId) {
-    return this.label.hasLabelId(assertionId);
-  }
-
-  getId(): AssertionId {
-    return this.label.getId();
-  }
-
-  /**
-   * @see {@link SelfContainedAssertion.hasLabel}
-   */
-  hasLabel(assertionId: AssertionId, assertionDescription: string) {
-    return this.label.hasLabel(assertionId, assertionDescription);
-  }
-
-  getDescription() {
-    return this.label.getDescription();
-  }
-
-  /**
-   * @see {@link SelfContainedAssertion.hasFailed}
-   */
-  hasDescription(assertionDescription: string) {
-    return this.label.hasDescription(assertionDescription);
   }
 }
 
