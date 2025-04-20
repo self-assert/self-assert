@@ -29,6 +29,10 @@ export class AuditRule<ValueType = void> extends Rule<Promise<boolean>, ValueTyp
     return true;
   }
 
+  async hasFailed(value: ValueType) {
+    return !(await this.doesHold(value));
+  }
+
   async mustHold(value: ValueType) {
     if (await this.hasFailed(value)) {
       throw new RulesBroken([this.label]);

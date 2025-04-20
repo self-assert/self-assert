@@ -31,7 +31,7 @@ export class IntegerDraftAssistant<ContainerModel> extends SectionDraftAssistant
   }
 
   static createInteger(assertionId: LabelId, numberAsString: string) {
-    Ruleset.assert(this.createAssertionFor(assertionId, numberAsString));
+    Ruleset.ensureAll(this.createAssertionFor(assertionId, numberAsString));
 
     return Number(numberAsString);
   }

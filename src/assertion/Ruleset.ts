@@ -1,6 +1,16 @@
 import { RulesBroken } from "./RulesBroken";
 import type { CollectableRule, LabeledRule } from "./types";
 
+type OneOrMany<Type> = Type | Type[];
+
+type SelfContainedAssertion = CollectableRule<void, void>;
+type SelfContainedAssertions = OneOrMany<SelfContainedAssertion>;
+type SelfContainedAuditRule = CollectableRule<void, Promise<void>>;
+type SelfContainedAuditRules = OneOrMany<SelfContainedAuditRule>;
+
+// type SelfContainedRule = SelfContainedAuditRule | SelfContainedAssertion;
+// type SelfContainedRules = OneOrMany<SelfContainedRule>;
+
 /**
  * Runs all assertions and throws an error if any has failed.
  * The failed assertions are included in the error.
@@ -8,29 +18,22 @@ import type { CollectableRule, LabeledRule } from "./types";
  * @see {@link RulesBroken}
  */
 export class Ruleset {
-  static assert(assertion: CollectableRule<void, void>) {
-    this.assertAll([assertion]);
+  static ensureAll(...assertions: SelfContainedAssertions[]): void {
+    new this(assertions.flat(), []).ensure();
   }
 
-  static assertAll(assertions: CollectableRule<void, void>[]) {
-    new this(assertions, []).run();
+  static auditAll(...rules: SelfContainedAuditRules[]): Promise<void> {
+    return new this([], rules.flat()).audit();
   }
 
-  static mustHold(...rules: CollectableRule<void, Promise<void>>[]) {
-    return new this([], rules).mustHold();
-  }
-
-  constructor(
-    protected assertions: CollectableRule<void, void>[],
-    protected auditRules: CollectableRule<void, Promise<void>>[]
-  ) {}
+  constructor(protected assertions: SelfContainedAssertion[], protected rules: SelfContainedAuditRule[]) {}
 
   /**
    * @throws {RulesBroken} if any audit rule has failed
    */
-  async mustHold(): Promise<void> {
+  async audit(): Promise<void> {
     const brokenRules: LabeledRule[] = [];
-    for (const rule of this.auditRules) {
+    for (const rule of this.rules) {
       await rule.collectFailureInto(brokenRules);
     }
 
@@ -40,7 +43,7 @@ export class Ruleset {
   /**
    * @throws {RulesBroken} if any assertion has failed
    */
-  run(): void {
+  ensure(): void {
     const brokenRules = this.failedAssertions();
 
     this.throwIfNotEmpty(brokenRules);

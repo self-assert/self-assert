@@ -5,7 +5,7 @@ import type { LabeledRule, LabelId } from "./types";
  * Represents the evaluation of a rule on a given value.
  * TODO: complete
  *
- * It can also be created using the {@link Assertion.evaluateFor} method.
+ * It can also be created using the {@link Rule.evaluateFor} method.
  *
  * @template ValueType The type of value this assertion applies to.
  *

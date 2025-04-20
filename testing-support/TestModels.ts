@@ -30,7 +30,7 @@ export class SelfAssertingModel extends ModelWithNoAssertions {
   }
 
   static named(name: string) {
-    Ruleset.assertAll([
+    Ruleset.ensureAll([
       Assertion.requiring(this.nameNotEmptyAID, this.nameNotEmptyDescription, Conditions.isNotEmpty).evaluateFor(name),
       SelfAssertingModel.nameNotForbiddenAssertion().evaluateFor(name),
     ]);

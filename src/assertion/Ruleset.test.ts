@@ -10,11 +10,11 @@ import { AuditRule } from "./AuditRule";
 
 describe("Ruleset", () => {
   it("should not throw on assertion that holds", () => {
-    expect(() => Ruleset.assert(TestObjectsBucket.holdingAssertion())).not.toThrow();
+    expect(() => Ruleset.ensureAll(TestObjectsBucket.holdingAssertion())).not.toThrow();
   });
 
   it("should throw on assertion that does not hold", () => {
-    expect(() => Ruleset.assert(TestObjectsBucket.defaultFailingAssertion())).toFailAssertion(
+    expect(() => Ruleset.ensureAll(TestObjectsBucket.defaultFailingAssertion())).toFailAssertion(
       TestObjectsBucket.defaultFailingAssertionAID,
       TestObjectsBucket.defaultFailingAssertionDescription
     );
@@ -27,7 +27,7 @@ describe("Ruleset", () => {
       TestObjectsBucket.failingAssertion("AID.2", "Description 2"),
     ];
     try {
-      Ruleset.assertAll(assertions);
+      Ruleset.ensureAll(assertions);
       done("Should have thrown");
     } catch (error) {
       expectToBeRulesBroken(error);
@@ -46,7 +46,7 @@ describe("Ruleset", () => {
   it("should accept assertion evaluations", () => {
     const assertions = [Assertion.requiring("name", "Name should not be empty", Conditions.isNotEmpty).evaluateFor("")];
 
-    expect(() => Ruleset.assertAll(assertions)).toFailAssertion("name", "Name should not be empty");
+    expect(() => Ruleset.ensureAll(assertions)).toFailAssertion("name", "Name should not be empty");
   });
 
   it("should accept an audit rule", async () => {
@@ -54,7 +54,7 @@ describe("Ruleset", () => {
       Promise.resolve(Conditions.isNotEmpty("a"))
     );
 
-    await expect(Ruleset.mustHold(rule)).resolves.not.toThrow();
+    await expect(Ruleset.auditAll(rule)).resolves.not.toThrow();
   });
 
   it("should accept a list of audit rules", async () => {
@@ -63,7 +63,7 @@ describe("Ruleset", () => {
     const rule1 = AuditRule.requiring("name.1", "Desc 1", nameLengthCondition);
     const rule2 = AuditRule.requiring("name.2", "Desc 2", nameLengthCondition);
 
-    return Ruleset.mustHold(rule1.evaluateFor("ab"), rule2.evaluateFor("ba")).catch((error: unknown) => {
+    return Ruleset.auditAll(rule1.evaluateFor("ab"), rule2.evaluateFor("ba")).catch((error: unknown) => {
       expectToBeRulesBroken(error);
       expect(error.hasRuleBrokenWith("name.1", "Desc 1")).toBe(true);
       expect(error.hasRuleBrokenWith("name.2", "Desc 2")).toBe(true);

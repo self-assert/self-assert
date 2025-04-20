@@ -17,7 +17,7 @@ const system = {
       () => model === SelfAssertingModel.named("Pedro")
     );
 
-    Ruleset.assert(failingAssertion);
+    Ruleset.ensureAll(failingAssertion);
   },
   doSomethingThatFails() {
     throw new Error("Not implemented");

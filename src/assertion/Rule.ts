@@ -2,23 +2,9 @@ import { RuleEvaluation } from "./RuleEvaluation";
 import { RuleLabel } from "./RuleLabel";
 import type { LabelId, LabeledRule } from "./types";
 
-export type RulePredicate<ReturnType extends MaybeAsync<boolean>, ValueType = void> = (value: ValueType) => ReturnType;
-
 export type MaybeAsync<Type> = Type | Promise<Type>;
 
-function mapMaybeAsync<Type, ReturnType>(
-  value: MaybeAsync<Type>,
-  doSomething: (value: Type) => ReturnType
-): MaybeAsync<ReturnType> {
-  if (value instanceof Promise) {
-    return value.then((resolved) => doSomething(resolved));
-  }
-  return doSomething(value);
-}
-
-type toMaybeAsyncVoid<PredicateReturnType extends MaybeAsync<boolean>> = PredicateReturnType extends boolean
-  ? void
-  : Promise<void>;
+export type RulePredicate<ReturnType extends MaybeAsync<boolean>, ValueType = void> = (value: ValueType) => ReturnType;
 
 export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, ValueType = void> implements LabeledRule {
   protected readonly conditions: RulePredicate<PredicateReturnType, ValueType>[];
@@ -34,19 +20,19 @@ export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, Valu
    */
   abstract doesHold(value: ValueType): PredicateReturnType;
 
-  abstract mustHold(value: ValueType): toMaybeAsyncVoid<PredicateReturnType>;
-
-  abstract collectFailureInto(failed: LabeledRule[], value: ValueType): toMaybeAsyncVoid<PredicateReturnType>;
-
   /**
    * Opposite of {@link doesHold}
    *
    * @returns `true` or `Promise<true>` if any condition is not met
    */
-  hasFailed(value: ValueType): PredicateReturnType {
-    const result = this.doesHold(value);
-    return mapMaybeAsync(result, (r) => !r) as PredicateReturnType;
-  }
+  abstract hasFailed(value: ValueType): PredicateReturnType;
+
+  abstract mustHold(value: ValueType): PredicateReturnType extends boolean ? void : Promise<void>;
+
+  abstract collectFailureInto(
+    failed: LabeledRule[],
+    value: ValueType
+  ): PredicateReturnType extends boolean ? void : Promise<void>;
 
   /**
    * Adds a necessary condition for the rule to hold.

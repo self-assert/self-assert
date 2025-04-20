@@ -8,7 +8,7 @@ import type { CollectableRule, LabeledRule, LabelId } from "./types";
  *
  * An `Assertion` expresses a condition that must hold for a given value.
  * These rules are defined using one or more predicate functions, added via
- * {@link Assertion.require require}. The assertion is considered to "hold" when all the conditions evaluate to `true`.
+ * {@link Rule.require require}. The assertion is considered to "hold" when all the conditions evaluate to `true`.
  *
  * Assertions are identified by a unique identifier (`AssertionId`) and a human-readable description.
  * These identifiers are meant to be meaningful within the domain,
@@ -57,11 +57,15 @@ export class Assertion<ValueType = void> extends Rule<boolean, ValueType> {
     return this.conditions.every((condition) => condition(value));
   }
 
-  mustHold(value: ValueType) {
-    Ruleset.assert(this.evaluateFor(value));
+  hasFailed(value: ValueType): boolean {
+    return !this.doesHold(value);
   }
 
-  collectFailureInto(failed: LabeledRule[], value: ValueType) {
+  mustHold(value: ValueType): void {
+    Ruleset.ensureAll(this.evaluateFor(value));
+  }
+
+  collectFailureInto(failed: LabeledRule[], value: ValueType): void {
     if (this.hasFailed(value)) {
       failed.push(this.label);
     }
