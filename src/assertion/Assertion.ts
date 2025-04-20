@@ -1,6 +1,6 @@
 import { AssertionEvaluation } from "./AssertionEvaluation";
 import { AssertionLabel, AssertionLabelAsJson } from "./AssertionLabel";
-import { AssertionSuite } from "./AssertionSuite";
+import { Ruleset } from "./Ruleset";
 import { Rule } from "./Rule";
 import type { AssertionId, SelfContainedAssertion } from "./types";
 
@@ -86,7 +86,7 @@ export class Assertion<ValueType = void> extends Rule<boolean, ValueType> {
    * @see {@link SelfContainedAssertion.mustHold}
    */
   mustHold(value: ValueType) {
-    AssertionSuite.assert(this.evaluateFor(value));
+    Ruleset.assert(this.evaluateFor(value));
   }
 
   /**

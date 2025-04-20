@@ -7,7 +7,7 @@ import type { LabeledAssertion, SelfContainedAssertion } from "./types";
  *
  * @see {@link SelfContainedAssertion}, {@link AssertionsFailed}
  */
-export class AssertionSuite {
+export class Ruleset {
   static assert(assertion: SelfContainedAssertion) {
     this.assertAll([assertion]);
   }

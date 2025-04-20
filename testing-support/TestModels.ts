@@ -1,4 +1,4 @@
-import { Assertion, AssertionSuite } from "@/assertion";
+import { Assertion, Ruleset } from "@/assertion";
 import { Conditions } from "@/conditions";
 
 export class ModelWithNoAssertions {
@@ -30,7 +30,7 @@ export class SelfAssertingModel extends ModelWithNoAssertions {
   }
 
   static named(name: string) {
-    AssertionSuite.assertAll([
+    Ruleset.assertAll([
       Assertion.requiring(this.nameNotEmptyAID, this.nameNotEmptyDescription, Conditions.isNotEmpty).evaluateFor(name),
       SelfAssertingModel.nameNotForbiddenAssertion().evaluateFor(name),
     ]);
