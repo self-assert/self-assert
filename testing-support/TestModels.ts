@@ -1,5 +1,5 @@
 import { Assertion, Ruleset } from "@/rule";
-import { Conditions } from "@/rule-requirements";
+import { Requirements } from "@/rule-requirements";
 
 export class ModelWithNoAssertions {
   constructor(protected name: string) {}
@@ -25,13 +25,15 @@ export class SelfAssertingModel extends ModelWithNoAssertions {
     return Assertion.requiring(
       this.nameNotForbiddenAID,
       this.nameNotForbiddenDescription,
-      Conditions.differentFrom(this.forbiddenName)
+      Requirements.differentFrom(this.forbiddenName)
     );
   }
 
   static named(name: string) {
     Ruleset.ensureAll([
-      Assertion.requiring(this.nameNotEmptyAID, this.nameNotEmptyDescription, Conditions.isNotEmpty).evaluateFor(name),
+      Assertion.requiring(this.nameNotEmptyAID, this.nameNotEmptyDescription, Requirements.isNotEmpty).evaluateFor(
+        name
+      ),
       SelfAssertingModel.nameNotForbiddenAssertion().evaluateFor(name),
     ]);
 

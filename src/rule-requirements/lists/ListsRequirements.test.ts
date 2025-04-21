@@ -1,10 +1,10 @@
 import { describe, expect, it } from "@jest/globals";
 
-import { Conditions } from "../Conditions";
+import { Requirements } from "../Requirements";
 
 describe("Lists", () => {
   it("should provide a condition that holds when the list is empty", () => {
-    const { isEmpty } = Conditions;
+    const { isEmpty } = Requirements;
     expect(isEmpty("")).toBe(true);
     expect(isEmpty([])).toBe(true);
     expect(isEmpty("d")).toBe(false);
@@ -12,7 +12,7 @@ describe("Lists", () => {
   });
 
   it("should provide a condition that holds when the list is not empty", () => {
-    const { isNotEmpty } = Conditions;
+    const { isNotEmpty } = Requirements;
     expect(isNotEmpty("")).toBe(false);
     expect(isNotEmpty([])).toBe(false);
     expect(isNotEmpty("d")).toBe(true);
@@ -20,7 +20,7 @@ describe("Lists", () => {
   });
 
   it("should provide a condition that holds when the list includes an element", () => {
-    const includes = Conditions.includes("a");
+    const includes = Requirements.includes("a");
     expect(includes([] as string[])).toBe(false);
     expect(includes(["a"])).toBe(true);
     expect(includes(["b"])).toBe(false);
@@ -29,7 +29,7 @@ describe("Lists", () => {
   });
 
   it("should provide a condition that holds when the list does not include an element", () => {
-    const doesNotInclude = Conditions.doesNotInclude("a");
+    const doesNotInclude = Requirements.doesNotInclude("a");
     expect(doesNotInclude([] as string[])).toBe(true);
     expect(doesNotInclude(["a"])).toBe(false);
     expect(doesNotInclude(["b"])).toBe(true);
@@ -38,7 +38,7 @@ describe("Lists", () => {
   });
 
   it("should provide a condition that holds when the list has more than a number of elements", () => {
-    const hasMoreThan1 = Conditions.hasMoreThan(1);
+    const hasMoreThan1 = Requirements.hasMoreThan(1);
     expect(hasMoreThan1([] as string[])).toBe(false);
     expect(hasMoreThan1(["a"])).toBe(false);
     expect(hasMoreThan1(["a", "b"])).toBe(true);
@@ -47,7 +47,7 @@ describe("Lists", () => {
   });
 
   it("should provide a condition that holds when the list has less than a number of elements", () => {
-    const hasLessThan3 = Conditions.hasLessThan(3);
+    const hasLessThan3 = Requirements.hasLessThan(3);
     expect(hasLessThan3([] as string[])).toBe(true);
     expect(hasLessThan3(["a"])).toBe(true);
     expect(hasLessThan3("a")).toBe(true);
@@ -57,7 +57,7 @@ describe("Lists", () => {
   });
 
   it("should provide a condition that holds when the list has at most a number of elements", () => {
-    const hasAtMost2 = Conditions.hasAtMost(2);
+    const hasAtMost2 = Requirements.hasAtMost(2);
     expect(hasAtMost2([] as string[])).toBe(true);
     expect(hasAtMost2(["a"])).toBe(true);
     expect(hasAtMost2("a")).toBe(true);
@@ -67,7 +67,7 @@ describe("Lists", () => {
   });
 
   it("should provide a condition that holds when the list has at least a number of elements", () => {
-    const hasAtLeast3 = Conditions.hasAtLeast(3);
+    const hasAtLeast3 = Requirements.hasAtLeast(3);
     expect(hasAtLeast3([] as string[])).toBe(false);
     expect(hasAtLeast3(["a"])).toBe(false);
     expect(hasAtLeast3("a")).toBe(false);
@@ -77,7 +77,7 @@ describe("Lists", () => {
   });
 
   it("should provide a condition that holds when the list has exactly a number of elements", () => {
-    const hasExactly2 = Conditions.hasExactly(2);
+    const hasExactly2 = Requirements.hasExactly(2);
     expect(hasExactly2([] as string[])).toBe(false);
     expect(hasExactly2(["a"])).toBe(false);
     expect(hasExactly2("a")).toBe(false);
@@ -87,18 +87,18 @@ describe("Lists", () => {
   });
 
   it("should provide a condition that holds when all elements of the list satisfy a condition", () => {
-    const allSatisfy = Conditions.allSatisfy(Conditions.isInteger);
+    const allSatisfy = Requirements.allSatisfy(Requirements.isInteger);
     expect(allSatisfy([] as number[])).toBe(true);
     expect(allSatisfy([0])).toBe(true);
     expect(allSatisfy([1, 2, 3])).toBe(true);
     expect(allSatisfy([1, 2, "3", 4])).toBe(false);
     expect(allSatisfy([1, 2, 3, 4.1])).toBe(false);
 
-    expect(Conditions.allSatisfy((str: string) => str === "a")("aaa")).toBe(true);
+    expect(Requirements.allSatisfy((str: string) => str === "a")("aaa")).toBe(true);
   });
 
   it("should provide a condition that holds when any element of the list satisfies a condition", () => {
-    const anySatisfy = Conditions.anySatisfy(Conditions.isInteger);
+    const anySatisfy = Requirements.anySatisfy(Requirements.isInteger);
     expect(anySatisfy([] as number[])).toBe(false);
     expect(anySatisfy([0])).toBe(true);
     expect(anySatisfy([1, 2, 3])).toBe(true);
@@ -108,7 +108,7 @@ describe("Lists", () => {
   });
 
   it("should provide a condition that holds when no element of the list satisfies a condition", () => {
-    const noneSatisfy = Conditions.noneSatisfy(Conditions.isInteger);
+    const noneSatisfy = Requirements.noneSatisfy(Requirements.isInteger);
     expect(noneSatisfy([] as number[])).toBe(true);
     expect(noneSatisfy([0])).toBe(false);
     expect(noneSatisfy([1, 2, 3])).toBe(false);

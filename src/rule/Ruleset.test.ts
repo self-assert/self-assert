@@ -5,7 +5,7 @@ import { Ruleset } from "./Ruleset";
 import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
 import { expectToBeRulesBroken } from "@testing-support/jest.setup";
 import { Assertion } from ".";
-import { Conditions } from "@/rule-requirements";
+import { Requirements } from "@/rule-requirements";
 import { Inquiry } from "./Inquiry";
 
 describe("Ruleset", () => {
@@ -44,14 +44,16 @@ describe("Ruleset", () => {
   });
 
   it("should accept assertion evaluations", () => {
-    const assertions = [Assertion.requiring("name", "Name should not be empty", Conditions.isNotEmpty).evaluateFor("")];
+    const assertions = [
+      Assertion.requiring("name", "Name should not be empty", Requirements.isNotEmpty).evaluateFor(""),
+    ];
 
     expect(() => Ruleset.ensureAll(assertions)).toFailAssertion("name", "Name should not be empty");
   });
 
   it("should accept an inquiry", async () => {
     const rule = Inquiry.requiring("name", "Name should not be empty", () =>
-      Promise.resolve(Conditions.isNotEmpty("a"))
+      Promise.resolve(Requirements.isNotEmpty("a"))
     );
 
     await expect(Ruleset.workOn(rule)).resolves.not.toThrow();
@@ -59,7 +61,7 @@ describe("Ruleset", () => {
 
   it("should accept a list of inquiries", async () => {
     expect.assertions(3);
-    const nameLengthCondition = (name: string) => Promise.resolve(Conditions.hasAtLeast(3)(name));
+    const nameLengthCondition = (name: string) => Promise.resolve(Requirements.hasAtLeast(3)(name));
     const rule1 = Inquiry.requiring("name.1", "Desc 1", nameLengthCondition);
     const rule2 = Inquiry.requiring("name.2", "Desc 2", nameLengthCondition);
 

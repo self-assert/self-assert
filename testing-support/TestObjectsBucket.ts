@@ -3,7 +3,7 @@ import { SectionDraftAssistant, FieldDraftAssistant } from "@/draft-assistant";
 import { ModelWithNoAssertions, SelfAssertingModel } from "./TestModels";
 
 import type { ModelFromContainer } from "@/types";
-import { Conditions } from "@/rule-requirements";
+import { Requirements } from "@/rule-requirements";
 
 interface GenericContainer {
   getModel(): string;
@@ -24,7 +24,7 @@ export class TestObjectsBucket {
   }
 
   static failingAssertion(assertionId: string, description: string) {
-    return Assertion.requiring(assertionId, description, Conditions.fail);
+    return Assertion.requiring(assertionId, description, Requirements.fail);
   }
 
   static genericContainerForString(): ModelFromContainer<string, GenericContainer> {

@@ -1,8 +1,8 @@
-import { LogicalConditions } from "../LogicalConditions";
-import { NumbersConditions } from "../numbers/NumbersConditions";
-import type { Predicate } from "../Conditions";
+import { LogicalRequirement } from "../LogicalRequirements";
+import { NumbersRequirements } from "../numbers/NumbersRequirements";
+import type { Predicate } from "../Requirements";
 
-const { identical, not, and } = LogicalConditions;
+const { identical, not, and } = LogicalRequirement;
 
 export class ListsConditions {
   /**
@@ -28,7 +28,7 @@ export class ListsConditions {
    * @function @category Lists
    */
   static hasMoreThan = (aNumber: number) => (list: ArrayLike<unknown>) =>
-    NumbersConditions.greaterThan(aNumber)(list.length);
+    NumbersRequirements.greaterThan(aNumber)(list.length);
 
   /**
    * Returns a predicate that holds when the list has at most the given number of elements

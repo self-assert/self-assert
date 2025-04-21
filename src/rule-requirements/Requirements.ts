@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-misused-spread */
-import { ListsConditions } from "./lists/ListsConditions";
-import { LogicalConditions } from "./LogicalConditions";
-import { NumbersConditions } from "./numbers/NumbersConditions";
+import { ListsConditions } from "./lists/ListsRequirements";
+import { LogicalRequirement } from "./LogicalRequirements";
+import { NumbersRequirements } from "./numbers/NumbersRequirements";
 
-export type Predicate<ValueType> = (value: ValueType) => boolean;
+import type { RuleRequirement } from "@/rule";
 
-const { not } = LogicalConditions;
+export type Predicate<ValueType> = RuleRequirement<boolean, ValueType>;
+
+const { not } = LogicalRequirement;
 
 class StringsConditions {
   /**
@@ -44,7 +46,7 @@ class StringsConditions {
  * ```
  * @group Assertions
  */
-export const Conditions = {
+export const Requirements = {
   /**
    * A predicate that always evaluates to `true`.
    */
@@ -53,8 +55,8 @@ export const Conditions = {
    * A predicate that always evaluates to `false`.
    */
   fail: () => false,
-  ...LogicalConditions,
-  ...NumbersConditions,
+  ...LogicalRequirement,
+  ...NumbersRequirements,
   ...ListsConditions,
   ...StringsConditions,
   /**

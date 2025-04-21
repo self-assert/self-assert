@@ -1,10 +1,10 @@
-import { LogicalConditions } from "../LogicalConditions";
+import { LogicalRequirement } from "../LogicalRequirements";
 
-import type { Predicate } from "../Conditions";
+import type { Predicate } from "../Requirements";
 
-const { and, or, not, identical } = LogicalConditions;
+const { and, or, not, identical } = LogicalRequirement;
 
-export class NumbersConditions {
+export class NumbersRequirements {
   /**
    * Returns a predicate that is `true` if the value is greater than the given number
    * @function @category Numbers
