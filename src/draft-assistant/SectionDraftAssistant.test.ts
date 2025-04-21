@@ -2,7 +2,7 @@ import { describe, expect, it } from "@jest/globals";
 import { SectionDraftAssistant } from "./SectionDraftAssistant";
 import { FieldDraftAssistant } from "./FieldDraftAssistant";
 import { DraftAssistant } from "./DraftAssistant";
-import { Assertion, Ruleset } from "@/rule";
+import { Assertion, Ruleset } from "../rule";
 
 import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
 import { ModelWithNoAssertions, SelfAssertingModel } from "@testing-support/TestModels";

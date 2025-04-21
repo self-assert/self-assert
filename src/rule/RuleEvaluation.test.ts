@@ -1,6 +1,6 @@
 import { describe, expect, it } from "@jest/globals";
 import { Assertion } from "./Assertion";
-import { Requirements } from "@/rule-requirements";
+import { Requirements } from "../rule-requirements";
 import { RuleEvaluation } from "./RuleEvaluation";
 
 describe("RuleEvaluation", () => {

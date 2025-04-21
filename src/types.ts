@@ -1,5 +1,5 @@
-import type { LabeledRule } from "@/rule";
-import type { DraftAssistant } from "@/draft-assistant";
+import type { LabeledRule } from "./rule";
+import type { DraftAssistant } from "./draft-assistant";
 
 /**
  * Changes to a draft can be observed by viewers.

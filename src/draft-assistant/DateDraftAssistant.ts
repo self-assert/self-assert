@@ -1,6 +1,6 @@
 import { FieldDraftAssistant } from "./FieldDraftAssistant";
 import { SectionDraftAssistant } from "./SectionDraftAssistant";
-import { Assertion, LabelId } from "@/rule";
+import { Assertion, LabelId } from "../rule";
 import type { ModelFromContainer } from "../types";
 
 /**
