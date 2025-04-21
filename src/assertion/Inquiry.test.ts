@@ -1,42 +1,42 @@
 import { describe, expect, it } from "@jest/globals";
-import { AuditRule } from "./AuditRule";
+import { Inquiry } from "./Inquiry";
 import { RulesBroken } from "./RulesBroken";
 
 const hold = () => Promise.resolve(true);
 const fail = () => Promise.resolve(false);
 const isStringHello = (value: string) => Promise.resolve(value === "hello");
 
-describe("AuditRule", () => {
+describe("Inquiry", () => {
   it("fails when condition is not met", async () => {
-    const audit = AuditRule.requiring("AID", "Description", fail);
+    const audit = Inquiry.requiring("AID", "Description", fail);
 
     await expect(audit.doesHold()).resolves.toBe(false);
     await expect(audit.hasFailed()).resolves.toBe(true);
   });
 
   it("passes when condition is met", async () => {
-    const audit = AuditRule.requiring("AID", "Description", hold);
+    const audit = Inquiry.requiring("AID", "Description", hold);
 
     await expect(audit.doesHold()).resolves.toBe(true);
     await expect(audit.hasFailed()).resolves.toBe(false);
   });
 
   it("fails when any condition fails", async () => {
-    const audit = AuditRule.requiring("AID", "Multiple conditions", hold).require(fail).require(hold);
+    const audit = Inquiry.requiring("AID", "Multiple conditions", hold).require(fail).require(hold);
 
     await expect(audit.doesHold()).resolves.toBe(false);
     await expect(audit.hasFailed()).resolves.toBe(true);
   });
 
   it("should not throw when is asserted and all conditions hold", async () => {
-    const audit = AuditRule.requiring("AID", "Description", hold);
+    const audit = Inquiry.requiring("AID", "Description", hold);
 
     await expect(audit.mustHold()).resolves.toBeUndefined();
   });
 
   it("should throw an AssertionFailed when is asserted and any condition fails", async () => {
     expect.assertions(2);
-    const audit = AuditRule.requiring("AID", "Description", fail);
+    const audit = Inquiry.requiring("AID", "Description", fail);
 
     return audit.mustHold().catch((error: unknown) => {
       expect(error).toBeInstanceOf(RulesBroken);
@@ -45,14 +45,14 @@ describe("AuditRule", () => {
   });
 
   it("should allow conditions that depend on a value", async () => {
-    const audit = AuditRule.requiring("AID", "Description", isStringHello);
+    const audit = Inquiry.requiring("AID", "Description", isStringHello);
 
     await expect(audit.doesHold("hello")).resolves.toBe(true);
     await expect(audit.hasFailed("hello")).resolves.toBe(false);
   });
 
   it("should behave like a label", () => {
-    const audit = AuditRule.labeled("AID", "Description");
+    const audit = Inquiry.labeled("AID", "Description");
 
     expect(audit.getId()).toBe("AID");
     expect(audit.getDescription()).toBe("Description");
@@ -62,7 +62,7 @@ describe("AuditRule", () => {
   });
 
   it("should allow to be prepared for evaluation", async () => {
-    const audit = AuditRule.requiring("AID", "Description", isStringHello);
+    const audit = Inquiry.requiring("AID", "Description", isStringHello);
     const evaluation = audit.evaluateFor("hello");
 
     await expect(evaluation.doesHold()).resolves.toBe(true);

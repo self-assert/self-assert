@@ -31,3 +31,15 @@ export interface LabeledRule {
 export interface CollectableRule<ValueType, CollectionType extends void | Promise<void>> extends LabeledRule {
   collectFailureInto(failed: LabeledRule[], value: ValueType): CollectionType;
 }
+
+export type MaybeAsync<Type = void> = Type | Promise<Type>;
+
+export type RuleRequirement<ReturnType extends MaybeAsync<boolean>, ValueType = void> = (
+  value: ValueType
+) => ReturnType;
+
+export type SelfContainedRule<EvaluationType extends MaybeAsync = MaybeAsync> = CollectableRule<void, EvaluationType>;
+
+export type SelfContainedRules = SelfContainedRule | SelfContainedRule[];
+
+export type SelfContainedAssertion = SelfContainedRule<void>;

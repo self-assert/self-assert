@@ -6,7 +6,7 @@ import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
 import { expectToBeRulesBroken } from "@testing-support/jest.setup";
 import { Assertion } from ".";
 import { Conditions } from "@/conditions";
-import { AuditRule } from "./AuditRule";
+import { Inquiry } from "./Inquiry";
 
 describe("Ruleset", () => {
   it("should not throw on assertion that holds", () => {
@@ -50,20 +50,20 @@ describe("Ruleset", () => {
   });
 
   it("should accept an audit rule", async () => {
-    const rule = AuditRule.requiring("name", "Name should not be empty", () =>
+    const rule = Inquiry.requiring("name", "Name should not be empty", () =>
       Promise.resolve(Conditions.isNotEmpty("a"))
     );
 
-    await expect(Ruleset.auditAll(rule)).resolves.not.toThrow();
+    await expect(Ruleset.workOn(rule)).resolves.not.toThrow();
   });
 
   it("should accept a list of audit rules", async () => {
     expect.assertions(3);
     const nameLengthCondition = (name: string) => Promise.resolve(Conditions.hasAtLeast(3)(name));
-    const rule1 = AuditRule.requiring("name.1", "Desc 1", nameLengthCondition);
-    const rule2 = AuditRule.requiring("name.2", "Desc 2", nameLengthCondition);
+    const rule1 = Inquiry.requiring("name.1", "Desc 1", nameLengthCondition);
+    const rule2 = Inquiry.requiring("name.2", "Desc 2", nameLengthCondition);
 
-    return Ruleset.auditAll(rule1.evaluateFor("ab"), rule2.evaluateFor("ba")).catch((error: unknown) => {
+    return Ruleset.workOn(rule1.evaluateFor("ab"), rule2.evaluateFor("ba")).catch((error: unknown) => {
       expectToBeRulesBroken(error);
       expect(error.hasRuleBrokenWith("name.1", "Desc 1")).toBe(true);
       expect(error.hasRuleBrokenWith("name.2", "Desc 2")).toBe(true);

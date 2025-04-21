@@ -3,7 +3,7 @@ import { RulesBroken } from "./RulesBroken";
 import { Rule } from "./Rule";
 import { LabeledRule, LabelId } from "./types";
 
-export class AuditRule<ValueType = void> extends Rule<Promise<boolean>, ValueType> {
+export class Inquiry<ValueType = void> extends Rule<Promise<boolean>, ValueType> {
   static labeled<ValueType = void>(anId: LabelId, aDescription: string) {
     return new this<ValueType>(new RuleLabel(anId, aDescription));
   }

@@ -1,15 +1,7 @@
 import { RulesBroken } from "./RulesBroken";
-import type { CollectableRule, LabeledRule } from "./types";
+import type { LabeledRule, SelfContainedAssertion, SelfContainedRule, SelfContainedRules } from "./types";
 
-type OneOrMany<Type> = Type | Type[];
-
-type SelfContainedAssertion = CollectableRule<void, void>;
-type SelfContainedAssertions = OneOrMany<SelfContainedAssertion>;
-type SelfContainedAuditRule = CollectableRule<void, Promise<void>>;
-type SelfContainedAuditRules = OneOrMany<SelfContainedAuditRule>;
-
-// type SelfContainedRule = SelfContainedAuditRule | SelfContainedAssertion;
-// type SelfContainedRules = OneOrMany<SelfContainedRule>;
+type SelfContainedAssertions = SelfContainedAssertion | SelfContainedAssertion[];
 
 /**
  * Runs all assertions and throws an error if any has failed.
@@ -18,24 +10,24 @@ type SelfContainedAuditRules = OneOrMany<SelfContainedAuditRule>;
  * @see {@link RulesBroken}
  */
 export class Ruleset {
+  /**
+   * @throws {RulesBroken} if any rule has failed
+   */
   static ensureAll(...assertions: SelfContainedAssertions[]): void {
     new this(assertions.flat(), []).ensure();
   }
 
-  static auditAll(...rules: SelfContainedAuditRules[]): Promise<void> {
-    return new this([], rules.flat()).audit();
+  /**
+   * @throws {RulesBroken} if any rule has failed
+   */
+  static workOn(...rules: SelfContainedRules[]): Promise<void> {
+    return new this([], rules.flat()).mustHold();
   }
 
-  constructor(protected assertions: SelfContainedAssertion[], protected rules: SelfContainedAuditRule[]) {}
+  constructor(protected assertions: SelfContainedAssertion[], protected rules: SelfContainedRule[]) {}
 
-  /**
-   * @throws {RulesBroken} if any audit rule has failed
-   */
-  async audit(): Promise<void> {
-    const brokenRules: LabeledRule[] = [];
-    for (const rule of this.rules) {
-      await rule.collectFailureInto(brokenRules);
-    }
+  async mustHold(): Promise<void> {
+    const brokenRules = await this.brokenRules();
 
     this.throwIfNotEmpty(brokenRules);
   }
@@ -53,6 +45,14 @@ export class Ruleset {
     const failed: LabeledRule[] = [];
     this.assertions.forEach((assertion) => assertion.collectFailureInto(failed));
     return failed;
+  }
+
+  protected async brokenRules(): Promise<LabeledRule[]> {
+    const brokenRules: LabeledRule[] = [];
+    for (const rule of this.rules) {
+      await rule.collectFailureInto(brokenRules);
+    }
+    return brokenRules;
   }
 
   protected throwIfNotEmpty(brokenRules: LabeledRule[]) {
