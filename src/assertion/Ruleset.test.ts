@@ -49,7 +49,7 @@ describe("Ruleset", () => {
     expect(() => Ruleset.ensureAll(assertions)).toFailAssertion("name", "Name should not be empty");
   });
 
-  it("should accept an audit rule", async () => {
+  it("should accept an inquiry", async () => {
     const rule = Inquiry.requiring("name", "Name should not be empty", () =>
       Promise.resolve(Conditions.isNotEmpty("a"))
     );
@@ -57,7 +57,7 @@ describe("Ruleset", () => {
     await expect(Ruleset.workOn(rule)).resolves.not.toThrow();
   });
 
-  it("should accept a list of audit rules", async () => {
+  it("should accept a list of inquiries", async () => {
     expect.assertions(3);
     const nameLengthCondition = (name: string) => Promise.resolve(Conditions.hasAtLeast(3)(name));
     const rule1 = Inquiry.requiring("name.1", "Desc 1", nameLengthCondition);
