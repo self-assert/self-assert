@@ -70,7 +70,7 @@ A common workflow is:
 Here's a simplified example:
 
 ```ts
-import { Assertion, Ruleset, Conditions } from "self-assert";
+import { Assertion, Ruleset, Requirements } from "self-assert";
 
 class Person {
   static readonly nameNotBlankAID = "name.notBlank";
@@ -82,7 +82,7 @@ class Person {
   static readonly nameAssertion = Assertion.requiring<string>(
     this.nameNotBlankAID,
     this.nameNotBlankDescription,
-    Conditions.isNotBlank
+    Requirements.isNotBlank
   );
 
   static named(name: string, age: number) {

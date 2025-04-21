@@ -15,7 +15,7 @@ import type { CollectableRule, LabeledRule, LabelId, RuleRequirement } from "./t
  * and can be used to route or display validation errors.
  *
  * @see
- * - {@link Conditions} provides a list of built-in conditions.
+ * - {@link Requirements} provides a list of built-in requirements.
  *
  * @template ValueType The type of value this assertion applies to.
  *
@@ -25,7 +25,7 @@ import type { CollectableRule, LabeledRule, LabelId, RuleRequirement } from "./t
  * const nameNotBlank = Assertion.requiring<string>(
  *   "customer.name.notBlank",
  *   "Name must not be blank",
- *   Conditions.isNotBlank
+ *   Requirements.isNotBlank
  * );
  *
  * nameNotBlank.doesHold("John"); // true

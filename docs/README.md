@@ -9,7 +9,7 @@ and assisting their creation through guided assistants (draft assistants).
 - [Getting Started](./modules.md)
 - [Assertions API](./modules.md#assertion)
 - [Draft Assistants](./modules.md#draft-assistant)
-- [Conditions](./modules.md#conditions) -->
+- [Requirements](./modules.md#conditions) -->
 
 ## Philosophy
 

@@ -4,7 +4,7 @@ import type { Predicate } from "../Requirements";
 
 const { identical, not, and } = LogicalRequirement;
 
-export class ListsConditions {
+export class ListsRequirements {
   /**
    * Returns a predicate that holds when the list has exactly the given number of elements
    * @function @category Lists

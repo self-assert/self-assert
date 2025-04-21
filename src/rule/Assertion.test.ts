@@ -42,7 +42,7 @@ describe("Assertion", () => {
   });
 
   it("should be able to require many conditions", () => {
-    const assertion = Assertion.labeled<string>("ManyConditionsAssertion", "A description")
+    const assertion = Assertion.labeled<string>("ManyRequirementsAssertion", "A description")
       .require(Requirements.differentFrom("FORBIDDEN"))
       .require(Requirements.isNotEmpty);
 
