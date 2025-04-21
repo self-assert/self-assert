@@ -1,19 +1,21 @@
 /* eslint-disable @typescript-eslint/no-misused-spread */
-import { ListsConditions } from "./lists/ListsConditions";
-import { LogicalConditions } from "./LogicalConditions";
-import { NumbersConditions } from "./numbers/NumbersConditions";
+import { ListsRequirements } from "./lists/ListsRequirements";
+import { LogicalRequirement } from "./LogicalRequirements";
+import { NumbersRequirements } from "./numbers/NumbersRequirements";
 
-export type Predicate<ValueType> = (value: ValueType) => boolean;
+import type { RuleRequirement } from "@/rule";
 
-const { not } = LogicalConditions;
+export type Predicate<ValueType> = RuleRequirement<boolean, ValueType>;
 
-class StringsConditions {
+const { not } = LogicalRequirement;
+
+class StringsRequirements {
   /**
    * A predicate that evaluates to `true` if the string is empty or contains only whitespace characters.
    * @function @category Strings
    * @see {@link isNotBlank}
    */
-  static isBlank: Predicate<string> = (value) => ListsConditions.isEmpty(value.trim());
+  static isBlank: Predicate<string> = (value) => ListsRequirements.isEmpty(value.trim());
 
   /**
    * Opposite of {@link isBlank}.
@@ -31,8 +33,8 @@ class StringsConditions {
  * @example
  * Composition
  * ```ts
- * const myCondition = Conditions.and(
- *    Conditions.greaterThan(0),
+ * const myCondition = Requirements.and(
+ *    Requirements.greaterThan(0),
  *    (value: number) => value % 42 === 0
  * );
  * myCondition(42); // true
@@ -40,11 +42,11 @@ class StringsConditions {
  * @example
  * Usage with {@link Assertion}:
  * ```ts
- * const assertion = Assertion.requiring("customer.age.over18", "Can't be under 18", Conditions.greaterThanOrEqual(18));
+ * const assertion = Assertion.requiring("customer.age.over18", "Can't be under 18", Requirements.greaterThanOrEqual(18));
  * ```
  * @group Assertions
  */
-export const Conditions = {
+export const Requirements = {
   /**
    * A predicate that always evaluates to `true`.
    */
@@ -53,10 +55,10 @@ export const Conditions = {
    * A predicate that always evaluates to `false`.
    */
   fail: () => false,
-  ...LogicalConditions,
-  ...NumbersConditions,
-  ...ListsConditions,
-  ...StringsConditions,
+  ...LogicalRequirement,
+  ...NumbersRequirements,
+  ...ListsRequirements,
+  ...StringsRequirements,
   /**
    * @hidden
    * @privateRemarks

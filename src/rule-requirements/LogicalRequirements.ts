@@ -1,6 +1,6 @@
-import type { Predicate } from "./Conditions";
+import type { Predicate } from "./Requirements";
 
-export class LogicalConditions {
+export class LogicalRequirement {
   /**
    * Combines multiple conditions using logical AND
    * @function @category Composition

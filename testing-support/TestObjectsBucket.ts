@@ -1,9 +1,9 @@
-import { Assertion, AssertionId } from "@/assertion";
+import { Assertion, LabelId } from "@/rule";
 import { SectionDraftAssistant, FieldDraftAssistant } from "@/draft-assistant";
 import { ModelWithNoAssertions, SelfAssertingModel } from "./TestModels";
 
 import type { ModelFromContainer } from "@/types";
-import { Conditions } from "@/conditions";
+import { Requirements } from "@/rule-requirements";
 
 interface GenericContainer {
   getModel(): string;
@@ -24,7 +24,7 @@ export class TestObjectsBucket {
   }
 
   static failingAssertion(assertionId: string, description: string) {
-    return Assertion.requiring(assertionId, description, Conditions.fail);
+    return Assertion.requiring(assertionId, description, Requirements.fail);
   }
 
   static genericContainerForString(): ModelFromContainer<string, GenericContainer> {
@@ -37,7 +37,7 @@ export class TestObjectsBucket {
     );
   }
 
-  static createModelWithNoAssertionsAssistant(assertionIds: AssertionId[] = []) {
+  static createModelWithNoAssertionsAssistant(assertionIds: LabelId[] = []) {
     const nameAssistant = this.createNameAssistant();
     const assistant = SectionDraftAssistant.topLevelContainerWith<ModelWithNoAssertions, [string]>(
       [nameAssistant],
@@ -48,7 +48,7 @@ export class TestObjectsBucket {
     return Object.assign(assistant, { nameAssistant });
   }
 
-  static createSelfAssertingModelAssistant(assertionIds: AssertionId[] = []) {
+  static createSelfAssertingModelAssistant(assertionIds: LabelId[] = []) {
     const nameAssistant = this.createNameAssistant();
     const assistant = SectionDraftAssistant.topLevelContainerWith<SelfAssertingModel, [string]>(
       [nameAssistant],

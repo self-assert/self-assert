@@ -1,7 +1,7 @@
 import { DraftAssistant } from "./DraftAssistant";
 
 import type { ModelFromContainer } from "../types";
-import { Assertion, AssertionId, LabeledAssertion, SelfContainedAssertion } from "@/assertion";
+import { Assertion, LabelId, LabeledRule, CollectableRule } from "@/rule";
 
 /**
  * An assistant designed to manage a single field or a simple
@@ -14,7 +14,7 @@ export class FieldDraftAssistant<ContainerModel, Model extends string = string> 
   ContainerModel
 > {
   static handling<ContainerModel, Model extends string = string>(
-    assertionId: AssertionId,
+    assertionId: LabelId,
     modelFromContainer: ModelFromContainer<Model, ContainerModel>,
     initialModel = ""
   ) {
@@ -22,7 +22,7 @@ export class FieldDraftAssistant<ContainerModel, Model extends string = string> 
   }
 
   static handlingAll<ContainerModel, Model extends string = string>(
-    assertionIds: AssertionId[],
+    assertionIds: LabelId[],
     modelFromContainer: ModelFromContainer<Model, ContainerModel>,
     initialModel = ""
   ) {
@@ -34,7 +34,7 @@ export class FieldDraftAssistant<ContainerModel, Model extends string = string> 
   }
 
   static requiring<ContainerModel, Model extends string = string>(
-    assertion: Assertion<Model> | SelfContainedAssertion,
+    assertion: CollectableRule<Model | void, void>,
     modelFromContainer: ModelFromContainer<Model, ContainerModel>,
     initialModel = ""
   ) {
@@ -42,7 +42,7 @@ export class FieldDraftAssistant<ContainerModel, Model extends string = string> 
   }
 
   static requiringAll<ContainerModel, Model extends string = string>(
-    assertions: (Assertion<Model> | SelfContainedAssertion)[],
+    assertions: CollectableRule<Model | void, void>[],
     modelFromContainer: ModelFromContainer<Model, ContainerModel>,
     initialModel = ""
   ) {
@@ -50,7 +50,7 @@ export class FieldDraftAssistant<ContainerModel, Model extends string = string> 
   }
 
   protected constructor(
-    protected assertions: (Assertion<Model> | SelfContainedAssertion)[],
+    protected assertions: CollectableRule<Model, void>[],
     modelFromContainer: ModelFromContainer<Model, ContainerModel>,
     initialModel: Model
   ) {
@@ -69,7 +69,7 @@ export class FieldDraftAssistant<ContainerModel, Model extends string = string> 
    */
   review() {
     this.removeFailedAssertions();
-    const failures: LabeledAssertion[] = [];
+    const failures: LabeledRule[] = [];
     this.assertions.forEach((assertion) => {
       assertion.collectFailureInto(failures, this.model);
     });

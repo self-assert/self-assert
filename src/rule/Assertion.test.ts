@@ -1,7 +1,7 @@
 import { describe, expect, it } from "@jest/globals";
 import { Assertion } from "./Assertion";
 import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
-import { Conditions } from "@/conditions";
+import { Requirements } from "@/rule-requirements";
 
 describe("Assertion", () => {
   const holdingAssertion = TestObjectsBucket.holdingAssertion();
@@ -42,9 +42,9 @@ describe("Assertion", () => {
   });
 
   it("should be able to require many conditions", () => {
-    const assertion = Assertion.labeled<string>("ManyConditionsAssertion", "A description")
-      .require(Conditions.differentFrom("FORBIDDEN"))
-      .require(Conditions.isNotEmpty);
+    const assertion = Assertion.labeled<string>("ManyRequirementsAssertion", "A description")
+      .require(Requirements.differentFrom("FORBIDDEN"))
+      .require(Requirements.isNotEmpty);
 
     expect(assertion).toFailWith("FORBIDDEN");
     expect(assertion).toFailWith("");
@@ -52,7 +52,7 @@ describe("Assertion", () => {
   });
 
   it("should allow to prepare an evaluation", () => {
-    const assertion = Assertion.requiring("AID", "Description", Conditions.differentFrom("FORBIDDEN"));
+    const assertion = Assertion.requiring("AID", "Description", Requirements.differentFrom("FORBIDDEN"));
     const holdingEvaluation = assertion.evaluateFor("OK");
     const failingEvaluation = assertion.evaluateFor("FORBIDDEN");
 
@@ -61,14 +61,14 @@ describe("Assertion", () => {
   });
 
   it("should not throw when asserting its conditions are met", () => {
-    const assertion = Assertion.requiring<string>("AID", "Description", Conditions.differentFrom("FORBIDDEN"));
+    const assertion = Assertion.requiring<string>("AID", "Description", Requirements.differentFrom("FORBIDDEN"));
 
-    expect(() => assertion.assert("OK")).not.toThrow();
+    expect(() => assertion.mustHold("OK")).not.toThrow();
   });
 
   it("should throw when asserting its conditions are not met", () => {
-    const assertion = Assertion.requiring<string>("AID", "Description", Conditions.differentFrom("FORBIDDEN"));
+    const assertion = Assertion.requiring<string>("AID", "Description", Requirements.differentFrom("FORBIDDEN"));
 
-    expect(() => assertion.assert("FORBIDDEN")).toFailAssertion("AID", "Description");
+    expect(() => assertion.mustHold("FORBIDDEN")).toFailAssertion("AID", "Description");
   });
 });

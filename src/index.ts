@@ -4,8 +4,8 @@
  * @packageDocumentation
  */
 
-export * from "./assertion";
-export * from "./conditions";
+export * from "./rule";
+export * from "./rule-requirements";
 export * from "./draft-assistant";
 export * from "./draft-publisher";
 export * from "./types";

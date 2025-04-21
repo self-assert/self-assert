@@ -2,11 +2,11 @@ import { describe, expect, it } from "@jest/globals";
 import { SectionDraftAssistant } from "./SectionDraftAssistant";
 import { FieldDraftAssistant } from "./FieldDraftAssistant";
 import { DraftAssistant } from "./DraftAssistant";
-import { Assertion, AssertionSuite } from "@/assertion";
+import { Assertion, Ruleset } from "@/rule";
 
 import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
 import { ModelWithNoAssertions, SelfAssertingModel } from "@testing-support/TestModels";
-import { expectToBeAssertionsFailed } from "@testing-support/jest.setup";
+import { expectToBeRulesBroken } from "@testing-support/jest.setup";
 
 const systemAID = "systemVerifiedAID";
 const system = {
@@ -17,7 +17,7 @@ const system = {
       () => model === SelfAssertingModel.named("Pedro")
     );
 
-    AssertionSuite.assert(failingAssertion);
+    Ruleset.ensureAll(failingAssertion);
   },
   doSomethingThatFails() {
     throw new Error("Not implemented");
@@ -132,7 +132,7 @@ describe("SectionDraftAssistant", () => {
           system.add(model);
           done("Should have thrown");
         } catch (error) {
-          expectToBeAssertionsFailed(error);
+          expectToBeRulesBroken(error);
           assistant.handleError(error);
           expect(assistant.hasFailedAssertions()).toBe(true);
           expect(assistant.hasOnlyOneAssertionFailedIdentifiedAs(systemAID)).toBe(true);
@@ -153,7 +153,7 @@ describe("SectionDraftAssistant", () => {
           system.add(model);
           done("Should have thrown");
         } catch (error) {
-          expectToBeAssertionsFailed(error);
+          expectToBeRulesBroken(error);
           assistant.handleError(error);
           expect(assistant.hasFailedAssertions()).toBe(true);
           expect(assistant.hasOnlyOneAssertionFailedIdentifiedAs(systemAID)).toBe(true);
@@ -181,6 +181,26 @@ describe("SectionDraftAssistant", () => {
       },
       () => done("Should not be invalid model")
     );
+  });
+
+  it("should be able to reset its model", () => {
+    const assistant = TestObjectsBucket.createSelfAssertingModelAssistant();
+    assistant.nameAssistant.setModel("Pedro");
+    assistant.createModel();
+
+    assistant.resetModel();
+
+    expect(assistant.getModel()).toBe(DraftAssistant.INVALID_MODEL);
+  });
+
+  it("should reset its composed assistants when resetting its model", () => {
+    const assistant = TestObjectsBucket.createSelfAssertingModelAssistant();
+    assistant.nameAssistant.setModel("Pedro");
+    assistant.createModel();
+
+    assistant.resetModel();
+
+    expect(assistant.nameAssistant.getModel()).toBe("");
   });
 
   describe("Viewers", () => {

@@ -2,11 +2,11 @@ import { EventEmitter } from "events";
 
 import type { DraftAssistant } from "@/draft-assistant";
 import type { DraftViewer } from "@/types";
-import type { LabeledAssertion } from "@/assertion";
+import type { LabeledRule } from "@/rule";
 
 type PublisherEvents<Model = unknown> =
   | { "draft:updated": [Model] }
-  | { "assertions:added": [LabeledAssertion] }
+  | { "assertions:added": [LabeledRule] }
   | { "assertions:reset": [] };
 
 /**
@@ -48,7 +48,7 @@ export class DraftPublisher<Model = unknown>
     this.emit("draft:updated", aModel);
   }
 
-  onFailure(aFailedAsserion: LabeledAssertion) {
+  onFailure(aFailedAsserion: LabeledRule) {
     this.emit("assertions:added", aFailedAsserion);
   }
 

@@ -1,4 +1,4 @@
-import { Assertion, AssertionSuite, AssertionId } from "@/assertion";
+import { Assertion, Ruleset, LabelId } from "@/rule";
 import { FieldDraftAssistant } from "./FieldDraftAssistant";
 import { SectionDraftAssistant } from "./SectionDraftAssistant";
 
@@ -12,7 +12,7 @@ export class IntegerDraftAssistant<ContainerModel> extends SectionDraftAssistant
   static readonly defaultAssertionDescription = "Invalid integer";
 
   static for<ContainerModel>(
-    assertionId: AssertionId,
+    assertionId: LabelId,
     modelFromContainer: ModelFromContainer<number, ContainerModel>
   ): IntegerDraftAssistant<ContainerModel> {
     const assertionIds = assertionId === "" ? [] : [assertionId];
@@ -26,12 +26,12 @@ export class IntegerDraftAssistant<ContainerModel> extends SectionDraftAssistant
     );
   }
 
-  static forTopLevel(assertionId: AssertionId) {
+  static forTopLevel(assertionId: LabelId) {
     return this.for(assertionId, this.topLevelModelFromContainer());
   }
 
-  static createInteger(assertionId: AssertionId, numberAsString: string) {
-    AssertionSuite.assert(this.createAssertionFor(assertionId, numberAsString));
+  static createInteger(assertionId: LabelId, numberAsString: string) {
+    Ruleset.ensureAll(this.createAssertionFor(assertionId, numberAsString));
 
     return Number(numberAsString);
   }
@@ -40,7 +40,7 @@ export class IntegerDraftAssistant<ContainerModel> extends SectionDraftAssistant
     return FieldDraftAssistant.handling<number>("", (number) => number.toString());
   }
 
-  static createAssertionFor(assertionId: AssertionId, numberAsString: string) {
+  static createAssertionFor(assertionId: LabelId, numberAsString: string) {
     return Assertion.requiring(assertionId, this.defaultAssertionDescription, () =>
       /^[-+]?(\d+)$/.test(numberAsString)
     );

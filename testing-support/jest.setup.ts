@@ -1,11 +1,11 @@
 import { expect } from "@jest/globals";
 import type { MatcherFunction } from "expect";
 
-import { AssertionsFailed } from "@/assertion";
-import type { Assertion, AssertionId } from "@/assertion";
+import { RulesBroken } from "@/rule";
+import type { Assertion, LabelId } from "@/rule";
 
-export function expectToBeAssertionsFailed(error: unknown): asserts error is AssertionsFailed {
-  expect(error).toBeInstanceOf(AssertionsFailed);
+export function expectToBeRulesBroken(error: unknown): asserts error is RulesBroken {
+  expect(error).toBeInstanceOf(RulesBroken);
 }
 
 function isAssertionLike(actual: unknown): actual is Assertion<unknown> {
@@ -50,18 +50,18 @@ const expectToFailWith: MatcherFunction<[value: unknown]> = function (actual, va
 };
 
 expect.extend({
-  toFailAssertion(closure: () => void, assertionId: AssertionId, description: string) {
+  toFailAssertion(closure: () => void, assertionId: LabelId, description: string) {
     try {
       closure();
       return {
-        message: () => `Should have thrown ${AssertionsFailed.name}`,
+        message: () => `Should have thrown ${RulesBroken.name}`,
         pass: false,
       };
     } catch (error) {
-      expectToBeAssertionsFailed(error);
+      expectToBeRulesBroken(error);
       return {
-        message: () => `Should only have thrown ${AssertionsFailed.name} with '${assertionId}' and '${description}'.`,
-        pass: error.hasOnlyOneAssertionFailedWith(assertionId, description),
+        message: () => `Should only have thrown ${RulesBroken.name} with '${assertionId}' and '${description}'.`,
+        pass: error.hasOnlyOneRuleBrokenWith(assertionId, description),
       };
     }
   },

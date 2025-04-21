@@ -61,7 +61,7 @@ A common workflow is:
 2. Use `Assertion.requiring` for self-contained checks, or create reusable assertions
    and apply them later using `AssertionEvaluation` or the `evaluateFor`
    method of `Assertion`.
-3. Use `AssertionSuite.assertAll` to execute the assertions together in
+3. Use `Ruleset.assertAll` to execute the assertions together in
    the previously defined factory method.
 4. _(Optional)_ If you are using TypeScript, consider marking
    the class constructor as `protected`.
@@ -70,7 +70,7 @@ A common workflow is:
 Here's a simplified example:
 
 ```ts
-import { Assertion, AssertionSuite, Conditions } from "self-assert";
+import { Assertion, Ruleset, Requirements } from "self-assert";
 
 class Person {
   static readonly nameNotBlankAID = "name.notBlank";
@@ -82,11 +82,11 @@ class Person {
   static readonly nameAssertion = Assertion.requiring<string>(
     this.nameNotBlankAID,
     this.nameNotBlankDescription,
-    Conditions.isNotBlank
+    Requirements.isNotBlank
   );
 
   static named(name: string, age: number) {
-    AssertionSuite.assertAll([
+    Ruleset.assertAll([
       // evaluated with `name`
       this.nameAssertion.evaluateFor(name),
       // self-contained assertion for age
