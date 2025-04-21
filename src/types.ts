@@ -1,4 +1,4 @@
-import type { LabeledRule } from "@/assertion";
+import type { LabeledRule } from "@/rule";
 import type { DraftAssistant } from "@/draft-assistant";
 
 /**

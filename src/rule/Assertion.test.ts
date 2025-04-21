@@ -1,7 +1,7 @@
 import { describe, expect, it } from "@jest/globals";
 import { Assertion } from "./Assertion";
 import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
-import { Conditions } from "@/conditions";
+import { Conditions } from "@/rule-requirements";
 
 describe("Assertion", () => {
   const holdingAssertion = TestObjectsBucket.holdingAssertion();

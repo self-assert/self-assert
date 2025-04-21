@@ -1,7 +1,7 @@
 import { RuleLabel, RuleLabelAsJson } from "./RuleLabel";
 import { Ruleset } from "./Ruleset";
 import { Rule } from "./Rule";
-import type { CollectableRule, LabeledRule, LabelId } from "./types";
+import type { CollectableRule, LabeledRule, LabelId, RuleRequirement } from "./types";
 
 /**
  * Represents a validation rule in the problem domain.
@@ -43,10 +43,14 @@ export class Assertion<ValueType = void> extends Rule<boolean, ValueType> {
   }
 
   /**
-   * Creates a new assertion with the given id, description and condition
+   * Creates a new assertion with the given id, description and requirement.
    */
-  static requiring<ValueType = void>(id: LabelId, description: string, condition: (value: ValueType) => boolean) {
-    return this.labeled<ValueType>(id, description).require(condition);
+  static requiring<ValueType = void>(
+    id: LabelId,
+    description: string,
+    aConditionToBeMet: RuleRequirement<boolean, ValueType>
+  ) {
+    return this.labeled<ValueType>(id, description).require(aConditionToBeMet);
   }
 
   protected constructor(label: RuleLabel) {
@@ -54,7 +58,7 @@ export class Assertion<ValueType = void> extends Rule<boolean, ValueType> {
   }
 
   doesHold(value: ValueType): boolean {
-    return this.conditions.every((condition) => condition(value));
+    return this.requirements.every((condition) => condition(value));
   }
 
   hasFailed(value: ValueType): boolean {

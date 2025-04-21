@@ -1,7 +1,7 @@
 import { DraftAssistant } from "./DraftAssistant";
 
 import type { ModelFromContainer } from "../types";
-import { Assertion, LabelId, LabeledRule, CollectableRule } from "@/assertion";
+import { Assertion, LabelId, LabeledRule, CollectableRule } from "@/rule";
 
 /**
  * An assistant designed to manage a single field or a simple

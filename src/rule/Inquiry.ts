@@ -21,8 +21,8 @@ export class Inquiry<ValueType = void> extends Rule<Promise<boolean>, ValueType>
   }
 
   async doesHold(value: ValueType) {
-    for (const condition of this.conditions) {
-      if (!(await condition(value))) {
+    for (const requirement of this.requirements) {
+      if (!(await requirement(value))) {
         return false;
       }
     }

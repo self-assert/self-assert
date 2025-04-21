@@ -2,7 +2,7 @@ import { describe, expect, it } from "@jest/globals";
 import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
 
 import { DraftPublisher } from "./DraftPublisher";
-import { LabeledRule } from "@/assertion";
+import { LabeledRule } from "@/rule";
 
 describe("DraftPublisher", () => {
   it("should emit a 'draft:updated' event when the draft is changed", () => {

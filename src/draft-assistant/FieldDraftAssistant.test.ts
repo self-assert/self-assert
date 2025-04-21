@@ -2,8 +2,8 @@ import { describe, expect, it } from "@jest/globals";
 import { FieldDraftAssistant } from "./FieldDraftAssistant";
 import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
 import { DraftViewer } from "../types";
-import { Assertion, type LabeledRule } from "@/assertion";
-import { Conditions } from "@/conditions";
+import { Assertion, type LabeledRule } from "@/rule";
+import { Conditions } from "@/rule-requirements";
 
 describe("FieldDraftAssistant", () => {
   const modelFromContainer = TestObjectsBucket.genericContainerForString();

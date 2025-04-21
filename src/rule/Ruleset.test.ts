@@ -5,7 +5,7 @@ import { Ruleset } from "./Ruleset";
 import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
 import { expectToBeRulesBroken } from "@testing-support/jest.setup";
 import { Assertion } from ".";
-import { Conditions } from "@/conditions";
+import { Conditions } from "@/rule-requirements";
 import { Inquiry } from "./Inquiry";
 
 describe("Ruleset", () => {

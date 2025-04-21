@@ -1,4 +1,4 @@
-import { Assertion, Ruleset, LabelId } from "@/assertion";
+import { Assertion, Ruleset, LabelId } from "@/rule";
 import { FieldDraftAssistant } from "./FieldDraftAssistant";
 import { SectionDraftAssistant } from "./SectionDraftAssistant";
 

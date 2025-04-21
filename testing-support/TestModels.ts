@@ -1,5 +1,5 @@
-import { Assertion, Ruleset } from "@/assertion";
-import { Conditions } from "@/conditions";
+import { Assertion, Ruleset } from "@/rule";
+import { Conditions } from "@/rule-requirements";
 
 export class ModelWithNoAssertions {
   constructor(protected name: string) {}

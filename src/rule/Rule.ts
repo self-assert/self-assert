@@ -3,10 +3,10 @@ import { RuleLabel } from "./RuleLabel";
 import type { LabelId, LabeledRule, MaybeAsync, RuleRequirement } from "./types";
 
 export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, ValueType = void> implements LabeledRule {
-  protected readonly conditions: RuleRequirement<PredicateReturnType, ValueType>[];
+  protected readonly requirements: RuleRequirement<PredicateReturnType, ValueType>[];
 
   protected constructor(protected label: RuleLabel) {
-    this.conditions = [];
+    this.requirements = [];
   }
 
   /**
@@ -35,8 +35,8 @@ export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, Valu
    *
    * @returns `this` for chaining
    */
-  require(condition: RuleRequirement<PredicateReturnType, ValueType>): this {
-    this.conditions.push(condition);
+  require(aConditionToBeMet: RuleRequirement<PredicateReturnType, ValueType>): this {
+    this.requirements.push(aConditionToBeMet);
     return this;
   }
 
