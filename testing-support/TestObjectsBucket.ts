@@ -1,9 +1,9 @@
-import { Assertion, LabelId } from "@/rule";
-import { SectionDraftAssistant, FieldDraftAssistant } from "@/draft-assistant";
 import { ModelWithNoAssertions, SelfAssertingModel } from "./TestModels";
 
-import type { ModelFromContainer } from "@/types";
-import { Requirements } from "@/rule-requirements";
+import { Assertion, LabelId } from "../src/rule";
+import { SectionDraftAssistant, FieldDraftAssistant } from "../src/draft-assistant";
+import { Requirements } from "../src/rule-requirements";
+import type { ModelFromContainer } from "../src/types";
 
 interface GenericContainer {
   getModel(): string;

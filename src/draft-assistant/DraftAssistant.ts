@@ -1,5 +1,5 @@
-import type { LabelId, LabeledRule } from "@/rule";
-import type { ModelFromContainer, DraftViewer } from "@/types";
+import type { LabelId, LabeledRule } from "../rule";
+import type { ModelFromContainer, DraftViewer } from "../types";
 
 /**
  * Provides an assistant to guide the completion of a model.

@@ -1,8 +1,8 @@
 import { EventEmitter } from "events";
 
-import type { DraftAssistant } from "@/draft-assistant";
-import type { DraftViewer } from "@/types";
-import type { LabeledRule } from "@/rule";
+import type { DraftAssistant } from "../draft-assistant";
+import type { DraftViewer } from "../types";
+import type { LabeledRule } from "../rule";
 
 type PublisherEvents<Model = unknown> =
   | { "draft:updated": [Model] }

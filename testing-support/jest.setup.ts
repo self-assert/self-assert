@@ -1,8 +1,8 @@
 import { expect } from "@jest/globals";
 import type { MatcherFunction } from "expect";
 
-import { RulesBroken } from "@/rule";
-import type { Assertion, LabelId } from "@/rule";
+import { RulesBroken } from "../src/rule";
+import type { Assertion, LabelId } from "../src/rule";
 
 export function expectToBeRulesBroken(error: unknown): asserts error is RulesBroken {
   expect(error).toBeInstanceOf(RulesBroken);

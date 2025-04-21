@@ -1,8 +1,8 @@
 import { DraftAssistant } from "./DraftAssistant";
-import { RulesBroken } from "@/rule";
+import { RulesBroken } from "../rule";
 
-import type { LabelId, LabeledRule } from "@/rule";
-import type { ModelFromContainer, AssistantsIn } from "@/types";
+import type { LabelId, LabeledRule } from "../rule";
+import type { ModelFromContainer, AssistantsIn } from "../types";
 
 export type CreationClosure<Model, ComposedModels extends unknown[]> = (...models: ComposedModels) => Model;
 
