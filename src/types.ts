@@ -5,7 +5,7 @@ import type { DraftAssistant } from "./draft-assistant";
  * Changes to a draft can be observed by viewers.
  * Viewers can be notified about changes to the draft or about failed assertions.
  */
-export interface DraftViewer<Model = unknown> {
+export interface DraftViewer<Model = any> {
   /**
    * Receives notifications about changes to the draft's model.
    */
