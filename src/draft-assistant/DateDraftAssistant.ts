@@ -7,17 +7,17 @@ import type { ModelFromContainer } from "../types";
  * Assists in the completion of a date field in format `YYYY-MM-DD`.
  *
  * @remarks
- * This class is not recommended for use in production, it is
+ * This class is **not** recommended for use in production, it is
  * mainly intended for testing and showcase purposes.
  *
  * The `Date` object is considered a legacy feature.
  * It is recommended to use the {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal Temporal} API
  * for new projects by MDN.
  */
-export class DateDraftAssistant<ContainerModel> extends SectionDraftAssistant<Date, ContainerModel, [string]> {
+export class DateDraftAssistant<ContainerModel = any> extends SectionDraftAssistant<Date, ContainerModel, [string]> {
   static readonly defaultAssertionDescription = "Invalid date";
 
-  static for<ContainerModel>(
+  static for<ContainerModel = any>(
     assertionId: LabelId,
     modelFromContainer: ModelFromContainer<Date, ContainerModel>
   ): DateDraftAssistant<ContainerModel> {

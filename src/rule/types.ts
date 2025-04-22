@@ -34,12 +34,12 @@ export interface CollectableRule<ValueType, CollectionType extends void | Promis
 
 export type MaybeAsync<Type = void> = Type | Promise<Type>;
 
-export type RuleRequirement<ReturnType extends MaybeAsync<boolean>, ValueType = void> = (
-  value: ValueType
-) => ReturnType;
+export type RuleRequirement<ReturnType extends MaybeAsync<boolean>, ValueType = any> = (value: ValueType) => ReturnType;
 
 export type SelfContainedRule<EvaluationType extends MaybeAsync = MaybeAsync> = CollectableRule<void, EvaluationType>;
 
 export type SelfContainedRules = SelfContainedRule | SelfContainedRule[];
 
 export type SelfContainedAssertion = SelfContainedRule<void>;
+
+export type ValueParam<Type> = Type extends void ? [] : [Type];

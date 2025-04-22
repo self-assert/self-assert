@@ -2,7 +2,7 @@ import { RuleEvaluation } from "./RuleEvaluation";
 import { RuleLabel } from "./RuleLabel";
 import type { LabelId, LabeledRule, MaybeAsync, RuleRequirement } from "./types";
 
-export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, ValueType = void> implements LabeledRule {
+export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, ValueType = any> implements LabeledRule {
   protected readonly requirements: RuleRequirement<PredicateReturnType, ValueType>[];
 
   protected constructor(protected label: RuleLabel) {

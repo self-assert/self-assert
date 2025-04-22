@@ -4,7 +4,7 @@ import type { DraftAssistant } from "../draft-assistant";
 import type { DraftViewer } from "../types";
 import type { LabeledRule } from "../rule";
 
-type PublisherEvents<Model = unknown> =
+export type PublisherEvents<Model = unknown> =
   | { "draft:updated": [Model] }
   | { "assertions:added": [LabeledRule] }
   | { "assertions:reset": [] };

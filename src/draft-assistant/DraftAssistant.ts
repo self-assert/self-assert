@@ -23,7 +23,7 @@ import type { ModelFromContainer, DraftViewer } from "../types";
  *
  * It can, for example, be used in a backend context to validate an object before persisting it.
  */
-export abstract class DraftAssistant<Model, ContainerModel> {
+export abstract class DraftAssistant<Model = any, ContainerModel = any> {
   /**
    * See {@link https://github.com/microsoft/TypeScript/issues/3841 #3841} for
    * more information.
@@ -43,7 +43,7 @@ export abstract class DraftAssistant<Model, ContainerModel> {
    * @returns A default model getter from a container for the top-level assistant.
    * Since there is no container to get the model from, it throws an error.
    */
-  static topLevelModelFromContainer<Model>(): ModelFromContainer<Model, never> {
+  static topLevelModelFromContainer<Model = any>(): ModelFromContainer<Model, never> {
     return () => {
       throw new Error("No container to get model from");
     };
@@ -90,11 +90,11 @@ export abstract class DraftAssistant<Model, ContainerModel> {
     return validModelClosure(createdModel);
   }
 
-  getModel() {
+  getModel(): Model {
     return this.model;
   }
 
-  setModel(newModel: Model) {
+  setModel(newModel: Model): void {
     this.model = newModel;
     this.notifyViewersOnChange(newModel);
   }
@@ -102,7 +102,7 @@ export abstract class DraftAssistant<Model, ContainerModel> {
   /**
    * Resets the model to its initial value.
    */
-  resetModel() {
+  resetModel(): void {
     this.model = this.initialModel;
     this.notifyViewersOnChange(this.model);
   }

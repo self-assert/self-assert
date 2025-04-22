@@ -14,12 +14,13 @@ export default tseslint.config(
       },
     },
     rules: {
-      "@typescript-eslint/no-confusing-void-expression": ["off"],
-      "@typescript-eslint/no-extraneous-class": ["off"],
-      "@typescript-eslint/restrict-template-expressions": ["off"],
-      "@typescript-eslint/no-invalid-void-type": ["off"],
+      "@typescript-eslint/no-confusing-void-expression": "off",
+      "@typescript-eslint/no-extraneous-class": "off",
+      "@typescript-eslint/restrict-template-expressions": "off",
+      "@typescript-eslint/no-invalid-void-type": "off",
       "no-unused-vars": "off",
-      "@typescript-eslint/no-unused-vars": ["error"],
+      "@typescript-eslint/no-unused-vars": "error",
+      "@typescript-eslint/no-explicit-any": "off",
     },
   }
 );

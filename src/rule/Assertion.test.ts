@@ -42,7 +42,7 @@ describe("Assertion", () => {
   });
 
   it("should be able to require many conditions", () => {
-    const assertion = Assertion.labeled<string>("ManyRequirementsAssertion", "A description")
+    const assertion = Assertion.labeled("ManyRequirementsAssertion", "A description")
       .require(Requirements.differentFrom("FORBIDDEN"))
       .require(Requirements.isNotEmpty);
 
@@ -61,13 +61,13 @@ describe("Assertion", () => {
   });
 
   it("should not throw when asserting its conditions are met", () => {
-    const assertion = Assertion.requiring<string>("AID", "Description", Requirements.differentFrom("FORBIDDEN"));
+    const assertion = Assertion.requiring("AID", "Description", Requirements.differentFrom("FORBIDDEN"));
 
     expect(() => assertion.mustHold("OK")).not.toThrow();
   });
 
   it("should throw when asserting its conditions are not met", () => {
-    const assertion = Assertion.requiring<string>("AID", "Description", Requirements.differentFrom("FORBIDDEN"));
+    const assertion = Assertion.requiring("AID", "Description", Requirements.differentFrom("FORBIDDEN"));
 
     expect(() => assertion.mustHold("FORBIDDEN")).toFailAssertion("AID", "Description");
   });
