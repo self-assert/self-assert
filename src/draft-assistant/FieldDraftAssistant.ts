@@ -6,14 +6,12 @@ import { Assertion, LabelId, LabeledRule, CollectableRule } from "../rule";
 /**
  * An assistant designed to manage a single field or a simple
  * piece of data within a larger form or model.
- *
- * @extends DraftAssistant {@link DraftAssistant link}
  */
-export class FieldDraftAssistant<ContainerModel, Model extends string = string> extends DraftAssistant<
+export class FieldDraftAssistant<ContainerModel = any, Model extends string = string> extends DraftAssistant<
   Model,
   ContainerModel
 > {
-  static handling<ContainerModel, Model extends string = string>(
+  static handling<ContainerModel = any, Model extends string = string>(
     assertionId: LabelId,
     modelFromContainer: ModelFromContainer<Model, ContainerModel>,
     initialModel = ""
@@ -21,7 +19,7 @@ export class FieldDraftAssistant<ContainerModel, Model extends string = string> 
     return this.handlingAll([assertionId], modelFromContainer, initialModel);
   }
 
-  static handlingAll<ContainerModel, Model extends string = string>(
+  static handlingAll<ContainerModel = any, Model extends string = string>(
     assertionIds: LabelId[],
     modelFromContainer: ModelFromContainer<Model, ContainerModel>,
     initialModel = ""
@@ -33,7 +31,7 @@ export class FieldDraftAssistant<ContainerModel, Model extends string = string> 
     );
   }
 
-  static requiring<ContainerModel, Model extends string = string>(
+  static requiring<ContainerModel = any, Model extends string = string>(
     assertion: CollectableRule<Model | void, void>,
     modelFromContainer: ModelFromContainer<Model, ContainerModel>,
     initialModel = ""
@@ -41,7 +39,7 @@ export class FieldDraftAssistant<ContainerModel, Model extends string = string> 
     return this.requiringAll<ContainerModel, Model>([assertion], modelFromContainer, initialModel);
   }
 
-  static requiringAll<ContainerModel, Model extends string = string>(
+  static requiringAll<ContainerModel = any, Model extends string = string>(
     assertions: CollectableRule<Model | void, void>[],
     modelFromContainer: ModelFromContainer<Model, ContainerModel>,
     initialModel = ""

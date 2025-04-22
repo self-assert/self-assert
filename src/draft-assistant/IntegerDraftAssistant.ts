@@ -8,7 +8,11 @@ import type { ModelFromContainer } from "../types";
  * Provides an assistant for the completion of an integer field,
  * represented by a string.
  */
-export class IntegerDraftAssistant<ContainerModel> extends SectionDraftAssistant<number, ContainerModel, [string]> {
+export class IntegerDraftAssistant<ContainerModel = any> extends SectionDraftAssistant<
+  number,
+  ContainerModel,
+  [string]
+> {
   static readonly defaultAssertionDescription = "Invalid integer";
 
   static for<ContainerModel>(

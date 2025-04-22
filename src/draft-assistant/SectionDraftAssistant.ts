@@ -17,11 +17,12 @@ export type CreationClosure<Model, ComposedModels extends unknown[]> = (...model
  * in the same order as the `assistants` array.
  *
  */
-export class SectionDraftAssistant<Model, ContainerModel, ComposedModels extends unknown[]> extends DraftAssistant<
-  Model,
-  ContainerModel
-> {
-  static with<Model, ContainerModel, ComposedModels extends unknown[]>(
+export class SectionDraftAssistant<
+  Model = any,
+  ContainerModel = any,
+  ComposedModels extends unknown[] = any[]
+> extends DraftAssistant<Model, ContainerModel> {
+  static with<Model = any, ContainerModel = any, ComposedModels extends unknown[] = any[]>(
     assistants: AssistantsIn<ComposedModels, Model>,
     creationClosure: CreationClosure<Model, ComposedModels>,
     modelFromContainer: ModelFromContainer<Model, ContainerModel>,
@@ -30,7 +31,7 @@ export class SectionDraftAssistant<Model, ContainerModel, ComposedModels extends
     return new this(assistants, creationClosure, modelFromContainer, assertionIds);
   }
 
-  static topLevelContainerWith<Model, ComposedModels extends unknown[]>(
+  static topLevelContainerWith<Model = any, ComposedModels extends unknown[] = any[]>(
     assistants: AssistantsIn<ComposedModels, Model>,
     creationClosure: CreationClosure<Model, ComposedModels>,
     assertionIds: LabelId[] = []
