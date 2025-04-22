@@ -43,7 +43,7 @@ export abstract class DraftAssistant<Model = any, ContainerModel = any> {
    * @returns A default model getter from a container for the top-level assistant.
    * Since there is no container to get the model from, it throws an error.
    */
-  static topLevelModelFromContainer<Model = any>(): ModelFromContainer<Model, never> {
+  static topLevelModelFromContainer<Model = any>(): ModelFromContainer<Model, unknown> {
     return () => {
       throw new Error("No container to get model from");
     };
