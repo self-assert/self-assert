@@ -3,12 +3,18 @@ import { RulesBroken } from "./RulesBroken";
 import { Rule } from "./Rule";
 import { LabeledRule, LabelId } from "./types";
 
-export class Inquiry<ValueType = void> extends Rule<Promise<boolean>, ValueType> {
-  static labeled<ValueType = void>(anId: LabelId, aDescription: string) {
+export class Inquiry<ValueType = any> extends Rule<Promise<boolean>, ValueType> {
+  static labeled<ValueType = any>(anId: LabelId, aDescription: string) {
     return new this<ValueType>(new RuleLabel(anId, aDescription));
   }
 
-  static requiring<ValueType = void>(
+  static requiring(anId: LabelId, aDescription: string, aCondition: () => Promise<boolean>): Inquiry<void>;
+  static requiring<ValueType = any>(
+    anId: LabelId,
+    aDescription: string,
+    aCondition: (value: ValueType) => Promise<boolean>
+  ): Inquiry<ValueType>;
+  static requiring<ValueType = any>(
     anId: LabelId,
     aDescription: string,
     aCondition: (value: ValueType) => Promise<boolean>

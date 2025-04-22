@@ -32,20 +32,37 @@ import type { CollectableRule, LabeledRule, LabelId, RuleRequirement } from "./t
  * nameNotBlank.hasFailed("   "); // true
  * ```
  */
-export class Assertion<ValueType = void> extends Rule<boolean, ValueType> {
+export class Assertion<ValueType = any> extends Rule<boolean, ValueType> {
   static fromJson(assertionAsJson: RuleLabelAsJson) {
     return new this(RuleLabel.fromJson(assertionAsJson));
   }
 
-  static labeled<ValueType = void>(id: LabelId, description: string) {
+  static labeled<ValueType = any>(id: LabelId, description: string) {
     const label = new RuleLabel(id, description);
     return new this<ValueType>(label);
   }
 
   /**
    * Creates a new assertion with the given id, description and requirement.
+   *
+   * If the requirement does not depend on a value (i.e., a function with no parameters),
+   * the rule will be typed as `Assertion<void>`.
+   *
+   * @example
+   * // Without a value
+   * const systemIsReady = Assertion.requiring("sys.ready", "System must be ready", () => isReady());
+   *
+   * @example
+   * // With a value
+   * const greaterThan18 = Assertion.requiring("age.min", "Must be over 18", (age: number) => age > 18);
    */
-  static requiring<ValueType = void>(
+  static requiring(anId: LabelId, aDescription: string, aCondition: () => boolean): Assertion<void>;
+  static requiring<ValueType = any>(
+    anId: LabelId,
+    aDescription: string,
+    aCondition: (value: ValueType) => boolean
+  ): Assertion<ValueType>;
+  static requiring<ValueType = any>(
     id: LabelId,
     description: string,
     aConditionToBeMet: RuleRequirement<boolean, ValueType>
@@ -84,5 +101,5 @@ export class Assertion<ValueType = void> extends Rule<boolean, ValueType> {
  *
  * It is never instantiated or exported.
  */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-unnecessary-type-arguments
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 class VoidAssertionIsSelfContained extends Assertion<void> implements CollectableRule<void, void> {}
