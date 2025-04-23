@@ -30,7 +30,7 @@ import type { LabeledRule, LabelId } from "./types";
  * evaluation.doesHold(); // true
  * ```
  */
-export class RuleEvaluation<PredicateReturnType extends MaybeAsync<boolean>, ValueType> {
+export class RuleEvaluation<PredicateReturnType extends MaybeAsync<boolean>, ValueType> implements LabeledRule {
   constructor(protected rule: Rule<PredicateReturnType, ValueType>, protected value: ValueType) {}
 
   doesHold() {
@@ -47,6 +47,10 @@ export class RuleEvaluation<PredicateReturnType extends MaybeAsync<boolean>, Val
 
   collectFailureInto(failed: LabeledRule[]) {
     return this.rule.collectFailureInto(failed, this.value);
+  }
+
+  isLabeledAs(aBrokenRuleLabel: LabeledRule): boolean {
+    return this.rule.isLabeledAs(aBrokenRuleLabel);
   }
 
   hasLabel(anId: LabelId, aDescription: string) {

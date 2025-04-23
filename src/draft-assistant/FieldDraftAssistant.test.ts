@@ -2,7 +2,7 @@ import { describe, expect, it } from "@jest/globals";
 import { FieldDraftAssistant } from "./FieldDraftAssistant";
 import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
 import { DraftViewer } from "../types";
-import { Assertion, type LabeledRule } from "../rule";
+import { Assertion, RuleLabel, type LabeledRule } from "../rule";
 import { Requirements } from "../rule-requirements";
 
 describe("FieldDraftAssistant", () => {
@@ -149,5 +149,16 @@ describe("FieldDraftAssistant", () => {
 
     expect(assistant.hasBrokenRules()).toBe(true);
     expect(assistant.brokenRulesDescriptions()).toEqual([firstDescription, secondDescription]);
+  });
+
+  it("should not add the same assertion more than once", () => {
+    const label = new RuleLabel("AID", "1 description");
+    const assistant = FieldDraftAssistant.handling(label.getId(), modelFromContainer);
+
+    assistant.addBrokenRule(label);
+    assistant.addBrokenRule(label);
+
+    expect(assistant.hasOnlyOneRuleBrokenIdentifiedAs(label.getId())).toBe(true);
+    expect(assistant.brokenRulesDescriptions()).toEqual(["1 description"]);
   });
 });

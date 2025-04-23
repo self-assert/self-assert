@@ -6,6 +6,7 @@ export type LabelId = string;
  * @group Assertions
  */
 export interface LabeledRule {
+  isLabeledAs(aBrokenRuleLabel: LabeledRule): boolean;
   /**
    * Compares the id of the assertion with the given one.
    */

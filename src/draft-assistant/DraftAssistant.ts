@@ -139,6 +139,8 @@ export abstract class DraftAssistant<Model = any, ContainerModel = any> {
    * Adds an assertion to the list of failed assertions.
    */
   addBrokenRule(aBrokenRuleLabel: LabeledRule) {
+    if (this.hasBrokenRule(aBrokenRuleLabel)) return;
+
     this.brokenRules.push(aBrokenRuleLabel);
     this.forEachViewer((viewer) => viewer.onFailure?.(aBrokenRuleLabel));
   }
@@ -187,6 +189,10 @@ export abstract class DraftAssistant<Model = any, ContainerModel = any> {
    */
   addLabelId(aLabelId: LabelId) {
     this.labelIds.push(aLabelId);
+  }
+
+  hasBrokenRule(aBrokenRuleLabel: LabeledRule) {
+    return this.brokenRules.some((brokenRule) => brokenRule.isLabeledAs(aBrokenRuleLabel));
   }
 
   /**
