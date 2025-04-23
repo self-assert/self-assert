@@ -57,7 +57,7 @@ export class FieldDraftAssistant<ContainerModel = any, Model extends string = st
   }
 
   createModel() {
-    this.removeFailedAssertions();
+    this.removeBrokenRules();
     return this.model;
   }
 
@@ -66,12 +66,12 @@ export class FieldDraftAssistant<ContainerModel = any, Model extends string = st
    * If not, it adds them to the list of failed assertions.
    */
   review() {
-    this.removeFailedAssertions();
+    this.removeBrokenRules();
     const failures: LabeledRule[] = [];
     this.assertions.forEach((assertion) => {
       assertion.collectFailureInto(failures, this.model);
     });
 
-    this.addFailedAssertions(failures);
+    this.addBrokenRules(failures);
   }
 }

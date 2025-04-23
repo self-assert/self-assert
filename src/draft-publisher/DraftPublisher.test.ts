@@ -46,8 +46,8 @@ describe("DraftPublisher", () => {
     const firstFailedAssertion = TestObjectsBucket.failingAssertion("AID.1", "1 description");
     const secondFailedAssertion = TestObjectsBucket.failingAssertion("AID.2", "2 description");
 
-    assistant.addFailedAssertion(firstFailedAssertion);
-    assistant.addFailedAssertion(secondFailedAssertion);
+    assistant.addBrokenRule(firstFailedAssertion);
+    assistant.addBrokenRule(secondFailedAssertion);
 
     expect(eventAssertions).toEqual([firstFailedAssertion, secondFailedAssertion]);
   });
@@ -60,7 +60,7 @@ describe("DraftPublisher", () => {
       wasReset = true;
     });
 
-    assistant.removeFailedAssertions();
+    assistant.removeBrokenRules();
 
     expect(wasReset).toBe(true);
   });

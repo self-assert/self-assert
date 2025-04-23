@@ -83,8 +83,8 @@ describe("FieldDraftAssistant", () => {
       });
 
       assistant.setModel("Changed");
-      assistant.addFailedAssertion(firstFailedAssertion);
-      assistant.addFailedAssertion(secondFailedAssertion);
+      assistant.addBrokenRule(firstFailedAssertion);
+      assistant.addBrokenRule(secondFailedAssertion);
 
       expect(mirroredFailedAssertions).toEqual([firstFailedAssertion, secondFailedAssertion]);
     });
@@ -100,7 +100,7 @@ describe("FieldDraftAssistant", () => {
       });
       const failedAssertion = TestObjectsBucket.failingAssertion("AID.1", "1 description");
 
-      assistant.addFailedAssertion(failedAssertion);
+      assistant.addBrokenRule(failedAssertion);
       assistant.createModel();
 
       expect(hasBeenReset).toBe(true);
@@ -130,7 +130,7 @@ describe("FieldDraftAssistant", () => {
 
     assistant.review();
 
-    expect(assistant.doesNotHaveFailedAssertions()).toBe(true);
+    expect(assistant.doesNotHaveBrokenRules()).toBe(true);
   });
 
   it("should be able to evaluate its assertions when is invalid", () => {
@@ -147,7 +147,7 @@ describe("FieldDraftAssistant", () => {
     assistant.setModel("FORBIDDEN");
     assistant.review();
 
-    expect(assistant.hasFailedAssertions()).toBe(true);
-    expect(assistant.failedAssertionsDescriptions()).toEqual([firstDescription, secondDescription]);
+    expect(assistant.hasBrokenRules()).toBe(true);
+    expect(assistant.brokenRulesDescriptions()).toEqual([firstDescription, secondDescription]);
   });
 });

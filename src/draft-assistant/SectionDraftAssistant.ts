@@ -50,7 +50,7 @@ export class SectionDraftAssistant<
   }
 
   createModel() {
-    this.removeFailedAssertions();
+    this.removeBrokenRules();
     const models = this.createComposedModels();
     try {
       super.setModel(this.creationClosure(...models));
@@ -83,14 +83,14 @@ export class SectionDraftAssistant<
   }
 
   routeFailedAssertion(failedAssertion: LabeledRule) {
-    if (this.handles(failedAssertion)) this.addFailedAssertion(failedAssertion);
+    if (this.handles(failedAssertion)) this.addBrokenRule(failedAssertion);
     else this.routeNotHandledByThisFailedAssertion(failedAssertion);
   }
 
   protected routeNotHandledByThisFailedAssertion(failedAssertion: LabeledRule) {
     const assistantsHandlingAssertion = this.assistantsHandling(failedAssertion);
 
-    if (assistantsHandlingAssertion.length === 0) this.addFailedAssertion(failedAssertion);
+    if (assistantsHandlingAssertion.length === 0) this.addBrokenRule(failedAssertion);
     else this.addFailedAssertionToAll(assistantsHandlingAssertion, failedAssertion);
   }
 
@@ -98,7 +98,7 @@ export class SectionDraftAssistant<
     assistantsHandlingAssertion: DraftAssistant<unknown, Model>[],
     failedAssertion: LabeledRule
   ) {
-    assistantsHandlingAssertion.forEach((assistant) => assistant.addFailedAssertion(failedAssertion));
+    assistantsHandlingAssertion.forEach((assistant) => assistant.addBrokenRule(failedAssertion));
   }
 
   protected assistantsHandling(assertion: LabeledRule) {
