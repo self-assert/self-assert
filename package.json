@@ -19,11 +19,12 @@
   },
   "scripts": {
     "build": "rollup -c",
+    "check:examples": "npx tsc -p examples/tsconfig.examples.json --noEmit",
+    "check:all": "npx tsc --noEmit && npm run lint && npm run test && npm run check:examples",
     "docs": "typedoc",
     "lint": "eslint src",
     "prepare": "npm run build",
-    "test": "jest",
-    "test:watch": "npm test -- --watchAll"
+    "test": "jest"
   },
   "keywords": [
     "validation",

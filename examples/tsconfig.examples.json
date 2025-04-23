@@ -1,0 +1,16 @@
+{
+  "extends": "../tsconfig.json",
+  "include": ["./"],
+  "compilerOptions": {
+    "noEmit": true,
+    "strict": true,
+    "paths": {
+      "self-assert": ["../src/index.ts"]
+    },
+    "module": "ESNext",
+    "moduleResolution": "Bundler"
+  },
+  "ts-node": {
+    "esm": true
+  }
+}

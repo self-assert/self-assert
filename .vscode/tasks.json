@@ -13,12 +13,18 @@
       }
     },
     {
-      "command": "bash",
-      "args": ["-c", "npx tsc --noEmit && npm run lint && npm test"],
-      "label": "code checks",
+      "type": "npm",
+      "script": "lint",
+      "problemMatcher": ["$eslint-stylish"],
+      "label": "npm: lint",
+      "detail": "eslint src"
+    },
+    {
+      "type": "npm",
+      "script": "check:all",
       "problemMatcher": [],
-      "detail": "builds, lints and tests the code",
-      "type": "shell",
+      "label": "npm: check:all",
+      "detail": "typecheck, lint and test the code",
       "icon": {
         "id": "check-all",
         "color": "terminal.ansiGreen"
@@ -26,13 +32,6 @@
       "presentation": {
         "showReuseMessage": false
       }
-    },
-    {
-      "type": "npm",
-      "script": "lint",
-      "problemMatcher": ["$eslint-stylish"],
-      "label": "npm: lint",
-      "detail": "eslint src"
     }
   ]
 }
