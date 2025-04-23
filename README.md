@@ -79,143 +79,6 @@ This ensures your objects are complete and valid from the beginning.
 
 See [full examples](./examples) or [documentation][docs] for more use cases.
 
-### Defining Assertions for Object Validation
-
-To ensure that domain objects are created in a valid and complete state,
-`self-assert` introduces the `Assertion` abstraction.
-
-There are two main ways to define and use assertions:
-
-- **Self-contained assertions:** the assertion conditions don't need any
-  parameters to evaluate.
-- **Reusable assertions:** the assertion is defined once and later evaluated
-  with different values.
-
-A common workflow is:
-
-1. Define a main static factory method (e.g., `create`) that:
-   - Receives **all required parameters** to build a complete object.
-   - Validates those parameters using one or more `Assertion`s.
-   - Returns a valid instance or raises an error.
-2. Use `Assertion.requiring` for self-contained checks, or create reusable assertions
-   and apply them later using `AssertionEvaluation` or the `evaluateFor`
-   method of `Assertion`.
-3. Use `Ruleset.assertAll` to execute the assertions together in
-   the previously defined factory method.
-4. _(Optional)_ If you are using TypeScript, consider marking
-   the class constructor as `protected`.
-5. Ensure that all other factory methods use the main one.
-
-Here's a simplified example:
-
-```ts
-import { Assertion, Ruleset, Requirements } from "self-assert";
-
-class Person {
-  static readonly nameNotBlankAID = "name.notBlank";
-  static readonly nameNotBlankDescription = "Name must not be blank";
-  static readonly agePositiveAID = "age.positive";
-  static readonly agePositiveDescription = "Age must be positive";
-
-  // Reusable assertion (evaluated later with a value)
-  static readonly nameAssertion = Assertion.requiring<string>(
-    this.nameNotBlankAID,
-    this.nameNotBlankDescription,
-    Requirements.isNotBlank
-  );
-
-  static named(name: string, age: number) {
-    Ruleset.assertAll([
-      // evaluated with `name`
-      this.nameAssertion.evaluateFor(name),
-      // self-contained assertion for age
-      Assertion.requiring(this.agePositiveAID, this.agePositiveDescription, () => age > 0),
-    ]);
-
-    return new this(name, age);
-  }
-
-  protected constructor(protected name: string, protected age: number) {}
-
-  getName() {
-    return this.name;
-  }
-
-  getAge() {
-    return this.age;
-  }
-}
-
-try {
-  const invalidPerson = Person.named("  ", -5);
-} catch (error) {
-  if (error instanceof AssertionsFailed) {
-    console.log(error.hasAnAssertionFailedWith(Person.nameNotBlankAID, Person.nameNotBlankDescription)); // true
-    console.log(error.hasAnAssertionFailedWith(Person.agePositiveAID, Person.agePositiveDescription)); // true
-  } else {
-    console.error("An unexpected error occurred:", error);
-  }
-}
-```
-
-If any of the assertions fail, an `AssertionsFailed` error will
-be thrown, containing all failed assertions.
-
-This promotes the idea that
-**objects should be created valid from the beginning**, enforcing consistency.
-
-### Using Draft Assistants
-
-The `FieldDraftAssistant` helps validate and suggest completion
-options for a single field or property.
-It should be used when you need to encapsulate the logic that determines
-whether a field is complete and what values could make it valid.
-
-The `SectionDraftAssistant` validates and suggests how
-to complete a group of related fields.
-It aggregates multiple `FieldDraftAssistant` or other
-`SectionDraftAssistant` instances.
-
-```ts
-function createPersonAssistant() {
-  const nameAssistant = FieldDraftAssistant.handlingAll<Person>([Person.nameNotBlankAID], (person) => person.getName());
-  const ageAssistant = IntegerDraftAssistant.for<Person>(Person.agePositiveAID, (person) => person.getAge());
-
-  const personAssistant = SectionDraftAssistant.topLevelContainerWith<Person, [string, number]>(
-    [nameAssistant, ageAssistant],
-    (name, age) => Person.named(name, age),
-    [] // Any other assertion IDs if apply
-  );
-
-  return Object.assign(personAssistant, { nameAssistant, ageAssistant });
-}
-
-const personAssistant = createPersonAssistant();
-// Use your assistant in your system's external interfaces (UI, REST, etc.), then:
-
-personAssistant.withCreatedModelDo(
-  (person) => {
-    console.log(person instanceof Person); // true
-    doSomething(person);
-  },
-  () => {
-    // The creation of a Person failed.
-    console.log(personAssistant.hasFailedAssertions()); // true
-  }
-);
-```
-
-> [!NOTE]
-> Using `Object.assign` can help you keep track of the
-> internal assistants of a higher-level assistant.
-> In the above example, TypeScript should correctly infer the return
-> type of `createPersonAssistant`:
->
-> ```ts
-> // No compilation error
-> createPersonAssistant().nameAssistant.setModel("John");
-> ```
-
 ## Resources
 
 Contributions are welcome! Whether it's fixing bugs,
@@ -267,6 +130,8 @@ objects that **are responsible of protecting their own validity** from the very 
 ## License
 
 [MIT][license]
+
+<!---->
 
 [license]: https://github.com/self-assert/self-assert/blob/main/LICENSE
 [contributing]: https://github.com/self-assert/self-assert/blob/main/CONTRIBUTING.md
