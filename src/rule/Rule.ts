@@ -62,6 +62,10 @@ export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, Valu
     return new RuleEvaluation(this, aValue);
   }
 
+  isLabeledAs(aBrokenRuleLabel: LabeledRule) {
+    return aBrokenRuleLabel.hasLabel(this.label.getId(), this.label.getDescription());
+  }
+
   hasLabel(anId: LabelId, aDescription: string) {
     return this.label.hasLabel(anId, aDescription);
   }

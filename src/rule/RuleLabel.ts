@@ -12,6 +12,10 @@ export class RuleLabel implements LabeledRule {
 
   constructor(protected id: LabelId, protected description: string) {}
 
+  isLabeledAs(aBrokenRuleLabel: LabeledRule): boolean {
+    return aBrokenRuleLabel.hasLabel(this.id, this.description);
+  }
+
   hasLabel(assertionId: LabelId, assertionDescription: string) {
     return this.hasLabelId(assertionId) && this.hasDescription(assertionDescription);
   }

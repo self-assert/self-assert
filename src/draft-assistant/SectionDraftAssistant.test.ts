@@ -29,10 +29,10 @@ describe("SectionDraftAssistant", () => {
     const assistant = TestObjectsBucket.createModelWithNoAssertionsAssistant();
 
     expect(DraftAssistant.isInvalidModel(assistant.getModel())).toBe(true);
-    expect(assistant.hasFailedAssertions()).toBe(false);
-    expect(assistant.doesNotHaveFailedAssertions()).toBe(true);
+    expect(assistant.hasBrokenRules()).toBe(false);
+    expect(assistant.doesNotHaveBrokenRules()).toBe(true);
     expect(assistant.handles(Assertion.labeled("AID.1", "Description 1"))).toBe(false);
-    expect(assistant.failedAssertionsDescriptions()).toEqual([]);
+    expect(assistant.brokenRulesDescriptions()).toEqual([]);
   });
 
   it("should handle an assertion identified with a stored id", () => {
@@ -48,8 +48,8 @@ describe("SectionDraftAssistant", () => {
     const anAssertion = TestObjectsBucket.defaultFailingAssertion();
     const anotherAssertion = TestObjectsBucket.failingAssertion("AID.2", "");
 
-    assistant.addAssertionId(anAssertion.getId());
-    assistant.addAssertionId(anotherAssertion.getId());
+    assistant.addLabelId(anAssertion.getId());
+    assistant.addLabelId(anotherAssertion.getId());
 
     expect(assistant.handles(anAssertion)).toBe(true);
     expect(assistant.handles(anotherAssertion)).toBe(true);
@@ -58,12 +58,12 @@ describe("SectionDraftAssistant", () => {
   it("should accept failed assertions", () => {
     const assistant = TestObjectsBucket.createModelWithNoAssertionsAssistant();
 
-    assistant.addFailedAssertion(TestObjectsBucket.defaultFailingAssertion());
+    assistant.addBrokenRule(TestObjectsBucket.defaultFailingAssertion());
 
-    expect(assistant.hasOnlyOneAssertionFailedIdentifiedAs(TestObjectsBucket.defaultFailingAssertionAID)).toBe(true);
-    expect(assistant.hasFailedAssertions()).toBe(true);
-    expect(assistant.doesNotHaveFailedAssertions()).toBe(false);
-    expect(assistant.failedAssertionsDescriptions()).toEqual([TestObjectsBucket.defaultFailingAssertionDescription]);
+    expect(assistant.hasOnlyOneRuleBrokenIdentifiedAs(TestObjectsBucket.defaultFailingAssertionAID)).toBe(true);
+    expect(assistant.hasBrokenRules()).toBe(true);
+    expect(assistant.doesNotHaveBrokenRules()).toBe(false);
+    expect(assistant.brokenRulesDescriptions()).toEqual([TestObjectsBucket.defaultFailingAssertionDescription]);
   });
 
   it("should fail if trying to set from a container when is top level", () => {
@@ -114,9 +114,9 @@ describe("SectionDraftAssistant", () => {
         done("Should be invalid");
       },
       () => {
-        expect(assistant.hasFailedAssertions()).toBe(false);
-        expect(nameAssistant.hasFailedAssertions()).toBe(true);
-        expect(nameAssistant.hasOnlyOneAssertionFailedIdentifiedAs(SelfAssertingModel.nameNotEmptyAID)).toBe(true);
+        expect(assistant.hasBrokenRules()).toBe(false);
+        expect(nameAssistant.hasBrokenRules()).toBe(true);
+        expect(nameAssistant.hasOnlyOneRuleBrokenIdentifiedAs(SelfAssertingModel.nameNotEmptyAID)).toBe(true);
         done();
       }
     );
@@ -134,8 +134,8 @@ describe("SectionDraftAssistant", () => {
         } catch (error) {
           expectToBeRulesBroken(error);
           assistant.handleError(error);
-          expect(assistant.hasFailedAssertions()).toBe(true);
-          expect(assistant.hasOnlyOneAssertionFailedIdentifiedAs(systemAID)).toBe(true);
+          expect(assistant.hasBrokenRules()).toBe(true);
+          expect(assistant.hasOnlyOneRuleBrokenIdentifiedAs(systemAID)).toBe(true);
           done();
         }
       },
@@ -155,8 +155,8 @@ describe("SectionDraftAssistant", () => {
         } catch (error) {
           expectToBeRulesBroken(error);
           assistant.handleError(error);
-          expect(assistant.hasFailedAssertions()).toBe(true);
-          expect(assistant.hasOnlyOneAssertionFailedIdentifiedAs(systemAID)).toBe(true);
+          expect(assistant.hasBrokenRules()).toBe(true);
+          expect(assistant.hasOnlyOneRuleBrokenIdentifiedAs(systemAID)).toBe(true);
           done();
         }
       },

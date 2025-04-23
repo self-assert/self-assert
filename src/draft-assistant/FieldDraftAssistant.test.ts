@@ -2,7 +2,7 @@ import { describe, expect, it } from "@jest/globals";
 import { FieldDraftAssistant } from "./FieldDraftAssistant";
 import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
 import { DraftViewer } from "../types";
-import { Assertion, type LabeledRule } from "../rule";
+import { Assertion, RuleLabel, type LabeledRule } from "../rule";
 import { Requirements } from "../rule-requirements";
 
 describe("FieldDraftAssistant", () => {
@@ -83,8 +83,8 @@ describe("FieldDraftAssistant", () => {
       });
 
       assistant.setModel("Changed");
-      assistant.addFailedAssertion(firstFailedAssertion);
-      assistant.addFailedAssertion(secondFailedAssertion);
+      assistant.addBrokenRule(firstFailedAssertion);
+      assistant.addBrokenRule(secondFailedAssertion);
 
       expect(mirroredFailedAssertions).toEqual([firstFailedAssertion, secondFailedAssertion]);
     });
@@ -100,7 +100,7 @@ describe("FieldDraftAssistant", () => {
       });
       const failedAssertion = TestObjectsBucket.failingAssertion("AID.1", "1 description");
 
-      assistant.addFailedAssertion(failedAssertion);
+      assistant.addBrokenRule(failedAssertion);
       assistant.createModel();
 
       expect(hasBeenReset).toBe(true);
@@ -130,7 +130,7 @@ describe("FieldDraftAssistant", () => {
 
     assistant.review();
 
-    expect(assistant.doesNotHaveFailedAssertions()).toBe(true);
+    expect(assistant.doesNotHaveBrokenRules()).toBe(true);
   });
 
   it("should be able to evaluate its assertions when is invalid", () => {
@@ -147,7 +147,18 @@ describe("FieldDraftAssistant", () => {
     assistant.setModel("FORBIDDEN");
     assistant.review();
 
-    expect(assistant.hasFailedAssertions()).toBe(true);
-    expect(assistant.failedAssertionsDescriptions()).toEqual([firstDescription, secondDescription]);
+    expect(assistant.hasBrokenRules()).toBe(true);
+    expect(assistant.brokenRulesDescriptions()).toEqual([firstDescription, secondDescription]);
+  });
+
+  it("should not add the same assertion more than once", () => {
+    const label = new RuleLabel("AID", "1 description");
+    const assistant = FieldDraftAssistant.handling(label.getId(), modelFromContainer);
+
+    assistant.addBrokenRule(label);
+    assistant.addBrokenRule(label);
+
+    expect(assistant.hasOnlyOneRuleBrokenIdentifiedAs(label.getId())).toBe(true);
+    expect(assistant.brokenRulesDescriptions()).toEqual(["1 description"]);
   });
 });

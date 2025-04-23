@@ -50,17 +50,17 @@ export abstract class DraftAssistant<Model = any, ContainerModel = any> {
   }
 
   protected model: Model;
-  protected failedAssertions!: LabeledRule[];
+  protected brokenRules!: LabeledRule[];
   protected viewers: DraftViewer<Model>[];
 
   constructor(
-    protected assertionIds: LabelId[],
+    protected labelIds: LabelId[],
     protected modelFromContainer: ModelFromContainer<Model, ContainerModel>,
     protected initialModel: Model
   ) {
     this.model = this.initialModel;
     this.viewers = [];
-    this.removeFailedAssertions();
+    this.removeBrokenRules();
   }
 
   /**
@@ -138,55 +138,61 @@ export abstract class DraftAssistant<Model = any, ContainerModel = any> {
   /**
    * Adds an assertion to the list of failed assertions.
    */
-  addFailedAssertion(failedAssertions: LabeledRule) {
-    this.failedAssertions.push(failedAssertions);
-    this.forEachViewer((viewer) => viewer.onFailure?.(failedAssertions));
+  addBrokenRule(aBrokenRuleLabel: LabeledRule) {
+    if (this.hasBrokenRule(aBrokenRuleLabel)) return;
+
+    this.brokenRules.push(aBrokenRuleLabel);
+    this.forEachViewer((viewer) => viewer.onFailure?.(aBrokenRuleLabel));
   }
 
   /**
    * Adds a list of assertions to the list of failed assertions.
    */
-  addFailedAssertions(failedAssertions: LabeledRule[]) {
-    failedAssertions.forEach((failure) => {
-      this.addFailedAssertion(failure);
+  addBrokenRules(brokenRules: LabeledRule[]) {
+    brokenRules.forEach((failure) => {
+      this.addBrokenRule(failure);
     });
   }
 
   /**
    * @returns `true` if the list of failed assertions is not empty
    */
-  hasFailedAssertions() {
-    return this.failedAssertions.length > 0;
+  hasBrokenRules() {
+    return this.brokenRules.length > 0;
   }
 
   /**
-   * Opposite of {@link hasFailedAssertions}.
+   * Opposite of {@link hasBrokenRules}.
    */
-  doesNotHaveFailedAssertions() {
-    return !this.hasFailedAssertions();
+  doesNotHaveBrokenRules() {
+    return !this.hasBrokenRules();
   }
 
   /**
    * @returns The descriptions of the failed assertions
    */
-  failedAssertionsDescriptions() {
-    return this.failedAssertions
-      .map((failedAssertion) => failedAssertion.getDescription())
+  brokenRulesDescriptions() {
+    return this.brokenRules
+      .map((brokenRule) => brokenRule.getDescription())
       .filter((description) => description !== "");
   }
 
   /**
    * @returns `true` if this assistant handles the given `Assertion`.
    */
-  handles(anAssertion: LabeledRule) {
-    return this.assertionIds.some((assertionId) => anAssertion.hasLabelId(assertionId));
+  handles(aRule: LabeledRule) {
+    return this.labelIds.some((labelId) => aRule.hasLabelId(labelId));
   }
 
   /**
    * Adds an assertion id to the list of handled assertions.
    */
-  addAssertionId(anAssertionId: LabelId) {
-    this.assertionIds.push(anAssertionId);
+  addLabelId(aLabelId: LabelId) {
+    this.labelIds.push(aLabelId);
+  }
+
+  hasBrokenRule(aBrokenRuleLabel: LabeledRule) {
+    return this.brokenRules.some((brokenRule) => brokenRule.isLabeledAs(aBrokenRuleLabel));
   }
 
   /**
@@ -196,12 +202,12 @@ export abstract class DraftAssistant<Model = any, ContainerModel = any> {
    * @remarks
    * Used mostly for testing.
    */
-  hasOnlyOneAssertionFailedIdentifiedAs(assertionId: LabelId) {
-    return this.failedAssertions.length === 1 && this.failedAssertions[0].hasLabelId(assertionId);
+  hasOnlyOneRuleBrokenIdentifiedAs(assertionId: LabelId) {
+    return this.brokenRules.length === 1 && this.brokenRules[0].hasLabelId(assertionId);
   }
 
-  removeFailedAssertions() {
-    this.failedAssertions = [];
+  removeBrokenRules() {
+    this.brokenRules = [];
     this.forEachViewer((viewer) => viewer.onFailuresReset?.());
   }
 

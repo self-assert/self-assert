@@ -54,7 +54,7 @@ describe("IntegerDraftAssistant", () => {
       () => done("Should be invalid"),
       () => {
         expect(DraftAssistant.isInvalidModel(assistant.getModel())).toBe(true);
-        expect(assistant.hasOnlyOneAssertionFailedIdentifiedAs(assertionId)).toBe(true);
+        expect(assistant.hasOnlyOneRuleBrokenIdentifiedAs(assertionId)).toBe(true);
         done();
       }
     );
@@ -69,7 +69,7 @@ describe("IntegerDraftAssistant", () => {
       () => done("Should be invalid"),
       () => {
         expect(DraftAssistant.isInvalidModel(assistant.getModel())).toBe(true);
-        expect(assistant.hasOnlyOneAssertionFailedIdentifiedAs(assertionId)).toBe(true);
+        expect(assistant.hasOnlyOneRuleBrokenIdentifiedAs(assertionId)).toBe(true);
         done();
       }
     );
@@ -84,7 +84,7 @@ describe("IntegerDraftAssistant", () => {
       () => done("Should be invalid"),
       () => {
         expect(DraftAssistant.isInvalidModel(assistant.getModel())).toBe(true);
-        expect(assistant.hasOnlyOneAssertionFailedIdentifiedAs(assertionId)).toBe(true);
+        expect(assistant.hasOnlyOneRuleBrokenIdentifiedAs(assertionId)).toBe(true);
         done();
       }
     );
