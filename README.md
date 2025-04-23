@@ -23,6 +23,17 @@ and objects that encapsulate and protect their own validity.
 
 See [full acknowledgements](#credits-and-acknowledgements) below.
 
+## Introduction
+
+A small TypeScript library for designing objects that are responsible
+for their own validity.  
+`self-assert` helps you model domain rules _inside_ your objects
+— not as external validators, but as collaborators in their own creation.
+
+This library encourages a mindset where rules are expressed in
+terms of the domain, and
+**objects are created complete, valid, and meaningful from the start**.
+
 ## Installation
 
 Install `self-assert` with `npm`:
@@ -31,14 +42,42 @@ Install `self-assert` with `npm`:
 npm install self-assert
 ```
 
+## Live Demo
+
+Try the interactive demo on [CodeSandbox](https://codesandbox.io/p/sandbox/github/self-assert/self-assert-react-demo).
+
 ## Getting Started
 
-This section is meant as a **guide** to help you get started with `self-assert`.
-It does not define rules, but rather showcases what the
-contributors consider to be best practices.
+`self-assert` helps you define rules inside your
+domain model using the `Assertion` abstraction.
 
-For more information, refer to the [documentation][docs] or
-the [original webinar example][dalg-t1-ch3].
+A common workflow is:
+
+1. Define static factory methods that validate parameters before object creation.
+2. Use `Assertion.requiring(...)` to define the rules.
+3. Use `Ruleset.ensureAll(...)` to execute those rules.
+
+```ts
+class Person {
+  static readonly nameNotBlank = Assertion.requiring(
+    "name.notBlank",
+    "Name must not be blank",
+    Requirements.isNotBlank
+  );
+
+  static create(name: string) {
+    Ruleset.ensureAll(this.nameNotBlank.evaluateFor(name));
+    return new this(name);
+  }
+
+  protected constructor(protected name: string) {}
+}
+```
+
+If any assertion fails, a `RulesBroken` error is thrown.
+This ensures your objects are complete and valid from the beginning.
+
+See [full examples](./examples) or [documentation][docs] for more use cases.
 
 ### Defining Assertions for Object Validation
 
