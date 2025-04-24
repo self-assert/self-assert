@@ -31,6 +31,8 @@ import type { CollectableRule, LabeledRule, LabelId, RuleRequirement } from "./t
  * nameNotBlank.doesHold("John"); // true
  * nameNotBlank.hasFailed("   "); // true
  * ```
+ *
+ * @category Rules
  */
 export class Assertion<ValueType = any> extends Rule<boolean, ValueType> {
   static fromJson(assertionAsJson: RuleLabelAsJson) {
@@ -41,6 +43,8 @@ export class Assertion<ValueType = any> extends Rule<boolean, ValueType> {
     const label = new RuleLabel(id, description);
     return new this<ValueType>(label);
   }
+
+  static requiring(anId: LabelId, aDescription: string, aCondition: () => boolean): Assertion<void>;
 
   /**
    * Creates a new assertion with the given id, description and requirement.
@@ -56,12 +60,12 @@ export class Assertion<ValueType = any> extends Rule<boolean, ValueType> {
    * // With a value
    * const greaterThan18 = Assertion.requiring("age.min", "Must be over 18", (age: number) => age > 18);
    */
-  static requiring(anId: LabelId, aDescription: string, aCondition: () => boolean): Assertion<void>;
   static requiring<ValueType = any>(
     anId: LabelId,
     aDescription: string,
     aCondition: (value: ValueType) => boolean
   ): Assertion<ValueType>;
+
   static requiring<ValueType = any>(
     id: LabelId,
     description: string,
