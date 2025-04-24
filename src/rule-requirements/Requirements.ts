@@ -25,26 +25,26 @@ class StringsRequirements {
 }
 
 /**
- * A collection of common assertion conditions.
+ * A collection of common assertion requirements.
  *
- * It also provides a way to compose conditions using the `and`, `or` and `not` functions.
+ * It also provides a way to compose requirements using the `and`, `or` and `not` functions.
  *
  * @namespace
  * @example
  * Composition
  * ```ts
- * const myCondition = Requirements.and(
+ * const myRequirement = Requirements.and(
  *    Requirements.greaterThan(0),
  *    (value: number) => value % 42 === 0
  * );
- * myCondition(42); // true
+ * myRequirement(42); // true
  * ```
  * @example
  * Usage with {@link Assertion}:
  * ```ts
  * const assertion = Assertion.requiring("customer.age.over18", "Can't be under 18", Requirements.greaterThanOrEqual(18));
  * ```
- * @group Assertions
+ * @category Rules
  */
 export const Requirements = {
   /**

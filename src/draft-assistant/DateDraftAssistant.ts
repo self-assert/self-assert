@@ -13,6 +13,8 @@ import type { ModelFromContainer } from "../types";
  * The `Date` object is considered a legacy feature.
  * It is recommended to use the {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal Temporal} API
  * for new projects by MDN.
+ *
+ * @category Draft assistants
  */
 export class DateDraftAssistant<ContainerModel = any> extends SectionDraftAssistant<Date, ContainerModel, [string]> {
   static readonly defaultAssertionDescription = "Invalid date";

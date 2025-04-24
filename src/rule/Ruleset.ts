@@ -1,16 +1,24 @@
 import { RulesBroken } from "./RulesBroken";
-import type { LabeledRule, SelfContainedAssertion, SelfContainedRule, SelfContainedRules } from "./types";
-
-type SelfContainedAssertions = SelfContainedAssertion | SelfContainedAssertion[];
+import type {
+  LabeledRule,
+  SelfContainedAssertion,
+  SelfContainedAssertions,
+  SelfContainedRule,
+  SelfContainedRules,
+} from "./types";
 
 /**
  * Runs all assertions and throws an error if any has failed.
  * The failed assertions are included in the error.
  *
  * @see {@link RulesBroken}
+ *
+ * @category Rules
  */
 export class Ruleset {
   /**
+   * Evaluates all assertions **synchronously** and throws an error if any has failed.
+   *
    * @throws {RulesBroken} if any rule has failed
    */
   static ensureAll(...assertions: SelfContainedAssertions[]): void {
@@ -18,6 +26,8 @@ export class Ruleset {
   }
 
   /**
+   * Evaluates all rules **asynchronously** and throws an error if any has failed.
+   *
    * @throws {RulesBroken} if any rule has failed
    */
   static workOn(...rules: SelfContainedRules[]): Promise<void> {
@@ -32,9 +42,6 @@ export class Ruleset {
     this.throwIfNotEmpty(brokenRules);
   }
 
-  /**
-   * @throws {RulesBroken} if any assertion has failed
-   */
   ensure(): void {
     const brokenRules = this.failedAssertions();
 

@@ -5,11 +5,12 @@
 `self-assert` is a small TypeScript library for modeling valid domain objects
 and assisting their creation through guided assistants (draft assistants).
 
-<!-- ## Quick Links
-- [Getting Started](./modules.md)
-- [Assertions API](./modules.md#assertion)
-- [Draft Assistants](./modules.md#draft-assistant)
-- [Requirements](./modules.md#conditions) -->
+## Quick Links
+
+- [Getting Started](./getting-started.md)
+
+> [!WARNING]
+> This site is still a work in progress.
 
 ## Philosophy
 
@@ -61,5 +62,5 @@ npm install self-assert
 ```
 
 <!-- ## Where to Go Next
-- Explore the [Assertions API](TODO)
-- Learn how to use [`DraftAssistant`](TODO) -->
+- Explore the [Assertions API]
+- Learn how to use [`DraftAssistant`] -->

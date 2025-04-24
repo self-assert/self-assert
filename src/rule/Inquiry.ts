@@ -3,6 +3,20 @@ import { RulesBroken } from "./RulesBroken";
 import { Rule } from "./Rule";
 import { LabeledRule, LabelId } from "./types";
 
+/**
+ * Represents a rule that needs to be evaluated **asynchronously**.
+ *
+ * @example
+ * ```ts
+ * const emailMustBeUnique = Inquiry.requiring<string>(
+ *    "user.email.unique",
+ *    "Email must be unique",
+ *    async (email) => !(await isEmailTaken(email))
+ * )
+ * ```
+ *
+ * @category Rules
+ */
 export class Inquiry<ValueType = any> extends Rule<Promise<boolean>, ValueType> {
   static labeled<ValueType = any>(anId: LabelId, aDescription: string) {
     return new this<ValueType>(new RuleLabel(anId, aDescription));

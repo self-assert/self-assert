@@ -4,4 +4,5 @@ export * from "./Rule";
 export * from "./RuleLabel";
 export * from "./RulesBroken";
 export * from "./Ruleset";
+export * from "./RuleEvaluation";
 export * from "./types";

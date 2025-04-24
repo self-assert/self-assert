@@ -1,18 +1,19 @@
 {
   "entryPoints": ["src/index.ts"],
+  // "entryPointStrategy": "expand",
   "out": "./docs/api",
   "includeVersion": false,
   "tsconfig": "./tsconfig.json",
-  "router": "group",
+  // "router": "group",
   "navigation": {
-    "includeGroups": true,
+    "includeGroups": false,
     "includeCategories": true,
-    "excludeReferences": true
+    "excludeReferences": false
   },
   "categorizeByGroup": false,
   "defaultCategory": "Others",
+  "categoryOrder": ["*", "Labeling", "Others"],
   "sort": ["static-first", "visibility"],
-  "groupOrder": ["Assertions", "*"],
   "useFirstParagraphOfCommentAsSummary": true,
   "disableSources": true,
   "plugin": ["typedoc-github-theme"],

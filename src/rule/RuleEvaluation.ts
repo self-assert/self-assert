@@ -1,23 +1,22 @@
 import type { Rule } from "./Rule";
-import type { MaybeAsync } from "./types";
+import type { CollectableRule, MaybeAsync } from "./types";
 import type { LabeledRule, LabelId } from "./types";
 
 /**
  * Represents the evaluation of a rule on a given value.
- * TODO: complete
  *
  * It can also be created using the {@link Rule.evaluateFor} method.
  *
- * @template ValueType The type of value this assertion applies to.
+ * @template ValueType The type of value the rule applies to.
  *
  * @example
  * ```ts
  * const nameNotBlank = Assertion.requiring<string>(
  *   "customer.name.notBlank",
  *   "Name must not be blank",
- *   (name) => name.trim().length > 0
+ *   Requirements.isNotBlank
  * );
- * const evaluation = AssertionEvaluation.for(nameNotBlank, "John");
+ * const evaluation = new RuleEvaluation(nameNotBlank, "John");
  *
  * evaluation.doesHold(); // true
  * ```
@@ -25,12 +24,16 @@ import type { LabeledRule, LabelId } from "./types";
  * @example
  *
  * ```ts
- * const evaluation = nameNotBlank.evaluateFor("John"); // AssertionEvaluation
+ * const evaluation = nameNotBlank.evaluateFor("John"); // RuleEvaluation
  *
  * evaluation.doesHold(); // true
  * ```
+ *
+ * @category Rules
  */
-export class RuleEvaluation<PredicateReturnType extends MaybeAsync<boolean>, ValueType> implements LabeledRule {
+export class RuleEvaluation<PredicateReturnType extends MaybeAsync<boolean>, ValueType>
+  implements CollectableRule<void, PredicateReturnType extends boolean ? void : Promise<void>>
+{
   constructor(protected rule: Rule<PredicateReturnType, ValueType>, protected value: ValueType) {}
 
   doesHold() {

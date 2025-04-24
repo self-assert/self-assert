@@ -22,6 +22,8 @@ import type { ModelFromContainer, DraftViewer } from "../types";
  * since the class has more use cases than just form completion.
  *
  * It can, for example, be used in a backend context to validate an object before persisting it.
+ *
+ * @category Draft assistants
  */
 export abstract class DraftAssistant<Model = any, ContainerModel = any> {
   /**
