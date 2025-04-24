@@ -9,6 +9,9 @@ and assisting their creation through guided assistants (draft assistants).
 
 - [Getting Started](./getting-started.md)
 
+> [!WARNING]
+> This site is still a work in progress.
+
 ## Philosophy
 
 This library is inspired by the ideas of [Hernán Wilkinson](https://github.com/hernanwilkinson)

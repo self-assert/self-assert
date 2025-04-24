@@ -20,6 +20,5 @@
   "readme": "./docs/README.md",
   "navigationLinks": {
     "GitHub": "https://github.com/self-assert/self-assert"
-  },
-  "projectDocuments": ["./docs/getting-started.md"]
+  }
 }

@@ -12,10 +12,10 @@ export type CreationClosure<Model, ComposedModels extends unknown[]> = (...model
  * It uses a `creationClosure` function to combine the models created by its
  * assistants into a single composed model.
  *
- * @extends DraftAssistant {@link DraftAssistant link}
  * @template ComposedModels - An array of types representing the types of the models created by the inner assistants,
  * in the same order as the `assistants` array.
  *
+ * @category Draft assistants
  */
 export class SectionDraftAssistant<
   Model = any,

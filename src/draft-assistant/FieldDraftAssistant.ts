@@ -6,6 +6,8 @@ import { Assertion, LabelId, LabeledRule, CollectableRule } from "../rule";
 /**
  * An assistant designed to manage a single field or a simple
  * piece of data within a larger form or model.
+ *
+ * @category Draft assistants
  */
 export class FieldDraftAssistant<ContainerModel = any, Model extends string = string> extends DraftAssistant<
   Model,

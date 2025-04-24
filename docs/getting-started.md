@@ -1,6 +1,6 @@
 ---
 title: Getting Started
-category: ""
+category: Documents
 ---
 
 # Getting Started

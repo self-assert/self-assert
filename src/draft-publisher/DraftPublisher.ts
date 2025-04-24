@@ -4,6 +4,10 @@ import type { DraftAssistant } from "../draft-assistant";
 import type { DraftViewer } from "../types";
 import type { LabeledRule } from "../rule";
 
+/**
+ * Events emitted by a {@link DraftPublisher}.
+ * @category Draft assistants
+ */
 export type PublisherEvents<Model = unknown> =
   | { "draft:updated": [Model] }
   | { "assertions:added": [LabeledRule] }
@@ -20,6 +24,8 @@ export type PublisherEvents<Model = unknown> =
  * - `assertions:added`: when a new failed assertion is reported,
  * - `assertions:reset`: when all failed assertions are cleared.
  *
+ * See {@link PublisherEvents}.
+ *
  * This can be especially useful when integrating with frameworks or systems already based on events.
  *
  * @example
@@ -33,6 +39,8 @@ export type PublisherEvents<Model = unknown> =
  * ```
  *
  * @template Model The type of model the assistant works with.
+ *
+ * @category Draft assistants
  */
 export class DraftPublisher<Model = unknown>
   extends EventEmitter<PublisherEvents<Model>>

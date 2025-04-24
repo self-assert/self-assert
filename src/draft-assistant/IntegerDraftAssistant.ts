@@ -7,6 +7,8 @@ import type { ModelFromContainer } from "../types";
 /**
  * Provides an assistant for the completion of an integer field,
  * represented by a string.
+ *
+ * @category Draft assistants
  */
 export class IntegerDraftAssistant<ContainerModel = any> extends SectionDraftAssistant<
   number,
