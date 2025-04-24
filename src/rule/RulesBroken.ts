@@ -12,6 +12,7 @@ export interface RulesBrokenAsJson {
  * by their labels.
  *
  * @see {@link RuleLabel}
+ * @category Rules
  */
 export class RulesBroken extends Error {
   static fromJson(rulesBrokenAsJson: RulesBrokenAsJson) {
