@@ -77,7 +77,8 @@ class Person {
 If any assertion fails, a `RulesBroken` error is thrown.
 This ensures your objects are complete and valid from the beginning.
 
-See [full examples](./examples) or [documentation][docs] for more use cases.
+See [full examples](https://github.com/self-assert/self-assert/tree/main/examples)
+or [documentation][docs] for more use cases.
 
 ## Resources
 

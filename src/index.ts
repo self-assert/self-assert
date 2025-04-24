@@ -1,9 +1,9 @@
 /**
- * @groupDescription Assertions
+ * @categoryDescription Rules
  * Related to the definition of business rules and their evaluation.
- * @packageDocumentation
+ *
+ * @module API Reference
  */
-
 export * from "./rule";
 export * from "./rule-requirements";
 export * from "./draft-assistant";

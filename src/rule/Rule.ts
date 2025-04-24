@@ -41,7 +41,7 @@ export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, Valu
   }
 
   /**
-   * Prepares an {@link RuleEvaluation} for the given value.
+   * Prepares a {@link RuleEvaluation} for the given value.
    *
    * This is the same as `new RuleEvaluation(rule, value)`.
    *

@@ -1,7 +1,11 @@
 import { RulesBroken } from "./RulesBroken";
-import type { LabeledRule, SelfContainedAssertion, SelfContainedRule, SelfContainedRules } from "./types";
-
-type SelfContainedAssertions = SelfContainedAssertion | SelfContainedAssertion[];
+import type {
+  LabeledRule,
+  SelfContainedAssertion,
+  SelfContainedAssertions,
+  SelfContainedRule,
+  SelfContainedRules,
+} from "./types";
 
 /**
  * Runs all assertions and throws an error if any has failed.

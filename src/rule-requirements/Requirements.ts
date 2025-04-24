@@ -44,7 +44,7 @@ class StringsRequirements {
  * ```ts
  * const assertion = Assertion.requiring("customer.age.over18", "Can't be under 18", Requirements.greaterThanOrEqual(18));
  * ```
- * @group Assertions
+ * @category Rules
  */
 export const Requirements = {
   /**

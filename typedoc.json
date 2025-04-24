@@ -1,13 +1,14 @@
 {
   "entryPoints": ["src/index.ts"],
+  // "entryPointStrategy": "expand",
   "out": "./docs/api",
   "includeVersion": false,
   "tsconfig": "./tsconfig.json",
-  "router": "group",
+  // "router": "group",
   "navigation": {
     "includeGroups": true,
     "includeCategories": true,
-    "excludeReferences": true
+    "excludeReferences": false
   },
   "categorizeByGroup": false,
   "defaultCategory": "Others",
@@ -19,5 +20,6 @@
   "readme": "./docs/README.md",
   "navigationLinks": {
     "GitHub": "https://github.com/self-assert/self-assert"
-  }
+  },
+  "projectDocuments": ["./docs/getting-started.md"]
 }

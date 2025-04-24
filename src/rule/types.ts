@@ -3,7 +3,7 @@ export type LabelId = string;
 /**
  * Describes an assertion by its id and description.
  *
- * @group Assertions
+ * @category Rules
  */
 export interface LabeledRule {
   isLabeledAs(aBrokenRuleLabel: LabeledRule): boolean;
@@ -44,3 +44,5 @@ export type SelfContainedRules = SelfContainedRule | SelfContainedRule[];
 export type SelfContainedAssertion = SelfContainedRule<void>;
 
 export type ValueParam<Type> = Type extends void ? [] : [Type];
+
+export type SelfContainedAssertions = SelfContainedAssertion | SelfContainedAssertion[];
