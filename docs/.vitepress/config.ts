@@ -29,6 +29,7 @@ export default defineConfig({
           { text: "What is self-assert?", link: "/what-is-self-assert" },
           { text: "Getting started", link: "/getting-started" },
           { text: "Philosophy", link: "/philosophy" },
+          { text: "Acknowledgements", link: "/acknowledgements" },
         ],
       },
       {

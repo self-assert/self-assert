@@ -1,26 +1,31 @@
 # Philosophy
 
-This library is inspired by the ideas of [Hernán Wilkinson](https://github.com/hernanwilkinson)
-in his [Diseño a la Gorra](https://github.com/hernanwilkinson/disenioALaGorra) series,
-which explores software design as the craft of modeling real-world problems.
+> A software system is a model of a real-world domain — and a good model
+> is valid from the start.
 
-In that spirit, `self-assert` adopts a key principle:  
-**A software system is a model of a specific problem domain—and
-a good model is valid from the start, and teaches us how to use it.**
+`self-assert` encourages a design mindset where validity is **not checked
+externally**, but instead **built into** the objects themselves.
 
-This philosophy is reflected in two main ideas:
+Rather than placing validation in UI forms, DTOs, services,
+or controllers, this library promotes expressing rules as part of
+the model.
 
-- `Rules`
-- `DraftAssistants` help guide the construction of complete and
-  valid models, especially in interfaces with the external world
-  (like user input or APIs).
+This philosophy is reflected in two key ideas:
 
-Together, they support a design approach where validity is built in,
-not patched later.
+- `Rules` express what must hold true for an object to be valid.
+  They are enforced during object creation, ensuring that invalid
+  objects are never instantiated.
+- `DraftAssistants` help guide the construction of complete and valid models,
+  especially in interactions with the external world (such as user input or APIs).
 
-And because validation rules live inside the domain model—not scattered
-across UI forms, API controllers, or data mappers—they remain
-**centralized**, **coherent**, and **maintainable** as the system evolves.
+By placing validation rules inside the model:
+
+- **Duplication is reduced** — rules are not scattered across different layers.
+- **Maintainability** improves — changes to the domain are reflected
+  naturally in the model itself.
+
+This leads to more cohesive and robust systems, where validity is an intrinsic
+property, not an afterthought.
 
 ## A Note About Documentation
 
