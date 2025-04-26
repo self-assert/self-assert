@@ -5,7 +5,7 @@ layout: home
 hero:
   name: "self-assert"
   text: "Design objects that are fully responsible for their validity"
-  # tagline: "Model your domain with consistency and intention — not just validation."
+  tagline: "A small TypeScript library for designing models with built-in validity."
   actions:
     - theme: brand
       text: Getting Started
@@ -13,11 +13,10 @@ hero:
     - theme: alt
       text: What is self-assert?
       link: /what-is-self-assert
-# features:
-#   - title: Feature A
-#     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-#   - title: Feature B
-#     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-#   - title: Feature C
-# details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+features:
+  - title: Assistants for Guided Construction
+    details: DraftAssistants support step-by-step creation of valid objects — ideal for UIs, APIs, or data entry.
+
+  - title: Supports Async Rules
+    details: Use Inquiries when validations require external checks, like database uniqueness or remote lookups.
 ---
