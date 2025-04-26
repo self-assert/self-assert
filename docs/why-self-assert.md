@@ -1,4 +1,4 @@
-# Philosophy
+# Why `self-assert`?
 
 > A software system is a model of a real-world domain — and a good model
 > is valid from the start.
@@ -10,7 +10,7 @@ Rather than placing validation in UI forms, DTOs, services,
 or controllers, this library promotes expressing rules as part of
 the model.
 
-This philosophy is reflected in two key ideas:
+This principle is reflected in two key ideas:
 
 - `Rules` express what must hold true for an object to be valid.
   They are enforced during object creation, ensuring that invalid
@@ -20,12 +20,13 @@ This philosophy is reflected in two key ideas:
 
 By placing validation rules inside the model:
 
-- **Duplication is reduced** — rules are not scattered across different layers.
+- **Duplication is reduced** — rules are centralized, not scattered
+  across different layers.
 - **Maintainability** improves — changes to the domain are reflected
   naturally in the model itself.
 
-This leads to more cohesive and robust systems, where validity is an intrinsic
-property, not an afterthought.
+This leads to systems that are cohesive, robust, and easier to evolve,
+where validity is an intrinsic property, not an afterthought.
 
 ## A Note About Documentation
 
@@ -34,7 +35,7 @@ While this documentation site aims to be helpful,
 the source code and tests are the ultimate reference.
 :::
 
-Following the philosophy that inspired this project, the
+Following the design principles that inspired this project, the
 **best documentation of a system is its source code**
 —its structure, its behavior, and its tests.
 
