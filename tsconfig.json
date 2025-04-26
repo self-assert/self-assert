@@ -18,5 +18,5 @@
       "@testing-support/*": ["./testing-support/*"]
     }
   },
-  "include": ["./src", "testing-support"]
+  "include": ["./src", "./testing-support"]
 }

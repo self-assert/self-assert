@@ -6,7 +6,6 @@
  * @categoryDescription Draft assistants
  * Related to the creation of drafts.
  *
- * @document ../docs/getting-started.md
  */
 export * from "./rule";
 export * from "./rule-requirements";

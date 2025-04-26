@@ -1,17 +1,30 @@
 ---
 title: Getting Started
-category: Documents
 ---
 
 # Getting Started
 
-## Why `self-assert`?
+## Try It Live
 
-`self-assert` is a small TypeScript library that helps you design domain
-objects that are **responsible for their own validity**.
+You can try `self-assert` directly in your browser on [CodeSandbox](https://codesandbox.io/p/sandbox/github/self-assert/self-assert-react-demo).
 
-It embraces a modeling-first mindset, encouraging rules to
-live **inside** your domain — not as external schemas or validators.
+## Installation
+
+::: code-group
+
+```sh [npm]
+npm install self-assert
+```
+
+```sh [pnpm]
+pnpm add self-assert
+```
+
+```sh [yarn]
+yarn add self-assert
+```
+
+:::
 
 ## Validating Domain Objects with `Assertion`
 
@@ -30,10 +43,17 @@ class Person {
     Requirements.isNotBlank
   );
 
-  static readonly agePositive = Assertion.requiring("age.positive", "Age must be positive", Requirements.isPositive);
+  static readonly agePositive = Assertion.requiring(
+    "age.positive",
+    "Age must be positive",
+    Requirements.isPositive
+  );
 
   static named(name: string, age: number) {
-    Ruleset.ensureAll(this.nameNotBlank.evaluateFor(name), this.agePositive.evaluateFor(age));
+    Ruleset.ensureAll(
+      this.nameNotBlank.evaluateFor(name),
+      this.agePositive.evaluateFor(age)
+    );
     return new this(name, age);
   }
 
@@ -50,9 +70,15 @@ If any rule fails, a `RulesBroken` error is thrown with details.
 
 ```ts
 function createPersonAssistant() {
-  const nameAssistant = FieldDraftAssistant.handlingAll(["name.notBlank"], (person: Person) => person.getName());
+  const nameAssistant = FieldDraftAssistant.handlingAll(
+    ["name.notBlank"],
+    (person: Person) => person.getName()
+  );
 
-  const ageAssistant = IntegerDraftAssistant.for("age.positive", (person: Person) => person.getAge());
+  const ageAssistant = IntegerDraftAssistant.for(
+    "age.positive",
+    (person: Person) => person.getAge()
+  );
 
   return SectionDraftAssistant.topLevelContainerWith(
     [nameAssistant, ageAssistant],
@@ -89,5 +115,8 @@ await emailUnique.mustHold("test@example.com");
 You can mix Assertions and Inquiries in the same `Ruleset`:
 
 ```ts
-await Ruleset.workOn(person.nameNotBlank.evaluateFor(name), emailUnique.evaluateFor(email));
+await Ruleset.workOn(
+  person.nameNotBlank.evaluateFor(name),
+  emailUnique.evaluateFor(email)
+);
 ```

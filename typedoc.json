@@ -2,6 +2,7 @@
   "entryPoints": ["src/index.ts"],
   // "entryPointStrategy": "expand",
   "out": "./docs/api",
+  "docsRoot": "./docs",
   "includeVersion": false,
   "tsconfig": "./tsconfig.json",
   // "router": "group",
@@ -16,9 +17,10 @@
   "sort": ["static-first", "visibility"],
   "useFirstParagraphOfCommentAsSummary": true,
   "disableSources": true,
-  "plugin": ["typedoc-github-theme"],
-  "readme": "./docs/README.md",
-  "navigationLinks": {
-    "GitHub": "https://github.com/self-assert/self-assert"
-  }
+  "plugin": ["typedoc-plugin-markdown", "typedoc-vitepress-theme"],
+  "readme": "none"
+  // "readme": "./docs/README.md",
+  // "navigationLinks": {
+  //   "GitHub": "https://github.com/self-assert/self-assert"
+  // }
 }
