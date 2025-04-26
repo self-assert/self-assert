@@ -78,7 +78,7 @@ or the [documentation][docs] for more details.
 
 Contributions are welcome! Whether it's fixing bugs,
 improving documentation, or proposing new ideas aligned with the
-project's philosophy, feel free to get involved.
+project's design principles, feel free to get involved.
 
 - [Contributors' Guide][contributing]
 - [Code of Conduct][coc]
