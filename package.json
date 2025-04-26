@@ -1,7 +1,7 @@
 {
   "name": "self-assert",
   "version": "0.7.1",
-  "description": "Provides a structured approach to a bussiness model creation and validation.",
+  "description": "A small TypeScript library for designing models with built-in validity.",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -22,7 +22,7 @@
     "check:examples": "npx tsc -p examples/tsconfig.examples.json --noEmit",
     "check:all": "npx tsc --noEmit && npm run lint && npm run test && npm run check:examples",
     "docs:api": "typedoc",
-    "docs:dev": "npm run docs:api && vitepress dev docs",
+    "docs:dev": "vitepress dev docs",
     "docs:build": "npm run docs:api && vitepress build docs",
     "docs:preview": "vitepress preview docs",
     "lint": "eslint src",
