@@ -21,7 +21,10 @@
     "build": "rollup -c",
     "check:examples": "npx tsc -p examples/tsconfig.examples.json --noEmit",
     "check:all": "npx tsc --noEmit && npm run lint && npm run test && npm run check:examples",
-    "docs": "typedoc",
+    "docs:api": "typedoc",
+    "docs:dev": "npm run docs:api && vitepress dev docs",
+    "docs:build": "npm run docs:api && vitepress build docs",
+    "docs:preview": "vitepress preview docs",
     "lint": "eslint src",
     "prepare": "npm run build",
     "test": "jest"
@@ -70,7 +73,9 @@
     "typedoc": "^0.28.2",
     "typedoc-github-theme": "^0.3.0",
     "typedoc-plugin-markdown": "^4.6.3",
+    "typedoc-vitepress-theme": "^1.1.2",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.29.1"
+    "typescript-eslint": "^8.29.1",
+    "vitepress": "^1.6.3"
   }
 }

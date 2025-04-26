@@ -6,48 +6,28 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
-
-# Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
-
-pids
-*.pid
-*.seed
-*.pid.lock
 
 lib-cov
 coverage
 *.lcov
 
-
-# Dependency directories
 node_modules/
 jspm_packages/
-
-# TypeScript cache
 *.tsbuildinfo
-
-# Optional npm cache directory
 .npm
 
-# Optional eslint cache
 .eslintcache
-
-# Optional REPL history
 .node_repl_history
 
-# Output of 'npm pack'
 *.tgz
 
 dist
 
-# Docusaurus cache and generated files
 .docusaurus
 
-# Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
-# yarn v2
 .yarn/cache
 .yarn/unplugged
 .yarn/build-state.yml
@@ -56,3 +36,6 @@ dist
 
 
 docs/api
+
+docs/.vitepress/dist
+docs/.vitepress/cache
