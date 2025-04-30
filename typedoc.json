@@ -18,9 +18,8 @@
   "useFirstParagraphOfCommentAsSummary": true,
   "disableSources": true,
   "plugin": ["typedoc-plugin-markdown", "typedoc-vitepress-theme"],
-  "readme": "none"
-  // "readme": "./docs/README.md",
-  // "navigationLinks": {
-  //   "GitHub": "https://github.com/self-assert/self-assert"
-  // }
+  "readme": "none",
+  "expandParameters": true,
+  "parametersFormat": "table",
+  "indexFormat": "table"
 }

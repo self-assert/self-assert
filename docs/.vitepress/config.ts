@@ -62,7 +62,14 @@ export default defineConfig({
       },
       {
         text: "API",
-        items: typedocSidebar,
+        items: [
+          {
+            text: "Overview",
+            link: "/api/",
+            collapsed: false,
+          },
+          ...typedocSidebar.filter((item) => item.text !== "Others"),
+        ],
       },
     ],
     editLink: {
