@@ -8,7 +8,7 @@ hero:
   tagline: "A small TypeScript library for designing models with built-in validity."
   actions:
     - theme: brand
-      text: Getting Started
+      text: Getting started
       link: /getting-started
     - theme: alt
       text: What is self-assert?
