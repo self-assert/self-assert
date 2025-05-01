@@ -3,7 +3,7 @@ import type { LabelId, LabeledRule } from "./types";
 /**
  * JSON representation of a {@link RuleLabel}
  *
- * @category Supporting types
+ * @category Rule labeling
  */
 export interface RuleLabelAsJson {
   id: LabelId;

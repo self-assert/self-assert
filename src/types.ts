@@ -34,7 +34,7 @@ export interface DraftViewer<Model = any> {
  * Suppose a Customer has only a `firstName` and a `lastName`.
  *
  * ```ts
- * const assistants: AssistantsFor<[string, string], Customer> = [
+ * const assistants: AssistantsIn<[string, string], Customer> = [
  *    firstNameDraftAssistant,
  *    lastNameDraftAssistant
  * ]

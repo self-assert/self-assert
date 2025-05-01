@@ -1,12 +1,13 @@
 /**
- * @category Supporting types
+ * category Rule labeling
+ * @hidden
  */
 export type LabelId = string;
 
 /**
- * Describes an assertion by its id and description.
+ * Describes a rule by its id and description.
  *
- * @category Rules
+ * @category Rule labeling
  * @categoryDescription Labeling
  */
 export interface LabeledRule {
@@ -48,6 +49,11 @@ export interface LabeledRule {
   getDescription(): string;
 }
 
+/**
+ * Describes a rule that knows how to collect failures into a list.
+ *
+ * @category Rules
+ */
 export interface CollectableRule<ValueType, CollectionType extends void | Promise<void>> extends LabeledRule {
   collectFailureInto(failed: LabeledRule[], value: ValueType): CollectionType;
 }
