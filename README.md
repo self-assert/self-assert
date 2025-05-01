@@ -71,8 +71,13 @@ class Person {
 If any assertion fails, a `RulesBroken` error is thrown.
 This ensures your objects are **complete and valid** from the beginning.
 
-See [`examples/`](https://github.com/self-assert/self-assert/tree/main/examples)
-or the [documentation][docs] for more details.
+Please refer to the [documentation][docs] or
+[`examples/`](https://github.com/self-assert/self-assert/tree/main/examples)
+for more details and use cases, such as:
+
+- `assistants` to guide **form completion**
+- validating **async rules**
+- a built-in set of **reusable Requirements** for common checks
 
 ## Resources
 
