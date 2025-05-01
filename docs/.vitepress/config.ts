@@ -43,6 +43,7 @@ export default defineConfig({
   ],
   cleanUrls: true,
   base: "/self-assert/",
+
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     logo: "/logo.png",
@@ -80,5 +81,8 @@ export default defineConfig({
       provider: "local",
     },
     socialLinks: [{ icon: "github", link: repositoryUrl }],
+    outline: {
+      level: [2, 3],
+    },
   },
 });

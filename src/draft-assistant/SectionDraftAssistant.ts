@@ -4,6 +4,9 @@ import { RulesBroken } from "../rule";
 import type { LabelId, LabeledRule } from "../rule";
 import type { ModelFromContainer, AssistantsIn } from "../types";
 
+/**
+ * @category Supporting types
+ */
 export type CreationClosure<Model, ComposedModels extends unknown[]> = (...models: ComposedModels) => Model;
 
 /**

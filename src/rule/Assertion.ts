@@ -10,10 +10,6 @@ import type { CollectableRule, LabeledRule, LabelId, RuleRequirement } from "./t
  * These rules are defined using one or more predicate functions, added via
  * {@link Rule.require require}. The assertion is considered to "hold" when all the conditions evaluate to `true`.
  *
- * Assertions are identified by a unique identifier (`AssertionId`) and a human-readable description.
- * These identifiers are meant to be meaningful within the domain,
- * and can be used to route or display validation errors.
- *
  * @see
  * - {@link Requirements} provides a list of built-in requirements.
  *

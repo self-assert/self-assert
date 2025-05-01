@@ -36,6 +36,8 @@ export interface DraftViewer<Model = any> {
  *    lastNameDraftAssistant
  * ]
  * ```
+ *
+ * @category Supporting types
  */
 export type AssistantsIn<Models extends unknown[], ContainerModel> = {
   [Index in keyof Models]: DraftAssistant<Models[Index], ContainerModel>;
@@ -55,5 +57,7 @@ export type AssistantsIn<Models extends unknown[], ContainerModel> = {
  * const fromWorkingHours: ModelFromContainer<Time, Customer> =
  *    (customer) => customer.getFromWorkingHours();
  * ```
+ *
+ * @category Supporting types
  */
 export type ModelFromContainer<Model, ContainerModel> = (containerModel: ContainerModel) => Model;

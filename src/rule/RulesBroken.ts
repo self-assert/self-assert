@@ -3,6 +3,11 @@ import { RuleLabel } from "./RuleLabel";
 import type { RuleLabelAsJson } from "./RuleLabel";
 import type { LabelId, LabeledRule } from "./types";
 
+/**
+ * JSON representation of {@link RulesBroken}
+ *
+ * @category Supporting types
+ */
 export interface RulesBrokenAsJson {
   brokenRules: RuleLabelAsJson[];
 }
