@@ -8,12 +8,11 @@ import type { LabeledRule } from "../rule";
  * Events emitted by a {@link DraftPublisher}.
  *
  * This allows consumers to subscribe to:
- * - `draft:updated`: when the draft model changes,
- * - `assertions:added`: when a new failed assertion is reported,
- * - `assertions:reset`: when all failed assertions are cleared.
+ * - `draft:updated`: when the draft model changes
+ * - `assertions:added`: when a new failed assertion is reported
+ * - `assertions:reset`: when all failed assertions are cleared
  *
  * @category Draft assistants
- * @expand
  */
 export type PublisherEvents<Model = unknown> =
   | { "draft:updated": [Model] }

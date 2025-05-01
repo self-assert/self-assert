@@ -9,7 +9,7 @@ import type { LabelId, LabeledRule, MaybeAsync, RuleRequirement } from "./types"
  * - Use {@link Assertion} for rules that can be evaluated **synchronously**.
  * - Use {@link Inquiry} for rules that need to be evaluated **asynchronously**.
  *
- * Rules are identified by a unique identifier ({@link LabelId}) and a human-readable description.
+ * Rules are identified by a unique identifier (`labelId`) and a human-readable description.
  * These identifiers are meant to be meaningful within the domain,
  * and can be used to route or display validation errors.
  *
