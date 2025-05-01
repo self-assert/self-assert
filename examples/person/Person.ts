@@ -31,6 +31,3 @@ export class Person {
     return this.age;
   }
 }
-
-Person.named("John", 50);
-Person.named("   ", 0);

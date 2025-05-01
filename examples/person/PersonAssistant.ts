@@ -6,7 +6,7 @@ import {
 import { Person } from "./Person";
 
 // #region assistant-creation
-function cretePersonAssistant() {
+function createPersonAssistant() {
   const nameAssistant = FieldDraftAssistant.handlingAll(
     ["name.notBlank"],
     (person: Person) => person.getName()
@@ -28,7 +28,7 @@ function cretePersonAssistant() {
 // #endregion assistant-creation
 
 // #region assistant-usage
-const personAssistant = cretePersonAssistant();
+const personAssistant = createPersonAssistant();
 
 personAssistant.nameAssistant.setModel("   ");
 personAssistant.ageAssistant.setModel(30);
