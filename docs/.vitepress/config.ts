@@ -44,6 +44,13 @@ export default defineConfig({
         href: "/self-assert/apple-touch-icon.png",
       },
     ],
+    [
+      "meta",
+      {
+        name: "google-site-verification",
+        content: "cTUKnbqvGsqzxM1IrYA89CmxyN_Yih7bo8_cHB6tzbM",
+      },
+    ],
   ],
   markdown: {
     config(md) {
