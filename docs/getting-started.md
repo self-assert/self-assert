@@ -54,6 +54,13 @@ If any rule fails, a `RulesBroken` error is thrown with details.
 
 :::
 
+::: tip
+
+`Object.assign` lets you expose the inner assistants of a composed one,
+so you can reuse them without creating a dedicated subclass.
+
+:::
+
 The assistant lets you defer object creation until all validations pass:
 
 ::: code-group
