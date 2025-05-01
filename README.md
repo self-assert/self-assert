@@ -1,8 +1,19 @@
-# self-assert
+<h1 align="center">
+self-assert
+</h1>
 
-> Design objects that are fully responsible for their validity.
+<p align="center">
+<img src="https://avatars.githubusercontent.com/u/205992123?s=100"
+  alt="self-assert logo" />
+</p>
+
+<blockquote>
+<p align="center"> Design objects that are fully responsible for their validity.</p>
+</blockquote>
 
 <div align="center">
+
+<br/>
 
 [![npm version](https://img.shields.io/npm/v/self-assert)][npm]
 [![License](https://img.shields.io/badge/license-MIT-green)][license]
