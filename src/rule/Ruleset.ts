@@ -8,8 +8,8 @@ import type {
 } from "./types";
 
 /**
- * Runs all assertions and throws an error if any has failed.
- * The failed assertions are included in the error.
+ * Runs all rules and throws an error if any has failed.
+ * The failed rules are included in the error.
  *
  * @see {@link RulesBroken}
  *
@@ -19,7 +19,26 @@ export class Ruleset {
   /**
    * Evaluates all assertions **synchronously** and throws an error if any has failed.
    *
-   * @throws {RulesBroken} if any rule has failed
+   * @throws if any rule has failed.
+   *
+   * @example
+   * ```ts
+   * const firstNameNotEmptyAssertion = Assertion.requiring(
+   *    "firstName",
+   *    firstNameNotEmptyDescription,
+   *    Requirements.isNotEmpty
+   * );
+   * const lastNameNotEmptyAssertion  = Assertion.requiring(
+   *    "lastName",
+   *    lastNameNotEmptyDescription,
+   *    Requirements.isNotEmpty
+   * );
+   *
+   * Ruleset.ensureAll(
+   *   firstNameNotEmptyAssertion.evaluateFor("Jane"),
+   *   lastNameNotEmptyAssertion.evaluateFor(""),
+   * ); // throws because last name is empty
+   * ```
    */
   static ensureAll(...assertions: SelfContainedAssertions[]): void {
     new this(assertions.flat(), []).ensure();
@@ -28,7 +47,26 @@ export class Ruleset {
   /**
    * Evaluates all rules **asynchronously** and throws an error if any has failed.
    *
-   * @throws {RulesBroken} if any rule has failed
+   * @throws if any rule has failed
+   *
+   * @example
+   * ```ts
+   * const emailMustBeUniqueInquiry = Inquiry.requiring(
+   *    "email",
+   *    emailMustBeUniqueDescription,
+   *    async (email) => !(await isEmailTaken(email))
+   * );
+   * const emailMustNotBeDisposableInquiry = Inquiry.requiring(
+   *    "email",
+   *    emailMustNotBeDisposableDescription,
+   *    async () => !(await isDisposable(email))
+   * );
+   *
+   * await Ruleset.workOn(
+   *   emailMustBeUniqueInquiry.evaluateFor("example@disposable.com"),
+   *   emailMustNotBeDisposableInquiry.evaluateFor("example@disposable.com"),
+   * ); // throws because email is disposable
+   * ```
    */
   static workOn(...rules: SelfContainedRules[]): Promise<void> {
     return new this([], rules.flat()).mustHold();
