@@ -49,12 +49,24 @@ export class Assertion<ValueType = any> extends Rule<boolean, ValueType> {
    * the rule will be typed as `Assertion<void>`.
    *
    * @example
-   * // Without a value
-   * const systemIsReady = Assertion.requiring("sys.ready", "System must be ready", () => isReady());
+   * Without a value
+   * ```ts
+   * const systemIsReady = Assertion.requiring(
+   *    "sys.ready",
+   *    "System must be ready",
+   *    () => isReady()
+   * );
+   * ```
    *
    * @example
-   * // With a value
-   * const greaterThan18 = Assertion.requiring("age.min", "Must be over 18", (age: number) => age > 18);
+   * With a value
+   * ```ts
+   * const greaterThan18 = Assertion.requiring(
+   *    "age.min",
+   *    "Must be over 18",
+   *    (age: number) => age > 18
+   * );
+   * ```
    */
   static requiring<ValueType = any>(
     anId: LabelId,
