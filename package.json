@@ -31,8 +31,15 @@
   },
   "keywords": [
     "validation",
+    "rules",
+    "business-rules",
+    "assert",
+    "assertions",
+    "typescript",
     "form",
-    "assert"
+    "form-validation",
+    "design",
+    "domain-driven"
   ],
   "contributors": [
     {
