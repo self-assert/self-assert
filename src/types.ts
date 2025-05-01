@@ -10,16 +10,19 @@ import type { DraftAssistant } from "./draft-assistant";
 export interface DraftViewer<Model = any> {
   /**
    * Receives notifications about changes to the draft's model.
+   * @category Draft viewers
    */
   onDraftChanged?: (aModel: Model) => void;
 
   /**
    * Receives notifications about failed assertions.
+   * @category Draft viewers
    */
   onFailure?: (aFailedAsserion: LabeledRule) => void;
 
   /**
    * Receives notifications when the model's failed assertions are cleared.
+   * @category Draft viewers
    */
   onFailuresReset?: () => void;
 }
