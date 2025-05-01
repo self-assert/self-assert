@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Deprecated
 
+- `DateDraftAssistant` class.
 - `SectionDraftAssistant.routeFailedAssertionsOf`. Replaced by `routeBrokenRulesOf`
   for consistency.
 - `SectionDraftAssistant.routeFailedAssertion`. Replaced by `routeBrokenRule`
