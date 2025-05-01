@@ -1,4 +1,8 @@
 import { defineConfig } from "vitepress";
+import {
+  groupIconMdPlugin,
+  groupIconVitePlugin,
+} from "vitepress-plugin-group-icons";
 import typedocSidebar from "../api/typedoc-sidebar.json";
 import { description, name, repository } from "../../package.json";
 
@@ -41,9 +45,16 @@ export default defineConfig({
       },
     ],
   ],
+  markdown: {
+    config(md) {
+      md.use(groupIconMdPlugin);
+    },
+  },
+  vite: {
+    plugins: [groupIconVitePlugin()],
+  },
   cleanUrls: true,
   base: "/self-assert/",
-
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     logo: "/logo.png",
@@ -59,6 +70,13 @@ export default defineConfig({
           { text: "Why self-assert?", link: "/why-self-assert" },
           { text: "Getting started", link: "/getting-started" },
           { text: "Acknowledgements", link: "/acknowledgements" },
+        ],
+      },
+      {
+        text: "Examples",
+        items: [
+          { text: "Using Rules", link: "/examples/using-rules" },
+          // { text: "Assertions", link: "/examples/assertions" },
         ],
       },
       {
