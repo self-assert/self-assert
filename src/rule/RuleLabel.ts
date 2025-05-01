@@ -1,5 +1,10 @@
 import type { LabelId, LabeledRule } from "./types";
 
+/**
+ * JSON representation of a {@link RuleLabel}
+ *
+ * @category Rule labeling
+ */
 export interface RuleLabelAsJson {
   id: LabelId;
   description: string;

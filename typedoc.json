@@ -5,7 +5,8 @@
   "docsRoot": "./docs",
   "includeVersion": false,
   "tsconfig": "./tsconfig.json",
-  // "router": "group",
+  "plugin": ["typedoc-plugin-markdown", "typedoc-vitepress-theme"],
+  "router": "category",
   "navigation": {
     "includeGroups": false,
     "includeCategories": true,
@@ -17,10 +18,10 @@
   "sort": ["static-first", "visibility"],
   "useFirstParagraphOfCommentAsSummary": true,
   "disableSources": true,
-  "plugin": ["typedoc-plugin-markdown", "typedoc-vitepress-theme"],
-  "readme": "none"
-  // "readme": "./docs/README.md",
-  // "navigationLinks": {
-  //   "GitHub": "https://github.com/self-assert/self-assert"
-  // }
+  "readme": "none",
+  "expandParameters": true,
+  "parametersFormat": "table",
+  "indexFormat": "table",
+  "excludeInternal": true,
+  "excludeProtected": true
 }

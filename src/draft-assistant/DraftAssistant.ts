@@ -29,14 +29,19 @@ export abstract class DraftAssistant<Model = any, ContainerModel = any> {
   /**
    * See {@link https://github.com/microsoft/TypeScript/issues/3841 #3841} for
    * more information.
+   * @hidden
    */
   declare ["constructor"]: typeof DraftAssistant;
 
   /**
    * This object is used as a **token** for an invalid model.
+   * @category Model creation
    */
   static INVALID_MODEL = new Object();
 
+  /**
+   * @category Model creation
+   */
   static isInvalidModel(potentialModel: unknown) {
     return potentialModel === DraftAssistant.INVALID_MODEL;
   }
@@ -55,7 +60,7 @@ export abstract class DraftAssistant<Model = any, ContainerModel = any> {
   protected brokenRules!: LabeledRule[];
   protected viewers: DraftViewer<Model>[];
 
-  constructor(
+  protected constructor(
     protected labelIds: LabelId[],
     protected modelFromContainer: ModelFromContainer<Model, ContainerModel>,
     protected initialModel: Model
@@ -70,6 +75,8 @@ export abstract class DraftAssistant<Model = any, ContainerModel = any> {
    * @see {@link withCreatedModelDo}.
    *
    * @throws {AssertionsFailed} if the model is invalid
+   *
+   * @category Model creation
    */
   abstract createModel(): Model;
 
@@ -81,6 +88,8 @@ export abstract class DraftAssistant<Model = any, ContainerModel = any> {
    * if it's valid.
    * @param invalidModelClosure - A closure that will be called if the model is invalid.
    * @returns The return value of the closure that was called.
+   *
+   * @category Model creation
    */
   withCreatedModelDo<ReturnType>(
     validModelClosure: (model: Model) => ReturnType,
@@ -92,10 +101,16 @@ export abstract class DraftAssistant<Model = any, ContainerModel = any> {
     return validModelClosure(createdModel);
   }
 
+  /**
+   * @category Model creation
+   */
   getModel(): Model {
     return this.model;
   }
 
+  /**
+   * @category Model creation
+   */
   setModel(newModel: Model): void {
     this.model = newModel;
     this.notifyViewersOnChange(newModel);
@@ -103,6 +118,7 @@ export abstract class DraftAssistant<Model = any, ContainerModel = any> {
 
   /**
    * Resets the model to its initial value.
+   * @category Model creation
    */
   resetModel(): void {
     this.model = this.initialModel;
@@ -111,6 +127,7 @@ export abstract class DraftAssistant<Model = any, ContainerModel = any> {
 
   /**
    * Sets the model from its container.
+   * @category Model creation
    */
   setModelFrom(containerModel: ContainerModel) {
     return this.setModel(this.modelFromContainer(containerModel));
@@ -118,6 +135,7 @@ export abstract class DraftAssistant<Model = any, ContainerModel = any> {
 
   /**
    * Adds a viewer to the list of observers.
+   * @category Viewers
    */
   accept(aViewer: DraftViewer<Model>) {
     this.viewers.push(aViewer);
@@ -125,6 +143,7 @@ export abstract class DraftAssistant<Model = any, ContainerModel = any> {
 
   /**
    * Removes a viewer from the list of observers.
+   * @category Viewers
    */
   removeViewer(aViewer: DraftViewer<never>) {
     this.viewers = this.viewers.filter((viewer) => viewer !== aViewer);
@@ -132,13 +151,15 @@ export abstract class DraftAssistant<Model = any, ContainerModel = any> {
 
   /**
    * @returns The number of viewers currently observing the assistant.
+   * @category Viewers
    */
   numberOfViewers() {
     return this.viewers.length;
   }
 
   /**
-   * Adds an assertion to the list of failed assertions.
+   * Adds a rule to the list of broken rules.
+   * @category Rules
    */
   addBrokenRule(aBrokenRuleLabel: LabeledRule) {
     if (this.hasBrokenRule(aBrokenRuleLabel)) return;
@@ -148,7 +169,8 @@ export abstract class DraftAssistant<Model = any, ContainerModel = any> {
   }
 
   /**
-   * Adds a list of assertions to the list of failed assertions.
+   * Adds a list of rules to the list of broken rules.
+   * @category Rules
    */
   addBrokenRules(brokenRules: LabeledRule[]) {
     brokenRules.forEach((failure) => {
@@ -157,7 +179,8 @@ export abstract class DraftAssistant<Model = any, ContainerModel = any> {
   }
 
   /**
-   * @returns `true` if the list of failed assertions is not empty
+   * @returns `true` if the list of broken rules is not empty
+   * @category Rules
    */
   hasBrokenRules() {
     return this.brokenRules.length > 0;
@@ -165,13 +188,15 @@ export abstract class DraftAssistant<Model = any, ContainerModel = any> {
 
   /**
    * Opposite of {@link hasBrokenRules}.
+   * @category Rules
    */
   doesNotHaveBrokenRules() {
     return !this.hasBrokenRules();
   }
 
   /**
-   * @returns The descriptions of the failed assertions
+   * @returns The descriptions of the broken rules
+   * @category Rules
    */
   brokenRulesDescriptions() {
     return this.brokenRules
@@ -181,6 +206,7 @@ export abstract class DraftAssistant<Model = any, ContainerModel = any> {
 
   /**
    * @returns `true` if this assistant handles the given `Assertion`.
+   * @category Rules
    */
   handles(aRule: LabeledRule) {
     return this.labelIds.some((labelId) => aRule.hasLabelId(labelId));
@@ -188,11 +214,15 @@ export abstract class DraftAssistant<Model = any, ContainerModel = any> {
 
   /**
    * Adds an assertion id to the list of handled assertions.
+   * @category Rules
    */
   addLabelId(aLabelId: LabelId) {
     this.labelIds.push(aLabelId);
   }
 
+  /**
+   * @category Rules
+   */
   hasBrokenRule(aBrokenRuleLabel: LabeledRule) {
     return this.brokenRules.some((brokenRule) => brokenRule.isLabeledAs(aBrokenRuleLabel));
   }
@@ -203,11 +233,16 @@ export abstract class DraftAssistant<Model = any, ContainerModel = any> {
    *
    * @remarks
    * Used mostly for testing.
+   *
+   * @category Rules
    */
   hasOnlyOneRuleBrokenIdentifiedAs(assertionId: LabelId) {
     return this.brokenRules.length === 1 && this.brokenRules[0].hasLabelId(assertionId);
   }
 
+  /**
+   * @category Rules
+   */
   removeBrokenRules() {
     this.brokenRules = [];
     this.forEachViewer((viewer) => viewer.onFailuresReset?.());

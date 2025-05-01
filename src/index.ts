@@ -12,5 +12,3 @@ export * from "./rule-requirements";
 export * from "./draft-assistant";
 export * from "./draft-publisher";
 export * from "./types";
-
-// @module API Reference

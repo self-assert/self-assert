@@ -6,6 +6,12 @@ import type { LabeledRule } from "../rule";
 
 /**
  * Events emitted by a {@link DraftPublisher}.
+ *
+ * This allows consumers to subscribe to:
+ * - `draft:updated`: when the draft model changes
+ * - `assertions:added`: when a new failed assertion is reported
+ * - `assertions:reset`: when all failed assertions are cleared
+ *
  * @category Draft assistants
  */
 export type PublisherEvents<Model = unknown> =
@@ -19,12 +25,7 @@ export type PublisherEvents<Model = unknown> =
  * `DraftPublisher` provides an alternative to the {@link DraftViewer} interface for reacting to changes in a draft.
  * Instead of relying on callbacks, it follows an event-driven approach using `EventEmitter`.
  *
- * This allows consumers to subscribe to:
- * - `draft:updated`: when the draft model changes,
- * - `assertions:added`: when a new failed assertion is reported,
- * - `assertions:reset`: when all failed assertions are cleared.
- *
- * See {@link PublisherEvents}.
+ * This allows consumers to subscribe to {@link PublisherEvents}.
  *
  * This can be especially useful when integrating with frameworks or systems already based on events.
  *

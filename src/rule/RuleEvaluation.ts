@@ -36,18 +36,34 @@ export class RuleEvaluation<PredicateReturnType extends MaybeAsync<boolean>, Val
 {
   constructor(protected rule: Rule<PredicateReturnType, ValueType>, protected value: ValueType) {}
 
+  /**
+   * @category Rule evaluation
+   * @see {@link Rule.doesHold}
+   */
   doesHold() {
     return this.rule.doesHold(this.value);
   }
 
+  /**
+   * @category Rule evaluation
+   * @see {@link Rule.hasFailed}
+   */
   hasFailed() {
     return this.rule.hasFailed(this.value);
   }
 
+  /**
+   * @category Rule evaluation
+   * @see {@link Rule.mustHold}
+   */
   mustHold() {
     return this.rule.mustHold(this.value);
   }
 
+  /**
+   * @category Rule evaluation
+   * @see {@link Rule.collectFailureInto}
+   */
   collectFailureInto(failed: LabeledRule[]) {
     return this.rule.collectFailureInto(failed, this.value);
   }

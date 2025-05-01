@@ -1,4 +1,8 @@
 import { defineConfig } from "vitepress";
+import {
+  groupIconMdPlugin,
+  groupIconVitePlugin,
+} from "vitepress-plugin-group-icons";
 import typedocSidebar from "../api/typedoc-sidebar.json";
 import { description, name, repository } from "../../package.json";
 
@@ -40,7 +44,22 @@ export default defineConfig({
         href: "/self-assert/apple-touch-icon.png",
       },
     ],
+    [
+      "meta",
+      {
+        name: "google-site-verification",
+        content: "cTUKnbqvGsqzxM1IrYA89CmxyN_Yih7bo8_cHB6tzbM",
+      },
+    ],
   ],
+  markdown: {
+    config(md) {
+      md.use(groupIconMdPlugin);
+    },
+  },
+  vite: {
+    plugins: [groupIconVitePlugin()],
+  },
   cleanUrls: true,
   base: "/self-assert/",
   themeConfig: {
@@ -61,8 +80,22 @@ export default defineConfig({
         ],
       },
       {
+        text: "Examples",
+        items: [
+          { text: "Using Rules", link: "/examples/using-rules" },
+          // { text: "Assertions", link: "/examples/assertions" },
+        ],
+      },
+      {
         text: "API",
-        items: typedocSidebar,
+        items: [
+          {
+            text: "Overview",
+            link: "/api/",
+            collapsed: false,
+          },
+          ...typedocSidebar.filter((item) => item.text !== "Others"),
+        ],
       },
     ],
     editLink: {
@@ -73,5 +106,8 @@ export default defineConfig({
       provider: "local",
     },
     socialLinks: [{ icon: "github", link: repositoryUrl }],
+    outline: {
+      level: [2, 3],
+    },
   },
 });

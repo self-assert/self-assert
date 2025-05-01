@@ -9,6 +9,10 @@ import type { LabelId, LabeledRule, MaybeAsync, RuleRequirement } from "./types"
  * - Use {@link Assertion} for rules that can be evaluated **synchronously**.
  * - Use {@link Inquiry} for rules that need to be evaluated **asynchronously**.
  *
+ * Rules are identified by a unique identifier (`labelId`) and a human-readable description.
+ * These identifiers are meant to be meaningful within the domain,
+ * and can be used to route or display validation errors.
+ *
  * @template PredicateReturnType The return type of the predicate functions.
  * Specifically, `true` or `Promise<true>`.
  * @template ValueType The type of value this rule applies to.
@@ -16,6 +20,8 @@ import type { LabelId, LabeledRule, MaybeAsync, RuleRequirement } from "./types"
  * @category Rules
  * @categoryDescription Rule evaluation
  * Related to the definition of business rules and their evaluation.
+ * @categoryDescription Rule definition
+ * Related to the definition of requirements for business rules.
  */
 export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, ValueType = any> implements LabeledRule {
   protected readonly requirements: RuleRequirement<PredicateReturnType, ValueType>[];
@@ -25,9 +31,9 @@ export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, Valu
   }
 
   /**
-   * Evaluates the requirements for the given value
+   * Evaluates the requirements for the given value,
+   * and returns whether the rule holds or not.
    *
-   * @returns `true` or `Promise<true>` if all conditions are met
    * @category Rule evaluation
    */
   abstract doesHold(value: ValueType): PredicateReturnType;
@@ -35,7 +41,6 @@ export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, Valu
   /**
    * Opposite of {@link doesHold}
    *
-   * @returns `true` or `Promise<true>` if any condition is not met
    * @category Rule evaluation
    */
   abstract hasFailed(value: ValueType): PredicateReturnType;
@@ -60,9 +65,20 @@ export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, Valu
   ): PredicateReturnType extends boolean ? void : Promise<void>;
 
   /**
-   * Adds a necessary condition for the rule to hold.
+   * Adds a necessary requirement for the rule to hold.
+   *
+   * @example
+   * ```ts
+   * const nameNotBlank = Assertion.requiring<string>(
+   *   "customer.name.notBlank",
+   *   "Name must not be blank",
+   *   Requirements.isNotBlank
+   * );
+   * nameNotBlank.require((name) => name !== "John");
+   * ```
    *
    * @returns `this` for chaining
+   * @category Rule definition
    */
   require(aConditionToBeMet: RuleRequirement<PredicateReturnType, ValueType>): this {
     this.requirements.push(aConditionToBeMet);

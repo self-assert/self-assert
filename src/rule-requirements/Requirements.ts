@@ -5,6 +5,9 @@ import { NumbersRequirements } from "./numbers/NumbersRequirements";
 
 import type { RuleRequirement } from "../rule";
 
+/**
+ * @category Supporting types
+ */
 export type Predicate<ValueType> = RuleRequirement<boolean, ValueType>;
 
 const { not } = LogicalRequirement;

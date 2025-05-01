@@ -1,12 +1,13 @@
 /**
- * @category Rules
+ * category Rule labeling
+ * @hidden
  */
 export type LabelId = string;
 
 /**
- * Describes an assertion by its id and description.
+ * Describes a rule by its id and description.
  *
- * @category Rules
+ * @category Rule labeling
  * @categoryDescription Labeling
  */
 export interface LabeledRule {
@@ -48,20 +49,46 @@ export interface LabeledRule {
   getDescription(): string;
 }
 
+/**
+ * Describes a rule that knows how to collect failures into a list.
+ *
+ * @category Rules
+ */
 export interface CollectableRule<ValueType, CollectionType extends void | Promise<void>> extends LabeledRule {
   collectFailureInto(failed: LabeledRule[], value: ValueType): CollectionType;
 }
 
+/**
+ * @category Supporting types
+ */
 export type MaybeAsync<Type = void> = Type | Promise<Type>;
 
+/**
+ * @category Supporting types
+ */
 export type RuleRequirement<ReturnType extends MaybeAsync<boolean>, ValueType = any> = (value: ValueType) => ReturnType;
 
+/**
+ * @category Supporting types
+ */
 export type SelfContainedRule<EvaluationType extends MaybeAsync = MaybeAsync> = CollectableRule<void, EvaluationType>;
 
+/**
+ * @category Supporting types
+ */
 export type SelfContainedRules = SelfContainedRule | SelfContainedRule[];
 
+/**
+ * @category Supporting types
+ */
 export type SelfContainedAssertion = SelfContainedRule<void>;
 
+/**
+ * @category Supporting types
+ */
 export type ValueParam<Type> = Type extends void ? [] : [Type];
 
+/**
+ * @category Supporting types
+ */
 export type SelfContainedAssertions = SelfContainedAssertion | SelfContainedAssertion[];

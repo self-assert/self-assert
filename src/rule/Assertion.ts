@@ -10,10 +10,6 @@ import type { CollectableRule, LabeledRule, LabelId, RuleRequirement } from "./t
  * These rules are defined using one or more predicate functions, added via
  * {@link Rule.require require}. The assertion is considered to "hold" when all the conditions evaluate to `true`.
  *
- * Assertions are identified by a unique identifier (`AssertionId`) and a human-readable description.
- * These identifiers are meant to be meaningful within the domain,
- * and can be used to route or display validation errors.
- *
  * @see
  * - {@link Requirements} provides a list of built-in requirements.
  *
@@ -53,12 +49,24 @@ export class Assertion<ValueType = any> extends Rule<boolean, ValueType> {
    * the rule will be typed as `Assertion<void>`.
    *
    * @example
-   * // Without a value
-   * const systemIsReady = Assertion.requiring("sys.ready", "System must be ready", () => isReady());
+   * Without a value
+   * ```ts
+   * const systemIsReady = Assertion.requiring(
+   *    "sys.ready",
+   *    "System must be ready",
+   *    () => isReady()
+   * );
+   * ```
    *
    * @example
-   * // With a value
-   * const greaterThan18 = Assertion.requiring("age.min", "Must be over 18", (age: number) => age > 18);
+   * With a value
+   * ```ts
+   * const greaterThan18 = Assertion.requiring(
+   *    "age.min",
+   *    "Must be over 18",
+   *    (age: number) => age > 18
+   * );
+   * ```
    */
   static requiring<ValueType = any>(
     anId: LabelId,

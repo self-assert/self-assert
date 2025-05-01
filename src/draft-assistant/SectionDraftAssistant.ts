@@ -4,12 +4,15 @@ import { RulesBroken } from "../rule";
 import type { LabelId, LabeledRule } from "../rule";
 import type { ModelFromContainer, AssistantsIn } from "../types";
 
+/**
+ * @category Supporting types
+ */
 export type CreationClosure<Model, ComposedModels extends unknown[]> = (...models: ComposedModels) => Model;
 
 /**
  * Assists in the creation of complex models by coordinating multiple inner `DraftAssistant`.
  *
- * It uses a `creationClosure` function to combine the models created by its
+ * It uses a {@link CreationClosure} function to combine the models created by its
  * assistants into a single composed model.
  *
  * @template ComposedModels - An array of types representing the types of the models created by the inner assistants,
@@ -72,33 +75,55 @@ export class SectionDraftAssistant<
     this.assistants.forEach((assistant) => assistant.resetModel());
   }
 
+  /**
+   * @category Error handling
+   */
   handleError(possibleCreateModelError: unknown) {
-    if (possibleCreateModelError instanceof RulesBroken) return this.routeFailedAssertionsOf(possibleCreateModelError);
+    if (possibleCreateModelError instanceof RulesBroken) return this.routeBrokenRulesOf(possibleCreateModelError);
 
     throw possibleCreateModelError;
   }
 
+  /**
+   * @category Error handling
+   */
+  routeBrokenRulesOf(aRulesBrokenError: RulesBroken) {
+    aRulesBrokenError.forEachRuleBroken((brokenRule) => this.routeBrokenRule(brokenRule));
+  }
+
+  /**
+   * @category Error handling
+   */
+  routeBrokenRule(brokenRule: LabeledRule) {
+    if (this.handles(brokenRule)) this.addBrokenRule(brokenRule);
+    else this.routeNotHandledByThisBrokenRule(brokenRule);
+  }
+
+  /**
+   * @deprecated Use {@link routeBrokenRulesOf} instead
+   * @category Error handling
+   */
   routeFailedAssertionsOf(creationError: RulesBroken) {
-    creationError.forEachRuleBroken((failedAssertion) => this.routeFailedAssertion(failedAssertion));
+    creationError.forEachRuleBroken((failedAssertion) => this.routeBrokenRule(failedAssertion));
   }
 
+  /**
+   * @deprecated Use {@link routeBrokenRule} instead
+   * @category Error handling
+   */
   routeFailedAssertion(failedAssertion: LabeledRule) {
-    if (this.handles(failedAssertion)) this.addBrokenRule(failedAssertion);
-    else this.routeNotHandledByThisFailedAssertion(failedAssertion);
+    return this.routeBrokenRule(failedAssertion);
   }
 
-  protected routeNotHandledByThisFailedAssertion(failedAssertion: LabeledRule) {
-    const assistantsHandlingAssertion = this.assistantsHandling(failedAssertion);
+  protected routeNotHandledByThisBrokenRule(brokenRule: LabeledRule) {
+    const assistantsHandlingRule = this.assistantsHandling(brokenRule);
 
-    if (assistantsHandlingAssertion.length === 0) this.addBrokenRule(failedAssertion);
-    else this.addFailedAssertionToAll(assistantsHandlingAssertion, failedAssertion);
+    if (assistantsHandlingRule.length === 0) this.addBrokenRule(brokenRule);
+    else this.addBrokenRuleToAll(assistantsHandlingRule, brokenRule);
   }
 
-  protected addFailedAssertionToAll(
-    assistantsHandlingAssertion: DraftAssistant<unknown, Model>[],
-    failedAssertion: LabeledRule
-  ) {
-    assistantsHandlingAssertion.forEach((assistant) => assistant.addBrokenRule(failedAssertion));
+  protected addBrokenRuleToAll(assistantsHandlingAssertion: DraftAssistant<unknown, Model>[], brokenRule: LabeledRule) {
+    assistantsHandlingAssertion.forEach((assistant) => assistant.addBrokenRule(brokenRule));
   }
 
   protected assistantsHandling(assertion: LabeledRule) {

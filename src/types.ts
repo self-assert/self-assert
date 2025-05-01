@@ -10,16 +10,19 @@ import type { DraftAssistant } from "./draft-assistant";
 export interface DraftViewer<Model = any> {
   /**
    * Receives notifications about changes to the draft's model.
+   * @category Draft viewers
    */
   onDraftChanged?: (aModel: Model) => void;
 
   /**
    * Receives notifications about failed assertions.
+   * @category Draft viewers
    */
   onFailure?: (aFailedAsserion: LabeledRule) => void;
 
   /**
    * Receives notifications when the model's failed assertions are cleared.
+   * @category Draft viewers
    */
   onFailuresReset?: () => void;
 }
@@ -31,11 +34,13 @@ export interface DraftViewer<Model = any> {
  * Suppose a Customer has only a `firstName` and a `lastName`.
  *
  * ```ts
- * const assistants: AssistantsFor<[string, string], Customer> = [
+ * const assistants: AssistantsIn<[string, string], Customer> = [
  *    firstNameDraftAssistant,
  *    lastNameDraftAssistant
  * ]
  * ```
+ *
+ * @category Supporting types
  */
 export type AssistantsIn<Models extends unknown[], ContainerModel> = {
   [Index in keyof Models]: DraftAssistant<Models[Index], ContainerModel>;
@@ -55,5 +60,7 @@ export type AssistantsIn<Models extends unknown[], ContainerModel> = {
  * const fromWorkingHours: ModelFromContainer<Time, Customer> =
  *    (customer) => customer.getFromWorkingHours();
  * ```
+ *
+ * @category Supporting types
  */
 export type ModelFromContainer<Model, ContainerModel> = (containerModel: ContainerModel) => Model;

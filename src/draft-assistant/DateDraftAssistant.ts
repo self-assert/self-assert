@@ -15,6 +15,7 @@ import type { ModelFromContainer } from "../types";
  * for new projects by MDN.
  *
  * @category Draft assistants
+ * @deprecated
  */
 export class DateDraftAssistant<ContainerModel = any> extends SectionDraftAssistant<Date, ContainerModel, [string]> {
   static readonly defaultAssertionDescription = "Invalid date";

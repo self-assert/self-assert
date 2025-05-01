@@ -2,13 +2,18 @@
   "extends": "../tsconfig.json",
   "include": ["./"],
   "compilerOptions": {
-    "noEmit": true,
     "strict": true,
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": false,
     "paths": {
       "self-assert": ["../src/index.ts"]
     },
     "module": "ESNext",
-    "moduleResolution": "Bundler"
+    "target": "ESNext",
+    "moduleResolution": "Bundler",
+    "removeComments": false,
+    "pretty": true
   },
   "ts-node": {
     "esm": true

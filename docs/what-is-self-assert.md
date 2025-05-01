@@ -19,4 +19,4 @@ Inspired by object-oriented design principles, the library promotes:
 ## Quick Links
 
 - [Live demo](https://codesandbox.io/p/sandbox/github/self-assert/self-assert-react-demo)
-- [Getting Started](./getting-started.md)
+- [Getting started](./getting-started.md)

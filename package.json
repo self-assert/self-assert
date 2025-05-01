@@ -19,7 +19,7 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "check:examples": "npx tsc -p examples/tsconfig.examples.json --noEmit",
+    "check:examples": "npx tsc -p examples/tsconfig.json --noEmit",
     "check:all": "npx tsc --noEmit && npm run lint && npm run test && npm run check:examples",
     "docs:api": "typedoc",
     "docs:dev": "vitepress dev docs",
@@ -31,8 +31,15 @@
   },
   "keywords": [
     "validation",
+    "rules",
+    "business-rules",
+    "assert",
+    "assertions",
+    "typescript",
     "form",
-    "assert"
+    "form-validation",
+    "design",
+    "domain-driven"
   ],
   "contributors": [
     {
@@ -76,6 +83,7 @@
     "typedoc-vitepress-theme": "^1.1.2",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.29.1",
-    "vitepress": "^1.6.3"
+    "vitepress": "^1.6.3",
+    "vitepress-plugin-group-icons": "^1.5.2"
   }
 }
