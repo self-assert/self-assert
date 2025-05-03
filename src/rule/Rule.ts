@@ -82,9 +82,8 @@ export abstract class Rule<
    * Adds a necessary requirement for the rule to hold.
    *
    * @example
-   * ::: code-group
-   * <<< @/../examples/snippets/rules.ts#require{ts} [basic usage]
-   * :::
+   * Add a requirement for the rule to hold
+   * {@includeCode ../../examples/snippets/rules.ts#require}
    *
    *
    * @returns `this` for chaining
@@ -103,17 +102,7 @@ export abstract class Rule<
    * This is the same as `new RuleEvaluation(rule, value)`.
    *
    * @example
-   *
-   * ```ts
-   * const nameNotBlank = Assertion.requiring<string>(
-   *   "customer.name.notBlank",
-   *   "Name must not be blank",
-   *   Requirements.isNotBlank
-   * );
-   * const evaluation = nameNotBlank.evaluateFor("John");
-   *
-   * evaluation.doesHold(); // true
-   * ```
+   * {@includeCode ../../examples/snippets/rules.ts#evaluateFor}
    *
    * @category Rule evaluation
    */

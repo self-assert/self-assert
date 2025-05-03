@@ -12,3 +12,14 @@ console.log(nameValid.hasFailed("")); // true
 console.log(nameValid.hasFailed("Johnny")); // true
 console.log(nameValid.doesHold("John")); // true
 // #endregion require
+
+// #region evaluateFor
+const nameNotBlank = Assertion.requiring(
+  "customer.name.notBlank",
+  "Name must not be blank",
+  Requirements.isNotBlank
+);
+const evaluation = nameNotBlank.evaluateFor("John");
+
+console.log(evaluation.doesHold()); // true
+// #endregion evaluateFor
