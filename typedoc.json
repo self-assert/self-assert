@@ -23,5 +23,8 @@
   "parametersFormat": "table",
   "indexFormat": "table",
   "excludeInternal": true,
-  "excludeProtected": true
+  "excludeProtected": true,
+  "jsDocCompatibility": {
+    "exampleTag": false
+  }
 }
