@@ -1,7 +1,12 @@
 import { RuleLabel, RuleLabelAsJson } from "./RuleLabel";
 import { Ruleset } from "./Ruleset";
 import { Rule } from "./Rule";
-import type { CollectableRule, LabeledRule, LabelId, RuleRequirement } from "./types";
+import type {
+  CollectableRule,
+  LabeledRule,
+  LabelId,
+  RuleRequirement,
+} from "./types";
 
 /**
  * Represents a validation rule in the problem domain.
@@ -17,30 +22,28 @@ import type { CollectableRule, LabeledRule, LabelId, RuleRequirement } from "./t
  *
  * @example
  * Basic usage
- * ```ts
- * const nameNotBlank = Assertion.requiring<string>(
- *   "customer.name.notBlank",
- *   "Name must not be blank",
- *   Requirements.isNotBlank
- * );
- *
- * nameNotBlank.doesHold("John"); // true
- * nameNotBlank.hasFailed("   "); // true
- * ```
+ * {@includeCode ../../examples/snippets/rules.ts#assertion-basic-usage}
  *
  * @category Rules
  */
 export class Assertion<ValueType = any> extends Rule<boolean, ValueType> {
+  /** @category Creation */
   static fromJson(assertionAsJson: RuleLabelAsJson) {
     return new this(RuleLabel.fromJson(assertionAsJson));
   }
 
+  /** @category Creation */
   static labeled<ValueType = any>(id: LabelId, description: string) {
     const label = new RuleLabel(id, description);
     return new this<ValueType>(label);
   }
 
-  static requiring(anId: LabelId, aDescription: string, aCondition: () => boolean): Assertion<void>;
+  /** @internal */
+  static requiring(
+    anId: LabelId,
+    aDescription: string,
+    aCondition: () => boolean
+  ): Assertion<void>;
 
   /**
    * Creates a new assertion with the given id, description and requirement.
@@ -50,23 +53,13 @@ export class Assertion<ValueType = any> extends Rule<boolean, ValueType> {
    *
    * @example
    * Without a value
-   * ```ts
-   * const systemIsReady = Assertion.requiring(
-   *    "sys.ready",
-   *    "System must be ready",
-   *    () => isReady()
-   * );
-   * ```
+   * {@includeCode ../../examples/snippets/rules.ts#assertion-requiring-void}
    *
    * @example
    * With a value
-   * ```ts
-   * const greaterThan18 = Assertion.requiring(
-   *    "age.min",
-   *    "Must be over 18",
-   *    (age: number) => age > 18
-   * );
-   * ```
+   * {@includeCode ../../examples/snippets/rules.ts#assertion-requiring-value}
+   *
+   * @category Creation
    */
   static requiring<ValueType = any>(
     anId: LabelId,
@@ -114,4 +107,6 @@ export class Assertion<ValueType = any> extends Rule<boolean, ValueType> {
  * It is never instantiated or exported.
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-class VoidAssertionIsSelfContained extends Assertion<void> implements CollectableRule<void, void> {}
+class VoidAssertionIsSelfContained
+  extends Assertion<void>
+  implements CollectableRule<void, void> {}

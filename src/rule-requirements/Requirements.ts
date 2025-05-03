@@ -18,7 +18,8 @@ class StringsRequirements {
    * @function @category Strings
    * @see {@link isNotBlank}
    */
-  static isBlank: Predicate<string> = (value) => ListsRequirements.isEmpty(value.trim());
+  static isBlank: Predicate<string> = (value) =>
+    ListsRequirements.isEmpty(value.trim());
 
   /**
    * Opposite of {@link isBlank}.
@@ -28,26 +29,16 @@ class StringsRequirements {
 }
 
 /**
- * A collection of common assertion requirements.
+ * A collection of common rule requirements.
  *
  * It also provides a way to compose requirements using the `and`, `or` and `not` functions.
  *
  * @namespace
- * @example
- * Composition
- * ```ts
- * const myRequirement = Requirements.and(
- *    Requirements.greaterThan(0),
- *    (value: number) => value % 42 === 0
- * );
- * myRequirement(42); // true
- * ```
- * @example
- * Usage with {@link Assertion}:
- * ```ts
- * const assertion = Assertion.requiring("customer.age.over18", "Can't be under 18", Requirements.greaterThanOrEqual(18));
- * ```
+ *
  * @category Rules
+ * @categoryDescription Composition
+ * Methods for composing requirements. Example:
+ * {@includeCode ../../examples/snippets/requirements.ts#composition}
  */
 export const Requirements = {
   /**

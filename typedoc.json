@@ -19,9 +19,12 @@
   "useFirstParagraphOfCommentAsSummary": true,
   "disableSources": true,
   "readme": "none",
-  "expandParameters": true,
+  "expandParameters": false,
   "parametersFormat": "table",
   "indexFormat": "table",
   "excludeInternal": true,
-  "excludeProtected": true
+  "excludeProtected": true,
+  "jsDocCompatibility": {
+    "exampleTag": false
+  }
 }

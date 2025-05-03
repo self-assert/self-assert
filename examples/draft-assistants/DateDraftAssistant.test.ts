@@ -1,6 +1,6 @@
 import { describe, expect, it } from "@jest/globals";
 import { DateDraftAssistant } from "./DateDraftAssistant";
-import { DraftAssistant } from "./DraftAssistant";
+import { DraftAssistant } from "self-assert";
 
 describe("DateDraftAssistant", () => {
   it("should handle ISO dates", (done) => {
@@ -29,8 +29,12 @@ describe("DateDraftAssistant", () => {
       () => done("Should be invalid"),
       () => {
         expect(DraftAssistant.isInvalidModel(assistant.getModel())).toBe(true);
-        expect(assistant.hasOnlyOneRuleBrokenIdentifiedAs(assertionId)).toBe(true);
-        expect(assistant.brokenRulesDescriptions()).toEqual([DateDraftAssistant.defaultAssertionDescription]);
+        expect(assistant.hasOnlyOneRuleBrokenIdentifiedAs(assertionId)).toBe(
+          true
+        );
+        expect(assistant.brokenRulesDescriptions()).toEqual([
+          DateDraftAssistant.defaultAssertionDescription,
+        ]);
         done();
       }
     );
@@ -46,8 +50,12 @@ describe("DateDraftAssistant", () => {
       () => done("Should be invalid"),
       () => {
         expect(DraftAssistant.isInvalidModel(assistant.getModel())).toBe(true);
-        expect(assistant.hasOnlyOneRuleBrokenIdentifiedAs(assertionId)).toBe(true);
-        expect(assistant.brokenRulesDescriptions()).toEqual([DateDraftAssistant.defaultAssertionDescription]);
+        expect(assistant.hasOnlyOneRuleBrokenIdentifiedAs(assertionId)).toBe(
+          true
+        );
+        expect(assistant.brokenRulesDescriptions()).toEqual([
+          DateDraftAssistant.defaultAssertionDescription,
+        ]);
         done();
       }
     );

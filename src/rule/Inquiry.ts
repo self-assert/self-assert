@@ -7,27 +7,35 @@ import { LabeledRule, LabelId } from "./types";
  * Represents a rule that needs to be evaluated **asynchronously**.
  *
  * @example
- * ```ts
- * const emailMustBeUnique = Inquiry.requiring<string>(
- *    "user.email.unique",
- *    "Email must be unique",
- *    async (email) => !(await isEmailTaken(email))
- * )
- * ```
+ * {@includeCode ../../examples/snippets/rules.ts#inquiry}
  *
  * @category Rules
  */
-export class Inquiry<ValueType = any> extends Rule<Promise<boolean>, ValueType> {
+export class Inquiry<ValueType = any> extends Rule<
+  Promise<boolean>,
+  ValueType
+> {
+  /** @category Creation */
   static labeled<ValueType = any>(anId: LabelId, aDescription: string) {
     return new this<ValueType>(new RuleLabel(anId, aDescription));
   }
 
-  static requiring(anId: LabelId, aDescription: string, aCondition: () => Promise<boolean>): Inquiry<void>;
+  /** @internal */
+  static requiring(
+    anId: LabelId,
+    aDescription: string,
+    aCondition: () => Promise<boolean>
+  ): Inquiry<void>;
+  /**
+   * @see {@link Assertion.requiring}
+   * @category Creation
+   */
   static requiring<ValueType = any>(
     anId: LabelId,
     aDescription: string,
     aCondition: (value: ValueType) => Promise<boolean>
   ): Inquiry<ValueType>;
+
   static requiring<ValueType = any>(
     anId: LabelId,
     aDescription: string,

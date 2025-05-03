@@ -1,6 +1,11 @@
 import { RuleEvaluation } from "./RuleEvaluation";
 import { RuleLabel } from "./RuleLabel";
-import type { LabelId, LabeledRule, MaybeAsync, RuleRequirement } from "./types";
+import type {
+  LabelId,
+  LabeledRule,
+  MaybeAsync,
+  RuleRequirement,
+} from "./types";
 
 /**
  * Represents a validation rule in the problem domain.
@@ -23,8 +28,15 @@ import type { LabelId, LabeledRule, MaybeAsync, RuleRequirement } from "./types"
  * @categoryDescription Rule definition
  * Related to the definition of requirements for business rules.
  */
-export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, ValueType = any> implements LabeledRule {
-  protected readonly requirements: RuleRequirement<PredicateReturnType, ValueType>[];
+export abstract class Rule<
+  PredicateReturnType extends MaybeAsync<boolean>,
+  ValueType = any
+> implements LabeledRule
+{
+  protected readonly requirements: RuleRequirement<
+    PredicateReturnType,
+    ValueType
+  >[];
 
   protected constructor(protected label: RuleLabel) {
     this.requirements = [];
@@ -51,7 +63,9 @@ export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, Valu
    *
    * @category Rule evaluation
    */
-  abstract mustHold(value: ValueType): PredicateReturnType extends boolean ? void : Promise<void>;
+  abstract mustHold(
+    value: ValueType
+  ): PredicateReturnType extends boolean ? void : Promise<void>;
 
   /**
    * Updates the list of failed assertions with its label
@@ -68,19 +82,16 @@ export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, Valu
    * Adds a necessary requirement for the rule to hold.
    *
    * @example
-   * ```ts
-   * const nameNotBlank = Assertion.requiring<string>(
-   *   "customer.name.notBlank",
-   *   "Name must not be blank",
-   *   Requirements.isNotBlank
-   * );
-   * nameNotBlank.require((name) => name !== "John");
-   * ```
+   * Add a requirement for the rule to hold
+   * {@includeCode ../../examples/snippets/rules.ts#require}
+   *
    *
    * @returns `this` for chaining
    * @category Rule definition
    */
-  require(aConditionToBeMet: RuleRequirement<PredicateReturnType, ValueType>): this {
+  require(
+    aConditionToBeMet: RuleRequirement<PredicateReturnType, ValueType>
+  ): this {
     this.requirements.push(aConditionToBeMet);
     return this;
   }
@@ -91,17 +102,7 @@ export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, Valu
    * This is the same as `new RuleEvaluation(rule, value)`.
    *
    * @example
-   *
-   * ```ts
-   * const nameNotBlank = Assertion.requiring<string>(
-   *   "customer.name.notBlank",
-   *   "Name must not be blank",
-   *   Requirements.isNotBlank
-   * );
-   * const evaluation = nameNotBlank.evaluateFor("John");
-   *
-   * evaluation.doesHold(); // true
-   * ```
+   * {@includeCode ../../examples/snippets/rules.ts#evaluateFor}
    *
    * @category Rule evaluation
    */
@@ -110,7 +111,10 @@ export abstract class Rule<PredicateReturnType extends MaybeAsync<boolean>, Valu
   }
 
   isLabeledAs(aBrokenRuleLabel: LabeledRule) {
-    return aBrokenRuleLabel.hasLabel(this.label.getId(), this.label.getDescription());
+    return aBrokenRuleLabel.hasLabel(
+      this.label.getId(),
+      this.label.getDescription()
+    );
   }
 
   hasLabel(anId: LabelId, aDescription: string) {

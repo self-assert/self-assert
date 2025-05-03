@@ -10,31 +10,23 @@ import type { LabeledRule, LabelId } from "./types";
  * @template ValueType The type of value the rule applies to.
  *
  * @example
- * ```ts
- * const nameNotBlank = Assertion.requiring<string>(
- *   "customer.name.notBlank",
- *   "Name must not be blank",
- *   Requirements.isNotBlank
- * );
- * const evaluation = new RuleEvaluation(nameNotBlank, "John");
- *
- * evaluation.doesHold(); // true
- * ```
- *
- * @example
- *
- * ```ts
- * const evaluation = nameNotBlank.evaluateFor("John"); // RuleEvaluation
- *
- * evaluation.doesHold(); // true
- * ```
+ * {@includeCode ../../examples/snippets/rules.ts#evaluateFor,rule-evaluation}
  *
  * @category Rules
  */
-export class RuleEvaluation<PredicateReturnType extends MaybeAsync<boolean>, ValueType>
-  implements CollectableRule<void, PredicateReturnType extends boolean ? void : Promise<void>>
+export class RuleEvaluation<
+  PredicateReturnType extends MaybeAsync<boolean>,
+  ValueType
+> implements
+    CollectableRule<
+      void,
+      PredicateReturnType extends boolean ? void : Promise<void>
+    >
 {
-  constructor(protected rule: Rule<PredicateReturnType, ValueType>, protected value: ValueType) {}
+  constructor(
+    protected rule: Rule<PredicateReturnType, ValueType>,
+    protected value: ValueType
+  ) {}
 
   /**
    * @category Rule evaluation
