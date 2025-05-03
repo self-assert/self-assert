@@ -1,7 +1,10 @@
-import { FieldDraftAssistant } from "./FieldDraftAssistant";
-import { SectionDraftAssistant } from "./SectionDraftAssistant";
-import { Assertion, LabelId } from "../rule";
-import type { ModelFromContainer } from "../types";
+import {
+  FieldDraftAssistant,
+  SectionDraftAssistant,
+  Assertion,
+  LabelId,
+  type ModelFromContainer,
+} from "self-assert";
 
 /**
  * Assists in the completion of a date field in format `YYYY-MM-DD`.
@@ -17,7 +20,9 @@ import type { ModelFromContainer } from "../types";
  * @category Draft assistants
  * @deprecated
  */
-export class DateDraftAssistant<ContainerModel = any> extends SectionDraftAssistant<Date, ContainerModel, [string]> {
+export class DateDraftAssistant<
+  ContainerModel = any
+> extends SectionDraftAssistant<Date, ContainerModel, [string]> {
   static readonly defaultAssertionDescription = "Invalid date";
 
   static for<ContainerModel = any>(
@@ -46,14 +51,18 @@ export class DateDraftAssistant<ContainerModel = any> extends SectionDraftAssist
   }
 
   static createDateAssistant() {
-    return FieldDraftAssistant.handling<Date>("", (date) => date.toISOString().substring(0, 10));
+    return FieldDraftAssistant.handling<Date>("", (date) =>
+      date.toISOString().substring(0, 10)
+    );
   }
 
   static createAssertionFor(assertionId: LabelId, dateAsString: string) {
     return Assertion.requiring(
       assertionId,
       DateDraftAssistant.defaultAssertionDescription,
-      () => /^\d{4}-\d{2}-\d{2}$/.test(dateAsString) && !isNaN(new Date(dateAsString).getTime())
+      () =>
+        /^\d{4}-\d{2}-\d{2}$/.test(dateAsString) &&
+        !isNaN(new Date(dateAsString).getTime())
     );
   }
 
