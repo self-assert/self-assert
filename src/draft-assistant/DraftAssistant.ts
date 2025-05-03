@@ -13,8 +13,8 @@ import type { ModelFromContainer, DraftViewer } from "../types";
  *
  * Assistants can be nested and composed to build complex models.
  *
- * @template Model The type of the model the assistant helps to create.
- * @template ContainerModel The type of the container model the assistant works on.
+ * @typeParam Model The type of the model the assistant helps to create.
+ * @typeParam ContainerModel The type of the container model the assistant works on.
  *
  * @remarks
  * Originally, this class was named `ModelCreator`. Later, it was renamed to `FormCompletionAssistant`,
@@ -35,7 +35,7 @@ export abstract class DraftAssistant<Model = any, ContainerModel = any> {
 
   /**
    * This object is used as a **token** for an invalid model.
-   * @category Model creation
+   * @internal
    */
   static INVALID_MODEL = new Object();
 
@@ -50,7 +50,10 @@ export abstract class DraftAssistant<Model = any, ContainerModel = any> {
    * @returns A default model getter from a container for the top-level assistant.
    * Since there is no container to get the model from, it throws an error.
    */
-  static topLevelModelFromContainer<Model = any>(): ModelFromContainer<Model, unknown> {
+  static topLevelModelFromContainer<Model = any>(): ModelFromContainer<
+    Model,
+    unknown
+  > {
     return () => {
       throw new Error("No container to get model from");
     };
@@ -74,7 +77,7 @@ export abstract class DraftAssistant<Model = any, ContainerModel = any> {
    * Attempts to create a model. It fails if any of the assertions fail.
    * @see {@link withCreatedModelDo}.
    *
-   * @throws {AssertionsFailed} if the model is invalid
+   * @throws {@link RulesBroken} if the model is invalid
    *
    * @category Model creation
    */
@@ -96,21 +99,18 @@ export abstract class DraftAssistant<Model = any, ContainerModel = any> {
     invalidModelClosure: () => ReturnType
   ) {
     const createdModel = this.createModel();
-    if (this.constructor.isInvalidModel(createdModel)) return invalidModelClosure();
+    if (this.constructor.isInvalidModel(createdModel))
+      return invalidModelClosure();
 
     return validModelClosure(createdModel);
   }
 
-  /**
-   * @category Model creation
-   */
+  /** @category Model creation */
   getModel(): Model {
     return this.model;
   }
 
-  /**
-   * @category Model creation
-   */
+  /** @category Model creation */
   setModel(newModel: Model): void {
     this.model = newModel;
     this.notifyViewersOnChange(newModel);
@@ -220,11 +220,11 @@ export abstract class DraftAssistant<Model = any, ContainerModel = any> {
     this.labelIds.push(aLabelId);
   }
 
-  /**
-   * @category Rules
-   */
+  /** @category Rules */
   hasBrokenRule(aBrokenRuleLabel: LabeledRule) {
-    return this.brokenRules.some((brokenRule) => brokenRule.isLabeledAs(aBrokenRuleLabel));
+    return this.brokenRules.some((brokenRule) =>
+      brokenRule.isLabeledAs(aBrokenRuleLabel)
+    );
   }
 
   /**
@@ -237,12 +237,13 @@ export abstract class DraftAssistant<Model = any, ContainerModel = any> {
    * @category Rules
    */
   hasOnlyOneRuleBrokenIdentifiedAs(assertionId: LabelId) {
-    return this.brokenRules.length === 1 && this.brokenRules[0].hasLabelId(assertionId);
+    return (
+      this.brokenRules.length === 1 &&
+      this.brokenRules[0].hasLabelId(assertionId)
+    );
   }
 
-  /**
-   * @category Rules
-   */
+  /** @category Rules */
   removeBrokenRules() {
     this.brokenRules = [];
     this.forEachViewer((viewer) => viewer.onFailuresReset?.());
