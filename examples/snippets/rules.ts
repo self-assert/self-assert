@@ -1,4 +1,4 @@
-import { Assertion, Requirements } from "self-assert";
+import { Assertion, Inquiry, Requirements } from "self-assert";
 
 // #region require
 const nameValid = Assertion.requiring(
@@ -36,9 +36,7 @@ console.log(integerGreaterThan42.doesHold(42.1)); // false
 console.log(integerGreaterThan42.doesHold(43)); // true
 // #endregion assertion-basic-usage
 
-function isReady() {
-  return true;
-}
+const isReady = () => true;
 // #region assertion-requiring-void
 /** Typed as Assertion<void> */
 const systemIsReady = Assertion.requiring(
@@ -56,3 +54,14 @@ const greaterThan18 = Assertion.requiring(
   (age: number) => age > 18
 );
 // #endregion assertion-requiring-value
+
+const isEmailTaken = (email: string) => Promise.resolve(false);
+// #region inquiry
+const emailMustBeUnique = Inquiry.requiring<string>(
+  "user.email.unique",
+  "Email must be unique",
+  async (email) => !(await isEmailTaken(email))
+);
+
+await emailMustBeUnique.mustHold("taken@email.com");
+// #endregion inquiry
