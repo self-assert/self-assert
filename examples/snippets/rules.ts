@@ -23,3 +23,36 @@ const evaluation = nameNotBlank.evaluateFor("John");
 
 console.log(evaluation.doesHold()); // true
 // #endregion evaluateFor
+
+// #region assertion-basic-usage
+const integerGreaterThan42 = Assertion.requiring(
+  "integer.greaterThan42",
+  "A human-readable description",
+  Requirements.and(Requirements.isInteger, Requirements.greaterThan(42))
+);
+
+console.log(integerGreaterThan42.doesHold(42)); // false
+console.log(integerGreaterThan42.doesHold(42.1)); // false
+console.log(integerGreaterThan42.doesHold(43)); // true
+// #endregion assertion-basic-usage
+
+function isReady() {
+  return true;
+}
+// #region assertion-requiring-void
+/** Typed as Assertion<void> */
+const systemIsReady = Assertion.requiring(
+  "sys.ready",
+  "System must be ready",
+  () => isReady()
+);
+// #endregion assertion-requiring-void
+
+// #region assertion-requiring-value
+/** Typed as Assertion<number> */
+const greaterThan18 = Assertion.requiring(
+  "age.min",
+  "Must be over 18",
+  (age: number) => age > 18
+);
+// #endregion assertion-requiring-value
