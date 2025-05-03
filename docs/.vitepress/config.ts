@@ -83,7 +83,10 @@ export default defineConfig({
         text: "Examples",
         items: [
           { text: "Using Rules", link: "/examples/using-rules" },
-          // { text: "Assertions", link: "/examples/assertions" },
+          {
+            text: "DraftAssistant for a Date field",
+            link: "/examples/date-draft-assistant",
+          },
         ],
       },
       {

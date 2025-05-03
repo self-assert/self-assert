@@ -6,20 +6,6 @@ import {
   type ModelFromContainer,
 } from "self-assert";
 
-/**
- * Assists in the completion of a date field in format `YYYY-MM-DD`.
- *
- * @remarks
- * This class is **not** recommended for use in production, it is
- * mainly intended for testing and showcase purposes.
- *
- * The `Date` object is considered a legacy feature.
- * It is recommended to use the {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal Temporal} API
- * for new projects by MDN.
- *
- * @category Draft assistants
- * @deprecated
- */
 export class DateDraftAssistant<
   ContainerModel = any
 > extends SectionDraftAssistant<Date, ContainerModel, [string]> {
@@ -31,7 +17,7 @@ export class DateDraftAssistant<
   ): DateDraftAssistant<ContainerModel> {
     const assertionIds = assertionId === "" ? [] : [assertionId];
 
-    /** @ts-expect-error @see {@link https://github.com/microsoft/TypeScript/issues/5863 #5863} */
+    /** @ts-expect-error /microsoft/TypeScript#5863 */
     return this.with(
       [this.createDateAssistant()],
       (dateAsString) => this.createDate(assertionId, dateAsString),
