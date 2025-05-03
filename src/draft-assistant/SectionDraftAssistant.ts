@@ -7,7 +7,9 @@ import type { ModelFromContainer, AssistantsIn } from "../types";
 /**
  * @category Supporting types
  */
-export type CreationClosure<Model, ComposedModels extends unknown[]> = (...models: ComposedModels) => Model;
+export type CreationClosure<Model, ComposedModels extends unknown[]> = (
+  ...models: ComposedModels
+) => Model;
 
 /**
  * Assists in the creation of complex models by coordinating multiple inner `DraftAssistant`.
@@ -25,21 +27,38 @@ export class SectionDraftAssistant<
   ContainerModel = any,
   ComposedModels extends unknown[] = any[]
 > extends DraftAssistant<Model, ContainerModel> {
-  static with<Model = any, ContainerModel = any, ComposedModels extends unknown[] = any[]>(
+  static with<
+    Model = any,
+    ContainerModel = any,
+    ComposedModels extends unknown[] = any[]
+  >(
     assistants: AssistantsIn<ComposedModels, Model>,
     creationClosure: CreationClosure<Model, ComposedModels>,
     modelFromContainer: ModelFromContainer<Model, ContainerModel>,
     assertionIds: LabelId[]
   ) {
-    return new this(assistants, creationClosure, modelFromContainer, assertionIds);
+    return new this(
+      assistants,
+      creationClosure,
+      modelFromContainer,
+      assertionIds
+    );
   }
 
-  static topLevelContainerWith<Model = any, ComposedModels extends unknown[] = any[]>(
+  static topLevelContainerWith<
+    Model = any,
+    ComposedModels extends unknown[] = any[]
+  >(
     assistants: AssistantsIn<ComposedModels, Model>,
     creationClosure: CreationClosure<Model, ComposedModels>,
     assertionIds: LabelId[] = []
   ) {
-    return this.with(assistants, creationClosure, this.topLevelModelFromContainer<Model>(), assertionIds);
+    return this.with(
+      assistants,
+      creationClosure,
+      this.topLevelModelFromContainer<Model>(),
+      assertionIds
+    );
   }
 
   constructor(
@@ -79,7 +98,8 @@ export class SectionDraftAssistant<
    * @category Error handling
    */
   handleError(possibleCreateModelError: unknown) {
-    if (possibleCreateModelError instanceof RulesBroken) return this.routeBrokenRulesOf(possibleCreateModelError);
+    if (possibleCreateModelError instanceof RulesBroken)
+      return this.routeBrokenRulesOf(possibleCreateModelError);
 
     throw possibleCreateModelError;
   }
@@ -88,7 +108,9 @@ export class SectionDraftAssistant<
    * @category Error handling
    */
   routeBrokenRulesOf(aRulesBrokenError: RulesBroken) {
-    aRulesBrokenError.forEachRuleBroken((brokenRule) => this.routeBrokenRule(brokenRule));
+    aRulesBrokenError.forEachRuleBroken((brokenRule) =>
+      this.routeBrokenRule(brokenRule)
+    );
   }
 
   /**
@@ -99,22 +121,6 @@ export class SectionDraftAssistant<
     else this.routeNotHandledByThisBrokenRule(brokenRule);
   }
 
-  /**
-   * @deprecated Use {@link routeBrokenRulesOf} instead
-   * @category Error handling
-   */
-  routeFailedAssertionsOf(creationError: RulesBroken) {
-    creationError.forEachRuleBroken((failedAssertion) => this.routeBrokenRule(failedAssertion));
-  }
-
-  /**
-   * @deprecated Use {@link routeBrokenRule} instead
-   * @category Error handling
-   */
-  routeFailedAssertion(failedAssertion: LabeledRule) {
-    return this.routeBrokenRule(failedAssertion);
-  }
-
   protected routeNotHandledByThisBrokenRule(brokenRule: LabeledRule) {
     const assistantsHandlingRule = this.assistantsHandling(brokenRule);
 
@@ -122,8 +128,13 @@ export class SectionDraftAssistant<
     else this.addBrokenRuleToAll(assistantsHandlingRule, brokenRule);
   }
 
-  protected addBrokenRuleToAll(assistantsHandlingAssertion: DraftAssistant<unknown, Model>[], brokenRule: LabeledRule) {
-    assistantsHandlingAssertion.forEach((assistant) => assistant.addBrokenRule(brokenRule));
+  protected addBrokenRuleToAll(
+    assistantsHandlingAssertion: DraftAssistant<unknown, Model>[],
+    brokenRule: LabeledRule
+  ) {
+    assistantsHandlingAssertion.forEach((assistant) =>
+      assistant.addBrokenRule(brokenRule)
+    );
   }
 
   protected assistantsHandling(assertion: LabeledRule) {
