@@ -1,4 +1,10 @@
-import { Assertion, Inquiry, Requirements, Ruleset } from "self-assert";
+import {
+  Assertion,
+  Inquiry,
+  Requirements,
+  RuleEvaluation,
+  Ruleset,
+} from "self-assert";
 
 // #region require
 const nameValid = Assertion.requiring(
@@ -19,10 +25,21 @@ const nameNotBlank = Assertion.requiring(
   "Name must not be blank",
   Requirements.isNotBlank
 );
-const evaluation = nameNotBlank.evaluateFor("John");
 
+const evaluation = nameNotBlank.evaluateFor("John");
 console.log(evaluation.doesHold()); // true
+
 // #endregion evaluateFor
+
+() => {
+  // #region rule-evaluation
+  /**
+   * Or use RuleEvaluation directly
+   */
+  const evaluation = new RuleEvaluation(nameNotBlank, "John");
+  console.log(evaluation.doesHold()); // true
+  // #endregion rule-evaluation
+};
 
 // #region assertion-basic-usage
 const integerGreaterThan42 = Assertion.requiring(
