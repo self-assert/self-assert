@@ -1,4 +1,4 @@
-import { Assertion, Inquiry, Requirements } from "self-assert";
+import { Assertion, Inquiry, Requirements, Ruleset } from "self-assert";
 
 // #region require
 const nameValid = Assertion.requiring(
@@ -57,11 +57,50 @@ const greaterThan18 = Assertion.requiring(
 
 const isEmailTaken = (email: string) => Promise.resolve(false);
 // #region inquiry
+// #region email-unique
 const emailMustBeUnique = Inquiry.requiring<string>(
   "user.email.unique",
   "Email must be unique",
   async (email) => !(await isEmailTaken(email))
 );
+// #endregion email-unique
 
 await emailMustBeUnique.mustHold("taken@email.com");
 // #endregion inquiry
+
+const firstNameNotEmptyDescription = "";
+const lastNameNotEmptyDescription = "";
+// #region ruleset-ensureAll
+const firstNameNotEmpty = Assertion.requiring(
+  "firstName",
+  firstNameNotEmptyDescription,
+  Requirements.isNotEmpty
+);
+const lastNameNotEmpty = Assertion.requiring(
+  "lastName",
+  lastNameNotEmptyDescription,
+  Requirements.isNotEmpty
+);
+
+/** Throws because last name is empty */
+Ruleset.ensureAll(
+  firstNameNotEmpty.evaluateFor("Jane"),
+  lastNameNotEmpty.evaluateFor("")
+);
+// #endregion ruleset-ensureAll
+
+const isDisposable = (email: string) => Promise.resolve(false);
+const emailMustNotBeDisposableDescription = "";
+// #region ruleset-workOn
+const emailMustNotBeDisposable = Inquiry.requiring<string>(
+  "email",
+  emailMustNotBeDisposableDescription,
+  async (email) => !(await isDisposable(email))
+);
+
+/** Throws because email is disposable */
+await Ruleset.workOn(
+  emailMustBeUnique.evaluateFor("example@disposable.com"),
+  emailMustNotBeDisposable.evaluateFor("example@disposable.com")
+);
+// #endregion ruleset-workOn
