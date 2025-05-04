@@ -5,7 +5,11 @@
   "docsRoot": "./docs",
   "includeVersion": false,
   "tsconfig": "./tsconfig.json",
-  "plugin": ["typedoc-plugin-markdown", "typedoc-vitepress-theme"],
+  "plugin": [
+    "typedoc-plugin-markdown",
+    "typedoc-vitepress-theme",
+    "typedoc-plugin-frontmatter"
+  ],
   "router": "category",
   "navigation": {
     "includeGroups": false,
