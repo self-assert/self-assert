@@ -2,10 +2,11 @@
 self-assert
 </h1>
 
-<p align="center">
-<img src="https://avatars.githubusercontent.com/u/205992123?s=100"
-  alt="self-assert logo" />
-</p>
+<div align="center">
+
+[![self-assert logo](https://avatars.githubusercontent.com/u/205992123?s=100)][repo]
+
+</div>
 
 <blockquote>
 <p align="center"> Design objects that are fully responsible for their validity.</p>
@@ -105,6 +106,7 @@ project's design principles, feel free to get involved.
 
 <!---->
 
+[repo]: https://github.com/self-assert/self-assert
 [license]: https://github.com/self-assert/self-assert/blob/main/LICENSE
 [contributing]: https://github.com/self-assert/self-assert/blob/main/CONTRIBUTING.md
 [coc]: https://github.com/self-assert/.github/blob/main/CODE_OF_CONDUCT.md
