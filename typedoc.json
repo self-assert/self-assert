@@ -26,5 +26,8 @@
   "excludeProtected": true,
   "jsDocCompatibility": {
     "exampleTag": false
+  },
+  "frontmatterGlobals": {
+    "editLink": false
   }
 }
