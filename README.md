@@ -110,9 +110,9 @@ project's design principles, feel free to get involved.
 [license]: https://github.com/self-assert/self-assert/blob/main/LICENSE
 [contributing]: https://github.com/self-assert/self-assert/blob/main/CONTRIBUTING.md
 [coc]: https://github.com/self-assert/.github/blob/main/CODE_OF_CONDUCT.md
-[docs]: https://self-assert.github.io/self-assert
+[docs]: https://self-assert.github.io
 [demo]: https://codesandbox.io/p/sandbox/github/self-assert/self-assert-react-demo
-[credits]: https://self-assert.github.io/self-assert/acknowledgements
+[credits]: https://self-assert.github.io/acknowledgements
 
 <!-- Badges -->
 
