@@ -25,3 +25,5 @@ jobs:
     permissions:
       contents: write
     uses: self-assert/self-assert.github.io/.github/workflows/submodules-update.yml@main
+    secrets:
+      GH_PAT: ${{ secrets.GH_PAT }}
