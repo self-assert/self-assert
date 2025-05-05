@@ -22,9 +22,6 @@
     "check:examples": "npx tsc -p examples/tsconfig.json --noEmit",
     "check:all": "npx tsc --noEmit && npm run lint && npm run test && npm run check:examples",
     "docs:api": "typedoc",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "npm run docs:api && vitepress build docs",
-    "docs:preview": "vitepress preview docs",
     "lint": "eslint src",
     "prepare": "npm run build",
     "test": "jest"
@@ -83,8 +80,6 @@
     "typedoc-plugin-markdown": "^4.6.3",
     "typedoc-vitepress-theme": "^1.1.2",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.31.1",
-    "vitepress": "^1.6.3",
-    "vitepress-plugin-group-icons": "^1.5.2"
+    "typescript-eslint": "^8.31.1"
   }
 }
