@@ -59,7 +59,7 @@
   "bugs": {
     "url": "https://github.com/self-assert/self-assert/issues"
   },
-  "homepage": "https://self-assert.github.io/self-assert",
+  "homepage": "https://self-assert.github.io",
   "devDependencies": {
     "@babel/core": "^7.27.1",
     "@babel/preset-env": "^7.27.1",
