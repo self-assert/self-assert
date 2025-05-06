@@ -22,7 +22,7 @@ jobs:
 
   update-pages:
     needs: lint-and-test
-    if: ${{ github.event_name == 'push' }}
+    if: ${{ github.ref_name == 'main' }}
     permissions:
       contents: write
     uses: self-assert/self-assert.github.io/.github/workflows/submodules-update.yml@main
