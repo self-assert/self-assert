@@ -19,9 +19,10 @@ jobs:
           node-version: 22
           cache: "npm"
       - uses: ./.github/actions/lint-and-test
-  
+
   update-pages:
     needs: lint-and-test
+    if: ${{ github.event_name == 'push' }}
     permissions:
       contents: write
     uses: self-assert/self-assert.github.io/.github/workflows/submodules-update.yml@main
