@@ -3,6 +3,9 @@
   "include": ["./src/**/*", "./testing-support/**/*"],
   "compilerOptions": {
     "outDir": "./dist",
-    "noEmit": false
+    "noEmit": false,
+    "paths": {
+      "@testing-support/*": ["./testing-support/*"]
+    }
   }
 }
