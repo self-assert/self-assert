@@ -68,18 +68,15 @@ export default defineConfig({
   sitemap: {
     hostname: "https://self-assert.github.io",
   },
-  rewrites(id) {
-    if (id.startsWith("api/core/")) {
-      return id.replace("api/core/", "api/");
-    }
-    return id;
-  },
+  // rewrites(id) {
+  //   return id.replace("api/core/", "api/");
+  // },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     logo: "/logo.png",
     nav: [
       { text: "Home", link: "/" },
-      { text: "API", link: "/api/" },
+      { text: "API", link: "/api/core" },
     ],
 
     sidebar: [
@@ -107,7 +104,7 @@ export default defineConfig({
         items: [
           {
             text: "Overview",
-            link: "/api/",
+            link: "/api/core/",
             collapsed: false,
           },
           ...coreApiSidebar,

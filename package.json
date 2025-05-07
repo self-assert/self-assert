@@ -2,7 +2,7 @@
   "name": "self-assert-monorepo",
   "version": "0.0.0",
   "private": true,
-  "homepage": "https://github.com/self-assert/self-assert",
+  "homepage": "https://self-assert.github.io",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/self-assert/self-assert.git"
