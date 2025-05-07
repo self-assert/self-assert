@@ -31,9 +31,11 @@ export class SelfAssertingModel extends ModelWithNoAssertions {
 
   static named(name: string) {
     Ruleset.ensureAll([
-      Assertion.requiring(this.nameNotEmptyAID, this.nameNotEmptyDescription, Requirements.isNotEmpty).evaluateFor(
-        name
-      ),
+      Assertion.requiring(
+        this.nameNotEmptyAID,
+        this.nameNotEmptyDescription,
+        Requirements.isNotEmpty
+      ).evaluateFor(name),
       SelfAssertingModel.nameNotForbiddenAssertion().evaluateFor(name),
     ]);
 

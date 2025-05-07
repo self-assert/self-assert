@@ -1,8 +1,9 @@
 import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
 
+/** @type {import("eslint").Linter.Config} */
 export default tseslint.config(
-  { ignores: ["eslint.config.js", "rollup.config.js", "jest.config.ts", "dist/**", "docs/**"] },
+  { ignores: ["eslint.config.js"] },
   eslint.configs.recommended,
   tseslint.configs.strictTypeChecked,
   tseslint.configs.stylisticTypeChecked,
