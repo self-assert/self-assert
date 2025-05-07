@@ -1,8 +1,9 @@
 import { defineConfig } from "eslint/config";
-import baseConfig from "../eslint.config.js";
+import baseConfig from "@repo/configs/eslint.config.js";
 
 export default defineConfig({
   extends: [baseConfig],
+  ignores: ["eslint.config.js"],
   rules: {
     "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/no-empty-function": "off",

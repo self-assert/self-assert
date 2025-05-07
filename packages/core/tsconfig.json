@@ -1,6 +1,6 @@
 {
   "extends": "@repo/configs/tsconfig.base.json",
-  "include": ["./src/**/*", "./testing-support/**/*"],
+  "include": ["./src/**/*", "./testing-support/**/*", "jest.config.ts"],
   "compilerOptions": {
     "outDir": "./dist",
     "paths": {
