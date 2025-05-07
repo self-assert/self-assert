@@ -2,11 +2,5 @@
   "name": "@repo/configs",
   "version": "0.0.0",
   "private": true,
-  "exports": {
-    "./jest.config": {
-      "import": "./jest.config.ts",
-      "require": "./jest.config.ts"
-    },
-    "./*": "./*"
-  }
+  "type": "module"
 }

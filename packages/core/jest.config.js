@@ -1,12 +1,8 @@
-/**
- * For a detailed explanation regarding each configuration property, visit:
- * https://jestjs.io/docs/configuration
- */
-import type { Config } from "jest";
 import { createDefaultPreset, pathsToModuleNameMapper } from "ts-jest";
-import baseConfig from "@repo/configs/jest.config";
+import baseConfig from "@repo/configs/jest.config.js";
 
-const config: Config = {
+/** @type {import('jest').Config} */
+const config = {
   ...baseConfig,
   rootDir: ".",
   roots: ["<rootDir>/src", "<rootDir>/testing-support"],

@@ -5,7 +5,7 @@ export default defineConfig({
   ignores: [
     "eslint.config.js",
     "rollup.config.js",
-    "jest.config.ts",
+    "jest.config.js",
     "dist/**",
     "docs/**",
   ],
