@@ -20,9 +20,10 @@
   "scripts": {
     "build": "rollup -c",
     "check:examples": "npx tsc -p examples/tsconfig.json --noEmit",
-    "check:all": "npx tsc --noEmit && npm run lint && npm run test && npm run check:examples",
+    "check:types": "tsc --noEmit",
     "docs:api": "typedoc",
     "lint": "eslint src",
+    "prepare": "npm run build",
     "test": "jest"
   },
   "keywords": [
