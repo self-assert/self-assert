@@ -3,7 +3,8 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "docs:apis": "typedoc --options typedoc.core.json",
+    "build": "npm run docs:api && npm run docs:build",
+    "docs:api": "typedoc --options typedoc.core.json",
     "docs:dev": "vitepress dev site",
     "docs:build": "vitepress build site",
     "docs:preview": "vitepress preview site"
