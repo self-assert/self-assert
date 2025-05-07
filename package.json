@@ -11,7 +11,8 @@
     "url": "https://github.com/self-assert/self-assert/issues"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "examples"
   ],
   "license": "MIT",
   "scripts": {

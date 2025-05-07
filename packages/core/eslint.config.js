@@ -1,15 +1,13 @@
-import tseslint from "typescript-eslint";
+import { defineConfig } from "eslint/config";
 import baseConfig from "@repo/configs/eslint.config.js";
 
-export default tseslint.config(
-  {
-    ignores: [
-      "eslint.config.js",
-      "rollup.config.js",
-      "jest.config.ts",
-      "dist/**",
-      "docs/**",
-    ],
-  },
-  baseConfig
-);
+export default defineConfig({
+  ignores: [
+    "eslint.config.js",
+    "rollup.config.js",
+    "jest.config.ts",
+    "dist/**",
+    "docs/**",
+  ],
+  extends: [baseConfig],
+});
