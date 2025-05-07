@@ -1,5 +1,5 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "@repo/configs/tsconfig.base.json",
   "include": ["./"],
   "compilerOptions": {
     "strict": true,
