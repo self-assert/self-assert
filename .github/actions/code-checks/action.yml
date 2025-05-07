@@ -1,0 +1,13 @@
+name: Code checks
+description: Default CI action for self-assert
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install dependencies
+      run: npm ci
+      shell: bash
+
+    - name: Run code checks
+      run: npm run check:all
+      shell: bash

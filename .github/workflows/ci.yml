@@ -8,7 +8,8 @@ on:
     branches: [main]
 
 jobs:
-  lint-and-test:
+  run-checks:
+    name: Code checks
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -18,10 +19,11 @@ jobs:
         with:
           node-version: 22
           cache: "npm"
-      - uses: ./.github/actions/lint-and-test
+
+      - uses: ./.github/actions/code-checks
 
   update-pages:
-    needs: lint-and-test
+    needs: run-checks
     if: ${{ github.ref_name == 'main' }}
     permissions:
       contents: write

@@ -25,7 +25,8 @@ jobs:
         with:
           node-version: "22"
           cache: "npm"
-      - uses: ./.github/actions/lint-and-test
+
+      - uses: ./.github/actions/code-checks
 
       - name: Bump version
         id: version
