@@ -83,7 +83,7 @@ export abstract class Rule<
    *
    * @example
    * Add a requirement for the rule to hold
-   * {@includeCode ../../examples/snippets/rules.ts#require}
+   * {@includeCode ../../../../examples/snippets/rules.ts#require}
    *
    *
    * @returns `this` for chaining
@@ -102,7 +102,7 @@ export abstract class Rule<
    * This is the same as `new RuleEvaluation(rule, value)`.
    *
    * @example
-   * {@includeCode ../../examples/snippets/rules.ts#evaluateFor}
+   * {@includeCode ../../../../examples/snippets/rules.ts#evaluateFor}
    *
    * @category Rule evaluation
    */

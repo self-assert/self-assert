@@ -10,7 +10,7 @@ import type { LabeledRule, LabelId } from "./types";
  * @template ValueType The type of value the rule applies to.
  *
  * @example
- * {@includeCode ../../examples/snippets/rules.ts#evaluateFor,rule-evaluation}
+ * {@includeCode ../../../../examples/snippets/rules.ts#evaluateFor,rule-evaluation}
  *
  * @category Rules
  */

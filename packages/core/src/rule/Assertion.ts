@@ -22,7 +22,7 @@ import type {
  *
  * @example
  * Basic usage
- * {@includeCode ../../examples/snippets/rules.ts#assertion-basic-usage}
+ * {@includeCode ../../../../examples/snippets/rules.ts#assertion-basic-usage}
  *
  * @category Rules
  */
@@ -53,11 +53,11 @@ export class Assertion<ValueType = any> extends Rule<boolean, ValueType> {
    *
    * @example
    * Without a value
-   * {@includeCode ../../examples/snippets/rules.ts#assertion-requiring-void}
+   * {@includeCode ../../../../examples/snippets/rules.ts#assertion-requiring-void}
    *
    * @example
    * With a value
-   * {@includeCode ../../examples/snippets/rules.ts#assertion-requiring-value}
+   * {@includeCode ../../../../examples/snippets/rules.ts#assertion-requiring-value}
    *
    * @category Creation
    */

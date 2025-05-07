@@ -7,7 +7,7 @@ import { LabeledRule, LabelId } from "./types";
  * Represents a rule that needs to be evaluated **asynchronously**.
  *
  * @example
- * {@includeCode ../../examples/snippets/rules.ts#inquiry}
+ * {@includeCode ../../../../examples/snippets/rules.ts#inquiry}
  *
  * @category Rules
  */

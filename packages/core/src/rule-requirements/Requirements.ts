@@ -38,7 +38,7 @@ class StringsRequirements {
  * @category Rules
  * @categoryDescription Composition
  * Methods for composing requirements. Example:
- * {@includeCode ../../examples/snippets/requirements.ts#composition}
+ * {@includeCode ../../../../examples/snippets/requirements.ts#composition}
  */
 export const Requirements = {
   /**

@@ -1,10 +1,9 @@
 {
-  "entryPoints": ["src/index.ts"],
-  // "entryPointStrategy": "expand",
-  "out": "./docs/api",
-  "docsRoot": "./docs",
+  "$schema": "https://typedoc.org/schema.json",
+  "docsRoot": "./",
   "includeVersion": false,
-  "tsconfig": "./tsconfig.json",
+  "excludeInternal": true,
+  "excludeProtected": true,
   "plugin": [
     "typedoc-plugin-markdown",
     "typedoc-vitepress-theme",
@@ -26,8 +25,6 @@
   "expandParameters": false,
   "parametersFormat": "table",
   "indexFormat": "table",
-  "excludeInternal": true,
-  "excludeProtected": true,
   "jsDocCompatibility": {
     "exampleTag": false
   },

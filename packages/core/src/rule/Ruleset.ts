@@ -20,7 +20,7 @@ export class Ruleset {
    * @throws {@link RulesBroken} if any rule has failed.
    *
    * @example
-   * {@includeCode ../../examples/snippets/rules.ts#ruleset-ensureAll}
+   * {@includeCode ../../../../examples/snippets/rules.ts#ruleset-ensureAll}
    */
   static ensureAll(...assertions: SelfContainedAssertions[]): void {
     new this(assertions.flat(), []).ensure();
@@ -32,7 +32,7 @@ export class Ruleset {
    * @throws {@link RulesBroken} if any rule has failed
    *
    * @example
-   * {@includeCode ../../examples/snippets/rules.ts#email-unique,ruleset-workOn}
+   * {@includeCode ../../../../examples/snippets/rules.ts#email-unique,ruleset-workOn}
    */
   static workOn(...rules: SelfContainedRules[]): Promise<void> {
     return new this([], rules.flat()).mustHold();
