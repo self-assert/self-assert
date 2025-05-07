@@ -1,6 +1,6 @@
 {
   "$schema": "https://typedoc.org/schema.json",
-  "docsRoot": "./",
+  "docsRoot": "./site",
   "includeVersion": false,
   "excludeInternal": true,
   "excludeProtected": true,

@@ -3,5 +3,5 @@
   "extends": ["./typedoc.base.json"],
   "entryPoints": ["../core/src/index.ts"],
   "tsconfig": "../core/tsconfig.json",
-  "out": "./apis/core"
+  "out": "./site/api/core"
 }
