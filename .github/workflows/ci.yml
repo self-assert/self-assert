@@ -26,8 +26,14 @@ jobs:
     name: Update pages
     needs: run-checks
     if: ${{ github.ref_name == 'main' || github.event_name == 'workflow_dispatch' }}
-    permissions:
-      contents: write
-    uses: self-assert/self-assert.github.io/.github/workflows/publish.yml@feature/publish-artifact
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Run docs workflow
+        run: |
+          gh workflow run publish.yml --repo self-assert/self-assert.github.io --ref feature/publish-artifact
+    # permissions:
+    #   contents: write
+    # uses: self-assert/self-assert.github.io/.github/workflows/publish.yml@feature/publish-artifact
     # secrets:
     #   GH_PAT: ${{ secrets.GH_PAT }}
