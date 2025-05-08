@@ -32,6 +32,8 @@ jobs:
       - name: Run docs workflow
         run: |
           gh workflow run publish.yml --repo self-assert/self-assert.github.io --ref feature/publish-artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
     # permissions:
     #   contents: write
     # uses: self-assert/self-assert.github.io/.github/workflows/publish.yml@feature/publish-artifact
