@@ -33,7 +33,7 @@ jobs:
         run: |
           gh workflow run publish.yml --repo self-assert/self-assert.github.io --ref feature/publish-artifact
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
     # permissions:
     #   contents: write
     # uses: self-assert/self-assert.github.io/.github/workflows/publish.yml@feature/publish-artifact
