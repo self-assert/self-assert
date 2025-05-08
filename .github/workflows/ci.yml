@@ -23,10 +23,11 @@ jobs:
       - uses: ./.github/actions/code-checks
 
   update-pages:
+    name: Update pages
     needs: run-checks
-    if: ${{ github.ref_name == 'main' }}
+    if: ${{ github.ref_name == 'main' || github.event_name == 'workflow_dispatch' }}
     permissions:
       contents: write
-    uses: self-assert/self-assert.github.io/.github/workflows/submodules-update.yml@main
-    secrets:
-      GH_PAT: ${{ secrets.GH_PAT }}
+    uses: self-assert/self-assert.github.io/.github/workflows/publish.yml@feature/publish-artifact
+    # secrets:
+    #   GH_PAT: ${{ secrets.GH_PAT }}
