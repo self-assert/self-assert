@@ -12,7 +12,7 @@ self-assert
 <div align="center">
 
 [![License](https://img.shields.io/badge/license-MIT-green)][license]
-[![Lint and Test](https://github.com/self-assert/self-assert/actions/workflows/ci.yml/badge.svg)][gha-lint-and-test]
+[![Lint and Test](https://github.com/self-assert/self-assert/actions/workflows/ci.yml/badge.svg)][gh-workflow-ci]
 
 self-assert is an object-oriented TypeScript library that aims to help you model
 complete and valid domain objects from the beginning.
@@ -53,7 +53,7 @@ See [full acknowledgements][credits].
 <!-- Badges -->
 
 [npm-badge]: https://img.shields.io/npm/v/self-assert
-[gha-lint-and-test]: https://github.com/self-assert/self-assert/actions/workflows/ci.yml
+[gh-workflow-ci]: https://github.com/self-assert/self-assert/actions/workflows/ci.yml
 
 <!-- Acknowledgements -->
 
