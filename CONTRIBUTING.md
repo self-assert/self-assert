@@ -17,7 +17,6 @@ There are many ways to contribute to the project:
 
 If you're not sure where to start, feel free to open a [discussion](https://github.com/self-assert/self-assert/discussions).
 
-
 ## Reporting Bugs
 
 When filing a bug report, please include:
@@ -31,7 +30,6 @@ When filing a bug report, please include:
 Create a
 [new issue](https://github.com/self-assert-org/self-assert/issues/new?template=bug_report.md)
 to report a bug.
-
 
 ## Development Setup
 
@@ -61,12 +59,12 @@ The project structure is as follows:
 
 ```text
 root/
-├── examples
+├── examples/
 ├── package.json
-├── packages
-│   ├── configs
-│   ├── core
-│   └── docs
+├── packages/
+│   ├── configs/
+│   ├── core/
+│   └── docs/
 └── README.md
 ```
 

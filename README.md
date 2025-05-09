@@ -18,7 +18,7 @@ self-assert is an object-oriented TypeScript library that aims to help you model
 complete and valid domain objects from the beginning.
 
 </div>
-
+ 
 ## Quick Links
 
 - Documentation site: <https://self-assert.github.io>
