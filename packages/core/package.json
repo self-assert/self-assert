@@ -1,0 +1,66 @@
+{
+  "name": "self-assert",
+  "version": "1.0.1",
+  "description": "A small TypeScript library for designing models with built-in validity.",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "exports": {
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs"
+  },
+  "files": [
+    "dist"
+  ],
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "check:types": "tsc --noEmit",
+    "lint": "eslint src",
+    "prepare": "npm run build",
+    "test": "jest"
+  },
+  "keywords": [
+    "validation",
+    "rules",
+    "business-rules",
+    "assert",
+    "assertions",
+    "typescript",
+    "form",
+    "form-validation",
+    "design",
+    "domain-driven"
+  ],
+  "contributors": [
+    {
+      "name": "Hernán Wilkinson",
+      "url": "https://github.com/hernanwilkinson"
+    },
+    {
+      "name": "Tomás Ossa",
+      "url": "https://github.com/tomasossa"
+    }
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/self-assert/self-assert.git",
+    "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "https://github.com/self-assert/self-assert/issues"
+  },
+  "homepage": "https://self-assert.github.io",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "rollup": "^4.40.1",
+    "rollup-plugin-polyfill-node": "^0.13.0"
+  }
+}

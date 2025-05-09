@@ -8,7 +8,8 @@ on:
     branches: [main]
 
 jobs:
-  lint-and-test:
+  run-checks:
+    name: Code checks
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -18,13 +19,19 @@ jobs:
         with:
           node-version: 22
           cache: "npm"
-      - uses: ./.github/actions/lint-and-test
+
+      - uses: ./.github/actions/code-checks
 
   update-pages:
-    needs: lint-and-test
-    if: ${{ github.ref_name == 'main' }}
+    name: Update pages
+    needs: run-checks
+    if: ${{ github.ref_name == 'main' || github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
     permissions:
-      contents: write
-    uses: self-assert/self-assert.github.io/.github/workflows/submodules-update.yml@main
-    secrets:
-      GH_PAT: ${{ secrets.GH_PAT }}
+      contents: read
+    steps:
+      - name: Run docs workflow
+        run: |
+          gh workflow run publish.yml --repo self-assert/self-assert.github.io
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}

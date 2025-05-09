@@ -5,8 +5,6 @@ Welcome, and thank you for your interest in contributing to `self-assert`!
 This document outlines some general guidelines and practices for contributing to
 the project. We appreciate your help in improving this library.
 
----
-
 ## Ways to Contribute
 
 There are many ways to contribute to the project:
@@ -17,9 +15,7 @@ There are many ways to contribute to the project:
 - **Documentation**: Help improve clarity and examples in the README or future docs.
 - **Tests and coverage**: Add test cases or improve coverage.
 
-If you're not sure where to start, feel free to open a [discussion](https://github.com/self-assert-org/self-assert/discussions).
-
----
+If you're not sure where to start, feel free to open a [discussion](https://github.com/self-assert/self-assert/discussions).
 
 ## Reporting Bugs
 
@@ -35,8 +31,6 @@ Create a
 [new issue](https://github.com/self-assert-org/self-assert/issues/new?template=bug_report.md)
 to report a bug.
 
----
-
 ## Development Setup
 
 To get started, first make a fork of the project on your GitHub account,
@@ -50,8 +44,31 @@ On the project root folder, open a terminal and follow these steps:
 npm install
 ```
 
-**Make sure all the tests pass:**
+**Make sure all code checks pass:**
 
 ```bash
-npm test
+npm run check:all
 ```
+
+## Project Structure
+
+This repository is a [monorepo](https://en.wikipedia.org/wiki/Monorepo),
+using npm workspaces.
+
+The project structure is as follows:
+
+```text
+root/
+├── examples/
+├── package.json
+├── packages/
+│   ├── configs/
+│   ├── core/
+│   └── docs/
+└── README.md
+```
+
+- [`packages/configs`](./packages/configs): Common configuration files.
+- [`packages/core`](./packages/core): The `self-assert` library itself.
+- [`packages/docs`](./packages/docs): Documentation site, using [Vitepress](https://vitepress.dev/) and [Typedoc](https://typedoc.org/).
+- [`examples`](./examples): Code examples using `self-assert`. Note that these examples are type-checked and include some tests. See [`examples/README.md`](./examples/README.md) for more details.

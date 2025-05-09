@@ -1,21 +1,16 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "@repo/configs/tsconfig.base.json",
   "include": ["./"],
   "compilerOptions": {
-    "strict": true,
     "declaration": false,
     "declarationMap": false,
     "sourceMap": false,
-    "paths": {
-      "self-assert": ["../src/index.ts"]
-    },
-    "module": "ESNext",
-    "target": "ESNext",
     "moduleResolution": "Bundler",
     "removeComments": false,
-    "pretty": true
-  },
-  "ts-node": {
-    "esm": true
+    "pretty": true,
+    "baseUrl": "../packages/",
+    "paths": {
+      "self-assert": ["core/src/index.ts"]
+    }
   }
 }

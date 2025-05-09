@@ -1,0 +1,37 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "docsRoot": "./site",
+  "includeVersion": false,
+  "excludeInternal": true,
+  "excludeProtected": true,
+  "plugin": [
+    "typedoc-plugin-markdown",
+    "typedoc-vitepress-theme",
+    "typedoc-plugin-frontmatter"
+  ],
+  "router": "category",
+  "navigation": {
+    "includeGroups": false,
+    "includeCategories": true,
+    "excludeReferences": false
+  },
+  "categorizeByGroup": false,
+  "defaultCategory": "Others",
+  "categoryOrder": ["*", "Labeling", "Others"],
+  "sort": ["static-first", "visibility"],
+  "useFirstParagraphOfCommentAsSummary": true,
+  "disableSources": true,
+  "readme": "none",
+  "expandParameters": false,
+  "parametersFormat": "table",
+  "indexFormat": "table",
+  "jsDocCompatibility": {
+    "exampleTag": false
+  },
+  "frontmatterGlobals": {
+    "editLink": false
+  },
+  "pageTitleTemplates": {
+    "index": "{projectName} API"
+  }
+}

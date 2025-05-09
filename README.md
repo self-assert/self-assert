@@ -1,6 +1,7 @@
 <h1 align="center">
 self-assert
 </h1>
+<p align="center"><em>Monorepo for the self-assert TypeScript library and related tools</em></p>
 
 <div align="center">
 
@@ -8,97 +9,36 @@ self-assert
 
 </div>
 
-<blockquote>
-<p align="center"> Design objects that are fully responsible for their validity.</p>
-</blockquote>
-
 <div align="center">
 
-<br/>
-
-[![npm version](https://img.shields.io/npm/v/self-assert)][npm]
 [![License](https://img.shields.io/badge/license-MIT-green)][license]
-[![Lint and Test](https://github.com/self-assert/self-assert/actions/workflows/ci.yml/badge.svg)][gha-lint-and-test]
+[![Lint and Test](https://github.com/self-assert/self-assert/actions/workflows/ci.yml/badge.svg)][gh-workflow-ci]
 
-<br/>
-
-🔗 [Documentation][docs] • [Live Demo][demo]
+self-assert is an object-oriented TypeScript library that aims to help you model
+complete and valid domain objects from the beginning.
 
 </div>
+ 
+## Quick Links
 
----
+- Documentation site: <https://self-assert.github.io>
+- [Live Demo][demo] on CodeSandbox
+- npm package: [self-assert](https://www.npmjs.com/package/self-assert)
 
-**Inspired by [Hernán Wilkinson][hernan-url]’s
-“[Diseño a la Gorra][disenio-a-la-gorra]” webinar**—software
-as a model of real‑world problems, continuous refinement of that model,
+## Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for information on how to contribute
+and details about the project structure.
+
+## Acknowledgements
+
+This project was inspired by Hernán Wilkinson’s
+“[Diseño a la Gorra][disenio-a-la-gorra]” webinar, which explores
+many of the principles of good object-oriented design, such as understanding
+software as a model of real‑world problems, continuous refinement of that model,
 and objects that encapsulate and protect their own validity.
 
 See [full acknowledgements][credits].
-
-## Introduction
-
-`self-assert` is a small TypeScript library that
-helps you model domain rules _inside_ your objects
-— not as external validators, but as collaborators in their own creation.
-
-This library encourages a mindset where rules are expressed in
-terms of the domain, and
-**objects are created complete, valid, and meaningful from the start**.
-
-## Installation
-
-Install `self-assert` with `npm`:
-
-```shell
-npm install self-assert
-```
-
-## Quick Start
-
-A common workflow is:
-
-1. Define a single main factory method that validates parameters before
-   creating a new instance of the object.
-2. Use `Assertion.requiring(...)` to define the rules.
-3. Use `Ruleset.ensureAll(...)` to execute those rules inside the factory method.
-4. Any additional static creation methods should delegate to the main one.
-
-```ts
-class Person {
-  static readonly nameNotBlank = Assertion.requiring(
-    "name.notBlank",
-    "Name must not be blank",
-    Requirements.isNotBlank
-  );
-
-  static named(name: string, ...) {
-    Ruleset.ensureAll(this.nameNotBlank.evaluateFor(name), ...otherRules);
-    return new this(name, ...);
-  }
-
-  protected constructor(protected name: string, ...) {}
-}
-```
-
-If any assertion fails, a `RulesBroken` error is thrown.
-This ensures your objects are **complete and valid** from the beginning.
-
-Please refer to the [documentation][docs] or
-[`examples/`](https://github.com/self-assert/self-assert/tree/main/examples)
-for more details and use cases, such as:
-
-- `assistants` to guide **form completion**
-- validating **async rules**
-- a built-in set of **reusable Requirements** for common checks
-
-## Resources
-
-Contributions are welcome! Whether it's fixing bugs,
-improving documentation, or proposing new ideas aligned with the
-project's design principles, feel free to get involved.
-
-- [Contributors' Guide][contributing]
-- [Code of Conduct][coc]
 
 ## License
 
@@ -108,18 +48,15 @@ project's design principles, feel free to get involved.
 
 [repo]: https://github.com/self-assert/self-assert
 [license]: https://github.com/self-assert/self-assert/blob/main/LICENSE
-[contributing]: https://github.com/self-assert/self-assert/blob/main/CONTRIBUTING.md
-[coc]: https://github.com/self-assert/.github/blob/main/CODE_OF_CONDUCT.md
-[docs]: https://self-assert.github.io
 [demo]: https://codesandbox.io/p/sandbox/github/self-assert/self-assert-react-demo
-[credits]: https://self-assert.github.io/acknowledgements
 
 <!-- Badges -->
 
-[npm]: https://www.npmjs.com/package/self-assert
-[gha-lint-and-test]: https://github.com/self-assert/self-assert/actions/workflows/ci.yml
+[npm-badge]: https://img.shields.io/npm/v/self-assert
+[gh-workflow-ci]: https://github.com/self-assert/self-assert/actions/workflows/ci.yml
 
-<!---->
+<!-- Acknowledgements -->
 
+[credits]: https://self-assert.github.io/acknowledgements
 [hernan-url]: https://github.com/hernanwilkinson
 [disenio-a-la-gorra]: https://github.com/hernanwilkinson/disenioALaGorra

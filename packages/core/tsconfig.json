@@ -1,0 +1,10 @@
+{
+  "extends": "@repo/configs/tsconfig.base.json",
+  "include": ["./src/**/*", "./testing-support/**/*", "jest.config.js"],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "paths": {
+      "@testing-support/*": ["./testing-support/*"]
+    }
+  }
+}

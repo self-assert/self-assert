@@ -1,0 +1,22 @@
+{
+  "name": "@self-assert/docs",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "build": "npm run docs:api && npm run docs:build",
+    "dev": "vitepress dev site",
+    "docs:api": "typedoc --options typedoc.core.json",
+    "docs:build": "vitepress build site",
+    "preview": "vitepress preview site"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "typedoc": "^0.28.2",
+    "typedoc-plugin-frontmatter": "^1.3.0",
+    "typedoc-plugin-markdown": "^4.6.3",
+    "typedoc-vitepress-theme": "^1.1.2",
+    "vitepress": "^1.6.3",
+    "vitepress-plugin-group-icons": "^1.5.2"
+  },
+  "type": "module"
+}

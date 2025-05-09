@@ -1,0 +1,14 @@
+{
+  "name": "@self-assert/examples",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check:types": "tsc --noEmit",
+    "lint": "eslint .",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}
