@@ -28,14 +28,8 @@ jobs:
     if: ${{ github.ref_name == 'main' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     steps:
-
       - name: Run docs workflow
         run: |
-          gh workflow run publish.yml --repo self-assert/self-assert.github.io --ref feature/publish-artifact
+          gh workflow run publish.yml --repo self-assert/self-assert.github.io
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
-    # permissions:
-    #   contents: write
-    # uses: self-assert/self-assert.github.io/.github/workflows/publish.yml@feature/publish-artifact
-    # secrets:
-    #   GH_PAT: ${{ secrets.GH_PAT }}
