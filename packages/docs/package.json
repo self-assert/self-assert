@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "scripts": {
     "build": "npm run docs:api && npm run docs:build",
+    "dev": "vitepress dev site",
     "docs:api": "typedoc --options typedoc.core.json",
-    "docs:dev": "vitepress dev site",
     "docs:build": "vitepress build site",
-    "docs:preview": "vitepress preview site"
+    "preview": "vitepress preview site"
   },
   "license": "MIT",
   "devDependencies": {
