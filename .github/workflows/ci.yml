@@ -27,6 +27,8 @@ jobs:
     needs: run-checks
     if: ${{ github.ref_name == 'main' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Run docs workflow
         run: |
