@@ -64,4 +64,4 @@ jobs:
     needs: release
     runs-on: ubuntu-latest
     steps:
-      - run: echo "${{ needs.release.outputs.debug_release }}"
+      - run: echo "${{ toJson(needs.release.outputs.debug_release) }}"
