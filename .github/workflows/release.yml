@@ -56,14 +56,14 @@ jobs:
       - uses: ./.github/actions/code-checks
 
       - name: Publish package
-        run: npm publish --provenance --dry-run
+        run: npm publish -w ${{ matrix.package }} --provenance
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   debug:
     needs: release
     runs-on: ubuntu-latest
     env:
-      RELEASE_CONTEXT: ${{ toJson(needs.release.outputs.debug_release) }}
+      RELEASE_CONTEXT: ${{ needs.release.outputs.debug_release }}
     steps:
       - run: echo "$RELEASE_CONTEXT"
