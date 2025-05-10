@@ -1,6 +1,6 @@
 {
   "name": "self-assert",
-  "version": "1.0.2",
+  "version": "1.0.1",
   "description": "A small TypeScript library for designing models with built-in validity.",
   "main": "dist/index.cjs",
   "module": "dist/index.js",

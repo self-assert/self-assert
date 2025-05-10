@@ -40,6 +40,9 @@ jobs:
       matrix:
         package: ${{ fromJson(needs.release.outputs.paths_released) }}
     name: "Publish ${{ matrix.package }}"
+    permissions:
+      contents: read
+      id-token: write
 
     steps:
       - uses: actions/checkout@v4
