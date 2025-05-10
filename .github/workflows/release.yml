@@ -1,4 +1,10 @@
 on:
+  workflow_dispatch:
+    inputs:
+      target_branch:
+        description: "Target branch"
+        required: false
+        default: "main"
   push:
     branches:
       - main
