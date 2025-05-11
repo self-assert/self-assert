@@ -3,9 +3,6 @@ import baseConfig from "@repo/configs/eslint.config.js";
 
 /** @type {import("typescript-eslint").ConfigArray} */
 export default [
-  {
-    ignores: ["eslint.config.js", "jest.config.js"],
-  },
   ...baseConfig,
   {
     languageOptions: {

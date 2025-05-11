@@ -4,7 +4,14 @@ import tseslint from "typescript-eslint";
 
 /** @type {import("typescript-eslint").ConfigArray} */
 export default tseslint.config(
-  { ignores: ["eslint.config.js", "jest.config.js"] },
+  {
+    ignores: [
+      "eslint.config.js",
+      "jest.config.js",
+      "rollup.config.js",
+      "dist/**",
+    ],
+  },
   eslint.configs.recommended,
   tseslint.configs.strictTypeChecked,
   tseslint.configs.stylisticTypeChecked,
