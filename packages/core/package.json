@@ -60,7 +60,7 @@
     "@rollup/plugin-commonjs": "^28.0.3",
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-typescript": "^12.1.2",
-    "rollup": "^4.40.1",
+    "rollup": "^4.40.2",
     "rollup-plugin-polyfill-node": "^0.13.0"
   }
 }
