@@ -26,10 +26,17 @@ jobs:
       debug_release: ${{ toJson(steps.release.outputs) }}
 
     steps:
+      - name: Generate a token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.SELF_ASSERT_BOT_APP_ID }}
+          private-key: ${{ secrets.SELF_ASSERT_BOT_PRIVATE_KEY }}
+
       - uses: googleapis/release-please-action@v4
         id: release
         with:
-          token: ${{ secrets.GH_PAT }}
+          token: ${{ steps.generate-token.outputs.token }}
           target-branch: ${{ inputs.target-branch || 'main' }}
 
   publish:
@@ -66,6 +73,7 @@ jobs:
   debug:
     needs: release
     runs-on: ubuntu-latest
+    if: ${{ failure() }}
     env:
       RELEASE_CONTEXT: ${{ needs.release.outputs.debug_release }}
     steps:

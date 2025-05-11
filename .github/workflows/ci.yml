@@ -30,8 +30,15 @@ jobs:
     permissions:
       contents: read
     steps:
+      - name: Generate a token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.SELF_ASSERT_BOT_APP_ID }}
+          private-key: ${{ secrets.SELF_ASSERT_BOT_PRIVATE_KEY }}
+
       - name: Run docs workflow
         run: |
           gh workflow run publish.yml --repo self-assert/self-assert.github.io
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
