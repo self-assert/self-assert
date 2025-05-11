@@ -1,14 +1,14 @@
 {
-  "name": "self-assert",
-  "version": "1.0.2",
-  "description": "A small TypeScript library for designing models with built-in validity.",
-  "main": "dist/index.cjs",
+  "name": "@self-assert/react",
+  "version": "0.1.0",
+  "description": "A React extension for the self-assert library.",
+  "main": "dist/index.cjs.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
   "exports": {
     "import": "./dist/index.js",
-    "require": "./dist/index.cjs"
+    "require": "./dist/index.cjs.js"
   },
   "files": [
     "dist"
@@ -21,7 +21,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/self-assert/self-assert.git",
-    "directory": "packages/core"
+    "directory": "packages/react"
   },
   "bugs": {
     "url": "https://github.com/self-assert/self-assert/issues"
@@ -35,32 +35,32 @@
     "test": "jest"
   },
   "keywords": [
-    "validation",
-    "rules",
-    "business-rules",
-    "assert",
-    "assertions",
-    "typescript",
     "form",
-    "form-validation",
-    "design",
-    "domain-driven"
+    "forms",
+    "react",
+    "react-dom",
+    "hooks",
+    "react hooks",
+    "validation",
+    "self-assert"
   ],
-  "contributors": [
-    {
-      "name": "Hernán Wilkinson",
-      "url": "https://github.com/hernanwilkinson"
-    },
-    {
-      "name": "Tomás Ossa",
-      "url": "https://github.com/tomasossa"
-    }
-  ],
+  "peerDependencies": {
+    "react": ">=18.0.0 <20.0.0",
+    "react-dom": ">=18.0.0 <20.0.0",
+    "self-assert": "^1.0.0"
+  },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^28.0.3",
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-typescript": "^12.1.2",
-    "rollup": "^4.40.1",
-    "rollup-plugin-polyfill-node": "^0.13.0"
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.1",
+    "jest-environment-jsdom": "^29.7.0",
+    "rollup": "^4.39.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "self-assert": "^1.0.0"
   }
 }
