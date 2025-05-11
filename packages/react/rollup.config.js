@@ -20,11 +20,13 @@ export default [
       },
     ],
     plugins: [
-      typescript({ tsconfig: "./tsconfig.json", exclude: ["**/__tests__/**/*", "**/*.test.tsx"] }),
+      typescript({
+        tsconfig: "./tsconfig.json",
+        exclude: ["**/__tests__/**/*", "**/*.test.tsx"],
+      }),
       resolve(),
       commonjs(),
       peerDepsExternal(),
     ],
-    external: ["react", "react-dom"],
   },
 ];
