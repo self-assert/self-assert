@@ -64,11 +64,14 @@ root/
 ├── packages/
 │   ├── configs/
 │   ├── core/
-│   └── docs/
+│   ├── docs/
+│   └── react/
 └── README.md
 ```
 
-- [`packages/configs`](./packages/configs): Common configuration files.
 - [`packages/core`](./packages/core): The `self-assert` library itself.
+- [`packages/react`](./packages/react): A React extension for `self-assert`.
+
+- [`packages/configs`](./packages/configs): Common configuration files.
 - [`packages/docs`](./packages/docs): Documentation site, using [Vitepress](https://vitepress.dev/) and [Typedoc](https://typedoc.org/).
 - [`examples`](./examples): Code examples using `self-assert`. Note that these examples are type-checked and include some tests. See [`examples/README.md`](./examples/README.md) for more details.
