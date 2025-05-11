@@ -1,0 +1,37 @@
+name: CI React extension
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["packages/react/**"]
+  pull_request:
+    branches: [main]
+    paths: ["packages/react/**"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        react-version: ["18", "19"]
+
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install React ${{ matrix.react-version }}
+        run: |
+          npm install react@${{ matrix.react-version }} react-dom@${{ matrix.react-version }} --save-dev --legacy-peer-deps -w packages/react
+
+      - name: Test
+        run: npm test -w packages/react
