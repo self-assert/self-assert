@@ -28,10 +28,9 @@
   },
   "homepage": "https://self-assert.github.io",
   "scripts": {
-    "build": "rollup -c",
+    "build": "rm -rf dist && rollup -c",
     "check:types": "tsc --noEmit",
     "lint": "eslint src",
-    "prepare": "npm run build",
     "test": "jest"
   },
   "keywords": [
