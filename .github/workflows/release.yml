@@ -65,6 +65,9 @@ jobs:
 
       - uses: ./.github/actions/code-checks
 
+      - name: Build package
+        run: npm run build -w ${{ matrix.package }}
+
       - name: Publish package
         run: npm publish -w ${{ matrix.package }} --provenance
         env:

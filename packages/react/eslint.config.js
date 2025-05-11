@@ -11,5 +11,8 @@ export default [
         tsconfigRootDir: import.meta.dirname,
       },
     },
+    // rules: {
+    //   "@typescript-eslint/no-confusing-void-expression": ["off"],
+    // },
   },
 ];
