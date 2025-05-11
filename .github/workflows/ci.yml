@@ -36,6 +36,7 @@ jobs:
         with:
           app-id: ${{ vars.SELF_ASSERT_BOT_APP_ID }}
           private-key: ${{ secrets.SELF_ASSERT_BOT_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
 
       - name: Run docs workflow
         run: |
