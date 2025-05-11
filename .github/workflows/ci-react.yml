@@ -31,7 +31,7 @@ jobs:
 
       - name: Install React ${{ matrix.react-version }}
         run: |
-          npm install react@${{ matrix.react-version }} react-dom@${{ matrix.react-version }} --save-dev --legacy-peer-deps -w packages/react
+          npm install react@${{ matrix.react-version }} react-dom@${{ matrix.react-version }} --save-dev --legacy-peer-deps
 
       - name: Test
         run: npm test -w packages/react
