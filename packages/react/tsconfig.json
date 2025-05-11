@@ -1,6 +1,6 @@
 {
   "extends": "@repo/configs/tsconfig.base.json",
-  "include": ["./src/**/*", "jest.config.js"],
+  "include": ["./src/**/*"],
   "compilerOptions": {
     "outDir": "./dist",
     "jsx": "react-jsx"
