@@ -1,7 +1,13 @@
 import React from "react";
 import type { DraftAssistant } from "self-assert";
 
-export function useBrokenRulesDescriptions(draftAssistant: DraftAssistant) {
+/**
+ * Hook to get the descriptions of the broken rules
+ * reported by the `DraftAssistant`.
+ */
+export function useBrokenRulesDescriptions(
+  draftAssistant: DraftAssistant
+): string[] {
   const [errors, setErrors] = React.useState<string[]>([]);
 
   React.useEffect(() => {
