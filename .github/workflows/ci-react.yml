@@ -26,12 +26,13 @@ jobs:
           node-version: 22
           cache: "npm"
 
-      - name: Install dependencies
-        run: npm ci
-
       - name: Install React ${{ matrix.react-version }}
         run: |
-          npm install react@${{ matrix.react-version }} react-dom@${{ matrix.react-version }} --save-dev --legacy-peer-deps
+          npm rm react react-dom @types/react @types/react-dom --workspaces
+          npm ci
+          npm install react@${{ matrix.react-version }} react-dom@${{ matrix.react-version }} \
+            @types/react@${{ matrix.react-version }} @types/react-dom@${{ matrix.react-version }} \
+            --save-dev --legacy-peer-deps
 
       - name: Test
         run: npm test -w packages/react
