@@ -9,6 +9,10 @@ export type FormFieldProps<
 > = React.ComponentPropsWithoutRef<ContainerType> & {
   draftAssistant: DraftAssistant<Model>;
   /**
+   * Descriptions to be shown as error messages.
+   */
+  brokenRulesDescriptions?: string[];
+  /**
    * Whether or not to show the broken rules descriptions
    * of the `DraftAssistant`.
    * @default true
@@ -39,6 +43,7 @@ export function FormField<
   inputProps,
   labelText,
   labelProps,
+  brokenRulesDescriptions,
   ...rest
 }: FormFieldProps<Model, ContainerType>) {
   const [model, setModel] = useDraftAssistantModel(draftAssistant);
@@ -52,7 +57,7 @@ export function FormField<
     <Wrapper {...rest}>
       {labelText && <label {...labelProps}>{labelText}</label>}
       <input type="text" {...inputProps} value={model} onChange={onChange} />
-      {showErrorMessage && <ErrorMessage draftAssistant={draftAssistant} />}
+      {showErrorMessage && <ErrorMessage draftAssistant={draftAssistant} brokenRulesDescriptions={brokenRulesDescriptions} />}
     </Wrapper>
   );
 }

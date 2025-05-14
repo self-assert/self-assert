@@ -13,6 +13,7 @@ const defaultRenderErrorClosure = (descriptions: string[]) => (
 export type ErrorMessageProps<ContainerType extends React.ElementType = "div"> =
   React.ComponentPropsWithoutRef<ContainerType> & {
     draftAssistant: DraftAssistant;
+    brokenRulesDescriptions?: string[];
     renderErrors?: (descriptions: string[]) => React.ReactNode;
     as?: ContainerType;
   };
@@ -22,14 +23,16 @@ export type ErrorMessageProps<ContainerType extends React.ElementType = "div"> =
  */
 export function ErrorMessage<ContainerType extends React.ElementType = "div">({
   draftAssistant,
+  brokenRulesDescriptions = [],
   renderErrors = defaultRenderErrorClosure,
   as,
   ...rest
 }: ErrorMessageProps<ContainerType>) {
   const Wrapper = as ?? "div";
   const descriptions = useBrokenRulesDescriptions(draftAssistant);
+  const allDescriptions = [...brokenRulesDescriptions, ...descriptions];
 
-  if (descriptions.length === 0) return null;
+  if (allDescriptions.length === 0) return null;
 
-  return <Wrapper {...rest}>{renderErrors(descriptions)}</Wrapper>;
+  return <Wrapper {...rest}>{renderErrors(allDescriptions)}</Wrapper>;
 }

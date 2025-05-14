@@ -144,4 +144,17 @@ describe("FormField", () => {
 
     expect(screen.getByTestId("custom-label")).toHaveTextContent("My Label");
   });
+
+  test("accepts externar rules descriptions", () => {
+    render(
+      <FormField
+        draftAssistant={assistant}
+        inputProps={{ placeholder: "Your name", name: "name" }}
+        brokenRulesDescriptions={[rule.getDescription()]}
+      />
+    );
+
+    expect(screen.getByText(rule.getDescription())).toBeInTheDocument();
+  });
+  
 });
