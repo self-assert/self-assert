@@ -6,12 +6,17 @@ import {
 import { repository } from "../../../../package.json";
 
 import selfAssertTypedocSidebar from "../api/core/typedoc-sidebar.json";
+import selfAssertReactTypedocSidebar from "../api/react/typedoc-sidebar.json";
 
 const repositoryUrl = `${repository.url
   .replace(/^git\+/, "")
   .replace(/\.git$/, "")}`;
 
 const coreApiSidebar = selfAssertTypedocSidebar.filter(
+  (item) => item.text !== "Others"
+);
+
+const reactApiSidebar = selfAssertReactTypedocSidebar.filter(
   (item) => item.text !== "Others"
 );
 
@@ -108,6 +113,12 @@ export default defineConfig({
             collapsed: false,
           },
           ...coreApiSidebar,
+          {
+            text: "React",
+            // link: "/api/react/",
+            collapsed: false,
+            items: [...reactApiSidebar],
+          },
         ],
       },
     ],
