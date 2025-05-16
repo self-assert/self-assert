@@ -13,9 +13,6 @@ Inspired by object-oriented design principles, the library promotes:
 - **Valid construction** over defensive validation
 - **Clarity and consistency** across the system
 
-> [!WARNING]
-> This site is still a work in progress.
-
 ## Quick Links
 
 - [Live demo](https://codesandbox.io/p/sandbox/github/self-assert/self-assert-react-demo)
