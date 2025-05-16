@@ -113,12 +113,17 @@ export default defineConfig({
             collapsed: false,
           },
           ...coreApiSidebar,
+        ],
+      },
+      {
+        text: "React Extension",
+        items: [
           {
-            text: "React",
-            // link: "/api/react/",
+            text: "Overview",
+            link: "/api/react/",
             collapsed: false,
-            items: [...reactApiSidebar],
           },
+          ...reactApiSidebar,
         ],
       },
     ],
