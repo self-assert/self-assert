@@ -25,6 +25,7 @@ export type ErrorMessageProps<ContainerType extends React.ElementType = "div"> =
  * Component to display a DraftAssistant's broken rules.
  *
  * @typeParam ContainerType The type of the container element. Defaults to `"div"`.
+ * @param props
  * @category Components
  */
 export function ErrorMessage<ContainerType extends React.ElementType = "div">({
