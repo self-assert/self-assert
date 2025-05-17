@@ -116,7 +116,7 @@ export default defineConfig({
         ],
       },
       {
-        text: "React Extension",
+        text: "React Extension API",
         items: [
           {
             text: "Overview",

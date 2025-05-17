@@ -68,3 +68,26 @@ The assistant lets you defer object creation until all validations pass:
 <<< @/../../../examples/person/PersonAssistant.ts#assistant-usage
 
 :::
+
+## Extensions
+
+`self-assert` provides a small React extension to help you integrate it with React.
+For more information, see the [API reference](/api/react).
+
+You can install it with your favorite package manager:
+
+::: code-group
+
+```sh [npm]
+npm install @self-assert/react
+```
+
+```sh [pnpm]
+pnpm add @self-assert/react
+```
+
+```sh [yarn]
+yarn add @self-assert/react
+```
+
+:::
