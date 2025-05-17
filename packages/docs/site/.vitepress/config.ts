@@ -109,7 +109,7 @@ export default defineConfig({
         items: [
           {
             text: "Overview",
-            link: "/api/core/",
+            link: "/api/core",
             collapsed: false,
           },
           ...coreApiSidebar,
@@ -120,7 +120,7 @@ export default defineConfig({
         items: [
           {
             text: "Overview",
-            link: "/api/react/",
+            link: "/api/react",
             collapsed: false,
           },
           ...reactApiSidebar,
