@@ -4,6 +4,8 @@ import type { DraftAssistant } from "self-assert";
 /**
  * Hook to get the descriptions of the broken rules
  * reported by the `DraftAssistant`.
+ *
+ * @category Hooks
  */
 export function useBrokenRulesDescriptions(
   draftAssistant: DraftAssistant

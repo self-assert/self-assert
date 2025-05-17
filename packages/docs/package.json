@@ -5,7 +5,9 @@
   "scripts": {
     "build": "npm run docs:api && npm run docs:build",
     "dev": "vitepress dev site",
-    "docs:api": "typedoc --options typedoc.core.json",
+    "docs:api": "npm run docs:api-core && npm run docs:api-react",
+    "docs:api-core": "typedoc --options typedoc.core.json",
+    "docs:api-react": "typedoc --options typedoc.react.json",
     "docs:build": "vitepress build site",
     "preview": "vitepress preview site"
   },

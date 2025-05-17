@@ -10,14 +10,12 @@
 
 A React extension for the [`self-assert`](https://github.com/self-assert/self-assert) library.
 
-> [!WARNING]
-> This project is in its early stages. Documentation will be added in the
-> coming days.
-
 <div align="center">
 
 [![npm version](https://img.shields.io/npm/v/@self-assert/react)][npm]
 [![License](https://img.shields.io/badge/license-MIT-green)][license]
+
+🔗 [Documentation][docs] • [Live Demo][demo]
 
 </div>
 
@@ -35,3 +33,5 @@ npm install self-assert @self-assert/react
 
 [license]: https://github.com/self-assert/self-assert/blob/main/LICENSE
 [npm]: https://www.npmjs.com/package/@self-assert/react
+[docs]: https://self-assert.github.io
+[demo]: https://codesandbox.io/p/sandbox/github/self-assert/self-assert-react-demo

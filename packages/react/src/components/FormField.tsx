@@ -33,6 +33,13 @@ export type FormFieldProps<
     Record<`data-${string}`, unknown>;
 };
 
+/**
+ * Handles the logic for a form field and its error message,
+ * given a `DraftAssistant`.
+ *
+ * @param props
+ * @category Components
+ */
 export function FormField<
   Model extends string = string,
   ContainerType extends React.ElementType = "div"
@@ -57,7 +64,12 @@ export function FormField<
     <Wrapper {...rest}>
       {labelText && <label {...labelProps}>{labelText}</label>}
       <input type="text" {...inputProps} value={model} onChange={onChange} />
-      {showErrorMessage && <ErrorMessage draftAssistant={draftAssistant} brokenRulesDescriptions={brokenRulesDescriptions} />}
+      {showErrorMessage && (
+        <ErrorMessage
+          draftAssistant={draftAssistant}
+          brokenRulesDescriptions={brokenRulesDescriptions}
+        />
+      )}
     </Wrapper>
   );
 }

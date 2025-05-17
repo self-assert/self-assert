@@ -4,6 +4,8 @@ import type { DraftAssistant, DraftViewer } from "self-assert";
 /**
  * Hook to get and set the model of a `DraftAssistant`,
  * triggering a re-render whenever the model changes.
+ *
+ * @category Hooks
  */
 export function useDraftAssistantModel<Model>(
   draftAssistant: DraftAssistant<Model>

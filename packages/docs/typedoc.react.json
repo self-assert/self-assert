@@ -1,0 +1,7 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "extends": ["./typedoc.base.json"],
+  "entryPoints": ["../react/src/index.ts"],
+  "tsconfig": "../react/tsconfig.json",
+  "out": "./site/api/react"
+}
