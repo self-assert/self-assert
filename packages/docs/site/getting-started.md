@@ -72,7 +72,7 @@ The assistant lets you defer object creation until all validations pass:
 ## Extensions
 
 `self-assert` provides a small React extension to help you integrate it with React.
-For more information, see the [API reference](/api/react).
+For more information, see the [API reference](/api/react/).
 
 You can install it with your favorite package manager:
 
