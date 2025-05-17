@@ -13,6 +13,9 @@ const defaultRenderErrorClosure = (descriptions: string[]) => (
 export type ErrorMessageProps<ContainerType extends React.ElementType = "div"> =
   React.ComponentPropsWithoutRef<ContainerType> & {
     draftAssistant: DraftAssistant;
+    /**
+     * Additional descriptions to be displayed.
+     */
     brokenRulesDescriptions?: string[];
     renderErrors?: (descriptions: string[]) => React.ReactNode;
     as?: ContainerType;
@@ -20,6 +23,9 @@ export type ErrorMessageProps<ContainerType extends React.ElementType = "div"> =
 
 /**
  * Component to display a DraftAssistant's broken rules.
+ *
+ * @typeParam ContainerType The type of the container element. Defaults to `"div"`.
+ * @category Components
  */
 export function ErrorMessage<ContainerType extends React.ElementType = "div">({
   draftAssistant,
