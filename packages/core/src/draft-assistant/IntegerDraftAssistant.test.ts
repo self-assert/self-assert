@@ -2,7 +2,7 @@ import { describe, it, expect } from "@jest/globals";
 import { IntegerDraftAssistant } from "./IntegerDraftAssistant";
 import { DraftAssistant } from "./DraftAssistant";
 
-describe("IntegerDraftAssistant", () => {
+describe(IntegerDraftAssistant.name, () => {
   it("should allow non-negative integers as strings", (done) => {
     const assistant = IntegerDraftAssistant.forTopLevel("");
     assistant.setInnerModel("0");
@@ -54,7 +54,9 @@ describe("IntegerDraftAssistant", () => {
       () => done("Should be invalid"),
       () => {
         expect(DraftAssistant.isInvalidModel(assistant.getModel())).toBe(true);
-        expect(assistant.hasOnlyOneRuleBrokenIdentifiedAs(assertionId)).toBe(true);
+        expect(assistant.hasOnlyOneRuleBrokenIdentifiedAs(assertionId)).toBe(
+          true
+        );
         done();
       }
     );
@@ -69,7 +71,9 @@ describe("IntegerDraftAssistant", () => {
       () => done("Should be invalid"),
       () => {
         expect(DraftAssistant.isInvalidModel(assistant.getModel())).toBe(true);
-        expect(assistant.hasOnlyOneRuleBrokenIdentifiedAs(assertionId)).toBe(true);
+        expect(assistant.hasOnlyOneRuleBrokenIdentifiedAs(assertionId)).toBe(
+          true
+        );
         done();
       }
     );
@@ -84,7 +88,9 @@ describe("IntegerDraftAssistant", () => {
       () => done("Should be invalid"),
       () => {
         expect(DraftAssistant.isInvalidModel(assistant.getModel())).toBe(true);
-        expect(assistant.hasOnlyOneRuleBrokenIdentifiedAs(assertionId)).toBe(true);
+        expect(assistant.hasOnlyOneRuleBrokenIdentifiedAs(assertionId)).toBe(
+          true
+        );
         done();
       }
     );

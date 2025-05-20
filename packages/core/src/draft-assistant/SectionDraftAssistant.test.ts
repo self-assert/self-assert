@@ -5,7 +5,10 @@ import { DraftAssistant } from "./DraftAssistant";
 import { Assertion, Ruleset } from "../rule";
 
 import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
-import { ModelWithNoAssertions, SelfAssertingModel } from "@testing-support/TestModels";
+import {
+  ModelWithNoAssertions,
+  SelfAssertingModel,
+} from "@testing-support/TestModels";
 import { expectToBeRulesBroken } from "@testing-support/jest.setup";
 
 const systemAID = "systemVerifiedAID";
@@ -24,14 +27,16 @@ const system = {
   },
 };
 
-describe("SectionDraftAssistant", () => {
+describe(SectionDraftAssistant.name, () => {
   it("should be created invalid with no failed assertions", () => {
     const assistant = TestObjectsBucket.createModelWithNoAssertionsAssistant();
 
     expect(DraftAssistant.isInvalidModel(assistant.getModel())).toBe(true);
     expect(assistant.hasBrokenRules()).toBe(false);
     expect(assistant.doesNotHaveBrokenRules()).toBe(true);
-    expect(assistant.handles(Assertion.labeled("AID.1", "Description 1"))).toBe(false);
+    expect(assistant.handles(Assertion.labeled("AID.1", "Description 1"))).toBe(
+      false
+    );
     expect(assistant.brokenRulesDescriptions()).toEqual([]);
   });
 
@@ -40,7 +45,9 @@ describe("SectionDraftAssistant", () => {
       TestObjectsBucket.defaultFailingAssertionAID,
     ]);
 
-    expect(assistant.handles(TestObjectsBucket.defaultFailingAssertion())).toBe(true);
+    expect(assistant.handles(TestObjectsBucket.defaultFailingAssertion())).toBe(
+      true
+    );
   });
 
   it("should accept assertion ids", () => {
@@ -60,14 +67,23 @@ describe("SectionDraftAssistant", () => {
 
     assistant.addBrokenRule(TestObjectsBucket.defaultFailingAssertion());
 
-    expect(assistant.hasOnlyOneRuleBrokenIdentifiedAs(TestObjectsBucket.defaultFailingAssertionAID)).toBe(true);
+    expect(
+      assistant.hasOnlyOneRuleBrokenIdentifiedAs(
+        TestObjectsBucket.defaultFailingAssertionAID
+      )
+    ).toBe(true);
     expect(assistant.hasBrokenRules()).toBe(true);
     expect(assistant.doesNotHaveBrokenRules()).toBe(false);
-    expect(assistant.brokenRulesDescriptions()).toEqual([TestObjectsBucket.defaultFailingAssertionDescription]);
+    expect(assistant.brokenRulesDescriptions()).toEqual([
+      TestObjectsBucket.defaultFailingAssertionDescription,
+    ]);
   });
 
   it("should fail if trying to set from a container when is top level", () => {
-    const assistant = SectionDraftAssistant.topLevelContainerWith<{ name: string }, [string]>(
+    const assistant = SectionDraftAssistant.topLevelContainerWith<
+      { name: string },
+      [string]
+    >(
       [FieldDraftAssistant.handling("AID.1", ({ name }) => name, "")],
       (name) => ({ name })
     );
@@ -116,14 +132,20 @@ describe("SectionDraftAssistant", () => {
       () => {
         expect(assistant.hasBrokenRules()).toBe(false);
         expect(nameAssistant.hasBrokenRules()).toBe(true);
-        expect(nameAssistant.hasOnlyOneRuleBrokenIdentifiedAs(SelfAssertingModel.nameNotEmptyAID)).toBe(true);
+        expect(
+          nameAssistant.hasOnlyOneRuleBrokenIdentifiedAs(
+            SelfAssertingModel.nameNotEmptyAID
+          )
+        ).toBe(true);
         done();
       }
     );
   });
 
   it("should handle its own failed assertions", (done) => {
-    const assistant = TestObjectsBucket.createSelfAssertingModelAssistant([systemAID]);
+    const assistant = TestObjectsBucket.createSelfAssertingModelAssistant([
+      systemAID,
+    ]);
     assistant.nameAssistant.setModel("Pedro");
 
     assistant.withCreatedModelDo(
@@ -135,11 +157,16 @@ describe("SectionDraftAssistant", () => {
           expectToBeRulesBroken(error);
           assistant.handleError(error);
           expect(assistant.hasBrokenRules()).toBe(true);
-          expect(assistant.hasOnlyOneRuleBrokenIdentifiedAs(systemAID)).toBe(true);
+          expect(assistant.hasOnlyOneRuleBrokenIdentifiedAs(systemAID)).toBe(
+            true
+          );
           done();
         }
       },
-      () => done("Should not be invalid, the system should have failed, the model should be valid")
+      () =>
+        done(
+          "Should not be invalid, the system should have failed, the model should be valid"
+        )
     );
   });
 
@@ -156,7 +183,9 @@ describe("SectionDraftAssistant", () => {
           expectToBeRulesBroken(error);
           assistant.handleError(error);
           expect(assistant.hasBrokenRules()).toBe(true);
-          expect(assistant.hasOnlyOneRuleBrokenIdentifiedAs(systemAID)).toBe(true);
+          expect(assistant.hasOnlyOneRuleBrokenIdentifiedAs(systemAID)).toBe(
+            true
+          );
           done();
         }
       },
@@ -207,7 +236,8 @@ describe("SectionDraftAssistant", () => {
     it("should reflect changes when the model is created", (done) => {
       const assistant = TestObjectsBucket.createSelfAssertingModelAssistant();
 
-      let image: SelfAssertingModel | typeof DraftAssistant.INVALID_MODEL = new Object();
+      let image: SelfAssertingModel | typeof DraftAssistant.INVALID_MODEL =
+        new Object();
       assistant.accept({ onDraftChanged: (model) => (image = model) });
 
       assistant.nameAssistant.setModel("Pedro");
@@ -225,7 +255,8 @@ describe("SectionDraftAssistant", () => {
     it("should reflect an invalid image when creation fails", (done) => {
       const assistant = TestObjectsBucket.createSelfAssertingModelAssistant();
 
-      let image: SelfAssertingModel | typeof DraftAssistant.INVALID_MODEL = new Object();
+      let image: SelfAssertingModel | typeof DraftAssistant.INVALID_MODEL =
+        new Object();
       assistant.accept({ onDraftChanged: (model) => (image = model) });
 
       assistant.nameAssistant.setModel(SelfAssertingModel.forbiddenName);
@@ -244,7 +275,8 @@ describe("SectionDraftAssistant", () => {
     it("should reflect changes when the model is updated", () => {
       const assistant = TestObjectsBucket.createSelfAssertingModelAssistant();
 
-      let image: SelfAssertingModel | typeof DraftAssistant.INVALID_MODEL = new Object();
+      let image: SelfAssertingModel | typeof DraftAssistant.INVALID_MODEL =
+        new Object();
       assistant.accept({ onDraftChanged: (model) => (image = model) });
 
       const model = SelfAssertingModel.named("Pedro");

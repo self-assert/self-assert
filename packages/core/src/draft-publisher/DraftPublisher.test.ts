@@ -4,7 +4,7 @@ import { TestObjectsBucket } from "@testing-support/TestObjectsBucket";
 import { DraftPublisher } from "./DraftPublisher";
 import { LabeledRule } from "../rule";
 
-describe("DraftPublisher", () => {
+describe(DraftPublisher.name, () => {
   it("should emit a 'draft:updated' event when the draft is changed", () => {
     const assistant = TestObjectsBucket.createNameAssistant();
     const publisher = DraftPublisher.for(assistant);

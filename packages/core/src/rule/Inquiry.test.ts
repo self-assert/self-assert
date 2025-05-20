@@ -6,7 +6,7 @@ const hold = () => Promise.resolve(true);
 const fail = () => Promise.resolve(false);
 const isStringHello = (value: string) => Promise.resolve(value === "hello");
 
-describe("Inquiry", () => {
+describe(Inquiry.name, () => {
   it("fails when condition is not met", async () => {
     const inquiry = Inquiry.requiring("AID", "Description", fail);
 
@@ -22,7 +22,9 @@ describe("Inquiry", () => {
   });
 
   it("fails when any condition fails", async () => {
-    const inquiry = Inquiry.requiring("AID", "Multiple conditions", hold).require(fail).require(hold);
+    const inquiry = Inquiry.requiring("AID", "Multiple conditions", hold)
+      .require(fail)
+      .require(hold);
 
     await expect(inquiry.doesHold()).resolves.toBe(false);
     await expect(inquiry.hasFailed()).resolves.toBe(true);
@@ -40,7 +42,9 @@ describe("Inquiry", () => {
 
     return inquiry.mustHold().catch((error: unknown) => {
       expect(error).toBeInstanceOf(RulesBroken);
-      expect((error as RulesBroken).hasRuleBrokenWith("AID", "Description")).toBe(true);
+      expect(
+        (error as RulesBroken).hasRuleBrokenWith("AID", "Description")
+      ).toBe(true);
     });
   });
 

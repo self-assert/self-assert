@@ -5,17 +5,25 @@ import { DraftViewer } from "../types";
 import { Assertion, RuleLabel, type LabeledRule } from "../rule";
 import { Requirements } from "../rule-requirements";
 
-describe("FieldDraftAssistant", () => {
+describe(FieldDraftAssistant.name, () => {
   const modelFromContainer = TestObjectsBucket.genericContainerForString();
 
   it("should remember its initial model", () => {
-    const assistant = FieldDraftAssistant.handling("AID.1", modelFromContainer, "Init");
+    const assistant = FieldDraftAssistant.handling(
+      "AID.1",
+      modelFromContainer,
+      "Init"
+    );
     expect(assistant.getModel()).toBe("Init");
     expect(assistant.numberOfViewers()).toBe(0);
   });
 
   it("should allow to be changed", () => {
-    const assistant = FieldDraftAssistant.handling("AID.1", modelFromContainer, "Init");
+    const assistant = FieldDraftAssistant.handling(
+      "AID.1",
+      modelFromContainer,
+      "Init"
+    );
     assistant.setModel("Changed");
     expect(assistant.getModel()).toBe("Changed");
     expect(assistant.getModel()).not.toBe("Init");
@@ -31,17 +39,25 @@ describe("FieldDraftAssistant", () => {
   });
 
   it("should be able to create a model without failing", () => {
-    const assistant = FieldDraftAssistant.handlingAll(["AID.1", "AID.2"], modelFromContainer);
+    const assistant = FieldDraftAssistant.handlingAll(
+      ["AID.1", "AID.2"],
+      modelFromContainer
+    );
     expect(assistant.createModel()).toBe("");
     expect(assistant.numberOfViewers()).toBe(0);
   });
 
   describe("Viewers", () => {
     it("should accept a viewer", () => {
-      const assistant = FieldDraftAssistant.handling("AID.1", modelFromContainer);
+      const assistant = FieldDraftAssistant.handling(
+        "AID.1",
+        modelFromContainer
+      );
 
       let mirroredModel = "Empty";
-      const viewer: DraftViewer<string> = { onDraftChanged: (model) => (mirroredModel = model) };
+      const viewer: DraftViewer<string> = {
+        onDraftChanged: (model) => (mirroredModel = model),
+      };
       assistant.accept(viewer);
 
       assistant.setModel("Changed");
@@ -51,7 +67,10 @@ describe("FieldDraftAssistant", () => {
     });
 
     it("should be able to remove a viewer", () => {
-      const assistant = FieldDraftAssistant.handling("AID.1", modelFromContainer);
+      const assistant = FieldDraftAssistant.handling(
+        "AID.1",
+        modelFromContainer
+      );
 
       let mirroredModel = "Empty";
       const firstViewer: DraftViewer<string> = {
@@ -59,7 +78,9 @@ describe("FieldDraftAssistant", () => {
           throw new Error("Should not be called");
         },
       };
-      const secondViewer: DraftViewer<string> = { onDraftChanged: (image) => (mirroredModel = image) };
+      const secondViewer: DraftViewer<string> = {
+        onDraftChanged: (image) => (mirroredModel = image),
+      };
       assistant.accept(firstViewer);
       assistant.accept(secondViewer);
 
@@ -72,9 +93,18 @@ describe("FieldDraftAssistant", () => {
     });
 
     it("should be notified about failed assertions", () => {
-      const assistant = FieldDraftAssistant.handlingAll(["AID.1", "AID.2"], modelFromContainer);
-      const firstFailedAssertion = TestObjectsBucket.failingAssertion("AID.1", "1 description");
-      const secondFailedAssertion = TestObjectsBucket.failingAssertion("AID.2", "2 description");
+      const assistant = FieldDraftAssistant.handlingAll(
+        ["AID.1", "AID.2"],
+        modelFromContainer
+      );
+      const firstFailedAssertion = TestObjectsBucket.failingAssertion(
+        "AID.1",
+        "1 description"
+      );
+      const secondFailedAssertion = TestObjectsBucket.failingAssertion(
+        "AID.2",
+        "2 description"
+      );
       const mirroredFailedAssertions: LabeledRule[] = [];
       assistant.accept({
         onFailure(aFailedAsserion) {
@@ -86,11 +116,17 @@ describe("FieldDraftAssistant", () => {
       assistant.addBrokenRule(firstFailedAssertion);
       assistant.addBrokenRule(secondFailedAssertion);
 
-      expect(mirroredFailedAssertions).toEqual([firstFailedAssertion, secondFailedAssertion]);
+      expect(mirroredFailedAssertions).toEqual([
+        firstFailedAssertion,
+        secondFailedAssertion,
+      ]);
     });
 
     it("should be notified about a failed assertions reset", () => {
-      const assistant = FieldDraftAssistant.handlingAll(["AID.1", "AID.2"], modelFromContainer);
+      const assistant = FieldDraftAssistant.handlingAll(
+        ["AID.1", "AID.2"],
+        modelFromContainer
+      );
 
       let hasBeenReset = false;
       assistant.accept({
@@ -98,7 +134,10 @@ describe("FieldDraftAssistant", () => {
           hasBeenReset = true;
         },
       });
-      const failedAssertion = TestObjectsBucket.failingAssertion("AID.1", "1 description");
+      const failedAssertion = TestObjectsBucket.failingAssertion(
+        "AID.1",
+        "1 description"
+      );
 
       assistant.addBrokenRule(failedAssertion);
       assistant.createModel();
@@ -107,7 +146,11 @@ describe("FieldDraftAssistant", () => {
     });
 
     it("should be notified about a draft reset", () => {
-      const assistant = FieldDraftAssistant.handlingAll(["AID.1"], modelFromContainer, "Init");
+      const assistant = FieldDraftAssistant.handlingAll(
+        ["AID.1"],
+        modelFromContainer,
+        "Init"
+      );
 
       let image = "";
       assistant.accept({
@@ -138,8 +181,16 @@ describe("FieldDraftAssistant", () => {
     const secondDescription = "Value has at most 4 characters";
     const assistant = FieldDraftAssistant.requiringAll(
       [
-        Assertion.requiring<string>("AID.1", firstDescription, Requirements.differentFrom("FORBIDDEN")),
-        Assertion.requiring<string>("AID.2", secondDescription, Requirements.hasAtMost(4)),
+        Assertion.requiring<string>(
+          "AID.1",
+          firstDescription,
+          Requirements.differentFrom("FORBIDDEN")
+        ),
+        Assertion.requiring<string>(
+          "AID.2",
+          secondDescription,
+          Requirements.hasAtMost(4)
+        ),
       ],
       modelFromContainer
     );
@@ -148,17 +199,25 @@ describe("FieldDraftAssistant", () => {
     assistant.review();
 
     expect(assistant.hasBrokenRules()).toBe(true);
-    expect(assistant.brokenRulesDescriptions()).toEqual([firstDescription, secondDescription]);
+    expect(assistant.brokenRulesDescriptions()).toEqual([
+      firstDescription,
+      secondDescription,
+    ]);
   });
 
   it("should not add the same assertion more than once", () => {
     const label = new RuleLabel("AID", "1 description");
-    const assistant = FieldDraftAssistant.handling(label.getId(), modelFromContainer);
+    const assistant = FieldDraftAssistant.handling(
+      label.getId(),
+      modelFromContainer
+    );
 
     assistant.addBrokenRule(label);
     assistant.addBrokenRule(label);
 
-    expect(assistant.hasOnlyOneRuleBrokenIdentifiedAs(label.getId())).toBe(true);
+    expect(assistant.hasOnlyOneRuleBrokenIdentifiedAs(label.getId())).toBe(
+      true
+    );
     expect(assistant.brokenRulesDescriptions()).toEqual(["1 description"]);
   });
 });

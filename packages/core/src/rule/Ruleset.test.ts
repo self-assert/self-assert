@@ -8,7 +8,7 @@ import { Assertion } from ".";
 import { Requirements } from "../rule-requirements";
 import { Inquiry } from "./Inquiry";
 
-describe("Ruleset", () => {
+describe(Ruleset.name, () => {
   it("should not throw on assertion that holds", () => {
     expect(() => Ruleset.ensureAll(TestObjectsBucket.holdingAssertion())).not.toThrow();
   });
