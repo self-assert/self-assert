@@ -24,15 +24,15 @@
     "postinstall": "npm run build -w packages/core"
   },
   "devDependencies": {
-    "@eslint/js": "^9.27.0",
+    "@eslint/js": "^9.28.0",
     "@jest/globals": "^29.7.0",
-    "eslint": "^9.27.0",
+    "eslint": "^9.28.0",
     "jest": "^29.7.0",
     "ts-jest": "^29.3.4",
     "ts-node": "^10.9.2",
     "tslib": "^2.8.1",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.32.1"
+    "typescript-eslint": "^8.33.1"
   },
   "type": "module"
 }
