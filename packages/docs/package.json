@@ -13,12 +13,12 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "typedoc": "^0.28.5",
+    "typedoc": "^0.28.13",
     "typedoc-plugin-frontmatter": "^1.3.0",
-    "typedoc-plugin-markdown": "^4.6.4",
+    "typedoc-plugin-markdown": "^4.9.0",
     "typedoc-vitepress-theme": "^1.1.2",
-    "vitepress": "^1.6.3",
-    "vitepress-plugin-group-icons": "^1.5.5"
+    "vitepress": "^1.6.4",
+    "vitepress-plugin-group-icons": "^1.6.3"
   },
   "type": "module"
 }
